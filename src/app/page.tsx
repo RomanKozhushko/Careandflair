@@ -5,6 +5,7 @@ import { FAQSection } from "@/homepage/FAQSection";
 import { FlairSolutionsGrid } from "@/homepage/FlairSolutionsGrid";
 import { GuardianPlansSection } from "@/homepage/GuardianPlansSection";
 import { HeroSection } from "@/homepage/HeroSection";
+import { HowItWorksSection } from "@/homepage/HowItWorksSection";
 import { ResetPackagesSection } from "@/homepage/ResetPackagesSection";
 import { TrustBadges } from "@/homepage/TrustBadges";
 import { Footer } from "@/layout/Footer";
@@ -19,6 +20,7 @@ export default function Home() {
         <TrustBadges />
         <ResetPackagesSection />
         <FlairSolutionsGrid />
+        <HowItWorksSection />
         <GuardianPlansSection />
         <BeforeAfterPreview />
         <AreasServedSection />

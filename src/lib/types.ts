@@ -37,6 +37,11 @@ export type HomepageSection = Visibility & {
   primaryCtaId?: string;
   secondaryCtaId?: string;
   trustBadges?: string[];
+  visualSteps?: string[];
+  steps?: Array<{
+    title: string;
+    description: string;
+  }>;
 };
 
 export type ServicePackage = Visibility & {

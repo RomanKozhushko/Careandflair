@@ -10,11 +10,12 @@
     "primaryCtaId": "build-your-quote",
     "secondaryCtaId": "view-reset-packages",
     "trustBadges": [
-      "24h / 48h / 72h readiness",
-      "Cleaning + maintenance in one visit",
-      "Ideal for landlords, agents and Airbnb hosts",
+      "24-72h readiness",
+      "Cleaning + minor maintenance in one visit",
+      "Built for landlords, agents & Airbnb hosts",
       "Bromley, South East London & Kent"
-    ]
+    ],
+    "visualSteps": ["Clean", "Repair", "Present", "Ready"]
   },
   {
     "id": "reset-packages",
@@ -33,18 +34,32 @@
     "subtitle": "Targeted upgrades that improve first impressions, hygiene and market readiness."
   },
   {
+    "id": "how-it-works",
+    "type": "howItWorks",
+    "visible": true,
+    "order": 4,
+    "title": "How It Works",
+    "subtitle": "A simple route from property condition to viewing-ready presentation.",
+    "steps": [
+      { "title": "Send property details", "description": "Share the property type, postcode, urgency and photos when available." },
+      { "title": "Choose reset level", "description": "Pick 24h, 48h or 72h based on condition, deadline and presentation goal." },
+      { "title": "We clean, repair and prepare", "description": "Cleaning, minor maintenance and presentation fixes are coordinated together." },
+      { "title": "Property ready for viewing, tenant or guest", "description": "The property is prepared for photos, handover, viewing or short-let turnaround." }
+    ]
+  },
+  {
     "id": "before-after",
     "type": "beforeAfter",
     "visible": true,
-    "order": 4,
-    "title": "Before & After Transformations",
-    "subtitle": "A preview of the property reset standard we are building around."
+    "order": 5,
+    "title": "Before & After Preview",
+    "subtitle": "Real project images can be added from admin later. These placeholders show the intended transformation format without inventing fake work."
   },
   {
     "id": "guardian-plans",
     "type": "guardianPlans",
     "visible": true,
-    "order": 5,
+    "order": 6,
     "title": "Guardian Property Oversight",
     "subtitle": "Recurring checks, reporting and small-fix support for landlords, agents and hosts."
   },
@@ -52,7 +67,7 @@
     "id": "areas-served",
     "type": "areas",
     "visible": true,
-    "order": 6,
+    "order": 7,
     "title": "Areas Served",
     "subtitle": "Local property reset support across our core operating area."
   },
@@ -60,7 +75,7 @@
     "id": "faq",
     "type": "faq",
     "visible": true,
-    "order": 7,
+    "order": 8,
     "title": "Common Questions",
     "subtitle": "Clear answers before you request a quote."
   },
@@ -68,9 +83,9 @@
     "id": "final-cta",
     "type": "cta",
     "visible": true,
-    "order": 8,
+    "order": 9,
     "title": "Need a property ready fast?",
     "subtitle": "Start with a guided quote and choose the package that fits the condition, timeline and property type.",
-    "primaryCtaId": "build-your-quote"
+    "primaryCtaId": "build-my-property-reset-quote"
   }
 ]
