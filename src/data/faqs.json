@@ -1,3 +1,6 @@
 [
-  { "id": "speed", "question": "How fast can you prepare a property?", "answer": "We offer 24h, 48h and 72h reset options depending on property condition and availability.", "visible": true }
+  { "id": "speed", "question": "How fast can you prepare a property?", "answer": "Depending on condition and availability, Care & Flair can work around 24h, 48h and 72h reset options.", "visible": true, "order": 1 },
+  { "id": "agents", "question": "Do you work with landlords and agents?", "answer": "Yes. The service is positioned for landlords, letting agents, estate agents, property managers and short-let hosts.", "visible": true, "order": 2 },
+  { "id": "cleaning-repairs", "question": "Do you do repairs and cleaning together?", "answer": "Yes. The reset model combines cleaning, presentation fixes and minor maintenance in one coordinated service.", "visible": true, "order": 3 },
+  { "id": "pricing", "question": "Are prices fixed or estimated?", "answer": "Website prices are from-prices. Final pricing depends on property size, condition, urgency and selected upgrades.", "visible": true, "order": 4 }
 ]

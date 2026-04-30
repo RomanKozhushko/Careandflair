@@ -2,5 +2,21 @@
   "siteName": "Care & Flair",
   "positioning": "Property Turnover, Reset & Maintenance Specialist",
   "primaryObjective": "Generate qualified quote requests through a guided quote builder",
-  "defaultLocale": "en-GB"
+  "defaultLocale": "en-GB",
+  "phone": "07445 897204",
+  "email": "hello@careandflair.life",
+  "serviceAreaSummary": "Bromley, South East London, Kent & Medway",
+  "navigation": [
+    { "label": "Services", "href": "#solutions" },
+    { "label": "Packages", "href": "#packages" },
+    { "label": "Guardian", "href": "#guardian" },
+    { "label": "Areas", "href": "#areas" },
+    { "label": "FAQ", "href": "#faq" }
+  ],
+  "footerLinks": [
+    { "label": "Reset Packages", "href": "#packages" },
+    { "label": "Flair Solutions", "href": "#solutions" },
+    { "label": "Before & After", "href": "#before-after" },
+    { "label": "Get Quote", "href": "/quote" }
+  ]
 }

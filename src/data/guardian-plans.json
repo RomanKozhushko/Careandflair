@@ -1,5 +1,5 @@
 [
-  { "id": "guardian-basic", "name": "Guardian Basic", "visible": true },
-  { "id": "guardian-plus", "name": "Guardian Plus", "visible": true },
-  { "id": "guardian-pro", "name": "Guardian Pro", "visible": true }
+  { "id": "guardian-basic", "name": "Guardian Basic", "description": "Monthly light property check, visual inspection, issue report and priority booking.", "billingPeriod": "monthly", "includedChecks": ["Visual inspection", "Issue report", "Priority booking"], "visible": true, "order": 1, "recommended": false },
+  { "id": "guardian-plus", "name": "Guardian Plus", "description": "More detailed inspection, small-fix allowance, photo report and seasonal reminders.", "billingPeriod": "monthly", "includedChecks": ["Photo report", "Small-fix allowance", "Seasonal reminders"], "visible": true, "order": 2, "recommended": true },
+  { "id": "guardian-pro", "name": "Guardian Pro", "description": "Premium oversight for landlords, Airbnb hosts and managed properties.", "billingPeriod": "monthly", "includedChecks": ["Regular reporting", "Minor maintenance coordination", "Emergency priority"], "visible": true, "order": 3, "recommended": false }
 ]

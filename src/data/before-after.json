@@ -1,3 +1,4 @@
 [
-  { "id": "placeholder-transformation", "title": "Placeholder transformation", "visible": false, "featured": false }
+  { "id": "bathroom-reset-preview", "title": "Bathroom reset preview", "category": "Bathroom Face-Lift", "serviceType": "Silicone, grout, descaling and detail clean", "description": "From tired wet area to cleaner, sharper viewing-ready presentation.", "location": "Bromley", "visible": true, "order": 1, "featured": true },
+  { "id": "exterior-revival-preview", "title": "Exterior revival preview", "category": "Driveway & Patio Revival", "serviceType": "Pressure washing and curb appeal reset", "description": "A cleaner entrance creates a stronger first impression before viewers step inside.", "location": "Kent", "visible": true, "order": 2, "featured": false }
 ]

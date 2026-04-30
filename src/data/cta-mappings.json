@@ -1,4 +1,13 @@
 [
   { "id": "build-your-quote", "label": "Build Your Quote", "href": "/quote" },
-  { "id": "view-reset-packages", "label": "View Reset Packages", "href": "/reset-packages" }
+  { "id": "view-reset-packages", "label": "View Reset Packages", "href": "#packages" },
+  { "id": "quote-24h-reset", "label": "Get Quote for 24h Reset", "href": "/quote?preset=24h-express-reset" },
+  { "id": "quote-48h-reset", "label": "Get Quote for 48h Reset", "href": "/quote?preset=48h-pro-flair-reset" },
+  { "id": "quote-72h-reset", "label": "Get Quote for 72h Reset", "href": "/quote?preset=72h-ultimate-reset" },
+  { "id": "quote-driveway-patio", "label": "Add to Quote", "href": "/quote?preset=driveway-patio-revival" },
+  { "id": "quote-window-frame", "label": "Add to Quote", "href": "/quote?preset=window-frame-detail" },
+  { "id": "quote-anti-mould", "label": "Add to Quote", "href": "/quote?preset=anti-mould-shield" },
+  { "id": "quote-odour", "label": "Add to Quote", "href": "/quote?preset=odour-elimination" },
+  { "id": "quote-carpet", "label": "Add to Quote", "href": "/quote?preset=carpet-extraction" },
+  { "id": "quote-bathroom", "label": "Add to Quote", "href": "/quote?preset=bathroom-face-lift" }
 ]

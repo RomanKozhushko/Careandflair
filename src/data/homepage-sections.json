@@ -1,9 +1,76 @@
 [
-  { "id": "hero", "type": "hero", "visible": true, "order": 1 },
-  { "id": "reset-packages", "type": "packages", "visible": true, "order": 2 },
-  { "id": "flair-solutions", "type": "solutions", "visible": true, "order": 3 },
-  { "id": "before-after", "type": "beforeAfter", "visible": true, "order": 4 },
-  { "id": "guardian-plans", "type": "guardianPlans", "visible": true, "order": 5 },
-  { "id": "testimonials", "type": "testimonials", "visible": true, "order": 6 },
-  { "id": "faq", "type": "faq", "visible": true, "order": 7 }
+  {
+    "id": "hero",
+    "type": "hero",
+    "visible": true,
+    "order": 1,
+    "eyebrow": "Property Turnover & Maintenance Specialist",
+    "headline": "Make Your Property Ready in 24-72 Hours",
+    "subheadline": "Fast cleaning, cosmetic repairs and presentation upgrades for landlords, agents and Airbnb hosts across Bromley, South East London and Kent.",
+    "primaryCtaId": "build-your-quote",
+    "secondaryCtaId": "view-reset-packages",
+    "trustBadges": [
+      "24h / 48h / 72h readiness",
+      "Cleaning + maintenance in one visit",
+      "Ideal for landlords, agents and Airbnb hosts",
+      "Bromley, South East London & Kent"
+    ]
+  },
+  {
+    "id": "reset-packages",
+    "type": "packages",
+    "visible": true,
+    "order": 2,
+    "title": "The Reset Packages",
+    "subtitle": "Choose the level of preparation your property needs."
+  },
+  {
+    "id": "flair-solutions",
+    "type": "solutions",
+    "visible": true,
+    "order": 3,
+    "title": "Flair Solutions",
+    "subtitle": "Targeted upgrades that improve first impressions, hygiene and market readiness."
+  },
+  {
+    "id": "before-after",
+    "type": "beforeAfter",
+    "visible": true,
+    "order": 4,
+    "title": "Before & After Transformations",
+    "subtitle": "A preview of the property reset standard we are building around."
+  },
+  {
+    "id": "guardian-plans",
+    "type": "guardianPlans",
+    "visible": true,
+    "order": 5,
+    "title": "Guardian Property Oversight",
+    "subtitle": "Recurring checks, reporting and small-fix support for landlords, agents and hosts."
+  },
+  {
+    "id": "areas-served",
+    "type": "areas",
+    "visible": true,
+    "order": 6,
+    "title": "Areas Served",
+    "subtitle": "Local property reset support across our core operating area."
+  },
+  {
+    "id": "faq",
+    "type": "faq",
+    "visible": true,
+    "order": 7,
+    "title": "Common Questions",
+    "subtitle": "Clear answers before you request a quote."
+  },
+  {
+    "id": "final-cta",
+    "type": "cta",
+    "visible": true,
+    "order": 8,
+    "title": "Need a property ready fast?",
+    "subtitle": "Start with a guided quote and choose the package that fits the condition, timeline and property type.",
+    "primaryCtaId": "build-your-quote"
+  }
 ]
