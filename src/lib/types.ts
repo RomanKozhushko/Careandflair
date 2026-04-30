@@ -37,6 +37,7 @@ export type HomepageSection = Visibility & {
   primaryCtaId?: string;
   secondaryCtaId?: string;
   trustBadges?: string[];
+  heroImage?: string;
   visualSteps?: string[];
   steps?: Array<{
     title: string;

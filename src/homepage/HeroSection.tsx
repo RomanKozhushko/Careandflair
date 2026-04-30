@@ -7,6 +7,7 @@ export function HeroSection() {
   const primaryCta = findCta(section.primaryCtaId);
   const secondaryCta = findCta(section.secondaryCtaId);
   const visualSteps = section.visualSteps ?? [];
+  const heroImage = section.heroImage ?? "/images/generated/hero-living-room-reset.png";
 
   return (
     <section className="relative overflow-hidden bg-slate-950 text-white">
@@ -22,7 +23,7 @@ export function HeroSection() {
         <div className="rounded-[2rem] border border-white/10 bg-white/[0.08] p-3 shadow-2xl shadow-black/40 backdrop-blur">
           <div className="overflow-hidden rounded-[1.5rem] bg-[#f8f5ef] text-slate-950">
             <div className="relative h-64 sm:h-72">
-              <Image src="/images/property-reset-after.svg" alt="Premium property reset visual placeholder" fill priority className="object-cover" sizes="(min-width: 1024px) 45vw, 100vw" />
+              <Image src={heroImage} alt="Premium property reset visual" fill priority className="object-cover" sizes="(min-width: 1024px) 45vw, 100vw" />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent" />
               <div className="absolute bottom-5 left-5 right-5">
                 <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#f8e7b0]">Landlord / Airbnb / Agent ready</p>
