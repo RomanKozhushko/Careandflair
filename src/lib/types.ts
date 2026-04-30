@@ -65,6 +65,11 @@ export type Solution = Visibility & {
   slug: string;
   title: string;
   category: string;
+  location: string;
+  serviceType: string;
+  image: string;
+  imageBefore: string;
+  imageAfter: string;
   problem: string;
   solution: string;
   result: string;
@@ -89,6 +94,8 @@ export type BeforeAfterItem = Visibility & {
   serviceType: string;
   description: string;
   location: string;
+  imageBefore: string;
+  imageAfter: string;
   featured: boolean;
 };
 

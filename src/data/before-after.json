@@ -1,4 +1,41 @@
 [
-  { "id": "bathroom-reset-preview", "title": "Bathroom reset preview", "category": "Bathroom Face-Lift", "serviceType": "Silicone, grout, descaling and detail clean", "description": "From tired wet area to cleaner, sharper viewing-ready presentation.", "location": "Bromley", "visible": true, "order": 1, "featured": true },
-  { "id": "exterior-revival-preview", "title": "Exterior revival preview", "category": "Driveway & Patio Revival", "serviceType": "Pressure washing and curb appeal reset", "description": "A cleaner entrance creates a stronger first impression before viewers step inside.", "location": "Kent", "visible": true, "order": 2, "featured": false }
+  {
+    "id": "bathroom-reset-preview",
+    "title": "Bathroom reset preview",
+    "category": "Bathroom Face-Lift",
+    "location": "Bromley",
+    "serviceType": "Silicone, grout, descaling and detail clean",
+    "imageBefore": "/images/property-reset-before.svg",
+    "imageAfter": "/images/property-reset-after.svg",
+    "description": "From tired wet area to cleaner, sharper viewing-ready presentation.",
+    "visible": true,
+    "order": 1,
+    "featured": true
+  },
+  {
+    "id": "exterior-revival-preview",
+    "title": "Exterior revival preview",
+    "category": "Driveway & Patio Revival",
+    "location": "Kent",
+    "serviceType": "Pressure washing and curb appeal reset",
+    "imageBefore": "/images/property-reset-before.svg",
+    "imageAfter": "/images/property-reset-after.svg",
+    "description": "A cleaner entrance creates a stronger first impression before viewers step inside.",
+    "visible": true,
+    "order": 2,
+    "featured": false
+  },
+  {
+    "id": "kitchen-reset-preview",
+    "title": "Kitchen deep reset preview",
+    "category": "Kitchen Deep Reset",
+    "location": "South East London",
+    "serviceType": "Degreasing, appliance clean and presentation detail",
+    "imageBefore": "/images/property-reset-before.svg",
+    "imageAfter": "/images/property-reset-after.svg",
+    "description": "Placeholder format for kitchen transformations once real admin-managed project images are added.",
+    "visible": true,
+    "order": 3,
+    "featured": false
+  }
 ]
