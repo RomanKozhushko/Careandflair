@@ -1,0 +1,5 @@
+[
+  { "id": "studio", "categoryId": "flats-apartments", "name": "Studio", "visible": true },
+  { "id": "1-bed-flat", "categoryId": "flats-apartments", "name": "1-Bed Flat", "visible": true },
+  { "id": "3-bed-house", "categoryId": "houses", "name": "3-Bed House", "visible": true }
+]

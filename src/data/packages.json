@@ -1,0 +1,5 @@
+[
+  { "id": "24h-express-reset", "name": "24h Express Reset", "startingPrice": 595, "visible": true, "featured": false },
+  { "id": "48h-pro-flair-reset", "name": "48h Pro Flair Reset", "startingPrice": 1195, "visible": true, "featured": true },
+  { "id": "72h-ultimate-reset", "name": "72h Ultimate Reset", "startingPrice": 1600, "visible": true, "featured": false }
+]

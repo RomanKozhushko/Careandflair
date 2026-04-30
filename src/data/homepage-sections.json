@@ -1,0 +1,9 @@
+[
+  { "id": "hero", "type": "hero", "visible": true, "order": 1 },
+  { "id": "reset-packages", "type": "packages", "visible": true, "order": 2 },
+  { "id": "flair-solutions", "type": "solutions", "visible": true, "order": 3 },
+  { "id": "before-after", "type": "beforeAfter", "visible": true, "order": 4 },
+  { "id": "guardian-plans", "type": "guardianPlans", "visible": true, "order": 5 },
+  { "id": "testimonials", "type": "testimonials", "visible": true, "order": 6 },
+  { "id": "faq", "type": "faq", "visible": true, "order": 7 }
+]

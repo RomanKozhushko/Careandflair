@@ -1,0 +1,5 @@
+[
+  { "id": "guardian-basic", "name": "Guardian Basic", "visible": true },
+  { "id": "guardian-plus", "name": "Guardian Plus", "visible": true },
+  { "id": "guardian-pro", "name": "Guardian Pro", "visible": true }
+]

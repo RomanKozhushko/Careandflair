@@ -1,0 +1,7 @@
+[
+  { "id": "bromley", "name": "Bromley", "visible": true },
+  { "id": "south-east-london", "name": "South East London", "visible": true },
+  { "id": "kent", "name": "Kent", "visible": true },
+  { "id": "medway", "name": "Medway", "visible": true },
+  { "id": "rochester", "name": "Rochester", "visible": true }
+]

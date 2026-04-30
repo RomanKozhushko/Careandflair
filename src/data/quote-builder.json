@@ -1,0 +1,4 @@
+{
+  "steps": ["servicePackage", "propertyCategory", "propertyType", "optionalUpgrades", "contactSummary"],
+  "estimateLabel": "Estimated from price"
+}

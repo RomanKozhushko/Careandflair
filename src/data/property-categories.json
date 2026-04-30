@@ -1,0 +1,4 @@
+[
+  { "id": "flats-apartments", "name": "Flats & Apartments", "visible": true, "order": 1 },
+  { "id": "houses", "name": "Houses", "visible": true, "order": 2 }
+]

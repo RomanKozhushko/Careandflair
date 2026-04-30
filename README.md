@@ -1,36 +1,19 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Care & Flair Website
 
-## Getting Started
+Next.js rebuild / stabilization project for Care & Flair — a Property Turnover, Reset & Maintenance Specialist serving Bromley, South East London, Kent, Medway and nearby areas.
 
-First, run the development server:
+## Core principle
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+The public website should be content/admin-driven: text, packages, pricing, homepage sections, FAQs, testimonials, areas served and quote-builder logic should come from a data layer instead of being hardcoded into components.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Phase plan
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Phase 0 — Setup & architecture:** Next.js, TypeScript, Tailwind, folder structure, mock data, base types, README, local git.
+- **Phase 1 — Public frontend MVP:** homepage sections, services, packages, Guardian plans, before/after, FAQ, areas, responsive layout.
+- **Phase 2 — Quote Builder MVP:** multi-step quote flow, property categories/types, optional upgrades, estimated from-price logic, contact summary.
+- **Phase 3 — Admin MVP:** edit mock content, visibility/order controls, package/pricing/FAQ/testimonial/area controls, preview flow.
+- **Phase 4 — Production hardening:** auth, persistent storage/CMS/database, lead delivery, SEO, performance, testing and deployment preparation.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Current status
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Phase 0 in progress. No real API keys, CRM, email, Telegram notifications or production database are connected.

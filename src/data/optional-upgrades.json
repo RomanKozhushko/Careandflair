@@ -1,0 +1,5 @@
+[
+  { "id": "carpet-extraction", "title": "Carpet Extraction", "basePrice": 0, "visible": true },
+  { "id": "anti-mould-shield", "title": "Anti-Mould Shield", "basePrice": 0, "visible": true },
+  { "id": "window-frame-detail", "title": "Window & Frame Detail", "basePrice": 0, "visible": true }
+]
