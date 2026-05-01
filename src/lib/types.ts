@@ -26,6 +26,13 @@ export type CtaMapping = {
   href: string;
 };
 
+export type HeroProof = {
+  title: string;
+  description: string;
+  image?: string;
+  label?: string;
+};
+
 export type HomepageSection = Visibility & {
   id: string;
   type: string;
@@ -39,6 +46,7 @@ export type HomepageSection = Visibility & {
   trustBadges?: string[];
   heroImage?: string;
   visualSteps?: string[];
+  visualProofs?: HeroProof[];
   steps?: Array<{
     title: string;
     description: string;
@@ -57,6 +65,9 @@ export type ServicePackage = Visibility & {
   startingPrice: number;
   includedServices: string[];
   microGuarantees: string[];
+  image?: string;
+  visualLabel?: string;
+  proofDetails?: string[];
   featured: boolean;
   ctaMappingId: string;
 };
@@ -68,9 +79,9 @@ export type Solution = Visibility & {
   category: string;
   location: string;
   serviceType: string;
-  image: string;
-  imageBefore: string;
-  imageAfter: string;
+  image?: string;
+  imageBefore?: string;
+  imageAfter?: string;
   problem: string;
   solution: string;
   result: string;
@@ -91,12 +102,12 @@ export type GuardianPlan = Visibility & {
 export type BeforeAfterItem = Visibility & {
   id: string;
   title: string;
-  category: string;
+  category?: string;
   serviceType: string;
   description: string;
   location: string;
-  imageBefore: string;
-  imageAfter: string;
+  imageBefore?: string;
+  imageAfter?: string;
   featured: boolean;
 };
 

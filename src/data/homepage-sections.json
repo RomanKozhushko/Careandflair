@@ -16,7 +16,27 @@
       "Bromley, South East London & Kent"
     ],
     "heroImage": "/images/generated/hero-living-room-reset.png",
-    "visualSteps": ["Clean", "Repair", "Present", "Ready"]
+    "visualSteps": ["Clean", "Repair", "Present", "Ready"],
+    "visualProofs": [
+      {
+        "label": "Interior reset",
+        "title": "Viewing-ready rooms",
+        "description": "Deep clean, detail work and presentation fixes for photos and viewings.",
+        "image": "/images/generated/hero-living-room-reset.png"
+      },
+      {
+        "label": "Wet areas",
+        "title": "Bathroom recovery",
+        "description": "Descaling, silicone refresh, grout detail and hygiene-focused reset.",
+        "image": "/images/generated/bathroom-before-after.png"
+      },
+      {
+        "label": "Kerb appeal",
+        "title": "Exterior first impression",
+        "description": "Driveway, patio and entrance cleaning for a sharper arrival moment.",
+        "image": "/images/generated/driveway-before-after.png"
+      }
+    ]
   },
   {
     "id": "reset-packages",
@@ -54,7 +74,7 @@
     "visible": true,
     "order": 5,
     "title": "Before & After Preview",
-    "subtitle": "Real project images can be added from admin later. These placeholders show the intended transformation format without inventing fake work."
+    "subtitle": "Visual transformation cards for resets, hygiene recovery and presentation upgrades."
   },
   {
     "id": "guardian-plans",
