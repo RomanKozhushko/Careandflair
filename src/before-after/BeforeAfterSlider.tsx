@@ -1,17 +1,46 @@
 "use client";
 
+import Image from "next/image";
 import { PointerEvent, useRef, useState } from "react";
 import type { BeforeAfterItem } from "@/lib/types";
-import { VisualMedia } from "@/ui/VisualMedia";
+import { BrandedPlaceholder } from "@/ui/VisualMedia";
 
 type BeforeAfterSliderProps = {
   item: BeforeAfterItem;
   className?: string;
 };
 
+type SliderLayerProps = {
+  src?: string;
+  alt: string;
+  label: string;
+  side: "before" | "after";
+  splitSource: boolean;
+};
+
+function SliderLayer({ src, alt, label, side, splitSource }: SliderLayerProps) {
+  if (!src) return <BrandedPlaceholder label={label} />;
+
+  if (splitSource) {
+    return (
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        className="object-cover"
+        sizes="(min-width: 1024px) 50vw, 100vw"
+        style={{ objectPosition: side === "before" ? "left center" : "right center" }}
+      />
+    );
+  }
+
+  return <Image src={src} alt={alt} fill className="object-cover" sizes="(min-width: 1024px) 50vw, 100vw" />;
+}
+
 export function BeforeAfterSlider({ item, className = "" }: BeforeAfterSliderProps) {
   const [position, setPosition] = useState(52);
   const frameRef = useRef<HTMLDivElement>(null);
+  const splitSource = Boolean(item.beforeImage && item.beforeImage === item.afterImage);
 
   function updateFromPointer(event: PointerEvent<HTMLDivElement>) {
     const rect = frameRef.current?.getBoundingClientRect();
@@ -32,23 +61,23 @@ export function BeforeAfterSlider({ item, className = "" }: BeforeAfterSliderPro
       onPointerDown={startDrag}
       onPointerMove={(event) => event.buttons === 1 && updateFromPointer(event)}
     >
-      <div className="absolute inset-0">
-        <VisualMedia
+      <div className="absolute inset-0 overflow-hidden">
+        <SliderLayer
           src={item.beforeImage}
           alt={item.beforeAlt ?? `${item.title} before`}
           label={`${item.title} before`}
-          className="h-full w-full"
-          sizes="(min-width: 1024px) 50vw, 100vw"
+          side="before"
+          splitSource={splitSource}
         />
       </div>
 
-      <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}>
-        <VisualMedia
+      <div className="absolute inset-0 overflow-hidden" style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}>
+        <SliderLayer
           src={item.afterImage}
           alt={item.afterAlt ?? `${item.title} after`}
           label={`${item.title} after`}
-          className="h-full w-full"
-          sizes="(min-width: 1024px) 50vw, 100vw"
+          side="after"
+          splitSource={splitSource}
         />
       </div>
 
