@@ -102,13 +102,22 @@ export type GuardianPlan = Visibility & {
 export type BeforeAfterItem = Visibility & {
   id: string;
   title: string;
-  category?: string;
+  slug: string;
+  category: string;
   serviceType: string;
-  description: string;
+  propertyType: string;
   location: string;
-  imageBefore?: string;
-  imageAfter?: string;
+  beforeImage?: string;
+  afterImage?: string;
+  beforeAlt?: string;
+  afterAlt?: string;
+  problem: string;
+  solution: string;
+  result: string;
   featured: boolean;
+  showOnHomepage: boolean;
+  ctaLabel: string;
+  ctaPreset: string;
 };
 
 export type Area = Visibility & {
