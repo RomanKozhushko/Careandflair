@@ -20,9 +20,9 @@ export default function Home() {
         <TrustBadges />
         <ResetPackagesSection />
         <FlairSolutionsGrid />
+        <BeforeAfterPreview />
         <HowItWorksSection />
         <GuardianPlansSection />
-        <BeforeAfterPreview />
         <AreasServedSection />
         <FAQSection />
         <CTASection />
