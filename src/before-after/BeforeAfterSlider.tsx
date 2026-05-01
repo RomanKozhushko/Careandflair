@@ -14,25 +14,10 @@ type SliderLayerProps = {
   src?: string;
   alt: string;
   label: string;
-  side: "before" | "after";
-  splitSource: boolean;
 };
 
-function SliderLayer({ src, alt, label, side, splitSource }: SliderLayerProps) {
+function SliderLayer({ src, alt, label }: SliderLayerProps) {
   if (!src) return <BrandedPlaceholder label={label} />;
-
-  if (splitSource) {
-    return (
-      <Image
-        src={src}
-        alt={alt}
-        fill
-        className="object-cover"
-        sizes="(min-width: 1024px) 50vw, 100vw"
-        style={{ objectPosition: side === "before" ? "left center" : "right center" }}
-      />
-    );
-  }
 
   return <Image src={src} alt={alt} fill className="object-cover" sizes="(min-width: 1024px) 50vw, 100vw" />;
 }
@@ -40,7 +25,6 @@ function SliderLayer({ src, alt, label, side, splitSource }: SliderLayerProps) {
 export function BeforeAfterSlider({ item, className = "" }: BeforeAfterSliderProps) {
   const [position, setPosition] = useState(52);
   const frameRef = useRef<HTMLDivElement>(null);
-  const splitSource = Boolean(item.beforeImage && item.beforeImage === item.afterImage);
 
   function updateFromPointer(event: PointerEvent<HTMLDivElement>) {
     const rect = frameRef.current?.getBoundingClientRect();
@@ -66,8 +50,6 @@ export function BeforeAfterSlider({ item, className = "" }: BeforeAfterSliderPro
           src={item.beforeImage}
           alt={item.beforeAlt ?? `${item.title} before`}
           label={`${item.title} before`}
-          side="before"
-          splitSource={splitSource}
         />
       </div>
 
@@ -76,8 +58,6 @@ export function BeforeAfterSlider({ item, className = "" }: BeforeAfterSliderPro
           src={item.afterImage}
           alt={item.afterAlt ?? `${item.title} after`}
           label={`${item.title} after`}
-          side="after"
-          splitSource={splitSource}
         />
       </div>
 
