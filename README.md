@@ -16,4 +16,10 @@ The public website should be content/admin-driven: text, packages, pricing, home
 
 ## Current status
 
-Phase 0 in progress. No real API keys, CRM, email, Telegram notifications or production database are connected.
+- **Phase 0 — Setup & architecture:** completed.
+- **Phase 1 — Public frontend MVP:** completed.
+- **Phase 1.3 — Visual proof layer:** completed.
+- **Phase 1.4 — Before-after gallery and carousel:** completed.
+- **Next phase:** Phase 2 Quote Builder MVP.
+
+No real API keys, CRM, email, Telegram notifications or production database are connected.
