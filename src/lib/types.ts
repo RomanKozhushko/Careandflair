@@ -134,6 +134,62 @@ export type FaqItem = Visibility & {
 
 export type PropertyCategory = Visibility & { id: string; name: string };
 export type PropertyType = Visibility & { id: string; categoryId: string; name: string };
-export type OptionalUpgrade = Visibility & { id: string; title: string; description?: string; basePrice?: number };
+export type OptionalUpgrade = Visibility & { id: string; title: string; description?: string; basePrice: number };
 export type PricingMatrixRow = { packageId: string; propertyCategoryId: string; propertyTypeId: string; fromPrice: number };
-export type QuoteBuilderConfig = { steps: string[]; estimateLabel: string };
+
+export type QuoteBuilderConfig = {
+  steps: string[];
+  estimateLabel: string;
+  currency: string;
+  disclaimer: string;
+  page: {
+    eyebrow: string;
+    title: string;
+    intro: string;
+    mockNotice: string;
+  };
+  stepLabels: Record<string, string>;
+  actions: {
+    next: string;
+    back: string;
+    submit: string;
+    startAgain: string;
+  };
+  contactFields: {
+    name: string;
+    phone: string;
+    email: string;
+    postcode: string;
+    message: string;
+  };
+  priceBreakdownLabels: {
+    packageBase: string;
+    upgrades: string;
+    notSelected: string;
+  };
+  summaryTitle: string;
+  successTitle: string;
+  successMessage: string;
+};
+
+export type QuoteContactDetails = {
+  name: string;
+  phone: string;
+  email: string;
+  postcode: string;
+  message: string;
+};
+
+export type QuoteSelection = {
+  packageId?: string;
+  propertyCategoryId?: string;
+  propertyTypeId?: string;
+  upgradeIds: string[];
+  contact: QuoteContactDetails;
+};
+
+export type QuoteEstimate = {
+  packageFromPrice: number;
+  upgradesTotal: number;
+  totalFromPrice: number;
+};

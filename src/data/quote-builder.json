@@ -1,4 +1,46 @@
 {
-  "steps": ["servicePackage", "propertyCategory", "propertyType", "optionalUpgrades", "contactSummary"],
-  "estimateLabel": "Estimated from price"
+  "steps": [
+    "servicePackage",
+    "propertyCategory",
+    "propertyType",
+    "optionalUpgrades",
+    "contactSummary"
+  ],
+  "estimateLabel": "Estimated from price",
+  "currency": "GBP",
+  "disclaimer": "Final price depends on property condition, access, urgency, parking and selected scope. This estimate is a starting point, not a fixed quote.",
+  "page": {
+    "eyebrow": "Guided Quote Builder",
+    "title": "Build your property reset quote.",
+    "intro": "Choose a reset package, property type and useful upgrades. Submit is currently a mock confirmation only — no email, CRM or notifications are connected.",
+    "mockNotice": "MVP mode: this form shows a success summary only and does not send data externally."
+  },
+  "stepLabels": {
+    "servicePackage": "Choose package / service",
+    "propertyCategory": "Choose property category",
+    "propertyType": "Choose property type",
+    "optionalUpgrades": "Choose optional upgrades",
+    "contactSummary": "Contact details + request summary"
+  },
+  "actions": {
+    "next": "Continue",
+    "back": "Back",
+    "submit": "Show Quote Summary",
+    "startAgain": "Start Again"
+  },
+  "contactFields": {
+    "name": "Name",
+    "phone": "Phone",
+    "email": "Email",
+    "postcode": "Postcode",
+    "message": "Message / property condition"
+  },
+  "summaryTitle": "Your quote request summary",
+  "successTitle": "Quote request summary ready",
+  "successMessage": "This is a mock submit for the MVP. The summary is shown on screen only and has not been sent to email, CRM or Telegram.",
+  "priceBreakdownLabels": {
+    "packageBase": "Package base",
+    "upgrades": "Upgrades",
+    "notSelected": "—"
+  }
 }

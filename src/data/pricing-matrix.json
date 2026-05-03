@@ -1,3 +1,26 @@
 [
-  { "packageId": "24h-express-reset", "propertyCategoryId": "flats-apartments", "propertyTypeId": "1-bed-flat", "fromPrice": 595 }
+  { "packageId": "24h-express-reset", "propertyCategoryId": "flats-apartments", "propertyTypeId": "studio", "fromPrice": 495 },
+  { "packageId": "24h-express-reset", "propertyCategoryId": "flats-apartments", "propertyTypeId": "1-bed-flat", "fromPrice": 595 },
+  { "packageId": "24h-express-reset", "propertyCategoryId": "flats-apartments", "propertyTypeId": "2-bed-flat", "fromPrice": 695 },
+  { "packageId": "24h-express-reset", "propertyCategoryId": "flats-apartments", "propertyTypeId": "3-bed-flat", "fromPrice": 795 },
+  { "packageId": "24h-express-reset", "propertyCategoryId": "houses", "propertyTypeId": "1-bed-house", "fromPrice": 695 },
+  { "packageId": "24h-express-reset", "propertyCategoryId": "houses", "propertyTypeId": "2-bed-house", "fromPrice": 795 },
+  { "packageId": "24h-express-reset", "propertyCategoryId": "houses", "propertyTypeId": "3-bed-house", "fromPrice": 895 },
+  { "packageId": "24h-express-reset", "propertyCategoryId": "houses", "propertyTypeId": "4-bed-house", "fromPrice": 1095 },
+  { "packageId": "48h-pro-flair-reset", "propertyCategoryId": "flats-apartments", "propertyTypeId": "studio", "fromPrice": 895 },
+  { "packageId": "48h-pro-flair-reset", "propertyCategoryId": "flats-apartments", "propertyTypeId": "1-bed-flat", "fromPrice": 1195 },
+  { "packageId": "48h-pro-flair-reset", "propertyCategoryId": "flats-apartments", "propertyTypeId": "2-bed-flat", "fromPrice": 1395 },
+  { "packageId": "48h-pro-flair-reset", "propertyCategoryId": "flats-apartments", "propertyTypeId": "3-bed-flat", "fromPrice": 1595 },
+  { "packageId": "48h-pro-flair-reset", "propertyCategoryId": "houses", "propertyTypeId": "1-bed-house", "fromPrice": 1295 },
+  { "packageId": "48h-pro-flair-reset", "propertyCategoryId": "houses", "propertyTypeId": "2-bed-house", "fromPrice": 1495 },
+  { "packageId": "48h-pro-flair-reset", "propertyCategoryId": "houses", "propertyTypeId": "3-bed-house", "fromPrice": 1695 },
+  { "packageId": "48h-pro-flair-reset", "propertyCategoryId": "houses", "propertyTypeId": "4-bed-house", "fromPrice": 1995 },
+  { "packageId": "72h-ultimate-reset", "propertyCategoryId": "flats-apartments", "propertyTypeId": "studio", "fromPrice": 1295 },
+  { "packageId": "72h-ultimate-reset", "propertyCategoryId": "flats-apartments", "propertyTypeId": "1-bed-flat", "fromPrice": 1600 },
+  { "packageId": "72h-ultimate-reset", "propertyCategoryId": "flats-apartments", "propertyTypeId": "2-bed-flat", "fromPrice": 1850 },
+  { "packageId": "72h-ultimate-reset", "propertyCategoryId": "flats-apartments", "propertyTypeId": "3-bed-flat", "fromPrice": 2150 },
+  { "packageId": "72h-ultimate-reset", "propertyCategoryId": "houses", "propertyTypeId": "1-bed-house", "fromPrice": 1750 },
+  { "packageId": "72h-ultimate-reset", "propertyCategoryId": "houses", "propertyTypeId": "2-bed-house", "fromPrice": 2050 },
+  { "packageId": "72h-ultimate-reset", "propertyCategoryId": "houses", "propertyTypeId": "3-bed-house", "fromPrice": 2350 },
+  { "packageId": "72h-ultimate-reset", "propertyCategoryId": "houses", "propertyTypeId": "4-bed-house", "fromPrice": 2750 }
 ]

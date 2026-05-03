@@ -1,5 +1,10 @@
 [
-  { "id": "studio", "categoryId": "flats-apartments", "name": "Studio", "visible": true },
-  { "id": "1-bed-flat", "categoryId": "flats-apartments", "name": "1-Bed Flat", "visible": true },
-  { "id": "3-bed-house", "categoryId": "houses", "name": "3-Bed House", "visible": true }
+  { "id": "studio", "categoryId": "flats-apartments", "name": "Studio", "visible": true, "order": 1 },
+  { "id": "1-bed-flat", "categoryId": "flats-apartments", "name": "1-Bed Flat", "visible": true, "order": 2 },
+  { "id": "2-bed-flat", "categoryId": "flats-apartments", "name": "2-Bed Flat", "visible": true, "order": 3 },
+  { "id": "3-bed-flat", "categoryId": "flats-apartments", "name": "3-Bed Flat", "visible": true, "order": 4 },
+  { "id": "1-bed-house", "categoryId": "houses", "name": "1-Bed House", "visible": true, "order": 5 },
+  { "id": "2-bed-house", "categoryId": "houses", "name": "2-Bed House", "visible": true, "order": 6 },
+  { "id": "3-bed-house", "categoryId": "houses", "name": "3-Bed House", "visible": true, "order": 7 },
+  { "id": "4-bed-house", "categoryId": "houses", "name": "4-Bed House", "visible": true, "order": 8 }
 ]
