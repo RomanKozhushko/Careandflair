@@ -9,11 +9,13 @@ type SolutionCardProps = {
 
 export function SolutionCard({ item }: SolutionCardProps) {
   const cta = findCta(item.ctaMappingId);
+  const beforeImage = item.beforeImage ?? item.imageBefore;
+  const afterImage = item.afterImage ?? item.imageAfter;
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-2xl hover:shadow-slate-950/10">
       <div className="relative">
-        <VisualMedia src={item.image} alt={`${item.title} property reset visual`} label={item.title} className="h-56" imageClassName="object-cover transition duration-500 group-hover:scale-105" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" />
+        <VisualMedia src={item.image} alt={item.imageAlt ?? `${item.title} property reset visual`} label={item.title} className="h-56" imageClassName="object-cover transition duration-500 group-hover:scale-105" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent" />
         <div className="absolute left-4 top-4 flex flex-wrap gap-2">
           <span className="rounded-full bg-white/90 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-slate-950">{item.category}</span>
@@ -27,11 +29,11 @@ export function SolutionCard({ item }: SolutionCardProps) {
 
       <div className="grid grid-cols-2 border-b border-slate-200">
         <div className="relative border-r border-slate-200">
-          <VisualMedia src={item.imageBefore} alt={`${item.title} before`} label={`${item.title} before`} className="h-24" sizes="240px" />
+          <VisualMedia src={beforeImage} alt={item.beforeAlt ?? `${item.title} before`} label={`${item.title} before`} className="h-24" sizes="240px" />
           <span className="absolute bottom-2 left-2 rounded-full bg-white/85 px-2 py-1 text-[10px] font-bold uppercase text-slate-700">Before</span>
         </div>
         <div className="relative">
-          <VisualMedia src={item.imageAfter} alt={`${item.title} after`} label={`${item.title} after`} className="h-24" sizes="240px" />
+          <VisualMedia src={afterImage} alt={item.afterAlt ?? `${item.title} after`} label={`${item.title} after`} className="h-24" sizes="240px" />
           <span className="absolute bottom-2 left-2 rounded-full bg-slate-950/85 px-2 py-1 text-[10px] font-bold uppercase text-white">After</span>
         </div>
       </div>

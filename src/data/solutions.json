@@ -16,7 +16,12 @@
     "visible": true,
     "order": 1,
     "featured": true,
-    "ctaMappingId": "quote-driveway-patio"
+    "ctaMappingId": "quote-driveway-patio",
+    "imageAlt": "Driveway & Patio Revival property reset visual",
+    "beforeImage": "/images/generated/driveway-before-after.png",
+    "afterImage": "/images/generated/driveway-before-after.png",
+    "beforeAlt": "Driveway & Patio Revival before Pressure washing and curb appeal reset",
+    "afterAlt": "Driveway & Patio Revival after Pressure washing and curb appeal reset"
   },
   {
     "id": "window-frame-detail",
@@ -35,7 +40,12 @@
     "visible": true,
     "order": 2,
     "featured": false,
-    "ctaMappingId": "quote-window-frame"
+    "ctaMappingId": "quote-window-frame",
+    "imageAlt": "Window & Frame Detail property reset visual",
+    "beforeImage": "/images/generated/window-before-after.png",
+    "afterImage": "/images/generated/window-before-after.png",
+    "beforeAlt": "Window & Frame Detail before Internal frame and glass detail",
+    "afterAlt": "Window & Frame Detail after Internal frame and glass detail"
   },
   {
     "id": "anti-mould-shield",
@@ -54,7 +64,12 @@
     "visible": true,
     "order": 3,
     "featured": true,
-    "ctaMappingId": "quote-anti-mould"
+    "ctaMappingId": "quote-anti-mould",
+    "imageAlt": "Anti-Mould Shield property reset visual",
+    "beforeImage": "/images/generated/anti-mould-before-after.png",
+    "afterImage": "/images/generated/anti-mould-before-after.png",
+    "beforeAlt": "Anti-Mould Shield before Mould removal and protective treatment",
+    "afterAlt": "Anti-Mould Shield after Mould removal and protective treatment"
   },
   {
     "id": "odour-elimination",
@@ -73,7 +88,12 @@
     "visible": true,
     "order": 4,
     "featured": false,
-    "ctaMappingId": "quote-odour"
+    "ctaMappingId": "quote-odour",
+    "imageAlt": "Odour Elimination property reset visual",
+    "beforeImage": "/images/generated/kitchen-before-after.png",
+    "afterImage": "/images/generated/kitchen-before-after.png",
+    "beforeAlt": "Odour Elimination before Odour source clean and deodorising",
+    "afterAlt": "Odour Elimination after Odour source clean and deodorising"
   },
   {
     "id": "carpet-extraction",
@@ -92,7 +112,12 @@
     "visible": true,
     "order": 5,
     "featured": false,
-    "ctaMappingId": "quote-carpet"
+    "ctaMappingId": "quote-carpet",
+    "imageAlt": "Carpet Extraction property reset visual",
+    "beforeImage": "/images/generated/carpet-before-after.png",
+    "afterImage": "/images/generated/carpet-before-after.png",
+    "beforeAlt": "Carpet Extraction before Hot water extraction workflow",
+    "afterAlt": "Carpet Extraction after Hot water extraction workflow"
   },
   {
     "id": "bathroom-face-lift",
@@ -111,6 +136,11 @@
     "visible": true,
     "order": 6,
     "featured": false,
-    "ctaMappingId": "quote-bathroom"
+    "ctaMappingId": "quote-bathroom",
+    "imageAlt": "Bathroom Face-Lift property reset visual",
+    "beforeImage": "/images/generated/bathroom-before-after.png",
+    "afterImage": "/images/generated/bathroom-before-after.png",
+    "beforeAlt": "Bathroom Face-Lift before Silicone, grout, descaling and detail clean",
+    "afterAlt": "Bathroom Face-Lift after Silicone, grout, descaling and detail clean"
   }
 ]

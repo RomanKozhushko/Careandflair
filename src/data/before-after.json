@@ -19,7 +19,9 @@
     "showOnHomepage": true,
     "order": 1,
     "ctaLabel": "Get Quote for Similar Result",
-    "ctaPreset": "bathroom-face-lift"
+    "ctaPreset": "bathroom-face-lift",
+    "image": "/images/generated/bathroom-after.png",
+    "imageAlt": "Bathroom after Care & Flair reset with cleaner wet-area presentation"
   },
   {
     "id": "driveway-kerb-appeal-preview",
@@ -41,7 +43,9 @@
     "showOnHomepage": true,
     "order": 2,
     "ctaLabel": "Get Quote for Similar Result",
-    "ctaPreset": "driveway-patio-revival"
+    "ctaPreset": "driveway-patio-revival",
+    "image": "/images/generated/driveway-after.png",
+    "imageAlt": "Driveway after pressure washing and kerb appeal reset"
   },
   {
     "id": "carpet-extraction-preview",
@@ -63,7 +67,9 @@
     "showOnHomepage": true,
     "order": 3,
     "ctaLabel": "Get Quote for Similar Result",
-    "ctaPreset": "carpet-extraction"
+    "ctaPreset": "carpet-extraction",
+    "image": "/images/generated/carpet-after.png",
+    "imageAlt": "Carpet after extraction with fresher viewing-ready presentation"
   },
   {
     "id": "mould-wet-area-preview",
@@ -85,7 +91,9 @@
     "showOnHomepage": true,
     "order": 4,
     "ctaLabel": "Get Quote for Similar Result",
-    "ctaPreset": "anti-mould-shield"
+    "ctaPreset": "anti-mould-shield",
+    "image": "/images/generated/anti-mould-after.png",
+    "imageAlt": "Wet area after anti-mould treatment and cleaner presentation"
   },
   {
     "id": "kitchen-turnover-preview",
@@ -95,8 +103,8 @@
     "serviceType": "Degreasing, appliance detail and presentation reset",
     "propertyType": "Rental kitchen",
     "location": "Bromley",
-    "beforeImage": null,
-    "afterImage": null,
+    "beforeImage": "",
+    "afterImage": "",
     "beforeAlt": "Kitchen before turnover clean",
     "afterAlt": "Kitchen after turnover clean",
     "problem": "Grease, marks and tenant-use signs make the kitchen feel hard to trust.",
@@ -107,7 +115,9 @@
     "showOnHomepage": false,
     "order": 5,
     "ctaLabel": "Get Quote for Similar Result",
-    "ctaPreset": "24h-express-reset"
+    "ctaPreset": "24h-express-reset",
+    "image": "",
+    "imageAlt": "Kitchen after turnover clean"
   },
   {
     "id": "full-property-reset-preview",
@@ -129,7 +139,9 @@
     "showOnHomepage": true,
     "order": 6,
     "ctaLabel": "Get Quote for Similar Result",
-    "ctaPreset": "48h-pro-flair-reset"
+    "ctaPreset": "48h-pro-flair-reset",
+    "image": "/images/generated/hero-living-room-reset.png",
+    "imageAlt": "Property after full reset presentation work"
   },
   {
     "id": "window-frame-detail-preview",
@@ -139,8 +151,8 @@
     "serviceType": "Frame, glass and viewing-photo detail",
     "propertyType": "Flat or house",
     "location": "South East London",
-    "beforeImage": null,
-    "afterImage": null,
+    "beforeImage": "",
+    "afterImage": "",
     "beforeAlt": "Window frame before detail clean",
     "afterAlt": "Window frame after detail clean",
     "problem": "Dirty frames and dull glass make rooms feel less cared for.",
@@ -151,7 +163,9 @@
     "showOnHomepage": false,
     "order": 7,
     "ctaLabel": "Get Quote for Similar Result",
-    "ctaPreset": "window-frame-detail"
+    "ctaPreset": "window-frame-detail",
+    "image": "",
+    "imageAlt": "Window frame after detail clean"
   },
   {
     "id": "exterior-entrance-preview",
@@ -161,8 +175,8 @@
     "serviceType": "Entrance, path and first-impression clean",
     "propertyType": "House / managed property",
     "location": "Kent & Medway",
-    "beforeImage": null,
-    "afterImage": null,
+    "beforeImage": "",
+    "afterImage": "",
     "beforeAlt": "Exterior entrance before reset",
     "afterAlt": "Exterior entrance after reset",
     "problem": "A tired entrance can reduce confidence before people step inside.",
@@ -173,6 +187,8 @@
     "showOnHomepage": false,
     "order": 8,
     "ctaLabel": "Get Quote for Similar Result",
-    "ctaPreset": "72h-ultimate-reset"
+    "ctaPreset": "72h-ultimate-reset",
+    "image": "",
+    "imageAlt": "Exterior entrance after reset"
   }
 ]

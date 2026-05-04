@@ -1,5 +1,7 @@
 export type AdminResourceKey =
   | "packages"
+  | "solutions"
+  | "before-after"
   | "property-categories"
   | "property-types"
   | "pricing-matrix"
@@ -18,6 +20,8 @@ export type AdminResource = {
 
 export const adminResources: AdminResource[] = [
   { key: "packages", label: "Packages", fileName: "packages.json" },
+  { key: "solutions", label: "Solutions", fileName: "solutions.json" },
+  { key: "before-after", label: "Before/After", fileName: "before-after.json" },
   { key: "property-categories", label: "Property Categories", fileName: "property-categories.json" },
   { key: "property-types", label: "Property Types", fileName: "property-types.json" },
   { key: "pricing-matrix", label: "Pricing Matrix", fileName: "pricing-matrix.json" },

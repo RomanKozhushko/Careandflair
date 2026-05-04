@@ -16,7 +16,12 @@
       "Bromley, South East London & Kent"
     ],
     "heroImage": "/images/generated/hero-living-room-reset.png",
-    "visualSteps": ["Clean", "Repair", "Present", "Ready"],
+    "visualSteps": [
+      "Clean",
+      "Repair",
+      "Present",
+      "Ready"
+    ],
     "visualProofs": [
       {
         "label": "Interior reset",
@@ -36,7 +41,8 @@
         "description": "Driveway, patio and entrance cleaning for a sharper arrival moment.",
         "image": "/images/generated/driveway-before-after.png"
       }
-    ]
+    ],
+    "heroImageAlt": "Make Your Property Ready in 24-72 Hours hero visual"
   },
   {
     "id": "reset-packages",
@@ -62,10 +68,22 @@
     "title": "How It Works",
     "subtitle": "A simple route from property condition to viewing-ready presentation.",
     "steps": [
-      { "title": "Send property details", "description": "Share the property type, postcode, urgency and photos when available." },
-      { "title": "Choose reset level", "description": "Pick 24h, 48h or 72h based on condition, deadline and presentation goal." },
-      { "title": "We clean, repair and prepare", "description": "Cleaning, minor maintenance and presentation fixes are coordinated together." },
-      { "title": "Property ready for viewing, tenant or guest", "description": "The property is prepared for photos, handover, viewing or short-let turnaround." }
+      {
+        "title": "Send property details",
+        "description": "Share the property type, postcode, urgency and photos when available."
+      },
+      {
+        "title": "Choose reset level",
+        "description": "Pick 24h, 48h or 72h based on condition, deadline and presentation goal."
+      },
+      {
+        "title": "We clean, repair and prepare",
+        "description": "Cleaning, minor maintenance and presentation fixes are coordinated together."
+      },
+      {
+        "title": "Property ready for viewing, tenant or guest",
+        "description": "The property is prepared for photos, handover, viewing or short-let turnaround."
+      }
     ]
   },
   {

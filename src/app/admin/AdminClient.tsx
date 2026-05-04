@@ -7,6 +7,18 @@ type JsonRecord = Record<string, unknown>;
 type ResourceData = Record<AdminResourceKey, JsonRecord[]>;
 
 type SaveState = "idle" | "saving" | "saved" | "error";
+type ImageField = "image" | "beforeImage" | "afterImage" | "imageBefore" | "imageAfter" | "heroImage";
+type AltField = "imageAlt" | "beforeAlt" | "afterAlt" | "heroImageAlt" | "visualLabel";
+
+const imageFields: ImageField[] = ["image", "beforeImage", "afterImage", "imageBefore", "imageAfter", "heroImage"];
+const altFields: AltField[] = ["imageAlt", "beforeAlt", "afterAlt", "heroImageAlt", "visualLabel"];
+
+const preferredImageFieldsByResource: Partial<Record<AdminResourceKey, ImageField[]>> = {
+  packages: ["image"],
+  solutions: ["image", "beforeImage", "afterImage"],
+  "before-after": ["beforeImage", "afterImage", "image"],
+  "homepage-sections": ["heroImage", "image"],
+};
 
 function itemTitle(item: JsonRecord, index: number): string {
   const title = item.name ?? item.title ?? item.headline ?? item.question ?? item.id;
@@ -17,7 +29,7 @@ function createBlankItem(items: JsonRecord[]): JsonRecord {
   const sample = items[0];
 
   if (!sample) {
-    return { id: "new-item", visible: true, order: 1 };
+    return { id: "new-item", title: "New item", image: "", imageAlt: "", visible: true, order: 1 };
   }
 
   return Object.fromEntries(
@@ -33,19 +45,51 @@ function createBlankItem(items: JsonRecord[]): JsonRecord {
   );
 }
 
+function parseDraft(draft: string): JsonRecord | null {
+  try {
+    const parsed = JSON.parse(draft) as unknown;
+    return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? (parsed as JsonRecord) : null;
+  } catch {
+    return null;
+  }
+}
+
+function displayLabel(field: string): string {
+  return field.replace(/([A-Z])/g, " $1").replace(/^./, (letter) => letter.toUpperCase());
+}
+
+function altFieldFor(imageField: ImageField): AltField {
+  if (imageField === "beforeImage" || imageField === "imageBefore") return "beforeAlt";
+  if (imageField === "afterImage" || imageField === "imageAfter") return "afterAlt";
+  if (imageField === "heroImage") return "heroImageAlt";
+  return "imageAlt";
+}
+
 export default function AdminClient({ initialData }: { initialData: ResourceData }) {
   const [activeResource, setActiveResource] = useState<AdminResourceKey>(adminResources[0].key);
   const [data, setData] = useState<ResourceData>(initialData);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [draft, setDraft] = useState(() => JSON.stringify(initialData[adminResources[0].key][0] ?? {}, null, 2));
   const [saveState, setSaveState] = useState<SaveState>("idle");
+  const [uploadingField, setUploadingField] = useState<string | null>(null);
   const [error, setError] = useState("");
 
   const activeItems = data[activeResource] ?? [];
+  const draftItem = useMemo(() => parseDraft(draft), [draft]);
   const activeMeta = useMemo(
     () => adminResources.find((resource) => resource.key === activeResource) ?? adminResources[0],
     [activeResource],
   );
+  const visibleImageFields = useMemo(() => {
+    const preferred = preferredImageFieldsByResource[activeResource] ?? ["image"];
+    const existing = imageFields.filter((field) => draftItem && field in draftItem);
+    return Array.from(new Set([...preferred, ...existing]));
+  }, [activeResource, draftItem]);
+  const visibleAltFields = useMemo(() => {
+    const existing = altFields.filter((field) => draftItem && field in draftItem);
+    const paired = visibleImageFields.map(altFieldFor);
+    return Array.from(new Set([...paired, ...existing]));
+  }, [draftItem, visibleImageFields]);
 
   function selectResource(resourceKey: AdminResourceKey) {
     const items = data[resourceKey] ?? [];
@@ -61,6 +105,46 @@ export default function AdminClient({ initialData }: { initialData: ResourceData
     setDraft(JSON.stringify(activeItems[index] ?? {}, null, 2));
     setSaveState("idle");
     setError("");
+  }
+
+  function updateDraftField(field: string, value: unknown) {
+    const parsed = parseDraft(draft);
+
+    if (!parsed) {
+      setSaveState("error");
+      setError("Fix invalid JSON before using visual fields.");
+      return;
+    }
+
+    setDraft(JSON.stringify({ ...parsed, [field]: value }, null, 2));
+    setSaveState("idle");
+    setError("");
+  }
+
+  async function uploadFile(field: ImageField, file: File | null) {
+    if (!file) return;
+
+    setUploadingField(field);
+    setError("");
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch("/api/upload", { method: "POST", body: formData });
+      const result = (await response.json()) as { success?: boolean; name?: string; error?: string };
+
+      if (!response.ok || !result.success || !result.name) {
+        throw new Error(result.error ?? "Upload failed");
+      }
+
+      updateDraftField(field, `/uploads/${result.name}`);
+    } catch (caught) {
+      setSaveState("error");
+      setError(caught instanceof Error ? caught.message : "Upload failed");
+    } finally {
+      setUploadingField(null);
+    }
   }
 
   async function request(method: "POST" | "PUT" | "DELETE", body: unknown) {
@@ -134,10 +218,10 @@ export default function AdminClient({ initialData }: { initialData: ResourceData
             <div>
               <h1 className="text-3xl font-bold tracking-tight text-white md:text-4xl">Care & Flair Admin MVP</h1>
               <p className="mt-2 max-w-3xl text-slate-300">
-                Temporary admin screen for editing JSON content. Real authentication comes later.
+                Temporary admin screen for editing JSON content and local visual uploads. Real authentication comes later.
               </p>
             </div>
-            <span className="rounded-full border border-amber-300/40 px-4 py-2 text-sm text-amber-100">Local JSON editor</span>
+            <span className="rounded-full border border-amber-300/40 px-4 py-2 text-sm text-amber-100">Local JSON + uploads editor</span>
           </div>
         </div>
 
@@ -207,7 +291,7 @@ export default function AdminClient({ initialData }: { initialData: ResourceData
               <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <div>
                   <h3 className="text-xl font-bold text-white">Edit item</h3>
-                  <p className="text-sm text-slate-400">Edit the JSON fields, then save to src/data/{activeMeta.fileName}.</p>
+                  <p className="text-sm text-slate-400">Upload visuals, edit alt text, then save to src/data/{activeMeta.fileName}.</p>
                 </div>
                 <div className="flex gap-2">
                   <button
@@ -226,6 +310,56 @@ export default function AdminClient({ initialData }: { initialData: ResourceData
                 </div>
               </div>
 
+              <div className="mb-4 rounded-2xl border border-white/10 bg-slate-950/60 p-4">
+                <div className="mb-4 flex flex-col gap-1">
+                  <h4 className="font-bold text-white">Visual content</h4>
+                  <p className="text-sm text-slate-400">Files upload to public/uploads and update the JSON path automatically.</p>
+                </div>
+
+                <div className="grid gap-4 md:grid-cols-2">
+                  {visibleImageFields.map((field) => {
+                    const value = draftItem?.[field];
+                    const path = typeof value === "string" ? value : "";
+
+                    return (
+                      <div key={field} className="rounded-2xl border border-white/10 bg-slate-900 p-3">
+                        <label className="text-sm font-bold text-slate-200">{displayLabel(field)}</label>
+                        <div className="mt-3 aspect-video overflow-hidden rounded-xl border border-white/10 bg-slate-950">
+                          {path ? <img src={path} alt="" className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center text-sm text-slate-500">No image</div>}
+                        </div>
+                        <input
+                          value={path}
+                          onChange={(event) => updateDraftField(field, event.target.value)}
+                          placeholder="/uploads/image.jpg"
+                          className="mt-3 w-full rounded-xl border border-white/10 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none focus:border-amber-300"
+                        />
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(event) => void uploadFile(field, event.target.files?.[0] ?? null)}
+                          className="mt-3 block w-full text-sm text-slate-300 file:mr-3 file:rounded-full file:border-0 file:bg-amber-300 file:px-3 file:py-2 file:text-sm file:font-bold file:text-slate-950"
+                        />
+                        {uploadingField === field && <p className="mt-2 text-xs text-amber-200">Uploading...</p>}
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <div className="mt-4 grid gap-3 md:grid-cols-2">
+                  {visibleAltFields.map((field) => (
+                    <label key={field} className="text-sm font-bold text-slate-200">
+                      {displayLabel(field)}
+                      <input
+                        value={typeof draftItem?.[field] === "string" ? String(draftItem[field]) : ""}
+                        onChange={(event) => updateDraftField(field, event.target.value)}
+                        placeholder="Alternative text / visual label"
+                        className="mt-2 w-full rounded-xl border border-white/10 bg-slate-950 px-3 py-2 text-sm font-normal text-slate-100 outline-none focus:border-amber-300"
+                      />
+                    </label>
+                  ))}
+                </div>
+              </div>
+
               <textarea
                 value={draft}
                 onChange={(event) => {
@@ -233,7 +367,7 @@ export default function AdminClient({ initialData }: { initialData: ResourceData
                   setSaveState("idle");
                 }}
                 spellCheck={false}
-                className="min-h-[560px] w-full rounded-2xl border border-white/10 bg-slate-950 p-4 font-mono text-sm leading-6 text-slate-100 outline-none ring-amber-300/40 focus:ring-4"
+                className="min-h-[480px] w-full rounded-2xl border border-white/10 bg-slate-950 p-4 font-mono text-sm leading-6 text-slate-100 outline-none ring-amber-300/40 focus:ring-4"
               />
 
               <div className="mt-4 min-h-6 text-sm">

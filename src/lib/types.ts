@@ -30,6 +30,7 @@ export type HeroProof = {
   title: string;
   description: string;
   image?: string;
+  imageAlt?: string;
   label?: string;
 };
 
@@ -45,6 +46,9 @@ export type HomepageSection = Visibility & {
   secondaryCtaId?: string;
   trustBadges?: string[];
   heroImage?: string;
+  heroImageAlt?: string;
+  image?: string;
+  imageAlt?: string;
   visualSteps?: string[];
   visualProofs?: HeroProof[];
   steps?: Array<{
@@ -66,6 +70,8 @@ export type ServicePackage = Visibility & {
   includedServices: string[];
   microGuarantees: string[];
   image?: string;
+  imageAlt?: string;
+  title?: string;
   visualLabel?: string;
   proofDetails?: string[];
   featured: boolean;
@@ -80,6 +86,11 @@ export type Solution = Visibility & {
   location: string;
   serviceType: string;
   image?: string;
+  imageAlt?: string;
+  beforeImage?: string;
+  afterImage?: string;
+  beforeAlt?: string;
+  afterAlt?: string;
   imageBefore?: string;
   imageAfter?: string;
   problem: string;
@@ -107,6 +118,8 @@ export type BeforeAfterItem = Visibility & {
   serviceType: string;
   propertyType: string;
   location: string;
+  image?: string;
+  imageAlt?: string;
   beforeImage?: string;
   afterImage?: string;
   beforeAlt?: string;
