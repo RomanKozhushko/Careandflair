@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { isAdminApiRequestAuthorized } from "@/admin/auth";
 import { getAdminResource, type AdminResourceKey } from "@/admin/resources";
 import { readResource, writeResource, type JsonRecord } from "@/admin/jsonStore";
 
@@ -26,6 +27,10 @@ function parseItem(value: unknown): JsonRecord {
 }
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<AdminResponse>) {
+  if (!isAdminApiRequestAuthorized(req)) {
+    return res.status(401).json({ error: "Admin password required." });
+  }
+
   const resourceParam = req.query.resource;
   const resourceKey = Array.isArray(resourceParam) ? resourceParam[0] : resourceParam;
 

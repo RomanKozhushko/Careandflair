@@ -1,5 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
+import { isAdminRouteRequestAuthorized } from "@/admin/auth";
 
 export const runtime = "nodejs";
 
@@ -16,6 +17,10 @@ function safeFileName(name: string): string {
 }
 
 export async function POST(request: Request) {
+  if (!isAdminRouteRequestAuthorized(request)) {
+    return Response.json({ success: false, error: "Admin password required." }, { status: 401 });
+  }
+
   const formData = await request.formData();
   const file = formData.get("file");
 
