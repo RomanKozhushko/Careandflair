@@ -42,3 +42,4 @@ next-env.d.ts
 
 # Local reference screenshots from old site (not production assets)
 /public/images/old-site/
+public/uploads/
