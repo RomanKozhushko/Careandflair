@@ -20,8 +20,8 @@ export function QuoteBuilder() {
   const categories = useMemo(() => visibleSorted(propertyCategories), []);
   const types = useMemo(() => visibleSorted(propertyTypes), []);
   const upgrades = useMemo(() => visibleSorted(optionalUpgrades), []);
-  const preset = searchParams.get("preset");
-  const upgrade = searchParams.get("upgrade");
+  const preset = searchParams?.get("preset") ?? null;
+  const upgrade = searchParams?.get("upgrade") ?? null;
   const [selection, setSelection] = useState<QuoteSelection>(() => createInitialQuoteSelection(preset, upgrade));
   const [stepIndex, setStepIndex] = useState(preset ? 1 : 0);
   const [submitted, setSubmitted] = useState(false);
