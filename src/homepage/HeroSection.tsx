@@ -27,7 +27,18 @@ export function HeroSection() {
           </div>
         </div>
 
-        <ParallaxLayer depth={24} scaleDepth={0.008} perspective className="rounded-[2rem] border border-white/10 bg-white/[0.08] p-3 shadow-2xl shadow-black/40 backdrop-blur">
+        <ParallaxLayer depth={28} scaleDepth={0.01} perspective className="premium-hero-visual relative rounded-[2rem] border border-white/10 bg-white/[0.08] p-3 shadow-2xl shadow-black/40 backdrop-blur">
+          <ParallaxLayer depth={-22} className="pointer-events-none absolute -left-6 top-8 z-20 hidden rounded-2xl border border-white/15 bg-slate-950/85 px-4 py-3 text-white shadow-2xl shadow-black/30 backdrop-blur-xl lg:block">
+            <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#d7b56d]">Before</p>
+            <p className="mt-1 text-sm font-semibold">Problem property</p>
+          </ParallaxLayer>
+          <ParallaxLayer depth={18} className="pointer-events-none absolute -right-7 top-28 z-20 hidden rounded-2xl border border-[#d7b56d]/30 bg-[#d7b56d]/95 px-4 py-3 text-slate-950 shadow-2xl shadow-black/30 lg:block">
+            <p className="text-[10px] font-bold uppercase tracking-[0.22em]">48-hour reset</p>
+            <p className="mt-1 text-sm font-black">Viewing-ready</p>
+          </ParallaxLayer>
+          <ParallaxLayer depth={30} className="pointer-events-none absolute -bottom-5 left-10 z-20 hidden rounded-full border border-white/15 bg-white/90 px-5 py-2 text-xs font-bold uppercase tracking-[0.2em] text-slate-950 shadow-xl lg:block">
+            Scroll depth preview
+          </ParallaxLayer>
           <div className="overflow-hidden rounded-[1.5rem] bg-[#f8f5ef] text-slate-950">
             <ParallaxLayer depth={-12} className="overflow-hidden">
               <VisualMedia src={heroImage} alt="Viewing-ready living room after a Care & Flair property reset" label="Property reset hero visual" priority className="h-64 sm:h-80" sizes="(min-width: 1024px) 48vw, 100vw" />
@@ -35,7 +46,7 @@ export function HeroSection() {
 
             <div className="grid gap-3 p-4 sm:grid-cols-4">
               {visualSteps.map((step, index) => (
-                <ParallaxLayer key={step} depth={8 + index * 3} className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
+                <ParallaxLayer key={step} depth={10 + index * 5} className="premium-depth-card rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
                   <p className="text-xs font-bold text-[#9b7b35]">0{index + 1}</p>
                   <p className="mt-1 text-sm font-bold text-slate-950">{step}</p>
                 </ParallaxLayer>
@@ -45,7 +56,7 @@ export function HeroSection() {
             {visualProofs.length > 0 ? (
               <div className="grid gap-3 border-t border-slate-200 p-4 sm:grid-cols-3">
                 {visualProofs.map((proof) => (
-                  <ParallaxLayer key={proof.title} depth={12} scaleDepth={0.004} className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                  <ParallaxLayer key={proof.title} depth={14} scaleDepth={0.006} className="premium-depth-card overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
                     <VisualMedia src={proof.image} alt={proof.title} label={proof.label ?? proof.title} className="h-28" sizes="(min-width: 1024px) 15vw, 33vw" />
                     <div className="p-3">
                       <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#9b7b35]">{proof.label}</p>

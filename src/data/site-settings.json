@@ -8,7 +8,7 @@
   "serviceAreaSummary": "Bromley, South East London, Kent & Medway",
   "parallax": {
     "parallaxEnabled": true,
-    "parallaxIntensity": "subtle",
+    "parallaxIntensity": "medium",
     "disableOnMobile": true
   },
   "navigation": [
