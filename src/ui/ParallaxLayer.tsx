@@ -30,8 +30,8 @@ function clamp(value: number, min: number, max: number) {
 
 function intensityMultiplier(intensity?: ParallaxIntensity) {
   if (intensity === "off") return 0;
-  if (intensity === "medium") return 1;
-  return 0.58;
+  if (intensity === "medium") return 1.18;
+  return 0.92;
 }
 
 export function useParallaxScroll<T extends HTMLElement>({
@@ -78,7 +78,8 @@ export function useParallaxScroll<T extends HTMLElement>({
       const progress = clamp((viewportHeight / 2 - (rect.top + rect.height / 2)) / viewportHeight, -1, 1);
       const translateY = progress * depth * multiplier;
       const scale = scaleDepth ? 1 + Math.abs(progress) * scaleDepth * multiplier : 1;
-      const transform = `${perspective ? "perspective(1100px) " : ""}translate3d(0, ${translateY.toFixed(2)}px, 0) scale(${scale.toFixed(4)})`;
+      const rotateX = perspective ? progress * -0.38 * multiplier : 0;
+      const transform = `${perspective ? "perspective(1200px) " : ""}translate3d(0, ${translateY.toFixed(2)}px, 0) rotateX(${rotateX.toFixed(3)}deg) scale(${scale.toFixed(4)})`;
 
       element.style.transform = transform;
       element.style.willChange = "transform";

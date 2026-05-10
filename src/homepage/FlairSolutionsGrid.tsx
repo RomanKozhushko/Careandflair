@@ -13,7 +13,7 @@ export function FlairSolutionsGrid() {
         <SectionHeader title={section.title} subtitle={section.subtitle} />
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((item, index) => (
-            <ParallaxLayer key={item.id} depth={6 + (index % 3) * 3} scaleDepth={item.featured ? 0.005 : 0.002} perspective>
+            <ParallaxLayer key={item.id} depth={12 + (index % 3) * 4} scaleDepth={item.featured ? 0.007 : 0.003} perspective>
               <SolutionCard item={item} />
             </ParallaxLayer>
           ))}

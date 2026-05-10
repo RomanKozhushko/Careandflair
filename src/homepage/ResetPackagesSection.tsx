@@ -13,7 +13,7 @@ export function ResetPackagesSection() {
         <SectionHeader title={section.title} subtitle={section.subtitle} />
         <div className="mt-10 grid gap-5 lg:grid-cols-3">
           {packages.map((item, index) => (
-            <ParallaxLayer key={item.id} depth={8 + index * 3} scaleDepth={item.featured ? 0.006 : 0.003} perspective>
+            <ParallaxLayer key={item.id} depth={14 + index * 4} scaleDepth={item.featured ? 0.008 : 0.004} perspective>
               <PackageCard item={item} />
             </ParallaxLayer>
           ))}
