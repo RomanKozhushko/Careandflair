@@ -6,6 +6,11 @@
   "phone": "07445 897204",
   "email": "hello@careandflair.life",
   "serviceAreaSummary": "Bromley, South East London, Kent & Medway",
+  "parallax": {
+    "parallaxEnabled": true,
+    "parallaxIntensity": "subtle",
+    "disableOnMobile": true
+  },
   "navigation": [
     { "label": "Services", "href": "#solutions" },
     { "label": "Packages", "href": "#packages" },

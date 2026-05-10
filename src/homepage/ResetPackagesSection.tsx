@@ -1,5 +1,6 @@
 import { findSection, servicePackages, visibleSorted } from "@/lib/content";
 import { PackageCard } from "@/homepage/PackageCard";
+import { ParallaxLayer } from "@/ui/ParallaxLayer";
 import { SectionHeader } from "@/ui/SectionHeader";
 
 export function ResetPackagesSection() {
@@ -11,7 +12,11 @@ export function ResetPackagesSection() {
       <div className="mx-auto max-w-7xl">
         <SectionHeader title={section.title} subtitle={section.subtitle} />
         <div className="mt-10 grid gap-5 lg:grid-cols-3">
-          {packages.map((item) => <PackageCard key={item.id} item={item} />)}
+          {packages.map((item, index) => (
+            <ParallaxLayer key={item.id} depth={8 + index * 3} scaleDepth={item.featured ? 0.006 : 0.003} perspective>
+              <PackageCard item={item} />
+            </ParallaxLayer>
+          ))}
         </div>
       </div>
     </section>

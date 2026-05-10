@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { BeforeAfterItem } from "@/lib/types";
 import { BeforeAfterSlider } from "@/before-after/BeforeAfterSlider";
 import { visualCtaHref } from "@/before-after/cta";
+import { ParallaxLayer } from "@/ui/ParallaxLayer";
 
 type FeaturedTransformationProps = {
   item: BeforeAfterItem;
@@ -9,10 +10,10 @@ type FeaturedTransformationProps = {
 
 export function FeaturedTransformation({ item }: FeaturedTransformationProps) {
   return (
-    <section className="rounded-[2rem] bg-slate-950 p-4 text-white shadow-2xl shadow-slate-950/20 sm:p-6 lg:p-8">
+    <ParallaxLayer depth={10} scaleDepth={0.004} perspective className="rounded-[2rem] bg-slate-950 p-4 text-white shadow-2xl shadow-slate-950/20 sm:p-6 lg:p-8">
       <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
         <BeforeAfterSlider item={item} />
-        <div>
+        <ParallaxLayer depth={-5}>
           <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#d7b56d]">Featured transformation</p>
           <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">{item.title}</h2>
           <p className="mt-3 text-sm font-semibold uppercase tracking-[0.18em] text-slate-400">{item.category} · {item.location}</p>
@@ -24,8 +25,8 @@ export function FeaturedTransformation({ item }: FeaturedTransformationProps) {
           <Link href={visualCtaHref(item.ctaPreset)} className="mt-8 inline-flex rounded-full bg-[#d7b56d] px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-[#e4c77f]">
             {item.ctaLabel}
           </Link>
-        </div>
+        </ParallaxLayer>
       </div>
-    </section>
+    </ParallaxLayer>
   );
 }

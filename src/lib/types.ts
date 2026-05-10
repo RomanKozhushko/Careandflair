@@ -16,6 +16,11 @@ export type SiteSettings = {
   phone: string;
   email: string;
   serviceAreaSummary: string;
+  parallax?: {
+    parallaxEnabled: boolean;
+    parallaxIntensity: "subtle" | "medium" | "off";
+    disableOnMobile: boolean;
+  };
   navigation: NavLink[];
   footerLinks: NavLink[];
 };
