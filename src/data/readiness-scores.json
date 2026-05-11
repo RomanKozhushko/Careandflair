@@ -1,0 +1,15 @@
+{
+  "baseScore": 100,
+  "audiencePenaltyBoost": 4,
+  "bands": [
+    { "id": "market-ready", "min": 80, "max": 100, "label": "Market-ready", "tone": "good", "summary": "The property is close to listing or handover condition.", "preset": "24h-express-reset", "recommendation": "24h Express Reset" },
+    { "id": "needs-reset", "min": 60, "max": 79, "label": "Needs reset", "tone": "watch", "summary": "Presentation blockers are visible. A coordinated reset should lift the result quickly.", "preset": "48h-pro-flair-reset", "recommendation": "48h Pro Flair Reset" },
+    { "id": "strong-reset", "min": 40, "max": 59, "label": "Strong reset recommended", "tone": "urgent", "summary": "The property needs more than cleaning. Plan for detail work and presentation recovery.", "preset": "48h-pro-flair-reset", "recommendation": "48h Pro Flair Reset" },
+    { "id": "heavy-recovery", "min": 0, "max": 39, "label": "Heavy recovery recommended", "tone": "critical", "summary": "Several issues are likely to affect viewings, guest perception or handover readiness.", "preset": "72h-ultimate-reset", "recommendation": "72h Ultimate Reset" }
+  ],
+  "rules": {
+    "heavyProblemCountForUltimate": 2,
+    "totalProblemsForUltimate": 7,
+    "totalProblemsForPro": 3
+  }
+}

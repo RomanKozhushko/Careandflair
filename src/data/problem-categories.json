@@ -1,0 +1,13 @@
+[
+  { "id": "mould", "label": "Mould", "description": "Visible mould or damp marks that weaken presentation.", "weight": 16, "severity": "heavy", "tags": ["hygiene", "bathroom", "walls"], "visible": true, "order": 1 },
+  { "id": "odour", "label": "Odour", "description": "Stale, pet, smoke or tenancy smells.", "weight": 13, "severity": "moderate", "tags": ["freshness", "hygiene"], "visible": true, "order": 2 },
+  { "id": "kitchen-grease", "label": "Kitchen grease", "description": "Grease build-up on units, extractor, tiles or appliances.", "weight": 10, "severity": "moderate", "tags": ["kitchen", "cleaning"], "visible": true, "order": 3 },
+  { "id": "tired-bathroom-silicone", "label": "Tired bathroom silicone", "description": "Dark, cracked or tired sealant around wet areas.", "weight": 9, "severity": "moderate", "tags": ["bathroom", "detail"], "visible": true, "order": 4 },
+  { "id": "carpet-stains", "label": "Carpet stains", "description": "Visible marks that pull down room presentation.", "weight": 10, "severity": "moderate", "tags": ["flooring", "presentation"], "visible": true, "order": 5 },
+  { "id": "dirty-windows-frames", "label": "Dirty windows / frames", "description": "Frames, sills or glass making the property feel neglected.", "weight": 7, "severity": "light", "tags": ["windows", "detail"], "visible": true, "order": 6 },
+  { "id": "patio-moss", "label": "Patio moss", "description": "Slippery or tired outdoor hard surfaces.", "weight": 8, "severity": "light", "tags": ["exterior", "first-impression"], "visible": true, "order": 7 },
+  { "id": "wall-marks", "label": "Wall marks", "description": "Scuffs, hand marks or tired high-traffic walls.", "weight": 9, "severity": "moderate", "tags": ["walls", "presentation"], "visible": true, "order": 8 },
+  { "id": "limescale", "label": "Limescale", "description": "Heavy scale on taps, screens, shower heads or tiles.", "weight": 8, "severity": "light", "tags": ["bathroom", "kitchen"], "visible": true, "order": 9 },
+  { "id": "garden-overgrowth", "label": "Garden overgrowth", "description": "Outdoor areas reducing kerb appeal and usability.", "weight": 11, "severity": "moderate", "tags": ["garden", "exterior"], "visible": true, "order": 10 },
+  { "id": "exterior-grime", "label": "Exterior grime", "description": "Entrance, paths or exterior details lowering first impression.", "weight": 9, "severity": "moderate", "tags": ["exterior", "first-impression"], "visible": true, "order": 11 }
+]

@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { optionalUpgrades, pricingMatrix, propertyCategories, propertyTypes, quoteBuilderConfig, servicePackages, visibleSorted } from "@/lib/content";
 import { estimateQuote } from "@/lib/pricing";
+import { parseProblemParams } from "@/lib/quotePrefill";
 import { createInitialQuoteSelection, findSelectedCategory, findSelectedPackage, findSelectedPropertyType, findSelectedUpgrades, isContactComplete } from "@/lib/quote";
 import type { QuoteSelection } from "@/lib/types";
 import { ContactDetailsStep } from "@/quote-builder/ContactDetailsStep";
@@ -22,6 +23,10 @@ export function QuoteBuilder() {
   const upgrades = useMemo(() => visibleSorted(optionalUpgrades), []);
   const preset = searchParams?.get("preset") ?? null;
   const upgrade = searchParams?.get("upgrade") ?? null;
+  const mode = searchParams?.get("mode") ?? null;
+  const score = searchParams?.get("score") ?? null;
+  const problems = parseProblemParams(searchParams?.get("problems") ?? null);
+  const hasInteractivePrefill = Boolean(mode || score || problems.length);
   const [selection, setSelection] = useState<QuoteSelection>(() => createInitialQuoteSelection(preset, upgrade));
   const [stepIndex, setStepIndex] = useState(preset ? 1 : 0);
   const [submitted, setSubmitted] = useState(false);
@@ -82,6 +87,12 @@ export function QuoteBuilder() {
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_22rem]">
       <div className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm sm:p-8">
+        {hasInteractivePrefill ? (
+          <div className="mb-6 rounded-3xl border border-[#d7b56d]/40 bg-[#fff7df] p-4 text-sm leading-6 text-slate-700">
+            <p className="font-semibold text-slate-950">Based on your reset score, we pre-selected a recommended reset path.</p>
+            <p className="mt-1 break-words">{score ? `Score: ${score}/100. ` : ""}{mode ? `Mode: ${mode}. ` : ""}{problems.length ? `Problems: ${problems.join(", ")}.` : ""}</p>
+          </div>
+        ) : null}
         <div className="mb-8 grid gap-2 sm:grid-cols-5">
           {config.steps.map((step, index) => (
             <button key={step} type="button" onClick={() => setStepIndex(index)} className={`rounded-full px-3 py-2 text-xs font-bold transition ${index === stepIndex ? "bg-slate-950 text-white" : "bg-slate-100 text-slate-500 hover:bg-slate-200"}`}>

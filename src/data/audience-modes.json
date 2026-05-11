@@ -1,0 +1,42 @@
+[
+  {
+    "id": "landlord",
+    "label": "Landlord",
+    "shortLabel": "Landlord",
+    "description": "Reduce void time and get the property looking rent-ready again.",
+    "priorityProblems": ["mould", "odour", "wall-marks", "carpet-stains", "limescale"],
+    "ctaLabel": "Build landlord reset quote",
+    "visible": true,
+    "order": 1
+  },
+  {
+    "id": "letting-agent",
+    "label": "Letting Agent",
+    "shortLabel": "Agent",
+    "description": "Diagnose the visual blockers before listing, viewing or handover.",
+    "priorityProblems": ["dirty-windows-frames", "wall-marks", "kitchen-grease", "tired-bathroom-silicone"],
+    "ctaLabel": "Build agent reset quote",
+    "visible": true,
+    "order": 2
+  },
+  {
+    "id": "airbnb-host",
+    "label": "Airbnb Host",
+    "shortLabel": "Airbnb",
+    "description": "Protect guest-readiness, freshness and first-impression details.",
+    "priorityProblems": ["odour", "limescale", "dirty-windows-frames", "carpet-stains"],
+    "ctaLabel": "Build guest-ready reset quote",
+    "visible": true,
+    "order": 3
+  },
+  {
+    "id": "homeowner-selling",
+    "label": "Homeowner / Selling",
+    "shortLabel": "Selling",
+    "description": "Lift presentation before photos, viewings or moving out.",
+    "priorityProblems": ["wall-marks", "patio-moss", "garden-overgrowth", "exterior-grime"],
+    "ctaLabel": "Build sale-ready reset quote",
+    "visible": true,
+    "order": 4
+  }
+]

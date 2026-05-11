@@ -6,6 +6,7 @@ import { FlairSolutionsGrid } from "@/homepage/FlairSolutionsGrid";
 import { GuardianPlansSection } from "@/homepage/GuardianPlansSection";
 import { HeroSection } from "@/homepage/HeroSection";
 import { HowItWorksSection } from "@/homepage/HowItWorksSection";
+import { InteractiveConversionCore } from "@/homepage/InteractiveConversionCore";
 import { ResetPackagesSection } from "@/homepage/ResetPackagesSection";
 import { TrustBadges } from "@/homepage/TrustBadges";
 import { Footer } from "@/layout/Footer";
@@ -19,6 +20,7 @@ export default function Home() {
         <HeroSection />
         <TrustBadges />
         <ResetPackagesSection />
+        <InteractiveConversionCore />
         <FlairSolutionsGrid />
         <BeforeAfterPreview />
         <HowItWorksSection />

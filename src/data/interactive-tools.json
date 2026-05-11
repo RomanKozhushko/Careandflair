@@ -1,0 +1,38 @@
+{
+  "conversionCore": {
+    "visible": true,
+    "eyebrow": "Interactive reset planner",
+    "title": "Build the Reset",
+    "subtitle": "Select the problems. See the score. Get the right reset plan.",
+    "steps": {
+      "mode": "1. Choose your route",
+      "problems": "2. Pick visible blockers",
+      "score": "3. Market-ready score",
+      "recommendation": "4. Recommended reset path"
+    },
+    "problemPicker": {
+      "title": "What is holding the property back?",
+      "subtitle": "Choose every issue that applies. We\u2019ll turn it into a reset path, not a boring form.",
+      "emptySummary": "No problems selected yet.",
+      "selectedSummary": "Selected reset blockers"
+    },
+    "score": {
+      "title": "Market-Ready Score",
+      "caption": "Diagnostic estimate based on visible blockers and audience priority. Final scope is confirmed after quote request."
+    },
+    "report": {
+      "title": "Reset recommendation",
+      "subtitle": "Built from your selected mode, problems and score.",
+      "emptyState": "Pick a mode and at least one problem to build your reset path.",
+      "problemLabel": "Problems selected",
+      "pathLabel": "Recommended path",
+      "modeLabel": "Mode"
+    },
+    "cta": {
+      "label": "Continue to quote request",
+      "helper": "Your quote builder will open with the recommended reset path pre-selected.",
+      "prefillNotice": "Based on your reset score, we pre-selected a recommended reset path.",
+      "disabledLabel": "Select at least one problem to unlock the reset quote path."
+    }
+  }
+}

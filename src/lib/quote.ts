@@ -13,7 +13,7 @@ export function createInitialQuoteSelection(preset?: string | null, upgrade?: st
     packageId: preset ?? undefined,
     propertyCategoryId: undefined,
     propertyTypeId: undefined,
-    upgradeIds: upgrade ? [upgrade] : [],
+    upgradeIds: upgrade ? upgrade.split(",").map((item) => item.trim()).filter(Boolean) : [],
     contact: emptyContactDetails,
   };
 }
