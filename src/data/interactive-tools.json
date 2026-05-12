@@ -1,14 +1,14 @@
 {
   "conversionCore": {
     "visible": true,
-    "eyebrow": "Interactive reset planner",
-    "title": "Build the Reset",
-    "subtitle": "Select the problems. See the score. Get the right reset plan.",
+    "eyebrow": "AI-style reset diagnosis",
+    "title": "Build the Reset Diagnosis",
+    "subtitle": "Select the visible blockers. See the viewing killer, priority fixes and the package that makes the property market-ready.",
     "steps": {
       "mode": "1. Choose your route",
       "problems": "2. Pick visible blockers",
       "score": "3. Market-ready score",
-      "recommendation": "4. Recommended reset path"
+      "recommendation": "4. Diagnosis report"
     },
     "problemPicker": {
       "title": "What is holding the property back?",
@@ -21,17 +21,24 @@
       "caption": "Diagnostic estimate based on visible blockers and audience priority. Final scope is confirmed after quote request."
     },
     "report": {
-      "title": "Reset recommendation",
-      "subtitle": "Built from your selected mode, problems and score.",
-      "emptyState": "Pick a mode and at least one problem to build your reset path.",
+      "title": "Reset Diagnosis Report",
+      "subtitle": "Built from your selected route, problems and score.",
+      "emptyState": "Pick at least one blocker to generate your diagnosis.",
       "problemLabel": "Problems selected",
-      "pathLabel": "Recommended path",
-      "modeLabel": "Mode"
+      "pathLabel": "Recommended package",
+      "modeLabel": "Client route",
+      "viewingKillerLabel": "Main viewing killer",
+      "priorityLabel": "Top 3 priority fixes",
+      "upgradesLabel": "Suggested upgrades",
+      "whyLabel": "Why this matters",
+      "previewLabel": "Matching transformation preview",
+      "fallbackTitle": "Branded Reset Preview",
+      "fallbackText": "No exact before-after case is live for this blocker yet, so we’ll use a Care & Flair reset preview and scope the precise transformation in the quote."
     },
     "cta": {
-      "label": "Continue to quote request",
-      "helper": "Your quote builder will open with the recommended reset path pre-selected.",
-      "prefillNotice": "Based on your reset score, we pre-selected a recommended reset path.",
+      "label": "Get Quote With This Diagnosis",
+      "helper": "Your diagnosis, score and recommended package will be attached to the quote request.",
+      "prefillNotice": "Your reset diagnosis has been attached to this quote request.",
       "disabledLabel": "Select at least one problem to unlock the reset quote path."
     }
   }

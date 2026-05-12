@@ -9,6 +9,7 @@ export type QuotePrefillInput = {
 export function buildQuotePrefillUrl({ modeId, problemIds, scoreResult }: QuotePrefillInput) {
   const params = new URLSearchParams();
   params.set("mode", modeId);
+  params.set("diagnosis", scoreResult.diagnosisSlug);
   if (problemIds.length) params.set("problems", problemIds.join(","));
   params.set("score", String(scoreResult.score));
   params.set("preset", scoreResult.recommendedPreset);

@@ -24,9 +24,10 @@ export function QuoteBuilder() {
   const preset = searchParams?.get("preset") ?? null;
   const upgrade = searchParams?.get("upgrade") ?? null;
   const mode = searchParams?.get("mode") ?? null;
+  const diagnosis = searchParams?.get("diagnosis") ?? null;
   const score = searchParams?.get("score") ?? null;
   const problems = parseProblemParams(searchParams?.get("problems") ?? null);
-  const hasInteractivePrefill = Boolean(mode || score || problems.length);
+  const hasInteractivePrefill = Boolean(diagnosis || mode || score || problems.length);
   const [selection, setSelection] = useState<QuoteSelection>(() => createInitialQuoteSelection(preset, upgrade));
   const [stepIndex, setStepIndex] = useState(preset ? 1 : 0);
   const [submitted, setSubmitted] = useState(false);
@@ -89,8 +90,8 @@ export function QuoteBuilder() {
       <div className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm sm:p-8">
         {hasInteractivePrefill ? (
           <div className="mb-6 rounded-3xl border border-[#d7b56d]/40 bg-[#fff7df] p-4 text-sm leading-6 text-slate-700">
-            <p className="font-semibold text-slate-950">Based on your reset score, we pre-selected a recommended reset path.</p>
-            <p className="mt-1 break-words">{score ? `Score: ${score}/100. ` : ""}{mode ? `Mode: ${mode}. ` : ""}{problems.length ? `Problems: ${problems.join(", ")}.` : ""}</p>
+            <p className="font-semibold text-slate-950">Your reset diagnosis has been attached to this quote request.</p>
+            <p className="mt-1 break-words">{diagnosis ? `Diagnosis: ${diagnosis}. ` : ""}{score ? `Score: ${score}/100. ` : ""}{mode ? `Mode: ${mode}. ` : ""}{problems.length ? `Problems: ${problems.join(", ")}.` : ""}</p>
           </div>
         ) : null}
         <div className="mb-8 grid gap-2 sm:grid-cols-5">

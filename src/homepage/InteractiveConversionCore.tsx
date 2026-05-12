@@ -55,7 +55,7 @@ export function InteractiveConversionCore() {
             onToggle={toggleProblem}
           />
 
-          <div className="grid gap-5 lg:grid-cols-[0.85fr_1.15fr]">
+          <div className="grid gap-5 lg:grid-cols-[0.7fr_1.3fr]">
             <MarketReadyScore title={config.score.title} caption={config.score.caption} result={scoreResult} />
             <ResetReportSummary
               title={config.report.title}
@@ -64,12 +64,19 @@ export function InteractiveConversionCore() {
               modeLabel={config.report.modeLabel}
               problemLabel={config.report.problemLabel}
               pathLabel={config.report.pathLabel}
+              viewingKillerLabel={config.report.viewingKillerLabel}
+              priorityLabel={config.report.priorityLabel}
+              upgradesLabel={config.report.upgradesLabel}
+              whyLabel={config.report.whyLabel}
+              previewLabel={config.report.previewLabel}
+              fallbackTitle={config.report.fallbackTitle}
+              fallbackText={config.report.fallbackText}
               mode={mode}
               result={scoreResult}
             />
           </div>
 
-          <InteractiveCTA href={quoteHref} label={mode.ctaLabel || config.cta.label} helper={config.cta.helper} disabledLabel={config.cta.disabledLabel} disabled={selectedProblems.length === 0} />
+          <InteractiveCTA href={quoteHref} label={config.cta.label} helper={config.cta.helper} disabledLabel={config.cta.disabledLabel} disabled={selectedProblems.length === 0} />
         </div>
       </div>
     </section>

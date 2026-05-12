@@ -13,6 +13,15 @@ export type AudienceMode = {
   order: number;
 };
 
+export type RiskCategory =
+  | "bathroom-trust"
+  | "odour-smell"
+  | "photo-readiness"
+  | "curb-appeal"
+  | "hygiene-confidence"
+  | "tenant-damage-impression"
+  | "guest-readiness-risk";
+
 export type ProblemCategory = {
   id: string;
   label: string;
@@ -20,6 +29,14 @@ export type ProblemCategory = {
   weight: number;
   severity: "light" | "moderate" | "heavy";
   tags: string[];
+  riskCategory: RiskCategory;
+  riskLabel: string;
+  riskExplanation: string;
+  recommendedAction: string;
+  recommendedPackage: string;
+  recommendedUpgrades: string[];
+  quotePreset: string;
+  matchingBeforeAfterCategory: string;
   visible: boolean;
   order: number;
 };
@@ -35,12 +52,26 @@ export type ReadinessBand = {
   recommendation: string;
 };
 
+export type ViewingKiller = {
+  riskCategory: RiskCategory | "none";
+  riskLabel: string;
+  riskExplanation: string;
+  recommendedAction: string;
+  sourceProblem?: ProblemCategory;
+};
+
 export type ScoreResult = {
   score: number;
   band: ReadinessBand;
   recommendedPreset: string;
   recommendedPackage: string;
   selectedProblems: ProblemCategory[];
+  viewingKiller: ViewingKiller;
+  priorityFixes: ProblemCategory[];
+  suggestedUpgradeIds: string[];
+  matchingBeforeAfterCategory?: string;
+  whyThisMatters: string;
+  diagnosisSlug: string;
 };
 
 const readinessConfig = readinessScoresData as {
@@ -72,10 +103,41 @@ function findBand(score: number) {
 }
 
 function choosePreset(score: number, selectedProblems: ProblemCategory[]) {
+  const dataPreset = [...selectedProblems].sort((a, b) => b.weight - a.weight)[0]?.quotePreset;
   const heavyCount = selectedProblems.filter((problem) => problem.severity === "heavy").length;
   if (score < 40 || heavyCount >= readinessConfig.rules.heavyProblemCountForUltimate || selectedProblems.length >= readinessConfig.rules.totalProblemsForUltimate) return "72h-ultimate-reset";
   if (score < 80 || selectedProblems.length >= readinessConfig.rules.totalProblemsForPro) return "48h-pro-flair-reset";
-  return "24h-express-reset";
+  return dataPreset ?? "24h-express-reset";
+}
+
+function buildViewingKiller(mode: AudienceMode, selectedProblems: ProblemCategory[]): ViewingKiller {
+  const sourceProblem = [...selectedProblems].sort((a, b) => {
+    const aBoost = mode.priorityProblems.includes(a.id) ? readinessConfig.audiencePenaltyBoost : 0;
+    const bBoost = mode.priorityProblems.includes(b.id) ? readinessConfig.audiencePenaltyBoost : 0;
+    return b.weight + bBoost - (a.weight + aBoost);
+  })[0];
+
+  if (!sourceProblem) {
+    return {
+      riskCategory: "none",
+      riskLabel: "No blocker selected",
+      riskExplanation: "Choose the visible problems and we’ll identify the main viewing killer.",
+      recommendedAction: "Select at least one blocker to build a quote-ready diagnosis.",
+    };
+  }
+
+  return {
+    riskCategory: sourceProblem.riskCategory,
+    riskLabel: sourceProblem.riskLabel,
+    riskExplanation: sourceProblem.riskExplanation,
+    recommendedAction: sourceProblem.recommendedAction,
+    sourceProblem,
+  };
+}
+
+function buildWhyThisMatters(mode: AudienceMode, viewingKiller: ViewingKiller, selectedProblems: ProblemCategory[]) {
+  if (!selectedProblems.length) return "A sharper reset plan starts with the blockers people notice first: smell, hygiene, photos, kerb appeal and evidence of previous use.";
+  return `${mode.shortLabel || mode.label} prospects judge the property quickly. ${viewingKiller.riskExplanation} Fixing this first helps protect viewing confidence, photo quality and quote clarity.`;
 }
 
 export function calculateMarketReadyScore(modeId: string, problemIds: string[]): ScoreResult {
@@ -89,6 +151,9 @@ export function calculateMarketReadyScore(modeId: string, problemIds: string[]):
   const preset = choosePreset(score, selectedProblems);
   const band = findBand(score);
   const presetBand = readinessBands.find((item) => item.preset === preset) ?? band;
+  const viewingKiller = buildViewingKiller(mode, selectedProblems);
+  const priorityFixes = [...selectedProblems].sort((a, b) => b.weight - a.weight).slice(0, 3);
+  const suggestedUpgradeIds = Array.from(new Set(priorityFixes.flatMap((problem) => problem.recommendedUpgrades))).slice(0, 4);
 
   return {
     score,
@@ -96,5 +161,11 @@ export function calculateMarketReadyScore(modeId: string, problemIds: string[]):
     recommendedPreset: preset,
     recommendedPackage: presetBand.recommendation,
     selectedProblems,
+    viewingKiller,
+    priorityFixes,
+    suggestedUpgradeIds,
+    matchingBeforeAfterCategory: viewingKiller.sourceProblem?.matchingBeforeAfterCategory,
+    whyThisMatters: buildWhyThisMatters(mode, viewingKiller, selectedProblems),
+    diagnosisSlug: viewingKiller.riskCategory,
   };
 }
