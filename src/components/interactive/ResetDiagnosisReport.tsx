@@ -79,7 +79,7 @@ export function ResetDiagnosisReport({ title, subtitle, emptyState, modeLabel, p
       </div>
 
       <div className="mt-5">
-        <MatchingTransformationPreview label={previewLabel} category={result.matchingBeforeAfterCategory} fallbackTitle={fallbackTitle} fallbackText={fallbackText} />
+        <MatchingTransformationPreview label={previewLabel} result={result} fallbackTitle={fallbackTitle} fallbackText={fallbackText} />
       </div>
     </div>
   );
