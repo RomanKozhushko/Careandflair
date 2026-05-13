@@ -19,7 +19,7 @@ type SliderLayerProps = {
 function SliderLayer({ src, alt, label }: SliderLayerProps) {
   if (!src) return <BrandedPlaceholder label={label} />;
 
-  return <Image src={src} alt={alt} fill className="object-cover" sizes="(min-width: 1024px) 50vw, 100vw" />;
+  return <Image src={src} alt={alt} fill quality={72} className="object-cover" sizes="(min-width: 1024px) 50vw, 100vw" />;
 }
 
 export function BeforeAfterSlider({ item, className = "" }: BeforeAfterSliderProps) {
@@ -65,11 +65,11 @@ export function BeforeAfterSlider({ item, className = "" }: BeforeAfterSliderPro
       <div className="pointer-events-none absolute right-4 top-4 rounded-full bg-slate-950/85 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-white shadow-sm">After</div>
 
       <div
-        className="pointer-events-none absolute inset-y-0 w-1 -translate-x-1/2 bg-white shadow-[0_0_0_1px_rgba(15,23,42,0.12),0_0_24px_rgba(15,23,42,0.35)]"
+        className="pointer-events-none absolute inset-y-0 w-1 -translate-x-1/2 bg-white shadow-[0_0_0_1px_rgba(15,23,42,0.12)] sm:shadow-[0_0_0_1px_rgba(15,23,42,0.12),0_0_18px_rgba(15,23,42,0.28)]"
         style={{ left: `${position}%` }}
         aria-hidden="true"
       >
-        <div className="absolute left-1/2 top-1/2 grid h-12 w-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-white/70 bg-white text-slate-950 shadow-xl">
+        <div className="absolute left-1/2 top-1/2 grid h-12 w-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-white/70 bg-white text-slate-950 shadow-md sm:shadow-xl">
           <span className="text-lg font-bold leading-none">↔</span>
         </div>
       </div>

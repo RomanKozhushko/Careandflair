@@ -1,6 +1,5 @@
 import { findSection, solutions, visibleSorted } from "@/lib/content";
 import { SolutionCard } from "@/homepage/SolutionCard";
-import { ParallaxLayer } from "@/ui/ParallaxLayer";
 import { SectionHeader } from "@/ui/SectionHeader";
 
 export function FlairSolutionsGrid() {
@@ -12,10 +11,8 @@ export function FlairSolutionsGrid() {
       <div className="mx-auto max-w-7xl">
         <SectionHeader title={section.title} subtitle={section.subtitle} />
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {items.map((item, index) => (
-            <ParallaxLayer key={item.id} depth={12 + (index % 3) * 4} scaleDepth={item.featured ? 0.007 : 0.003} perspective>
-              <SolutionCard item={item} />
-            </ParallaxLayer>
+          {items.map((item) => (
+            <SolutionCard key={item.id} item={item} />
           ))}
         </div>
       </div>
