@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useMemo, useState } from "react";
 import { adminResources, type AdminResourceKey } from "@/admin/resources";
 
@@ -324,8 +325,8 @@ export default function AdminClient({ initialData }: { initialData: ResourceData
                     return (
                       <div key={field} className="rounded-2xl border border-white/10 bg-slate-900 p-3">
                         <label className="text-sm font-bold text-slate-200">{displayLabel(field)}</label>
-                        <div className="mt-3 aspect-video overflow-hidden rounded-xl border border-white/10 bg-slate-950">
-                          {path ? <img src={path} alt="" className="h-full w-full object-cover" /> : <div className="flex h-full items-center justify-center text-sm text-slate-500">No image</div>}
+                        <div className="relative mt-3 aspect-video overflow-hidden rounded-xl border border-white/10 bg-slate-950">
+                          {path ? <Image src={path} alt="" fill sizes="(min-width: 768px) 16rem, 100vw" className="object-cover" /> : <div className="flex h-full items-center justify-center text-sm text-slate-500">No image</div>}
                         </div>
                         <input
                           value={path}

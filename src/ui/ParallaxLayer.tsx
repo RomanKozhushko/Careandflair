@@ -30,8 +30,8 @@ function clamp(value: number, min: number, max: number) {
 
 function intensityMultiplier(intensity?: ParallaxIntensity) {
   if (intensity === "off") return 0;
-  if (intensity === "medium") return 1.18;
-  return 0.92;
+  if (intensity === "medium") return 0.72;
+  return 0.48;
 }
 
 export function useParallaxScroll<T extends HTMLElement>({
@@ -48,37 +48,34 @@ export function useParallaxScroll<T extends HTMLElement>({
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const mobile = window.matchMedia("(max-width: 767px)");
-    let frame = 0;
-
     const configured = parallaxSettings.parallaxEnabled !== false && intensityMultiplier(parallaxSettings.parallaxIntensity) > 0;
+
+    let frame = 0;
+    let scrollListenersActive = false;
+    let visible = false;
 
     const reset = () => {
       element.style.transform = "";
       element.style.willChange = "";
     };
 
+    const shouldDisable = () => disabled || !configured || reduceMotion.matches || (mobile.matches && parallaxSettings.disableOnMobile !== false);
+
     const update = () => {
       frame = 0;
 
-      if (disabled || !configured || reduceMotion.matches || (mobile.matches && parallaxSettings.disableOnMobile !== false)) {
+      if (shouldDisable() || !visible) {
         reset();
         return;
       }
 
       const rect = element.getBoundingClientRect();
       const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-
-      if (rect.bottom < -120 || rect.top > viewportHeight + 120) {
-        element.style.willChange = "";
-        return;
-      }
-
-      const mobileMultiplier = mobile.matches ? 0.28 : 1;
-      const multiplier = intensityMultiplier(parallaxSettings.parallaxIntensity) * mobileMultiplier;
+      const multiplier = intensityMultiplier(parallaxSettings.parallaxIntensity);
       const progress = clamp((viewportHeight / 2 - (rect.top + rect.height / 2)) / viewportHeight, -1, 1);
       const translateY = progress * depth * multiplier;
       const scale = scaleDepth ? 1 + Math.abs(progress) * scaleDepth * multiplier : 1;
-      const rotateX = perspective ? progress * -0.38 * multiplier : 0;
+      const rotateX = perspective ? progress * -0.24 * multiplier : 0;
       const transform = `${perspective ? "perspective(1200px) " : ""}translate3d(0, ${translateY.toFixed(2)}px, 0) rotateX(${rotateX.toFixed(3)}deg) scale(${scale.toFixed(4)})`;
 
       element.style.transform = transform;
@@ -90,18 +87,51 @@ export function useParallaxScroll<T extends HTMLElement>({
       frame = window.requestAnimationFrame(update);
     };
 
-    update();
-    window.addEventListener("scroll", schedule, { passive: true });
-    window.addEventListener("resize", schedule);
-    reduceMotion.addEventListener("change", schedule);
-    mobile.addEventListener("change", schedule);
+    const addScrollListeners = () => {
+      if (scrollListenersActive || shouldDisable()) return;
+      scrollListenersActive = true;
+      window.addEventListener("scroll", schedule, { passive: true });
+      window.addEventListener("resize", schedule);
+      schedule();
+    };
 
-    return () => {
-      if (frame) window.cancelAnimationFrame(frame);
+    const removeScrollListeners = () => {
+      if (!scrollListenersActive) return;
+      scrollListenersActive = false;
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
-      reduceMotion.removeEventListener("change", schedule);
-      mobile.removeEventListener("change", schedule);
+    };
+
+    const evaluate = () => {
+      if (shouldDisable()) {
+        removeScrollListeners();
+        reset();
+        return;
+      }
+
+      if (visible) addScrollListeners();
+      else removeScrollListeners();
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+        evaluate();
+      },
+      { rootMargin: "160px 0px" },
+    );
+
+    observer.observe(element);
+    reduceMotion.addEventListener("change", evaluate);
+    mobile.addEventListener("change", evaluate);
+    evaluate();
+
+    return () => {
+      observer.disconnect();
+      if (frame) window.cancelAnimationFrame(frame);
+      removeScrollListeners();
+      reduceMotion.removeEventListener("change", evaluate);
+      mobile.removeEventListener("change", evaluate);
       reset();
     };
   }, [depth, disabled, perspective, scaleDepth]);

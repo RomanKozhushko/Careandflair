@@ -15,16 +15,42 @@ type BeforeAfterCarouselProps = {
 export function BeforeAfterCarousel({ items }: BeforeAfterCarouselProps) {
   const sortedItems = useMemo(() => sortFeaturedFirst(items), [items]);
   const [activeIndex, setActiveIndex] = useState(0);
+  const activeIndexRef = useRef(0);
+  const scrollFrameRef = useRef(0);
   const trackRef = useRef<HTMLDivElement>(null);
 
   if (!sortedItems.length) return null;
 
+  function setActive(index: number) {
+    if (index === activeIndexRef.current) return;
+    activeIndexRef.current = index;
+    setActiveIndex(index);
+  }
+
   function scrollToIndex(index: number) {
     const nextIndex = Math.max(0, Math.min(sortedItems.length - 1, index));
-    setActiveIndex(nextIndex);
+    setActive(nextIndex);
     const track = trackRef.current;
     const card = track?.children[nextIndex] as HTMLElement | undefined;
     card?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+  }
+
+  function syncActiveFromScroll() {
+    if (scrollFrameRef.current) return;
+    scrollFrameRef.current = window.requestAnimationFrame(() => {
+      scrollFrameRef.current = 0;
+      const track = trackRef.current;
+      if (!track) return;
+      const children = Array.from(track.children) as HTMLElement[];
+      const nearest = children.reduce(
+        (best, child, index) => {
+          const distance = Math.abs(child.offsetLeft - track.scrollLeft);
+          return distance < best.distance ? { index, distance } : best;
+        },
+        { index: activeIndexRef.current, distance: Number.POSITIVE_INFINITY },
+      );
+      setActive(nearest.index);
+    });
   }
 
   return (
@@ -42,16 +68,7 @@ export function BeforeAfterCarousel({ items }: BeforeAfterCarouselProps) {
 
       <div
         ref={trackRef}
-        onScroll={() => {
-          const track = trackRef.current;
-          if (!track) return;
-          const children = Array.from(track.children) as HTMLElement[];
-          const nearest = children.reduce((best, child, index) => {
-            const distance = Math.abs(child.offsetLeft - track.scrollLeft);
-            return distance < best.distance ? { index, distance } : best;
-          }, { index: activeIndex, distance: Number.POSITIVE_INFINITY });
-          setActiveIndex(nearest.index);
-        }}
+        onScroll={syncActiveFromScroll}
         className="flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {sortedItems.map((item) => (

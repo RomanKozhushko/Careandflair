@@ -15,7 +15,7 @@
       "Built for landlords, agents & Airbnb hosts",
       "Bromley, South East London & Kent"
     ],
-    "heroImage": "/images/generated/hero-living-room-reset.png",
+    "heroImage": "/images/generated/hero-living-room-reset.jpg",
     "visualSteps": [
       "Clean",
       "Repair",
@@ -27,19 +27,19 @@
         "label": "Interior reset",
         "title": "Viewing-ready rooms",
         "description": "Deep clean, detail work and presentation fixes for photos and viewings.",
-        "image": "/images/generated/hero-living-room-reset.png"
+        "image": "/images/generated/hero-living-room-reset.jpg"
       },
       {
         "label": "Wet areas",
         "title": "Bathroom recovery",
         "description": "Descaling, silicone refresh, grout detail and hygiene-focused reset.",
-        "image": "/images/generated/bathroom-before-after.png"
+        "image": "/images/generated/bathroom-before-after.jpg"
       },
       {
         "label": "Kerb appeal",
         "title": "Exterior first impression",
         "description": "Driveway, patio and entrance cleaning for a sharper arrival moment.",
-        "image": "/images/generated/driveway-before-after.png"
+        "image": "/images/generated/driveway-before-after.jpg"
       }
     ],
     "heroImageAlt": "Make Your Property Ready in 24-72 Hours hero visual"

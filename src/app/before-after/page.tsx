@@ -1,10 +1,17 @@
+import dynamic from "next/dynamic";
 import Link from "next/link";
-import { BeforeAfterCarousel } from "@/before-after/BeforeAfterCarousel";
-import { BeforeAfterGrid } from "@/before-after/BeforeAfterGrid";
 import { FeaturedTransformation } from "@/before-after/FeaturedTransformation";
 import { beforeAfterItems, visibleSorted } from "@/lib/content";
 import { Footer } from "@/layout/Footer";
 import { Header } from "@/layout/Header";
+
+const BeforeAfterCarousel = dynamic(() => import("@/before-after/BeforeAfterCarousel").then((mod) => mod.BeforeAfterCarousel), {
+  loading: () => <section className="h-72 rounded-[2rem] bg-white/70" aria-label="Before and after carousel loading" />,
+});
+
+const BeforeAfterGrid = dynamic(() => import("@/before-after/BeforeAfterGrid").then((mod) => mod.BeforeAfterGrid), {
+  loading: () => <section className="h-96 rounded-[2rem] bg-white/70" aria-label="Before and after grid loading" />,
+});
 
 export default function BeforeAfterPage() {
   const items = visibleSorted(beforeAfterItems);
@@ -12,7 +19,7 @@ export default function BeforeAfterPage() {
   const featuredCount = items.filter((item) => item.featured).length;
 
   return (
-    <div className="min-h-screen bg-white text-slate-950">
+    <div className="min-h-screen overflow-x-clip bg-white text-slate-950">
       <Header />
       <main>
         <section className="relative overflow-hidden bg-slate-950 px-4 py-20 text-white sm:px-6 lg:px-8 lg:py-24">
