@@ -11,9 +11,9 @@ export function PackageCard({ item }: PackageCardProps) {
   const cta = findCta(item.ctaMappingId);
 
   return (
-    <article className={`premium-depth-card group flex h-full flex-col overflow-hidden rounded-[1.75rem] border shadow-sm ${item.featured ? "border-[#d7b56d]/60 bg-slate-950 text-white shadow-2xl shadow-slate-950/20" : "border-slate-200 bg-white text-slate-950"}`}>
+    <article className={`premium-depth-card group flex h-full flex-col overflow-hidden rounded-[1.75rem] border shadow-sm ${item.featured ? "border-[#d7b56d]/60 bg-slate-950 text-white lg:shadow-2xl lg:shadow-slate-950/20" : "border-slate-200 bg-white text-slate-950"}`}>
       <div className="relative">
-        <VisualMedia src={item.image} alt={`${item.name} property reset package visual`} label={item.visualLabel ?? item.name} className="h-44" sizes="(min-width: 1024px) 33vw, 100vw" />
+        <VisualMedia src={item.image} alt={`${item.name} property reset package visual`} label={item.visualLabel ?? item.name} className="h-44" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 92vw" />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-transparent" />
         <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-3">
           <div>

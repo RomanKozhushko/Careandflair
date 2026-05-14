@@ -13,9 +13,9 @@ export function SolutionCard({ item }: SolutionCardProps) {
   const afterImage = item.afterImage ?? item.imageAfter;
 
   return (
-    <article className="premium-depth-card group flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-2xl hover:shadow-slate-950/10">
+    <article className="premium-depth-card group flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-sm transition sm:hover:-translate-y-1 sm:hover:shadow-2xl sm:hover:shadow-slate-950/10">
       <div className="relative">
-        <VisualMedia src={item.image} alt={item.imageAlt ?? `${item.title} property reset visual`} label={item.title} className="h-56" imageClassName="object-cover transition duration-500 group-hover:scale-105" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" />
+        <VisualMedia src={item.image} alt={item.imageAlt ?? `${item.title} property reset visual`} label={item.title} className="h-56" imageClassName="object-cover transition duration-500 sm:group-hover:scale-105" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 92vw" />
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/10 to-transparent" />
         <div className="absolute left-4 top-4 flex flex-wrap gap-2">
           <span className="rounded-full bg-white/90 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-slate-950">{item.category}</span>

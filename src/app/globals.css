@@ -40,6 +40,34 @@ a {
   isolation: isolate;
 }
 
+@media (max-width: 767px) {
+  * {
+    scroll-behavior: auto !important;
+  }
+
+  .premium-hero-visual,
+  .premium-depth-card,
+  .group:hover,
+  [class*="hover\\:-translate-y"],
+  [class*="hover\\:shadow"],
+  [class*="hover\\:scale"] {
+    transform: none !important;
+    transition: none !important;
+    filter: none !important;
+    will-change: auto !important;
+  }
+
+  .premium-depth-card,
+  .mobile-static-card {
+    box-shadow: none !important;
+  }
+
+  .mobile-no-backdrop {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+}
+
 @media (min-width: 1024px) {
   .premium-hero-visual {
     transform-style: preserve-3d;

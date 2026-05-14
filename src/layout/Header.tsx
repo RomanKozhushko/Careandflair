@@ -6,7 +6,7 @@ export function Header() {
   const primaryCta = findCta("build-your-quote");
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-slate-950/90 backdrop-blur-xl">
+    <header className="mobile-no-backdrop sticky top-0 z-50 border-b border-white/10 bg-slate-950/95 sm:bg-slate-950/90 sm:backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center gap-3">
           <span className="flex h-10 w-10 items-center justify-center rounded-2xl border border-[#d7b56d]/40 bg-white/5 text-sm font-black tracking-tight text-[#d7b56d] shadow-inner shadow-white/10">C&F</span>
