@@ -13,14 +13,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Care & Flair | Property Turnover, Reset & Maintenance Specialist",
-  description: "Fast property resets, cleaning, cosmetic repairs and presentation upgrades for landlords, agents and Airbnb hosts across Bromley, South East London and Kent.",
+  title: "CARE & FLAIR | Property Turnover & Maintenance Specialist",
+  description: "We prepare properties so clients can move in immediately. Property turnover, setup and maintenance for landlords, agents, Airbnb hosts and busy families.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full scroll-smooth antialiased`}>
-      <body className="min-h-full bg-white font-sans text-slate-950">{children}</body>
+      <body className="min-h-full bg-[#F7F1E6] font-sans text-[#17352F]">{children}</body>
     </html>
   );
 }

@@ -14,7 +14,10 @@ export type SiteSettings = {
   primaryObjective: string;
   defaultLocale: string;
   phone: string;
+  website?: string;
   email: string;
+  brandLine?: string;
+  coreMessage?: string;
   serviceAreaSummary: string;
   parallax?: {
     parallaxEnabled: boolean;

@@ -1,44 +1,44 @@
 {
   "conversionCore": {
     "visible": true,
-    "eyebrow": "AI-style reset diagnosis",
-    "title": "Build the Reset Diagnosis",
-    "subtitle": "Select the visible blockers. See the viewing killer, priority fixes and the package that makes the property market-ready.",
+    "eyebrow": "Property readiness planner",
+    "title": "Build the Reset",
+    "subtitle": "Select what is holding the property back. We will turn it into a calm readiness path with priority fixes, package guidance and quote details.",
     "steps": {
       "mode": "1. Choose your route",
-      "problems": "2. Pick visible blockers",
-      "score": "3. Market-ready score",
-      "recommendation": "4. Diagnosis report"
+      "problems": "2. Pick property blockers",
+      "score": "3. Readiness score",
+      "recommendation": "4. Reset plan"
     },
     "problemPicker": {
-      "title": "What is holding the property back?",
-      "subtitle": "Choose every issue that applies. We\u2019ll turn it into a reset path, not a boring form.",
-      "emptySummary": "No problems selected yet.",
-      "selectedSummary": "Selected reset blockers"
+      "title": "What needs to be made ready?",
+      "subtitle": "Choose every issue that applies. We’ll shape it into a practical property reset, not a generic form.",
+      "emptySummary": "No readiness blockers selected yet.",
+      "selectedSummary": "Selected property blockers"
     },
     "score": {
-      "title": "Market-Ready Score",
-      "caption": "Diagnostic estimate based on visible blockers and audience priority. Final scope is confirmed after quote request."
+      "title": "Property Readiness Score",
+      "caption": "Estimate based on visible blockers and client route. Final scope is confirmed after quote request."
     },
     "report": {
-      "title": "Reset Diagnosis Report",
-      "subtitle": "Built from your selected route, problems and score.",
-      "emptyState": "Pick at least one blocker to generate your diagnosis.",
+      "title": "Property Readiness Plan",
+      "subtitle": "Built from your selected route, blockers and score.",
+      "emptyState": "Pick at least one blocker to generate your readiness plan.",
       "problemLabel": "Problems selected",
       "pathLabel": "Recommended package",
       "modeLabel": "Client route",
-      "viewingKillerLabel": "Main viewing killer",
+      "viewingKillerLabel": "Main readiness blocker",
       "priorityLabel": "Top 3 priority fixes",
       "upgradesLabel": "Suggested upgrades",
       "whyLabel": "Why this matters",
       "previewLabel": "Matching transformation preview",
-      "fallbackTitle": "Branded Reset Preview",
+      "fallbackTitle": "Care & Flair Reset Preview",
       "fallbackText": "No exact before-after case is live for this blocker yet, so we’ll use a Care & Flair reset preview and scope the precise transformation in the quote."
     },
     "cta": {
-      "label": "Get Quote With This Diagnosis",
-      "helper": "Your diagnosis, score and recommended package will be attached to the quote request.",
-      "prefillNotice": "Your reset diagnosis has been attached to this quote request.",
+      "label": "Get Quote With This Plan",
+      "helper": "Your readiness plan, score and recommended package will be attached to the quote request.",
+      "prefillNotice": "Your readiness plan has been attached to this quote request.",
       "disabledLabel": "Select at least one problem to unlock the reset quote path."
     }
   }

@@ -30,25 +30,25 @@ export function ResetDiagnosisReport({ title, subtitle, emptyState, modeLabel, p
   const suggestedUpgrades = result.suggestedUpgradeIds.map((id) => upgrades.find((upgrade) => upgrade.id === id)).filter((item): item is OptionalUpgrade => Boolean(item));
 
   return (
-    <div className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
+    <div className="rounded-[2rem] border border-[#E8D9C3] bg-white p-5 shadow-sm sm:p-6">
       <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#9b7b35]">{title}</p>
-          <h3 className="mt-3 text-3xl font-semibold tracking-[-0.055em] text-slate-950 sm:text-4xl">{hasProblems ? result.viewingKiller.riskLabel : "Quote-ready property diagnosis"}</h3>
-          <p className="mt-3 text-sm leading-6 text-slate-600">{hasProblems ? subtitle : emptyState}</p>
+          <p className="brand-label text-xs text-[#B08A3C]">{title}</p>
+          <h3 className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-[#0B342C] sm:text-4xl">{hasProblems ? result.viewingKiller.riskLabel : "Quote-ready property diagnosis"}</h3>
+          <p className="mt-3 text-sm leading-6 text-[#7A6B58]">{hasProblems ? subtitle : emptyState}</p>
         </div>
-        <div className="grid gap-3 rounded-[1.75rem] bg-[#f8f5ef] p-4 sm:grid-cols-3">
+        <div className="grid gap-3 rounded-[1.75rem] bg-[#F7F1E6] p-4 sm:grid-cols-3">
           <div>
-            <span className="text-[0.65rem] font-bold uppercase tracking-[0.22em] text-slate-500">Market-ready score</span>
-            <p className="mt-1 text-3xl font-semibold text-slate-950">{result.score}<span className="text-base text-slate-500">/100</span></p>
+            <span className="text-[0.65rem] font-bold uppercase tracking-[0.22em] text-[#7A6B58]">Market-ready score</span>
+            <p className="mt-1 text-3xl font-semibold text-[#0B342C]">{result.score}<span className="text-base text-[#7A6B58]">/100</span></p>
           </div>
           <div>
-            <span className="text-[0.65rem] font-bold uppercase tracking-[0.22em] text-slate-500">{modeLabel}</span>
-            <p className="mt-1 text-sm font-semibold text-slate-950">{mode.label}</p>
+            <span className="text-[0.65rem] font-bold uppercase tracking-[0.22em] text-[#7A6B58]">{modeLabel}</span>
+            <p className="mt-1 text-sm font-semibold text-[#0B342C]">{mode.label}</p>
           </div>
           <div>
-            <span className="text-[0.65rem] font-bold uppercase tracking-[0.22em] text-slate-500">{pathLabel}</span>
-            <p className="mt-1 text-sm font-semibold text-slate-950">{result.recommendedPackage}</p>
+            <span className="text-[0.65rem] font-bold uppercase tracking-[0.22em] text-[#7A6B58]">{pathLabel}</span>
+            <p className="mt-1 text-sm font-semibold text-[#0B342C]">{result.recommendedPackage}</p>
           </div>
         </div>
       </div>
@@ -59,23 +59,23 @@ export function ResetDiagnosisReport({ title, subtitle, emptyState, modeLabel, p
       </div>
 
       <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_1fr]">
-        <div className="rounded-[1.75rem] border border-slate-200 bg-[#f8f5ef] p-5">
-          <p className="text-[0.65rem] font-bold uppercase tracking-[0.24em] text-slate-500">{problemLabel}</p>
-          <p className="mt-3 break-words text-sm leading-6 text-slate-700">{hasProblems ? result.selectedProblems.map((item) => item.label).join(", ") : "Choose blockers to shape the reset path."}</p>
+        <div className="rounded-[1.75rem] border border-[#E8D9C3] bg-[#F7F1E6] p-5">
+          <p className="text-[0.65rem] font-bold uppercase tracking-[0.24em] text-[#7A6B58]">{problemLabel}</p>
+          <p className="mt-3 break-words text-sm leading-6 text-[#17352F]">{hasProblems ? result.selectedProblems.map((item) => item.label).join(", ") : "Choose blockers to shape the reset path."}</p>
         </div>
-        <div className="rounded-[1.75rem] border border-slate-200 bg-[#f8f5ef] p-5">
-          <p className="text-[0.65rem] font-bold uppercase tracking-[0.24em] text-slate-500">{upgradesLabel}</p>
+        <div className="rounded-[1.75rem] border border-[#E8D9C3] bg-[#F7F1E6] p-5">
+          <p className="text-[0.65rem] font-bold uppercase tracking-[0.24em] text-[#7A6B58]">{upgradesLabel}</p>
           <div className="mt-3 flex flex-wrap gap-2">
             {suggestedUpgrades.length ? suggestedUpgrades.map((upgrade) => (
-              <span key={upgrade.id} className="rounded-full bg-white px-3 py-2 text-xs font-semibold text-slate-800 shadow-sm">{upgrade.title}</span>
-            )) : <span className="text-sm leading-6 text-slate-600">Suggested upgrades appear after selecting blockers.</span>}
+              <span key={upgrade.id} className="rounded-full bg-white px-3 py-2 text-xs font-semibold text-[#17352F] shadow-sm">{upgrade.title}</span>
+            )) : <span className="text-sm leading-6 text-[#7A6B58]">Suggested upgrades appear after selecting blockers.</span>}
           </div>
         </div>
       </div>
 
-      <div className="mt-5 rounded-[1.75rem] border border-[#d7b56d]/40 bg-[#fff7df] p-5">
-        <p className="text-[0.65rem] font-bold uppercase tracking-[0.24em] text-[#9b7b35]">{whyLabel}</p>
-        <p className="mt-3 text-sm leading-6 text-slate-700">{result.whyThisMatters}</p>
+      <div className="mt-5 rounded-[1.75rem] border border-[#B99345]/40 bg-[#F7F1E6] p-5">
+        <p className="text-[0.65rem] font-bold uppercase tracking-[0.24em] text-[#B08A3C]">{whyLabel}</p>
+        <p className="mt-3 text-sm leading-6 text-[#17352F]">{result.whyThisMatters}</p>
       </div>
 
       <div className="mt-5">

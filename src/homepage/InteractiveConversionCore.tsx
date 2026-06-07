@@ -27,15 +27,16 @@ export function InteractiveConversionCore() {
   if (!config.visible) return null;
 
   return (
-    <section className="overflow-hidden bg-[#0f172a] px-4 py-16 text-white sm:px-6 lg:px-8 lg:py-20">
+    <section className="overflow-hidden bg-[#0B342C] px-4 py-16 text-[#F7F1E6] sm:px-6 lg:px-8 lg:py-20">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.32em] text-[#d7b56d]">{config.eyebrow}</p>
-            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.055em] sm:text-5xl lg:text-6xl">{config.title}</h2>
-            <p className="mt-5 max-w-2xl text-base leading-8 text-slate-300 sm:text-lg">{config.subtitle}</p>
+            <p className="brand-label text-xs text-[#B99345]">{config.eyebrow}</p>
+            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.035em] sm:text-5xl lg:text-6xl">{config.title}</h2>
+            <div className="my-5 h-px max-w-sm bg-gradient-to-r from-[#B99345] to-transparent" />
+            <p className="max-w-2xl text-base leading-8 text-[#E8D9C3] sm:text-lg">{config.subtitle}</p>
           </div>
-          <div className="grid gap-3 rounded-[2rem] border border-white/10 bg-white/[0.04] p-4 text-sm text-slate-300 sm:grid-cols-2">
+          <div className="grid gap-3 rounded-[2rem] border border-[#B99345]/30 bg-[#F7F1E6]/[0.06] p-4 text-sm text-[#E8D9C3] sm:grid-cols-2">
             <span>{config.steps.mode}</span>
             <span>{config.steps.problems}</span>
             <span>{config.steps.score}</span>

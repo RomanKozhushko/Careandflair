@@ -7,9 +7,9 @@ export function ResetPackagesSection() {
   const packages = visibleSorted(servicePackages);
 
   return (
-    <section id="packages" className="bg-slate-50 px-4 py-20 sm:px-6 lg:px-8">
+    <section id="packages" className="bg-[#F5EFE2] px-4 py-20 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <SectionHeader title={section.title} subtitle={section.subtitle} />
+        <SectionHeader eyebrow="Ready homes, tidy finish" title={section.title} subtitle={section.subtitle} />
         <div className="mt-10 grid gap-5 lg:grid-cols-3">
           {packages.map((item) => (
             <PackageCard key={item.id} item={item} />

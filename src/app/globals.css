@@ -1,8 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #0f172a;
+  --background: #F7F1E6;
+  --foreground: #17352F;
+  --brand-green: #0B342C;
+  --brand-green-soft: #17352F;
+  --brand-cream: #F7F1E6;
+  --brand-ivory: #F5EFE2;
+  --brand-beige: #E8D9C3;
+  --brand-gold: #B99345;
+  --brand-gold-dark: #B08A3C;
+  --brand-muted: #7A6B58;
+  --brand-white: #FFFFFF;
 }
 
 @theme inline {
@@ -22,13 +31,41 @@ html {
 }
 
 body {
-  background: var(--background);
+  background:
+    radial-gradient(circle at 12% -8%, rgba(185, 147, 69, 0.16), transparent 32%),
+    linear-gradient(180deg, var(--brand-cream) 0%, var(--brand-ivory) 48%, #fffaf2 100%);
   color: var(--foreground);
   overflow-x: clip;
 }
 
 a {
   text-underline-offset: 4px;
+}
+
+h1,
+h2,
+h3,
+.font-serif-brand {
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.brand-label {
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+.brand-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--brand-gold), transparent);
+}
+
+.arch-mask {
+  border-radius: 999px 999px 2rem 2rem;
+}
+
+.soft-wave-mask {
+  border-radius: 42% 58% 46% 54% / 34% 38% 62% 66%;
 }
 
 .premium-hero-visual {
@@ -86,14 +123,14 @@ a {
     inset: 0;
     z-index: -1;
     border-radius: inherit;
-    background: linear-gradient(135deg, rgba(215, 181, 109, 0.18), transparent 34%, rgba(15, 23, 42, 0.06));
+    background: linear-gradient(135deg, rgba(185, 147, 69, 0.16), transparent 34%, rgba(11, 52, 44, 0.05));
     opacity: 0;
     transition: opacity 220ms ease;
   }
 
   .premium-depth-card:hover {
-    border-color: rgba(215, 181, 109, 0.45);
-    box-shadow: 0 18px 46px rgba(15, 23, 42, 0.1);
+    border-color: rgba(185, 147, 69, 0.45);
+    box-shadow: 0 18px 46px rgba(11, 52, 44, 0.1);
     filter: saturate(1.02);
   }
 

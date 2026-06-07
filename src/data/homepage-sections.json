@@ -5,52 +5,52 @@
     "visible": true,
     "order": 1,
     "eyebrow": "Property Turnover & Maintenance Specialist",
-    "headline": "Make Your Property Ready in 24-72 Hours",
-    "subheadline": "Fast cleaning, cosmetic repairs and presentation upgrades for landlords, agents and Airbnb hosts across Bromley, South East London and Kent.",
+    "headline": "We prepare properties so clients can move in immediately",
+    "subheadline": "Property turnover, setup and maintenance for landlords, agents, Airbnb hosts and busy families.",
     "primaryCtaId": "build-your-quote",
     "secondaryCtaId": "view-reset-packages",
     "trustBadges": [
-      "24-72h readiness",
-      "Cleaning + minor maintenance in one visit",
-      "Built for landlords, agents & Airbnb hosts",
-      "Bromley, South East London & Kent"
+      "48-hour property readiness",
+      "Turnover, setup and maintenance in one visit",
+      "For landlords, agents, Airbnb hosts and families",
+      "Bromley, South East London, Kent & Medway"
     ],
     "heroImage": "/images/generated/hero-living-room-reset.jpg",
     "visualSteps": [
-      "Clean",
+      "Assess",
       "Repair",
-      "Present",
+      "Set up",
       "Ready"
     ],
     "visualProofs": [
       {
-        "label": "Interior reset",
-        "title": "Viewing-ready rooms",
-        "description": "Deep clean, detail work and presentation fixes for photos and viewings.",
+        "label": "Ready home",
+        "title": "Soft, tidy living spaces",
+        "description": "Furniture positioned, essentials fitted and rooms prepared for immediate move-in.",
         "image": "/images/generated/hero-living-room-reset.jpg"
       },
       {
-        "label": "Wet areas",
+        "label": "Fresh finish",
         "title": "Bathroom recovery",
-        "description": "Descaling, silicone refresh, grout detail and hygiene-focused reset.",
+        "description": "Detail cleaning, small repairs and hygiene-focused presentation before handover.",
         "image": "/images/generated/bathroom-before-after.jpg"
       },
       {
-        "label": "Kerb appeal",
-        "title": "Exterior first impression",
-        "description": "Driveway, patio and entrance cleaning for a sharper arrival moment.",
+        "label": "First impression",
+        "title": "Exterior arrival moment",
+        "description": "Entrances, patios and outdoor areas reset so the property feels cared for.",
         "image": "/images/generated/driveway-before-after.jpg"
       }
     ],
-    "heroImageAlt": "Make Your Property Ready in 24-72 Hours hero visual"
+    "heroImageAlt": "Care & Flair ready home interior after property preparation"
   },
   {
     "id": "reset-packages",
     "type": "packages",
     "visible": true,
     "order": 2,
-    "title": "The Reset Packages",
-    "subtitle": "Choose the level of preparation your property needs."
+    "title": "Property Readiness Packages",
+    "subtitle": "Choose the level of turnover, setup and maintenance your property needs before move-in, viewing or handover."
   },
   {
     "id": "flair-solutions",
@@ -58,7 +58,7 @@
     "visible": true,
     "order": 3,
     "title": "Flair Solutions",
-    "subtitle": "Targeted upgrades that improve first impressions, hygiene and market readiness."
+    "subtitle": "Calm, practical finishing services for a ready home: setup, fittings, repairs, resets and presentation details."
   },
   {
     "id": "how-it-works",
@@ -66,23 +66,23 @@
     "visible": true,
     "order": 4,
     "title": "How It Works",
-    "subtitle": "A simple route from property condition to viewing-ready presentation.",
+    "subtitle": "A simple route from tired or unfinished property to move-in ready presentation.",
     "steps": [
       {
-        "title": "Send property details",
-        "description": "Share the property type, postcode, urgency and photos when available."
+        "title": "Share the property",
+        "description": "Send property type, postcode, deadline and photos where possible."
       },
       {
-        "title": "Choose reset level",
-        "description": "Pick 24h, 48h or 72h based on condition, deadline and presentation goal."
+        "title": "Build the reset",
+        "description": "Select the readiness package and any essentials: furniture, fittings, curtains, TV, kitchen or living setup."
       },
       {
-        "title": "We clean, repair and prepare",
-        "description": "Cleaning, minor maintenance and presentation fixes are coordinated together."
+        "title": "We prepare the home",
+        "description": "Handyman repairs, flat-pack assembly, wall mounting, cleaning and arrangement are coordinated together."
       },
       {
-        "title": "Property ready for viewing, tenant or guest",
-        "description": "The property is prepared for photos, handover, viewing or short-let turnaround."
+        "title": "Ready for move-in",
+        "description": "The property is left tidy, finished and prepared for tenants, guests, viewings or family handover."
       }
     ]
   },
@@ -91,8 +91,8 @@
     "type": "beforeAfter",
     "visible": true,
     "order": 5,
-    "title": "Before & After Preview",
-    "subtitle": "Visual transformation cards for resets, hygiene recovery and presentation upgrades."
+    "title": "Before & After Proof",
+    "subtitle": "Real transformation stories framed around readiness, tidy finish and reduced stress."
   },
   {
     "id": "guardian-plans",
@@ -108,7 +108,7 @@
     "visible": true,
     "order": 7,
     "title": "Areas Served",
-    "subtitle": "Local property reset support across our core operating area."
+    "subtitle": "Local property turnover and maintenance support across our core operating area."
   },
   {
     "id": "faq",
@@ -123,8 +123,8 @@
     "type": "cta",
     "visible": true,
     "order": 9,
-    "title": "Need a property ready fast?",
-    "subtitle": "Start with a guided quote and choose the package that fits the condition, timeline and property type.",
+    "title": "Need the property ready without the stress?",
+    "subtitle": "Build a clear readiness plan for turnover, setup, repairs and final presentation.",
     "primaryCtaId": "build-my-property-reset-quote"
   }
 ]

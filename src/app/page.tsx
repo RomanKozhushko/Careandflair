@@ -18,7 +18,7 @@ const BeforeAfterPreview = dynamic(() => import("@/homepage/BeforeAfterPreview")
 
 export default function Home() {
   return (
-    <div className="min-h-screen overflow-x-clip bg-white text-slate-950">
+    <div className="min-h-screen overflow-x-clip bg-[#F7F1E6] text-[#17352F]">
       <Header />
       <main>
         <HeroSection />
