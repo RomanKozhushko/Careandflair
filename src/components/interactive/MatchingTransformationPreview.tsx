@@ -75,7 +75,7 @@ export function MatchingTransformationPreview({ label, result, fallbackTitle, fa
           <p className="text-[0.65rem] font-bold uppercase tracking-[0.24em] text-[#746754]">{label}</p>
           <p className="mt-2 text-sm font-semibold brass-text">{category}</p>
         </div>
-        <Link href={quoteHref} className="inline-flex shrink-0 items-center justify-center rounded-full bg-[#0a2a24] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#14241F]">
+        <Link href={quoteHref} className="inline-flex shrink-0 items-center justify-center rounded-full brass-fill px-4 py-2 text-xs font-semibold text-[#061A17] transition hover:brightness-105">
           Quote this fix
         </Link>
       </div>

@@ -31,7 +31,7 @@ export default function BeforeAfterPage() {
                 <h1 className="max-w-4xl text-5xl font-semibold tracking-[-0.04em] sm:text-6xl">Visual proof for property readiness.</h1>
                 <p className="mt-6 max-w-2xl text-lg leading-8 text-[#E6D6BD]">Browse transformation examples for bathrooms, kitchens, mould recovery, carpets, kerb appeal, windows and full property resets across Bromley, South East London, Kent and Medway.</p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                  <Link href="#gallery" className="inline-flex justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#0a2a24] ring-1 ring-[#b07e33]/25 transition hover:bg-[#f5ecdc]">Browse Gallery</Link>
+                  <Link href="#gallery" className="inline-flex justify-center rounded-full brass-fill px-6 py-3 text-sm font-semibold text-[#061A17] transition hover:brightness-105">Browse Gallery</Link>
                   <Link href="/quote" className="inline-flex justify-center rounded-full border border-[#b07e33]/35 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10">Get Quote for Similar Result</Link>
                 </div>
               </div>
@@ -62,7 +62,7 @@ export default function BeforeAfterPage() {
               <p className="brand-label text-xs brass-text">Need a similar result?</p>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight">Get Quote for Similar Result</h2>
               <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-[#E6D6BD]">Send the property details, condition and deadline. We’ll help match the right reset package or visual upgrade.</p>
-              <Link href="/quote" className="mt-6 inline-flex rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#0a2a24] ring-1 ring-[#b07e33]/20 transition hover:bg-[#f5ecdc]">
+              <Link href="/quote" className="mt-6 inline-flex rounded-full brass-fill px-6 py-3 text-sm font-semibold text-[#061A17] transition hover:brightness-105">
                 Get Quote for Similar Result
               </Link>
             </div>

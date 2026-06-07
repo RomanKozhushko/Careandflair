@@ -110,7 +110,7 @@ export function QuoteBuilder() {
           <button type="button" onClick={back} disabled={stepIndex === 0 || submitted} className="rounded-full border border-[#E6D6BD] px-5 py-3 text-sm font-semibold text-[#746754] transition hover:border-[#b07e33]/45 disabled:cursor-not-allowed disabled:opacity-40">{config.actions.back}</button>
           <div className="flex gap-3">
             {submitted ? <button type="button" onClick={reset} className="rounded-full border border-[#E6D6BD] px-5 py-3 text-sm font-semibold text-[#746754] transition hover:border-[#b07e33]/45">{config.actions.startAgain}</button> : null}
-            {!submitted && stepIndex < config.steps.length - 1 ? <button type="button" onClick={next} disabled={!canContinue()} className="rounded-full bg-[#0a2a24] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#14241F] disabled:cursor-not-allowed disabled:opacity-40">{config.actions.next}</button> : null}
+            {!submitted && stepIndex < config.steps.length - 1 ? <button type="button" onClick={next} disabled={!canContinue()} className="rounded-full brass-fill px-6 py-3 text-sm font-semibold text-[#061A17] transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-40">{config.actions.next}</button> : null}
             {!submitted && stepIndex === config.steps.length - 1 ? <button type="button" onClick={submit} disabled={!canContinue()} className="rounded-full bg-[#0a2a24] px-6 py-3 text-sm font-semibold text-white ring-1 ring-[#b07e33]/20 transition hover:bg-[#14241F] disabled:cursor-not-allowed disabled:opacity-40">{config.actions.submit}</button> : null}
           </div>
         </div>

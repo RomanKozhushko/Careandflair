@@ -23,7 +23,7 @@ export function InteractiveCTA({ href, label, helper, disabledLabel, disabled = 
         <p className="font-semibold text-[#0a2a24]">Ready to price the reset?</p>
         <p className="mt-1 text-sm leading-6 text-[#746754]">{helper}</p>
       </div>
-      <Link href={href} className="mt-4 inline-flex w-full items-center justify-center rounded-full bg-[#0a2a24] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#14241F] sm:mt-0 sm:w-auto">
+      <Link href={href} className="mt-4 inline-flex w-full items-center justify-center rounded-full brass-fill px-6 py-3 text-sm font-semibold text-[#061A17] transition hover:brightness-105 sm:mt-0 sm:w-auto">
         {label}
       </Link>
     </div>

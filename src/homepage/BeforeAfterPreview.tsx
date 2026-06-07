@@ -33,10 +33,10 @@ export function BeforeAfterPreview() {
               <p><span className="font-semibold text-[#0a2a24]">Result:</span> {strongestItem.result}</p>
             </div>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              <Link href="/before-after" className="inline-flex justify-center rounded-full bg-[#0a2a24] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#14241F]">
+              <Link href="/before-after" className="inline-flex justify-center rounded-full brass-fill px-6 py-3 text-sm font-semibold text-[#061A17] transition hover:brightness-105">
                 View Transformations
               </Link>
-              <Link href={visualCtaHref(strongestItem.ctaPreset)} className="inline-flex justify-center rounded-full border border-[#b07e33]/35 bg-white px-6 py-3 text-sm font-semibold text-[#0a2a24] transition hover:bg-[#f5ecdc]">
+              <Link href={visualCtaHref(strongestItem.ctaPreset)} className="inline-flex justify-center rounded-full brass-fill px-6 py-3 text-sm font-semibold text-[#061A17] transition hover:brightness-105">
                 Get Quote for Similar Result
               </Link>
             </div>

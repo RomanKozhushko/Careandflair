@@ -29,7 +29,7 @@ export function BeforeAfterCard({ item }: BeforeAfterCardProps) {
           <p><span className="font-semibold text-[#0a2a24]">Problem:</span> {item.problem}</p>
           <p><span className="font-semibold text-[#0a2a24]">Result:</span> {item.result}</p>
         </div>
-        <Link href={visualCtaHref(item.ctaPreset)} className="mt-auto inline-flex w-full items-center justify-center rounded-full bg-[#0a2a24] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#14241F]">
+        <Link href={visualCtaHref(item.ctaPreset)} className="mt-auto inline-flex w-full items-center justify-center rounded-full brass-fill px-5 py-3 text-sm font-semibold text-[#061A17] transition hover:brightness-105">
           {item.ctaLabel}
         </Link>
       </div>
