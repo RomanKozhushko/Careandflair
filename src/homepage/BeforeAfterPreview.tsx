@@ -24,7 +24,7 @@ export function BeforeAfterPreview() {
         <div className="mt-8 grid gap-8 overflow-hidden rounded-[2rem] border border-[#E6D6BD] bg-white p-4 shadow-md shadow-[#0a2a24]/5 sm:p-6 lg:grid-cols-[1.12fr_0.88fr] lg:items-center">
           <BeforeAfterSlider item={strongestItem} />
           <div className="p-2 sm:p-4">
-            <p className="brand-label text-xs text-[#b07e33]">Strongest visual proof</p>
+            <p className="brand-label text-xs brass-text">Strongest visual proof</p>
             <h3 className="mt-3 text-3xl font-semibold tracking-tight text-[#0a2a24]">{strongestItem.title}</h3>
             <p className="mt-2 text-sm font-semibold uppercase tracking-[0.16em] text-[#746754]">{strongestItem.category} · {strongestItem.location}</p>
             <div className="mt-5 grid gap-3 text-sm leading-6 text-[#746754]">

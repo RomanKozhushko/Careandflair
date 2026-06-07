@@ -33,7 +33,7 @@ export function AdminDashboard({ sections, stats, activeRoutes }: AdminDashboard
     <section id="dashboard" className="scroll-mt-6 rounded-[2rem] border border-[#E6D6BD] bg-white p-5 shadow-sm sm:p-6">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div>
-          <p className="brand-label text-xs text-[#b07e33]">Phase 3</p>
+          <p className="brand-label text-xs brass-text">Phase 3</p>
           <h1 className="mt-2 text-3xl font-bold tracking-tight text-[#0a2a24] sm:text-4xl">Admin MVP Foundation</h1>
           <p className="mt-3 max-w-3xl text-sm leading-6 text-[#746754]">Preview local JSON content and admin information architecture before Phase 3.1 editable admin work.</p>
         </div>

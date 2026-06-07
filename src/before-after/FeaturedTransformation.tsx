@@ -13,7 +13,7 @@ export function FeaturedTransformation({ item }: FeaturedTransformationProps) {
       <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
         <BeforeAfterSlider item={item} />
         <div>
-          <p className="brand-label text-xs text-[#b07e33]">Featured transformation</p>
+          <p className="brand-label text-xs brass-text">Featured transformation</p>
           <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">{item.title}</h2>
           <p className="mt-3 text-sm font-semibold uppercase tracking-[0.18em] text-[#E6D6BD]">{item.category} · {item.location}</p>
           <div className="mt-6 grid gap-4 text-sm leading-7 text-[#E6D6BD]">

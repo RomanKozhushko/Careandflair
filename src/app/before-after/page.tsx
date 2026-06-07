@@ -25,7 +25,7 @@ export default function BeforeAfterPage() {
         <section className="relative overflow-hidden bg-[#0a2a24] px-4 py-20 text-white sm:px-6 lg:px-8 lg:py-24">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(176,126,51,0.10),transparent_30%),radial-gradient(circle_at_80%_20%,rgba(255,255,255,0.055),transparent_24%)]" />
           <div className="relative mx-auto max-w-7xl">
-            <p className="brand-label text-xs text-[#b07e33]">Before & After Gallery</p>
+            <p className="brand-label text-xs brass-text">Before & After Gallery</p>
             <div className="mt-5 grid gap-8 lg:grid-cols-[0.9fr_0.7fr] lg:items-end">
               <div>
                 <h1 className="max-w-4xl text-5xl font-semibold tracking-[-0.04em] sm:text-6xl">Visual proof for property readiness.</h1>
@@ -59,7 +59,7 @@ export default function BeforeAfterPage() {
             <BeforeAfterCarousel items={items} />
             <BeforeAfterGrid items={items} />
             <div className="rounded-[2rem] border border-[#b07e33]/18 bg-[#061A17] p-8 text-center text-white lg:p-10">
-              <p className="brand-label text-xs text-[#b07e33]">Need a similar result?</p>
+              <p className="brand-label text-xs brass-text">Need a similar result?</p>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight">Get Quote for Similar Result</h2>
               <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-[#E6D6BD]">Send the property details, condition and deadline. We’ll help match the right reset package or visual upgrade.</p>
               <Link href="/quote" className="mt-6 inline-flex rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#0a2a24] ring-1 ring-[#b07e33]/20 transition hover:bg-[#f5ecdc]">

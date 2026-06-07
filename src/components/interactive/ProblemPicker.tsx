@@ -21,7 +21,7 @@ export function ProblemPicker({ title, subtitle, summaryLabel, emptySummary, pro
           <p className="mt-2 max-w-2xl text-sm leading-6 text-[#746754]">{subtitle}</p>
         </div>
         <div className="rounded-2xl bg-[#0a2a24] px-4 py-3 text-sm font-semibold text-white sm:max-w-64">
-          <span className="block text-[0.65rem] uppercase tracking-[0.22em] text-[#b07e33]">{summaryLabel}</span>
+          <span className="block text-[0.65rem] uppercase tracking-[0.22em] brass-text">{summaryLabel}</span>
           <span className="mt-1 block break-words text-xs leading-5 text-[#E6D6BD]">{selectedProblems.length ? selectedProblems.map((item) => item.label).join(", ") : emptySummary}</span>
         </div>
       </div>
@@ -38,7 +38,7 @@ export function ProblemPicker({ title, subtitle, summaryLabel, emptySummary, pro
             >
               <span className="flex items-center justify-between gap-3">
                 <span className="font-semibold">{problem.label}</span>
-                <span className={`grid h-6 w-6 shrink-0 place-items-center rounded-full border text-xs ${selected ? "border-[#b07e33] bg-[#b07e33] text-white" : "border-[#E6D6BD] text-[#746754]"}`}>{selected ? "✓" : "+"}</span>
+                <span className={`grid h-6 w-6 shrink-0 place-items-center rounded-full border text-xs ${selected ? "border-[#b07e33] brass-fill text-white" : "border-[#E6D6BD] text-[#746754]"}`}>{selected ? "✓" : "+"}</span>
               </span>
               <span className={`mt-2 block text-sm leading-6 ${selected ? "text-[#E6D6BD]" : "text-[#746754]"}`}>{problem.description}</span>
             </button>

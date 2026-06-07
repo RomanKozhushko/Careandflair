@@ -33,7 +33,7 @@ export function ResetDiagnosisReport({ title, subtitle, emptyState, modeLabel, p
     <div className="rounded-[2rem] border border-[#E6D6BD] bg-white p-5 shadow-sm sm:p-6">
       <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
         <div>
-          <p className="brand-label text-xs text-[#b07e33]">{title}</p>
+          <p className="brand-label text-xs brass-text">{title}</p>
           <h3 className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-[#0a2a24] sm:text-4xl">{hasProblems ? result.viewingKiller.riskLabel : "Quote-ready property diagnosis"}</h3>
           <p className="mt-3 text-sm leading-6 text-[#746754]">{hasProblems ? subtitle : emptyState}</p>
         </div>
@@ -74,7 +74,7 @@ export function ResetDiagnosisReport({ title, subtitle, emptyState, modeLabel, p
       </div>
 
       <div className="mt-5 rounded-[1.75rem] border border-[#b07e33]/40 bg-[#f5ecdc] p-5">
-        <p className="text-[0.65rem] font-bold uppercase tracking-[0.24em] text-[#b07e33]">{whyLabel}</p>
+        <p className="text-[0.65rem] font-bold uppercase tracking-[0.24em] brass-text">{whyLabel}</p>
         <p className="mt-3 text-sm leading-6 text-[#14241F]">{result.whyThisMatters}</p>
       </div>
 

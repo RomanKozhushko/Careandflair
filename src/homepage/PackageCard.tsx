@@ -20,7 +20,7 @@ export function PackageCard({ item }: PackageCardProps) {
             <p className="brand-label text-xs text-[#F7DFA6]">{item.slogan}</p>
             <h3 className="mt-2 text-2xl font-semibold tracking-tight text-white">{item.name}</h3>
           </div>
-          {item.featured ? <span className="shrink-0 rounded-full bg-[#b07e33] px-3 py-1 text-xs font-bold text-white">Recommended</span> : null}
+          {item.featured ? <span className="shrink-0 rounded-full brass-fill px-3 py-1 text-xs font-bold text-white">Recommended</span> : null}
         </div>
       </div>
 
@@ -36,15 +36,15 @@ export function PackageCard({ item }: PackageCardProps) {
 
         {item.proofDetails?.length ? (
           <div className={`mt-5 rounded-2xl border p-4 ${item.featured ? "border-[#b07e33]/30 bg-white/[0.06]" : "border-[#E6D6BD] bg-[#f5ecdc]"}`}>
-            <p className={`brand-label text-xs ${item.featured ? "text-[#b07e33]" : "text-[#b07e33]"}`}>Proof details</p>
+            <p className={`brand-label text-xs ${item.featured ? "brass-text" : "brass-text"}`}>Proof details</p>
             <ul className={`mt-3 grid gap-2 text-sm ${item.featured ? "text-[#E6D6BD]" : "text-[#746754]"}`}>
-              {item.proofDetails.map((detail) => <li key={detail} className="flex gap-2"><span className="text-[#b07e33]">—</span>{detail}</li>)}
+              {item.proofDetails.map((detail) => <li key={detail} className="flex gap-2"><span className="brass-text">—</span>{detail}</li>)}
             </ul>
           </div>
         ) : null}
 
         <ul className={`mt-6 grid gap-2 text-sm ${item.featured ? "text-[#E6D6BD]" : "text-[#746754]"}`}>
-          {item.includedServices.map((service) => <li key={service} className="flex gap-2"><span className="text-[#b07e33]">—</span>{service}</li>)}
+          {item.includedServices.map((service) => <li key={service} className="flex gap-2"><span className="brass-text">—</span>{service}</li>)}
         </ul>
         <div className="mt-auto pt-6"><CtaButton cta={cta} variant={item.featured ? "primary" : "dark"} className="w-full" /></div>
       </div>

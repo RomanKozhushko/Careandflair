@@ -12,7 +12,7 @@ export function PriorityFixList({ label, fixes }: PriorityFixListProps) {
       <div className="mt-4 grid gap-3">
         {fixes.length ? fixes.map((fix, index) => (
           <div key={fix.id} className="grid grid-cols-[2rem_1fr] gap-3 rounded-2xl bg-[#f5ecdc] p-4">
-            <span className="grid h-8 w-8 place-items-center rounded-full bg-[#0a2a24] text-sm font-bold text-[#b07e33]">{index + 1}</span>
+            <span className="grid h-8 w-8 place-items-center rounded-full bg-[#0a2a24] text-sm font-bold brass-text">{index + 1}</span>
             <div>
               <p className="font-semibold text-[#0a2a24]">{fix.label}</p>
               <p className="mt-1 text-sm leading-6 text-[#746754]">{fix.recommendedAction}</p>

@@ -9,7 +9,7 @@ export function AdminSidebar({ sections }: AdminSidebarProps) {
   return (
     <aside className="lg:sticky lg:top-6 lg:h-[calc(100vh-3rem)]">
       <div className="rounded-[2rem] border border-[#b07e33]/20 bg-[#061A17] p-5 text-white shadow-xl shadow-[#061A17]/10">
-        <p className="brand-label text-xs text-[#b07e33]">Care & Flair</p>
+        <p className="brand-label text-xs brass-text">Care & Flair</p>
         <h2 className="mt-2 text-2xl font-bold tracking-tight">Admin MVP</h2>
         <p className="mt-3 text-sm leading-6 text-[#E6D6BD]">Local JSON preview foundation. Editing, auth and database integration come later.</p>
         <div className="mt-4 flex flex-wrap gap-2">

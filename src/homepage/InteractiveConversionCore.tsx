@@ -31,7 +31,7 @@ export function InteractiveConversionCore() {
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
           <div>
-            <p className="brand-label text-xs text-[#b07e33]">{config.eyebrow}</p>
+            <p className="brand-label text-xs brass-text">{config.eyebrow}</p>
             <h2 className="mt-4 text-4xl font-semibold tracking-[-0.035em] sm:text-5xl lg:text-6xl">{config.title}</h2>
             <div className="my-5 h-px max-w-sm bg-gradient-to-r from-[#b07e33] to-transparent" />
             <p className="max-w-2xl text-base leading-8 text-[#E6D6BD] sm:text-lg">{config.subtitle}</p>

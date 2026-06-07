@@ -22,7 +22,7 @@ export function BeforeAfterCard({ item }: BeforeAfterCardProps) {
       </div>
 
       <div className="flex flex-1 flex-col p-5">
-        <p className="brand-label text-xs text-[#b07e33]">{item.category} · {item.location}</p>
+        <p className="brand-label text-xs brass-text">{item.category} · {item.location}</p>
         <h3 className="mt-3 text-xl font-semibold text-[#0a2a24]">{item.title}</h3>
         <p className="mt-2 text-sm font-semibold text-[#746754]">{item.propertyType} · {item.serviceType}</p>
         <div className="mt-4 grid gap-2 text-sm leading-6 text-[#746754]">

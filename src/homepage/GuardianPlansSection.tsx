@@ -18,7 +18,7 @@ export function GuardianPlansSection() {
           <div className="grid gap-4 md:grid-cols-3">
             {plans.map((plan) => (
               <article key={plan.id} className={`rounded-[1.5rem] border p-5 ${plan.recommended ? "border-[#b07e33] bg-[#f5ecdc] text-[#0a2a24]" : "border-[#b07e33]/25 bg-white/[0.05] text-[#f5ecdc]"}`}>
-                {plan.recommended ? <p className="mb-3 brand-label text-xs text-[#b07e33]">Recommended</p> : null}
+                {plan.recommended ? <p className="mb-3 brand-label text-xs brass-text">Recommended</p> : null}
                 <h3 className="text-xl font-semibold">{plan.name}</h3>
                 <p className={`mt-3 text-sm leading-6 ${plan.recommended ? "text-[#746754]" : "text-[#E6D6BD]"}`}>{plan.description}</p>
                 <ul className={`mt-5 grid gap-2 text-sm ${plan.recommended ? "text-[#14241F]" : "text-[#E6D6BD]"}`}>

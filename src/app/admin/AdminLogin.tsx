@@ -34,7 +34,7 @@ export default function AdminLogin({ passwordConfigured }: { passwordConfigured:
   return (
     <main className="flex min-h-screen items-center justify-center bg-[#061A17] px-4 text-[#f5ecdc]">
       <section className="w-full max-w-lg rounded-3xl border border-[#b07e33]/20 bg-[#0a2a24] p-6 shadow-2xl shadow-black/30">
-        <p className="brand-label text-sm text-[#b07e33]">Admin locked</p>
+        <p className="brand-label text-sm brass-text">Admin locked</p>
         <h1 className="mt-3 text-3xl font-bold tracking-tight text-white">Care & Flair Admin</h1>
         <p className="mt-3 text-[#E6D6BD]">
           {passwordConfigured

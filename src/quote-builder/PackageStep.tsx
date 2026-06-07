@@ -20,7 +20,7 @@ export function PackageStep({ config, packages, selectedId, onSelect }: PackageS
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="text-lg font-semibold text-[#0a2a24]">{item.name}</p>
-                  <p className="mt-1 text-sm font-medium text-[#b07e33]">{item.slogan}</p>
+                  <p className="mt-1 text-sm font-medium brass-text">{item.slogan}</p>
                 </div>
                 <span className="rounded-full bg-[#0a2a24] px-3 py-1 text-xs font-bold text-white">{formatPounds(item.startingPrice)}</span>
               </div>

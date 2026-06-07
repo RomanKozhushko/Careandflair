@@ -16,7 +16,7 @@ const toneStyles = {
 export function ScoreCard({ title, caption, result }: ScoreCardProps) {
   return (
     <div className="h-full rounded-[2rem] border border-[#b07e33]/25 bg-[#14241F] p-5 text-white shadow-2xl shadow-black/20">
-      <p className="brand-label text-xs text-[#b07e33]">{title}</p>
+      <p className="brand-label text-xs brass-text">{title}</p>
       <div className={`mt-5 rounded-[1.5rem] bg-gradient-to-br ${toneStyles[result.band.tone]} p-5`}>
         <div className="flex items-end justify-between gap-4">
           <span className="text-6xl font-semibold tracking-[-0.08em]">{result.score}</span>

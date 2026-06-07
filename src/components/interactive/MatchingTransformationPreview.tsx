@@ -73,7 +73,7 @@ export function MatchingTransformationPreview({ label, result, fallbackTitle, fa
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">
           <p className="text-[0.65rem] font-bold uppercase tracking-[0.24em] text-[#746754]">{label}</p>
-          <p className="mt-2 text-sm font-semibold text-[#b07e33]">{category}</p>
+          <p className="mt-2 text-sm font-semibold brass-text">{category}</p>
         </div>
         <Link href={quoteHref} className="inline-flex shrink-0 items-center justify-center rounded-full bg-[#0a2a24] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#14241F]">
           Quote this fix
@@ -87,7 +87,7 @@ export function MatchingTransformationPreview({ label, result, fallbackTitle, fa
         </div>
         <div className="min-w-0">
           <h4 className="break-words text-2xl font-semibold tracking-[-0.04em] text-[#0a2a24]">{title}</h4>
-          <p className="mt-2 text-sm font-semibold text-[#b07e33]">{serviceType}</p>
+          <p className="mt-2 text-sm font-semibold brass-text">{serviceType}</p>
           <div className="mt-4 grid gap-3 text-sm leading-6 text-[#746754]">
             <p><span className="font-semibold text-[#0a2a24]">Problem:</span> {problem}</p>
             <p><span className="font-semibold text-[#0a2a24]">Solution:</span> {solution}</p>

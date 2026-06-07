@@ -57,7 +57,7 @@ export function BeforeAfterCarousel({ items }: BeforeAfterCarouselProps) {
     <section>
       <div className="mb-5 flex items-end justify-between gap-4">
         <div>
-          <p className="brand-label text-xs text-[#b07e33]">Visual proof carousel</p>
+          <p className="brand-label text-xs brass-text">Visual proof carousel</p>
           <h2 className="mt-2 text-2xl font-semibold tracking-tight text-[#0a2a24]">Featured transformations first</h2>
         </div>
         <div className="hidden gap-2 lg:flex">

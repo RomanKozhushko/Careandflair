@@ -13,7 +13,7 @@ export function CTASection() {
           <div className="pointer-events-none absolute -bottom-28 left-1/3 hidden h-48 w-48 rounded-full bg-white/10 blur-3xl sm:block" />
           <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
-              <p className="brand-label text-xs text-[#b07e33]">{siteSettings.brandLine}</p>
+              <p className="brand-label text-xs brass-text">{siteSettings.brandLine}</p>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">{section.title}</h2>
               <p className="mt-4 max-w-2xl text-base leading-7 text-[#E6D6BD]">{section.subtitle}</p>
             </div>

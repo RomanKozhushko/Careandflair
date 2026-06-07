@@ -10,7 +10,7 @@ type ModeSwitchProps = {
 export function ModeSwitch({ title, modes, selectedId, onSelect }: ModeSwitchProps) {
   return (
     <div className="rounded-[2rem] border border-[#b07e33]/25 bg-[#f5ecdc]/[0.06] p-4 shadow-2xl shadow-black/20 sm:p-5">
-      <p className="brand-label text-xs text-[#b07e33]">{title}</p>
+      <p className="brand-label text-xs brass-text">{title}</p>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         {modes.map((mode) => {
           const selected = mode.id === selectedId;

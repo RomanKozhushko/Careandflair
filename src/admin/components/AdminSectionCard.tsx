@@ -18,7 +18,7 @@ export function AdminSectionCard({ section, children }: AdminSectionCardProps) {
     <section id={section.id} className="scroll-mt-6 rounded-[2rem] border border-[#E6D6BD] bg-white p-5 shadow-sm sm:p-6">
       <div className="flex flex-col gap-4 border-b border-[#E6D6BD] pb-5 lg:flex-row lg:items-start lg:justify-between">
         <div>
-          <p className="brand-label text-xs text-[#b07e33]">{section.fileName}</p>
+          <p className="brand-label text-xs brass-text">{section.fileName}</p>
           <h2 className="mt-2 text-2xl font-bold tracking-tight text-[#0a2a24]">{section.label}</h2>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-[#746754]">{section.description}</p>
         </div>

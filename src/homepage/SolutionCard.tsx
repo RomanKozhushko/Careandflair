@@ -19,7 +19,7 @@ export function SolutionCard({ item }: SolutionCardProps) {
         <div className="absolute inset-0 bg-gradient-to-t from-[#0a2a24]/78 via-[#0a2a24]/10 to-transparent" />
         <div className="absolute left-4 top-4 flex flex-wrap gap-2">
           <span className="rounded-full bg-[#f5ecdc]/95 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-[#0a2a24]">{item.category}</span>
-          {item.featured ? <span className="rounded-full bg-[#b07e33] px-3 py-1 text-xs font-bold text-white">Featured</span> : null}
+          {item.featured ? <span className="rounded-full brass-fill px-3 py-1 text-xs font-bold text-white">Featured</span> : null}
         </div>
         <div className="absolute bottom-4 left-4 right-4">
           <p className="brand-label text-xs text-[#F7DFA6]">{item.serviceType}</p>
@@ -39,7 +39,7 @@ export function SolutionCard({ item }: SolutionCardProps) {
       </div>
 
       <div className="flex flex-1 flex-col p-5">
-        <p className="brand-label text-xs text-[#b07e33]">{item.location}</p>
+        <p className="brand-label text-xs brass-text">{item.location}</p>
         <div className="mt-4 grid gap-3 text-sm leading-6 text-[#746754]">
           <p><span className="font-semibold text-[#0a2a24]">Problem:</span> {item.problem}</p>
           <p><span className="font-semibold text-[#0a2a24]">Solution:</span> {item.solution}</p>
