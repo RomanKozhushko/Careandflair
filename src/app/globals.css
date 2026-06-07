@@ -1,16 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  --background: #F7F1E6;
-  --foreground: #17352F;
-  --brand-green: #0B342C;
-  --brand-green-soft: #17352F;
-  --brand-cream: #F7F1E6;
-  --brand-ivory: #F5EFE2;
-  --brand-beige: #E8D9C3;
-  --brand-gold: #B99345;
-  --brand-gold-dark: #B08A3C;
-  --brand-muted: #7A6B58;
+  --background: #f5ecdc;
+  --foreground: #14241F;
+  --brand-green: #0a2a24;
+  --brand-dark-green: #061A17;
+  --brand-ivory: #f5ecdc;
+  --brand-beige: #E6D6BD;
+  --brand-gold: #b07e33;
+  --brand-muted: #746754;
   --brand-white: #FFFFFF;
 }
 
@@ -32,8 +30,8 @@ html {
 
 body {
   background:
-    radial-gradient(circle at 12% -8%, rgba(185, 147, 69, 0.16), transparent 32%),
-    linear-gradient(180deg, var(--brand-cream) 0%, var(--brand-ivory) 48%, #fffaf2 100%);
+    radial-gradient(circle at 18% -10%, rgba(176, 126, 51, 0.08), transparent 30%),
+    linear-gradient(180deg, var(--brand-ivory) 0%, #fbf6ee 44%, var(--brand-ivory) 100%);
   color: var(--foreground);
   overflow-x: clip;
 }
@@ -50,7 +48,7 @@ h3,
 }
 
 .brand-label {
-  letter-spacing: 0.28em;
+  letter-spacing: 0.26em;
   text-transform: uppercase;
   font-weight: 800;
 }
@@ -62,10 +60,6 @@ h3,
 
 .arch-mask {
   border-radius: 999px 999px 2rem 2rem;
-}
-
-.soft-wave-mask {
-  border-radius: 42% 58% 46% 54% / 34% 38% 62% 66%;
 }
 
 .premium-hero-visual {
@@ -123,15 +117,15 @@ h3,
     inset: 0;
     z-index: -1;
     border-radius: inherit;
-    background: linear-gradient(135deg, rgba(185, 147, 69, 0.16), transparent 34%, rgba(11, 52, 44, 0.05));
+    background: linear-gradient(135deg, rgba(176, 126, 51, 0.08), transparent 36%, rgba(10, 42, 36, 0.035));
     opacity: 0;
     transition: opacity 220ms ease;
   }
 
   .premium-depth-card:hover {
-    border-color: rgba(185, 147, 69, 0.45);
-    box-shadow: 0 18px 46px rgba(11, 52, 44, 0.1);
-    filter: saturate(1.02);
+    border-color: rgba(176, 126, 51, 0.34);
+    box-shadow: 0 18px 42px rgba(10, 42, 36, 0.08);
+    filter: saturate(1.01);
   }
 
   .premium-depth-card:hover::before {

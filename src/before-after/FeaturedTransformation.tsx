@@ -9,19 +9,19 @@ type FeaturedTransformationProps = {
 
 export function FeaturedTransformation({ item }: FeaturedTransformationProps) {
   return (
-    <section className="rounded-[2rem] bg-slate-950 p-4 text-white shadow-lg shadow-slate-950/10 sm:p-6 lg:p-8 lg:shadow-2xl">
+    <section className="rounded-[2rem] border border-[#b07e33]/18 bg-[#0a2a24] p-4 text-white shadow-lg shadow-[#0a2a24]/10 sm:p-6 lg:p-8 lg:shadow-2xl">
       <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
         <BeforeAfterSlider item={item} />
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#d7b56d]">Featured transformation</p>
+          <p className="brand-label text-xs text-[#b07e33]">Featured transformation</p>
           <h2 className="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">{item.title}</h2>
-          <p className="mt-3 text-sm font-semibold uppercase tracking-[0.18em] text-slate-400">{item.category} · {item.location}</p>
-          <div className="mt-6 grid gap-4 text-sm leading-7 text-slate-300">
+          <p className="mt-3 text-sm font-semibold uppercase tracking-[0.18em] text-[#E6D6BD]">{item.category} · {item.location}</p>
+          <div className="mt-6 grid gap-4 text-sm leading-7 text-[#E6D6BD]">
             <p><span className="font-semibold text-white">Problem:</span> {item.problem}</p>
             <p><span className="font-semibold text-white">Solution:</span> {item.solution}</p>
             <p><span className="font-semibold text-white">Result:</span> {item.result}</p>
           </div>
-          <Link href={visualCtaHref(item.ctaPreset)} className="mt-8 inline-flex rounded-full bg-[#d7b56d] px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-[#e4c77f]">
+          <Link href={visualCtaHref(item.ctaPreset)} className="mt-8 inline-flex rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#0a2a24] ring-1 ring-[#b07e33]/20 transition hover:bg-[#f5ecdc]">
             {item.ctaLabel}
           </Link>
         </div>

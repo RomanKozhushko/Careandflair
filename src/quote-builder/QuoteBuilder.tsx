@@ -87,16 +87,16 @@ export function QuoteBuilder() {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_22rem]">
-      <div className="rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm sm:p-8">
+      <div className="rounded-[2rem] border border-[#E6D6BD] bg-white/82 p-5 shadow-sm sm:p-8">
         {hasInteractivePrefill ? (
-          <div className="mb-6 rounded-3xl border border-[#d7b56d]/40 bg-[#fff7df] p-4 text-sm leading-6 text-slate-700">
-            <p className="font-semibold text-slate-950">Your reset diagnosis has been attached to this quote request.</p>
+          <div className="mb-6 rounded-3xl border border-[#b07e33]/35 bg-[#E6D6BD]/55 p-4 text-sm leading-6 text-[#14241F]">
+            <p className="font-semibold text-[#0a2a24]">Your readiness plan has been attached to this quote request.</p>
             <p className="mt-1 break-words">{diagnosis ? `Diagnosis: ${diagnosis}. ` : ""}{score ? `Score: ${score}/100. ` : ""}{mode ? `Mode: ${mode}. ` : ""}{problems.length ? `Problems: ${problems.join(", ")}.` : ""}</p>
           </div>
         ) : null}
         <div className="mb-8 grid gap-2 sm:grid-cols-5">
           {config.steps.map((step, index) => (
-            <button key={step} type="button" onClick={() => setStepIndex(index)} className={`rounded-full px-3 py-2 text-xs font-bold transition ${index === stepIndex ? "bg-slate-950 text-white" : "bg-slate-100 text-slate-500 hover:bg-slate-200"}`}>
+            <button key={step} type="button" onClick={() => setStepIndex(index)} className={`rounded-full px-3 py-2 text-xs font-bold transition ${index === stepIndex ? "bg-[#0a2a24] text-white ring-1 ring-[#b07e33]/25" : "bg-[#E6D6BD]/50 text-[#746754] hover:bg-[#E6D6BD]"}`}>
               {index + 1}. {config.stepLabels[step]}
             </button>
           ))}
@@ -107,11 +107,11 @@ export function QuoteBuilder() {
         ) : currentStep}
 
         <div className="mt-8 flex flex-wrap justify-between gap-3">
-          <button type="button" onClick={back} disabled={stepIndex === 0 || submitted} className="rounded-full border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-300 disabled:cursor-not-allowed disabled:opacity-40">{config.actions.back}</button>
+          <button type="button" onClick={back} disabled={stepIndex === 0 || submitted} className="rounded-full border border-[#E6D6BD] px-5 py-3 text-sm font-semibold text-[#746754] transition hover:border-[#b07e33]/45 disabled:cursor-not-allowed disabled:opacity-40">{config.actions.back}</button>
           <div className="flex gap-3">
-            {submitted ? <button type="button" onClick={reset} className="rounded-full border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700 transition hover:border-slate-300">{config.actions.startAgain}</button> : null}
-            {!submitted && stepIndex < config.steps.length - 1 ? <button type="button" onClick={next} disabled={!canContinue()} className="rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40">{config.actions.next}</button> : null}
-            {!submitted && stepIndex === config.steps.length - 1 ? <button type="button" onClick={submit} disabled={!canContinue()} className="rounded-full bg-[#d7b56d] px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-[#e4c77f] disabled:cursor-not-allowed disabled:opacity-40">{config.actions.submit}</button> : null}
+            {submitted ? <button type="button" onClick={reset} className="rounded-full border border-[#E6D6BD] px-5 py-3 text-sm font-semibold text-[#746754] transition hover:border-[#b07e33]/45">{config.actions.startAgain}</button> : null}
+            {!submitted && stepIndex < config.steps.length - 1 ? <button type="button" onClick={next} disabled={!canContinue()} className="rounded-full bg-[#0a2a24] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#14241F] disabled:cursor-not-allowed disabled:opacity-40">{config.actions.next}</button> : null}
+            {!submitted && stepIndex === config.steps.length - 1 ? <button type="button" onClick={submit} disabled={!canContinue()} className="rounded-full bg-[#0a2a24] px-6 py-3 text-sm font-semibold text-white ring-1 ring-[#b07e33]/20 transition hover:bg-[#14241F] disabled:cursor-not-allowed disabled:opacity-40">{config.actions.submit}</button> : null}
           </div>
         </div>
       </div>

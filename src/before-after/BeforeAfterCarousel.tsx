@@ -57,12 +57,12 @@ export function BeforeAfterCarousel({ items }: BeforeAfterCarouselProps) {
     <section>
       <div className="mb-5 flex items-end justify-between gap-4">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#9b7b35]">Visual proof carousel</p>
-          <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950">Featured transformations first</h2>
+          <p className="brand-label text-xs text-[#b07e33]">Visual proof carousel</p>
+          <h2 className="mt-2 text-2xl font-semibold tracking-tight text-[#0a2a24]">Featured transformations first</h2>
         </div>
         <div className="hidden gap-2 lg:flex">
-          <button type="button" onClick={() => scrollToIndex(activeIndex - 1)} className="grid h-11 w-11 place-items-center rounded-full border border-slate-200 bg-white text-xl font-semibold text-slate-950 shadow-sm transition hover:border-slate-400" aria-label="Previous transformation">‹</button>
-          <button type="button" onClick={() => scrollToIndex(activeIndex + 1)} className="grid h-11 w-11 place-items-center rounded-full border border-slate-200 bg-white text-xl font-semibold text-slate-950 shadow-sm transition hover:border-slate-400" aria-label="Next transformation">›</button>
+          <button type="button" onClick={() => scrollToIndex(activeIndex - 1)} className="grid h-11 w-11 place-items-center rounded-full border border-[#E6D6BD] bg-white text-xl font-semibold text-[#0a2a24] shadow-sm transition hover:border-[#b07e33]/35" aria-label="Previous transformation">‹</button>
+          <button type="button" onClick={() => scrollToIndex(activeIndex + 1)} className="grid h-11 w-11 place-items-center rounded-full border border-[#E6D6BD] bg-white text-xl font-semibold text-[#0a2a24] shadow-sm transition hover:border-[#b07e33]/35" aria-label="Next transformation">›</button>
         </div>
       </div>
 
@@ -84,7 +84,7 @@ export function BeforeAfterCarousel({ items }: BeforeAfterCarouselProps) {
             key={item.id}
             type="button"
             onClick={() => scrollToIndex(index)}
-            className={`h-2.5 rounded-full transition ${activeIndex === index ? "w-8 bg-slate-950" : "w-2.5 bg-slate-300 hover:bg-slate-400"}`}
+            className={`h-2.5 rounded-full transition ${activeIndex === index ? "w-8 bg-[#0a2a24]" : "w-2.5 bg-[#E6D6BD] hover:bg-[#b07e33]/45"}`}
             aria-label={`Go to ${item.title}`}
           />
         ))}

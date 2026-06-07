@@ -34,17 +34,17 @@ export function AdminDataTable({ items, fields }: AdminDataTableProps) {
   const columns = inferFields(records, fields);
 
   if (records.length === 0) {
-    return <p className="rounded-2xl bg-slate-50 p-4 text-sm text-slate-600">No local JSON records found.</p>;
+    return <p className="rounded-2xl bg-[#f5ecdc] p-4 text-sm text-[#746754]">No local JSON records found.</p>;
   }
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-slate-200">
+    <div className="overflow-hidden rounded-2xl border border-[#E6D6BD]">
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-slate-200 text-left text-sm">
-          <thead className="bg-slate-50 text-xs font-bold uppercase tracking-[0.14em] text-slate-500">
+        <table className="min-w-full divide-y divide-[#E6D6BD] text-left text-sm">
+          <thead className="bg-[#f5ecdc] text-xs font-bold uppercase tracking-[0.14em] text-[#746754]">
             <tr>{columns.map((column) => <th key={column} className="px-4 py-3">{column}</th>)}</tr>
           </thead>
-          <tbody className="divide-y divide-slate-100 bg-white text-slate-700">
+          <tbody className="divide-y divide-[#E6D6BD] bg-white text-[#14241F]">
             {records.map((record, index) => (
               <tr key={`${record.id ?? record.key ?? index}`}>
                 {columns.map((column) => <td key={column} className="max-w-xs px-4 py-3 align-top">{summarise(record[column])}</td>)}

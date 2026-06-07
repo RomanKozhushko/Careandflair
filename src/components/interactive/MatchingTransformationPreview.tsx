@@ -69,13 +69,13 @@ export function MatchingTransformationPreview({ label, result, fallbackTitle, fa
   const quoteHref = getQuoteHref(match, item);
 
   return (
-    <div className="min-w-0 rounded-[1.75rem] border border-slate-200 bg-white p-5">
+    <div className="min-w-0 rounded-[1.75rem] border border-[#E6D6BD] bg-white p-5">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">
-          <p className="text-[0.65rem] font-bold uppercase tracking-[0.24em] text-slate-500">{label}</p>
-          <p className="mt-2 text-sm font-semibold text-[#9b7b35]">{category}</p>
+          <p className="text-[0.65rem] font-bold uppercase tracking-[0.24em] text-[#746754]">{label}</p>
+          <p className="mt-2 text-sm font-semibold text-[#b07e33]">{category}</p>
         </div>
-        <Link href={quoteHref} className="inline-flex shrink-0 items-center justify-center rounded-full bg-slate-950 px-4 py-2 text-xs font-semibold text-white transition hover:bg-slate-800">
+        <Link href={quoteHref} className="inline-flex shrink-0 items-center justify-center rounded-full bg-[#0a2a24] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#14241F]">
           Quote this fix
         </Link>
       </div>
@@ -86,13 +86,13 @@ export function MatchingTransformationPreview({ label, result, fallbackTitle, fa
           <VisualMedia className="h-44 rounded-[1.5rem]" src={afterImage} alt={item.afterAlt || `${title} after`} label={`${title} after`} sizes="(min-width: 1280px) 16rem, (min-width: 640px) 50vw, 100vw" />
         </div>
         <div className="min-w-0">
-          <h4 className="break-words text-2xl font-semibold tracking-[-0.04em] text-slate-950">{title}</h4>
-          <p className="mt-2 text-sm font-semibold text-[#9b7b35]">{serviceType}</p>
-          <div className="mt-4 grid gap-3 text-sm leading-6 text-slate-600">
-            <p><span className="font-semibold text-slate-950">Problem:</span> {problem}</p>
-            <p><span className="font-semibold text-slate-950">Solution:</span> {solution}</p>
-            <p><span className="font-semibold text-slate-950">Result:</span> {transformationResult}</p>
-            {(!beforeImage || !afterImage) ? <p className="rounded-2xl bg-[#fff7df] p-3 text-slate-700">{fallbackText}</p> : null}
+          <h4 className="break-words text-2xl font-semibold tracking-[-0.04em] text-[#0a2a24]">{title}</h4>
+          <p className="mt-2 text-sm font-semibold text-[#b07e33]">{serviceType}</p>
+          <div className="mt-4 grid gap-3 text-sm leading-6 text-[#746754]">
+            <p><span className="font-semibold text-[#0a2a24]">Problem:</span> {problem}</p>
+            <p><span className="font-semibold text-[#0a2a24]">Solution:</span> {solution}</p>
+            <p><span className="font-semibold text-[#0a2a24]">Result:</span> {transformationResult}</p>
+            {(!beforeImage || !afterImage) ? <p className="rounded-2xl bg-[#E6D6BD] p-3 text-[#14241F]">{fallbackText}</p> : null}
           </div>
         </div>
       </div>

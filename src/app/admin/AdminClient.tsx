@@ -211,14 +211,14 @@ export default function AdminClient({ initialData }: { initialData: ResourceData
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100">
+    <main className="min-h-screen bg-[#061A17] text-[#f5ecdc]">
       <section className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 py-8 sm:px-6 lg:px-8">
-        <div className="rounded-3xl border border-amber-200/20 bg-slate-900 p-6 shadow-2xl shadow-black/30">
+        <div className="rounded-3xl border border-[#b07e33]/20 bg-[#0a2a24] p-6 shadow-2xl shadow-black/30">
           <p className="text-sm font-semibold uppercase tracking-[0.3em] text-amber-300">Login placeholder</p>
           <div className="mt-3 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div>
               <h1 className="text-3xl font-bold tracking-tight text-white md:text-4xl">Care & Flair Admin MVP</h1>
-              <p className="mt-2 max-w-3xl text-slate-300">
+              <p className="mt-2 max-w-3xl text-[#E6D6BD]">
                 Temporary admin screen for editing JSON content and local visual uploads. Real authentication comes later.
               </p>
             </div>
@@ -236,8 +236,8 @@ export default function AdminClient({ initialData }: { initialData: ResourceData
                   onClick={() => selectResource(resource.key)}
                   className={`w-full rounded-2xl px-4 py-3 text-left text-sm font-semibold transition ${
                     resource.key === activeResource
-                      ? "bg-amber-300 text-slate-950"
-                      : "text-slate-200 hover:bg-white/10 hover:text-white"
+                      ? "bg-white text-[#0a2a24]"
+                      : "text-[#E6D6BD] hover:bg-white/10 hover:text-white"
                   }`}
                 >
                   {resource.label}
@@ -252,12 +252,12 @@ export default function AdminClient({ initialData }: { initialData: ResourceData
               <div className="mb-4 flex items-center justify-between gap-3">
                 <div>
                   <h2 className="text-xl font-bold text-white">{activeMeta.label}</h2>
-                  <p className="text-sm text-slate-400">{activeItems.length} items</p>
+                  <p className="text-sm text-[#746754]">{activeItems.length} items</p>
                 </div>
                 <button
                   type="button"
                   onClick={addItem}
-                  className="rounded-full bg-white px-4 py-2 text-sm font-bold text-slate-950 hover:bg-amber-200"
+                  className="rounded-full bg-white px-4 py-2 text-sm font-bold text-[#0a2a24] hover:bg-[#f5ecdc]"
                 >
                   Add
                 </button>
@@ -271,19 +271,19 @@ export default function AdminClient({ initialData }: { initialData: ResourceData
                     onClick={() => selectItem(index)}
                     className={`w-full rounded-2xl border px-4 py-3 text-left transition ${
                       index === selectedIndex
-                        ? "border-amber-300 bg-amber-300/15"
-                        : "border-white/10 bg-slate-900/70 hover:border-white/30"
+                        ? "border-[#b07e33] bg-[#b07e33]/10"
+                        : "border-[#b07e33]/15 bg-[#0a2a24]/70 hover:border-white/30"
                     }`}
                   >
                     <span className="block text-sm font-semibold text-white">{itemTitle(item, index)}</span>
-                    <span className="mt-1 block truncate text-xs text-slate-400">{String(item.id ?? `index-${index}`)}</span>
+                    <span className="mt-1 block truncate text-xs text-[#746754]">{String(item.id ?? `index-${index}`)}</span>
                   </button>
                 ))}
               </div>
             </aside>
 
             <form
-              className="rounded-3xl border border-white/10 bg-slate-900 p-4"
+              className="rounded-3xl border border-[#b07e33]/15 bg-[#0a2a24] p-4"
               onSubmit={(event) => {
                 event.preventDefault();
                 void saveItem();
@@ -292,7 +292,7 @@ export default function AdminClient({ initialData }: { initialData: ResourceData
               <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <div>
                   <h3 className="text-xl font-bold text-white">Edit item</h3>
-                  <p className="text-sm text-slate-400">Upload visuals, edit alt text, then save to src/data/{activeMeta.fileName}.</p>
+                  <p className="text-sm text-[#746754]">Upload visuals, edit alt text, then save to src/data/{activeMeta.fileName}.</p>
                 </div>
                 <div className="flex gap-2">
                   <button
@@ -304,17 +304,17 @@ export default function AdminClient({ initialData }: { initialData: ResourceData
                   </button>
                   <button
                     type="submit"
-                    className="rounded-full bg-amber-300 px-5 py-2 text-sm font-bold text-slate-950 hover:bg-amber-200"
+                    className="rounded-full bg-white px-5 py-2 text-sm font-bold text-[#0a2a24] ring-1 ring-[#b07e33]/20 hover:bg-[#f5ecdc]"
                   >
                     {saveState === "saving" ? "Saving..." : "Save"}
                   </button>
                 </div>
               </div>
 
-              <div className="mb-4 rounded-2xl border border-white/10 bg-slate-950/60 p-4">
+              <div className="mb-4 rounded-2xl border border-[#b07e33]/15 bg-[#061A17]/60 p-4">
                 <div className="mb-4 flex flex-col gap-1">
                   <h4 className="font-bold text-white">Visual content</h4>
-                  <p className="text-sm text-slate-400">Files upload to public/uploads and update the JSON path automatically.</p>
+                  <p className="text-sm text-[#746754]">Files upload to public/uploads and update the JSON path automatically.</p>
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2">
@@ -323,22 +323,22 @@ export default function AdminClient({ initialData }: { initialData: ResourceData
                     const path = typeof value === "string" ? value : "";
 
                     return (
-                      <div key={field} className="rounded-2xl border border-white/10 bg-slate-900 p-3">
-                        <label className="text-sm font-bold text-slate-200">{displayLabel(field)}</label>
-                        <div className="relative mt-3 aspect-video overflow-hidden rounded-xl border border-white/10 bg-slate-950">
-                          {path ? <Image src={path} alt="" fill sizes="(min-width: 768px) 16rem, 100vw" className="object-cover" /> : <div className="flex h-full items-center justify-center text-sm text-slate-500">No image</div>}
+                      <div key={field} className="rounded-2xl border border-[#b07e33]/15 bg-[#0a2a24] p-3">
+                        <label className="text-sm font-bold text-[#E6D6BD]">{displayLabel(field)}</label>
+                        <div className="relative mt-3 aspect-video overflow-hidden rounded-xl border border-[#b07e33]/15 bg-[#061A17]">
+                          {path ? <Image src={path} alt="" fill sizes="(min-width: 768px) 16rem, 100vw" className="object-cover" /> : <div className="flex h-full items-center justify-center text-sm text-[#746754]">No image</div>}
                         </div>
                         <input
                           value={path}
                           onChange={(event) => updateDraftField(field, event.target.value)}
                           placeholder="/uploads/image.jpg"
-                          className="mt-3 w-full rounded-xl border border-white/10 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none focus:border-amber-300"
+                          className="mt-3 w-full rounded-xl border border-[#b07e33]/15 bg-[#061A17] px-3 py-2 text-sm text-[#f5ecdc] outline-none focus:border-[#b07e33]"
                         />
                         <input
                           type="file"
                           accept="image/*"
                           onChange={(event) => void uploadFile(field, event.target.files?.[0] ?? null)}
-                          className="mt-3 block w-full text-sm text-slate-300 file:mr-3 file:rounded-full file:border-0 file:bg-amber-300 file:px-3 file:py-2 file:text-sm file:font-bold file:text-slate-950"
+                          className="mt-3 block w-full text-sm text-[#E6D6BD] file:mr-3 file:rounded-full file:border-0 file:bg-white file:px-3 file:py-2 file:text-sm file:font-bold file:text-[#0a2a24]"
                         />
                         {uploadingField === field && <p className="mt-2 text-xs text-amber-200">Uploading...</p>}
                       </div>
@@ -348,13 +348,13 @@ export default function AdminClient({ initialData }: { initialData: ResourceData
 
                 <div className="mt-4 grid gap-3 md:grid-cols-2">
                   {visibleAltFields.map((field) => (
-                    <label key={field} className="text-sm font-bold text-slate-200">
+                    <label key={field} className="text-sm font-bold text-[#E6D6BD]">
                       {displayLabel(field)}
                       <input
                         value={typeof draftItem?.[field] === "string" ? String(draftItem[field]) : ""}
                         onChange={(event) => updateDraftField(field, event.target.value)}
                         placeholder="Alternative text / visual label"
-                        className="mt-2 w-full rounded-xl border border-white/10 bg-slate-950 px-3 py-2 text-sm font-normal text-slate-100 outline-none focus:border-amber-300"
+                        className="mt-2 w-full rounded-xl border border-[#b07e33]/15 bg-[#061A17] px-3 py-2 text-sm font-normal text-[#f5ecdc] outline-none focus:border-[#b07e33]"
                       />
                     </label>
                   ))}
@@ -368,7 +368,7 @@ export default function AdminClient({ initialData }: { initialData: ResourceData
                   setSaveState("idle");
                 }}
                 spellCheck={false}
-                className="min-h-[480px] w-full rounded-2xl border border-white/10 bg-slate-950 p-4 font-mono text-sm leading-6 text-slate-100 outline-none ring-amber-300/40 focus:ring-4"
+                className="min-h-[480px] w-full rounded-2xl border border-[#b07e33]/15 bg-[#061A17] p-4 font-mono text-sm leading-6 text-[#f5ecdc] outline-none ring-[#b07e33]/30 focus:ring-4"
               />
 
               <div className="mt-4 min-h-6 text-sm">

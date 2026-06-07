@@ -13,12 +13,12 @@ import { Footer } from "@/layout/Footer";
 import { Header } from "@/layout/Header";
 
 const BeforeAfterPreview = dynamic(() => import("@/homepage/BeforeAfterPreview").then((mod) => mod.BeforeAfterPreview), {
-  loading: () => <section className="bg-[#f8f5ef] px-4 py-12 sm:px-6 lg:px-8" aria-label="Before and after preview loading" />,
+  loading: () => <section className="bg-[#f5ecdc] px-4 py-12 sm:px-6 lg:px-8" aria-label="Before and after preview loading" />,
 });
 
 export default function Home() {
   return (
-    <div className="min-h-screen overflow-x-clip bg-[#F7F1E6] text-[#17352F]">
+    <div className="min-h-screen overflow-x-clip bg-[#f5ecdc] text-[#14241F]">
       <Header />
       <main>
         <HeroSection />

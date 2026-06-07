@@ -13,7 +13,7 @@ type VisualMediaProps = {
 
 export function BrandedPlaceholder({ label = "Care & Flair visual" }: { label?: string }) {
   return (
-    <div className="flex h-full min-h-36 w-full items-center justify-center overflow-hidden bg-[linear-gradient(135deg,#0f172a,#1e293b_55%,#f8f5ef)] p-5 text-center">
+    <div className="flex h-full min-h-36 w-full items-center justify-center overflow-hidden bg-[linear-gradient(135deg,#0f172a,#1e293b_55%,#f5ecdc)] p-5 text-center">
       <div className="rounded-3xl border border-white/20 bg-white/10 px-5 py-4 text-white shadow-md shadow-slate-950/10">
         <p className="text-xs font-bold uppercase tracking-[0.28em] text-[#f8e7b0]">Care & Flair</p>
         <p className="mt-2 text-sm font-semibold">{label}</p>

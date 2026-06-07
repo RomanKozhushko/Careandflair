@@ -9,8 +9,8 @@ type ModeSwitchProps = {
 
 export function ModeSwitch({ title, modes, selectedId, onSelect }: ModeSwitchProps) {
   return (
-    <div className="rounded-[2rem] border border-[#B99345]/25 bg-[#F7F1E6]/[0.06] p-4 shadow-2xl shadow-black/20 sm:p-5">
-      <p className="brand-label text-xs text-[#B99345]">{title}</p>
+    <div className="rounded-[2rem] border border-[#b07e33]/25 bg-[#f5ecdc]/[0.06] p-4 shadow-2xl shadow-black/20 sm:p-5">
+      <p className="brand-label text-xs text-[#b07e33]">{title}</p>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
         {modes.map((mode) => {
           const selected = mode.id === selectedId;
@@ -19,10 +19,10 @@ export function ModeSwitch({ title, modes, selectedId, onSelect }: ModeSwitchPro
               key={mode.id}
               type="button"
               onClick={() => onSelect(mode.id)}
-              className={`min-w-0 rounded-3xl border p-4 text-left transition ${selected ? "border-[#B99345] bg-[#B99345] text-white shadow-lg shadow-[#B99345]/20" : "border-[#B99345]/20 bg-[#17352F]/60 text-[#F7F1E6] hover:border-[#B99345]/45 hover:bg-white/[0.08]"}`}
+              className={`min-w-0 rounded-3xl border p-4 text-left transition ${selected ? "border-[#b07e33]/45 bg-[#0a2a24] text-white shadow-lg shadow-[#0a2a24]/20" : "border-[#b07e33]/20 bg-[#14241F]/60 text-[#f5ecdc] hover:border-[#b07e33]/45 hover:bg-white/[0.08]"}`}
             >
               <span className="block text-base font-semibold">{mode.label}</span>
-              <span className={`mt-2 block text-sm leading-6 ${selected ? "text-white/90" : "text-[#E8D9C3]"}`}>{mode.description}</span>
+              <span className={`mt-2 block text-sm leading-6 ${selected ? "text-white/90" : "text-[#E6D6BD]"}`}>{mode.description}</span>
             </button>
           );
         })}

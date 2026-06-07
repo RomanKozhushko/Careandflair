@@ -11,9 +11,9 @@ export function AreasServedSection() {
         <SectionHeader title={section.title} subtitle={section.subtitle} align="center" />
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {items.map((area) => (
-            <article key={area.id} className="rounded-[1.4rem] border border-slate-200 bg-slate-50 p-5 text-center">
-              <h3 className="font-semibold text-slate-950">{area.name}</h3>
-              <p className="mt-2 text-sm leading-6 text-slate-600">{area.description}</p>
+            <article key={area.id} className="rounded-[1.4rem] border border-[#E6D6BD] bg-[#f5ecdc] p-5 text-center">
+              <h3 className="font-semibold text-[#0a2a24]">{area.name}</h3>
+              <p className="mt-2 text-sm leading-6 text-[#746754]">{area.description}</p>
             </article>
           ))}
         </div>

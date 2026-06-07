@@ -19,7 +19,7 @@ type AdminShellProps = {
 
 export function AdminShell({ sections, stats, activeRoutes }: AdminShellProps) {
   return (
-    <main className="min-h-screen bg-[#f8f5ef] px-4 py-6 text-slate-950 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-[#f5ecdc] px-4 py-6 text-[#14241F] sm:px-6 lg:px-8">
       <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[18rem_1fr]">
         <AdminSidebar sections={sections} />
         <div className="grid gap-6">

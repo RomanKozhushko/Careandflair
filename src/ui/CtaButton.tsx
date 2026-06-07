@@ -11,9 +11,9 @@ export function CtaButton({ cta, variant = "primary", className = "" }: CtaButto
   if (!cta) return null;
 
   const variants = {
-    primary: "bg-[#B99345] text-white shadow-[0_18px_44px_rgba(185,147,69,0.24)] hover:bg-[#B08A3C]",
-    secondary: "border border-[#B99345]/45 bg-[#F7F1E6]/80 text-[#0B342C] hover:bg-white",
-    dark: "bg-[#0B342C] text-white hover:bg-[#17352F]",
+    primary: "bg-[#0a2a24] text-white shadow-[0_16px_38px_rgba(10,42,36,0.18)] ring-1 ring-[#b07e33]/20 hover:bg-[#14241F] hover:ring-[#b07e33]/45",
+    secondary: "border border-[#b07e33]/35 bg-white/45 text-[#0a2a24] hover:bg-white hover:border-[#b07e33]/55",
+    dark: "bg-[#0a2a24] text-white ring-1 ring-[#b07e33]/15 hover:bg-[#14241F]",
   };
 
   return (
