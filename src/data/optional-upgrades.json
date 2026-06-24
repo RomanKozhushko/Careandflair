@@ -1,8 +1,11 @@
 [
-  { "id": "driveway-patio-revival", "title": "Driveway & Patio Clean", "description": "Pressure washing for entrances, drives or patios before photos, viewings or check-in.", "basePrice": 180, "visible": true, "order": 1 },
+  { "id": "driveway-patio-revival", "title": "Driveway & Patio Clean", "description": "Pressure washing for entrances, drives or patios before photos, viewings or launch preparation.", "basePrice": 180, "visible": true, "order": 1 },
   { "id": "window-frame-detail", "title": "Window & Frame Detail", "description": "Internal frame, sill and glass clean for brighter viewing photos.", "basePrice": 95, "visible": true, "order": 2 },
   { "id": "anti-mould-shield", "title": "Mould & Damp Marks Clean", "description": "Targeted mould removal and wet-area cleaning where the property looks neglected.", "basePrice": 140, "visible": true, "order": 3 },
   { "id": "odour-elimination", "title": "Odour Source Clean", "description": "Source cleaning and deodorising for smoke, pets, damp or previous tenant smells.", "basePrice": 120, "visible": true, "order": 4 },
   { "id": "carpet-extraction", "title": "Carpet Stain & Smell Clean", "description": "Hot water extraction workflow for marked or tired rental carpets.", "basePrice": 130, "visible": true, "order": 5 },
-  { "id": "bathroom-face-lift", "title": "Bathroom Detail Reset", "description": "Silicone, grout, descaling and focused clean for tired bathrooms.", "basePrice": 160, "visible": true, "order": 6 }
+  { "id": "bathroom-face-lift", "title": "Bathroom Detail Reset", "description": "Silicone, grout, descaling and focused clean for tired bathrooms.", "basePrice": 160, "visible": true, "order": 6 },
+  { "id": "fittings-small-repairs", "title": "Fittings & Small Repairs", "description": "Shelves, mirrors, curtain poles, blinds, small holes and practical move-in jobs.", "basePrice": 120, "visible": true, "order": 7 },
+  { "id": "flat-pack-assembly", "title": "Flat-Pack Assembly", "description": "Basic furniture assembly before move-in, handover or guest-ready launch.", "basePrice": 150, "visible": true, "order": 8 },
+  { "id": "tv-wall-mounting", "title": "TV Wall Mounting", "description": "TV mounting where the wall type and access are suitable.", "basePrice": 95, "visible": true, "order": 9 }
 ]

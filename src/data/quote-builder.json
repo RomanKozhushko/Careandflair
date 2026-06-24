@@ -11,8 +11,8 @@
   "disclaimer": "Final price depends on property size, condition, access, urgency, parking and selected work. This is a starting point, not a fixed quote.",
   "page": {
     "eyebrow": "Quick quote request",
-    "title": "Tell us what needs fixing before the property is ready.",
-    "intro": "Choose the reset speed, property type and visible problems. Add the postcode, deadline and notes so the quote can be scoped clearly.",
+    "title": "Tell us what needs sorting before the property is ready.",
+    "intro": "Choose the reset speed, property type and visible problems. Use the notes for Rental Reset, Move-In Reset, Sale-Ready Reset or Airbnb Launch & Recovery Reset details.",
     "mockNotice": "MVP mode: this form currently shows a summary only and does not send the request yet."
   },
   "stepLabels": {
@@ -33,7 +33,7 @@
     "phone": "Phone",
     "email": "Email",
     "postcode": "Postcode",
-    "message": "Deadline, access, keys, photos, condition notes"
+    "message": "Reset type, deadline, access, keys, photos, condition notes"
   },
   "summaryTitle": "Your property reset quote summary",
   "successTitle": "Quote request summary ready",

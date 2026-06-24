@@ -1,6 +1,10 @@
 [
-  { "id": "build-your-quote", "label": "Get Quote", "href": "/quote" },
-  { "id": "build-my-property-reset-quote", "label": "Get a quote", "href": "/quote" },
+  { "id": "build-your-quote", "label": "Get a property reset quote", "href": "/quote" },
+  { "id": "build-my-property-reset-quote", "label": "Get a property reset quote", "href": "/quote" },
+  { "id": "quote-move-in-reset", "label": "Get a Move-In Reset quote", "href": "/quote?preset=48h-pro-flair-reset&mode=move-in-reset" },
+  { "id": "quote-rental-reset", "label": "Get a rental reset quote", "href": "/quote?preset=48h-pro-flair-reset&mode=rental-reset" },
+  { "id": "quote-sale-ready-reset", "label": "Get a sale-ready quote", "href": "/quote?preset=48h-pro-flair-reset&mode=sale-ready-reset" },
+  { "id": "quote-airbnb-launch-recovery", "label": "Get launch/recovery quote", "href": "/quote?preset=48h-pro-flair-reset&mode=airbnb-launch-recovery" },
   { "id": "view-reset-packages", "label": "See what we fix", "href": "/#solutions" },
   { "id": "quote-24h-reset", "label": "Quote this 24h reset", "href": "/quote?preset=24h-express-reset" },
   { "id": "quote-48h-reset", "label": "Quote this 48h reset", "href": "/quote?preset=48h-pro-flair-reset" },

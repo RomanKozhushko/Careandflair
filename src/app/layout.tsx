@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "CARE & FLAIR | Property Turnover & Maintenance Specialist",
-  description: "We prepare properties so clients can move in immediately. Property turnover, setup and maintenance for landlords, agents, Airbnb hosts and busy families.",
+  description: "Property resets for landlords, agents, new homeowners, sellers and hosts across Bromley, Rochester, Medway and Kent.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

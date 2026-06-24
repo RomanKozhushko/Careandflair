@@ -2,13 +2,13 @@
   {
     "id": "24h-express-reset",
     "slug": "24h-express-reset",
-    "name": "24h Express Reset",
-    "slogan": "For urgent viewings or check-ins",
+    "name": "24h Essential Reset",
+    "slogan": "For the most visible problems",
     "startingPrice": 595,
     "description": "Fast help when the property is nearly ready, but the visible problems will put people off.",
-    "problem": "A tenant moved out and left it tired, an Airbnb guest arrives soon, or the property is not ready for photos.",
+    "problem": "The property is close, but the most visible problems could still affect viewing, move-in or guest-ready launch.",
     "solution": "Priority cleaning, small handyman fixes, essentials fitting and the visible problems people notice first.",
-    "result": "A cleaner, tidier property ready for the next viewing, check-in or handover.",
+    "result": "A cleaner, tidier property ready for the next viewing, move-in, launch or handover.",
     "includedServices": [
       "Priority clean of key rooms",
       "Small handyman repairs",
@@ -32,29 +32,29 @@
     "order": 1,
     "featured": false,
     "ctaMappingId": "quote-24h-reset",
-    "title": "24h Express Reset",
+    "title": "24h Essential Reset",
     "imageAlt": "24h rental reset visual"
   },
   {
     "id": "48h-pro-flair-reset",
     "slug": "48h-pro-flair-reset",
-    "name": "48h Pro Flair Reset",
-    "slogan": "For landlords and letting agents",
+    "name": "48h Ready Reset",
+    "slogan": "For cleaning, touch-ups and small fixes",
     "startingPrice": 1195,
-    "description": "For rental and short-let properties where a standard clean is not enough.",
-    "problem": "The agent needs it presentable for viewings, or the landlord needs it ready quickly without organising several trades.",
+    "description": "For properties that need cleaning, touch-ups, small fixes and better presentation.",
+    "problem": "The landlord, agent, buyer, seller or host needs the property ready quickly without organising several trades.",
     "solution": "Cleaning, small repairs, fittings, furniture arrangement and practical detail work in one coordinated visit.",
-    "result": "A property that is easier to photograph, show, let, host or hand over.",
+    "result": "A property that is easier to photograph, show, let, move into, launch or hand over.",
     "includedServices": [
       "Kitchen and bathroom deep reset",
       "Touch-ups and small repairs",
       "Furniture and room setup",
       "Flat-pack, curtains, TV and fittings",
       "Photo/viewing check",
-      "For landlords, agents and Airbnb hosts"
+      "For rental, move-in, sale-ready and launch/recovery resets"
     ],
     "microGuarantees": [
-      "Good for tired rentals",
+      "Good for tired properties",
       "Best when photos/viewings matter"
     ],
     "image": "/images/generated/hero-living-room-reset.jpg",
@@ -68,19 +68,19 @@
     "order": 2,
     "featured": true,
     "ctaMappingId": "quote-48h-reset",
-    "title": "48h Pro Flair Reset",
+    "title": "48h Ready Reset",
     "imageAlt": "48h signature reset visual"
   },
   {
     "id": "72h-ultimate-reset",
     "slug": "72h-ultimate-reset",
-    "name": "72h Ultimate Reset",
-    "slogan": "For tired properties needing more work",
+    "name": "72h Full Readiness Reset",
+    "slogan": "For tired properties needing a deeper reset",
     "startingPrice": 1600,
-    "description": "For properties with several obvious problems before tenants, guests, photos or move-in.",
+    "description": "For tired properties that need a deeper practical refresh before listing, letting or moving in.",
     "problem": "Walls are marked, bathrooms look neglected, carpets smell, frames are dirty, or the property feels uncared for.",
     "solution": "Deeper cleaning, touch-ups, detailing, small repairs, fittings and entrance cleaning where needed.",
-    "result": "A cleaner, more believable property with the main visible issues dealt with.",
+    "result": "A cleaner, more believable property with the main visible issues dealt with before listing, letting or move-in.",
     "includedServices": [
       "Everything in 48h Reset",
       "Deeper clean and detail work",
@@ -104,7 +104,7 @@
     "order": 3,
     "featured": false,
     "ctaMappingId": "quote-72h-reset",
-    "title": "72h Ultimate Reset",
+    "title": "72h Full Readiness Reset",
     "imageAlt": "72h full property reset visual"
   }
 ]

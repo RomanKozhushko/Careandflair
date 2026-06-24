@@ -6,14 +6,15 @@
     "order": 1,
     "eyebrow": "Local property reset and maintenance",
     "headline": "Property resets for homes that need to be ready fast.",
-    "subheadline": "Care & Flair helps landlords, letting agents, Airbnb hosts and families get tired properties clean, repaired and presentable in 24-72 hours across Bromley, Rochester, Medway and Kent.",
+    "subheadline": "Care & Flair helps landlords, agents, new homeowners and hosts get tired properties clean, repaired and presentable in 24-72 hours across Bromley, Rochester, Medway and Kent.",
     "primaryCtaId": "build-your-quote",
     "secondaryCtaId": "view-reset-packages",
     "trustBadges": [
       "24-72h help when the deadline is close",
       "Clear quote before work starts",
       "Photo updates after the job",
-      "Keys and property handled carefully"
+      "Keys and property handled carefully",
+      "Airbnb launch and recovery resets, not routine changeovers"
     ],
     "heroImage": "/images/generated/hero-living-room-reset.jpg",
     "visualSteps": [
@@ -24,9 +25,9 @@
     ],
     "visualProofs": [
       {
-        "label": "Move-in basics",
-        "title": "Rooms ready to use",
-        "description": "Small setup jobs, fittings and visible issues dealt with before someone arrives.",
+        "label": "Move-In Reset",
+        "title": "Ready before the first night",
+        "description": "Cleaning, small repairs, fittings and visible issues handled before removals arrive.",
         "image": "/images/generated/hero-living-room-reset.jpg"
       },
       {
@@ -50,15 +51,15 @@
     "visible": true,
     "order": 2,
     "title": "Choose the reset speed that fits your deadline",
-    "subtitle": "Simple 24h, 48h and 72h starting points for real deadlines. Final price depends on condition, access, urgency and selected fixes."
+    "subtitle": "24h, 48h and 72h starting points for rental resets, move-in resets, sale-ready resets and Airbnb launch or recovery resets. Final price depends on condition, access, urgency and selected fixes."
   },
   {
     "id": "flair-solutions",
     "type": "solutions",
     "visible": true,
     "order": 3,
-    "title": "What we actually fix",
-    "subtitle": "Most properties do not need a full renovation. They need the right visible problems fixed quickly: smells, wall marks, tired bathrooms, greasy kitchens, stained carpets, dirty frames and small repairs."
+    "title": "What we actually reset",
+    "subtitle": "Most properties do not need a full renovation. They need the right visible problems fixed quickly: smells, wall marks, tired bathrooms, greasy kitchens, stained carpets, dirty frames, fittings and small repairs."
   },
   {
     "id": "how-it-works",
@@ -92,15 +93,15 @@
     "visible": true,
     "order": 5,
     "title": "Before someone walks in, fix what they notice first",
-    "subtitle": "Examples of tired bathrooms, stained carpets, dirty frames, neglected entrances and rooms that need a practical reset."
+    "subtitle": "Examples for landlords before viewings, new homeowners before move-in, sellers before photos and hosts before launch or recovery."
   },
   {
     "id": "guardian-plans",
     "type": "guardianPlans",
     "visible": true,
     "order": 6,
-    "title": "Ongoing checks for landlords and hosts",
-    "subtitle": "Optional recurring visits, photo updates and small-fix support when you need someone local to check the property."
+    "title": "Ongoing checks for landlords and managed homes",
+    "subtitle": "Optional recurring visits, photo updates and small-fix support when you need someone local to check a property."
   },
   {
     "id": "areas-served",
@@ -123,7 +124,7 @@
     "type": "cta",
     "visible": true,
     "order": 9,
-    "title": "Need a tired property ready quickly?",
+    "title": "Need the property ready for viewing, photos or move-in?",
     "subtitle": "Send the property details, photos and deadline. We will reply with the right reset option and a clear quote before work starts.",
     "primaryCtaId": "build-my-property-reset-quote"
   }
