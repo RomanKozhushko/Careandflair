@@ -7,7 +7,7 @@
     "fallbackTitle": "Carpet Stain & Smell Example",
     "fallbackProblem": "Visible stains and tired flooring make rooms feel inherited from the previous tenant.",
     "fallbackSolution": "Hot water extraction for marked or tired rental carpets.",
-    "fallbackResult": "Cleaner, fresher flooring that supports viewings, photos and handover confidence.",
+    "fallbackResult": "Cleaner, fresher flooring before viewings, photos or handover.",
     "quoteParamType": "upgrade",
     "quoteParamValue": "carpet-extraction"
   },
@@ -66,8 +66,8 @@
     "fallbackCaseSlug": "window-frame-detail-preview",
     "fallbackTitle": "Window & Frame Detail Example",
     "fallbackProblem": "Dirty glass, frames and sills make rooms look dull and neglected.",
-    "fallbackSolution": "Frame, sill and glass detail for brighter presentation.",
-    "fallbackResult": "Cleaner light, sharper viewing photos and stronger detail confidence.",
+    "fallbackSolution": "Frame, sill and glass clean for brighter rooms.",
+    "fallbackResult": "Cleaner light and sharper viewing photos.",
     "quoteParamType": "upgrade",
     "quoteParamValue": "window-frame-detail"
   },
@@ -101,7 +101,7 @@
     "matchingServiceType": "Odour Source Clean / Deep Clean",
     "fallbackCaseSlug": "",
     "fallbackTitle": "Odour Source Clean Example",
-    "fallbackProblem": "Stale, smoke, pet or tenancy smells can override every visual improvement.",
+    "fallbackProblem": "Stale, smoke, pet or tenancy smells can put people off straight away.",
     "fallbackSolution": "Source-focused deep clean, soft-surface attention and deodorising workflow.",
     "fallbackResult": "A fresher first breath when prospects, tenants or guests walk in.",
     "quoteParamType": "upgrade",
@@ -126,7 +126,7 @@
     "fallbackCaseSlug": "exterior-entrance-preview",
     "fallbackTitle": "Garden / Exterior Tidy Example",
     "fallbackProblem": "Overgrowth makes the property feel unattended and less ready for use.",
-    "fallbackSolution": "Visible garden tidy, entrance focus and exterior presentation reset.",
+    "fallbackSolution": "Visible garden tidy, entrance focus and exterior clean-up.",
     "fallbackResult": "A cleaner, more cared-for approach for viewings, handover or guest arrival.",
     "quoteParamType": "preset",
     "quoteParamValue": "48h-pro-flair-reset"

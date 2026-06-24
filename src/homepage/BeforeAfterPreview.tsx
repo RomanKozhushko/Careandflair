@@ -17,7 +17,7 @@ export function BeforeAfterPreview() {
         <div className="grid gap-6 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
           <SectionHeader eyebrow="Before someone books a viewing" title={section.title} subtitle={section.subtitle} />
           <div className="rounded-3xl border border-[#b07e33]/30 bg-white/75 px-5 py-4 text-sm font-semibold leading-6 text-[#14241F] shadow-sm">
-            Use these as proof of the kind of visible issues we can quote for: bathrooms, carpets, windows, entrances and tired rooms.
+            Use these as examples of the visible issues we can quote for: bathrooms, carpets, windows, entrances and tired rooms.
           </div>
         </div>
 

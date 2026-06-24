@@ -36,7 +36,7 @@ export function PackageCard({ item }: PackageCardProps) {
 
         {item.proofDetails?.length ? (
           <div className={`mt-5 rounded-2xl border p-4 ${item.featured ? "border-[#b07e33]/30 bg-white/[0.06]" : "border-[#E6D6BD] bg-[#f5ecdc]"}`}>
-            <p className={`brand-label text-xs ${item.featured ? "brass-text" : "brass-text"}`}>Proof details</p>
+            <p className={`brand-label text-xs ${item.featured ? "brass-text" : "brass-text"}`}>Useful to know</p>
             <ul className={`mt-3 grid gap-2 text-sm ${item.featured ? "text-[#E6D6BD]" : "text-[#746754]"}`}>
               {item.proofDetails.map((detail) => <li key={detail} className="flex gap-2"><span className="brass-text">—</span>{detail}</li>)}
             </ul>

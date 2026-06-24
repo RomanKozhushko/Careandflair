@@ -8,18 +8,18 @@
   ],
   "estimateLabel": "Estimated from price",
   "currency": "GBP",
-  "disclaimer": "Final price depends on property condition, access, urgency, parking and selected work. This is a starting point, not a fixed quote.",
+  "disclaimer": "Final price depends on property size, condition, access, urgency, parking and selected work. This is a starting point, not a fixed quote.",
   "page": {
     "eyebrow": "Quick quote request",
-    "title": "Tell us what needs to be ready.",
-    "intro": "Choose the deadline, property type and visible problems. Use this to request a practical reset quote for cleaning, small repairs and setup.",
-    "mockNotice": "MVP mode: this form shows a summary only and does not send the request yet."
+    "title": "Tell us what needs fixing before the property is ready.",
+    "intro": "Choose the reset speed, property type and visible problems. Add the postcode, deadline and notes so the quote can be scoped clearly.",
+    "mockNotice": "MVP mode: this form currently shows a summary only and does not send the request yet."
   },
   "stepLabels": {
     "servicePackage": "Choose reset speed",
     "propertyCategory": "Choose property category",
     "propertyType": "Choose property type",
-    "optionalUpgrades": "Choose visible problems",
+    "optionalUpgrades": "Choose problem areas",
     "contactSummary": "Contact details + property notes"
   },
   "actions": {
@@ -33,9 +33,9 @@
     "phone": "Phone",
     "email": "Email",
     "postcode": "Postcode",
-    "message": "Deadline, access, photos, condition notes"
+    "message": "Deadline, access, keys, photos, condition notes"
   },
-  "summaryTitle": "Your property reset summary",
+  "summaryTitle": "Your property reset quote summary",
   "successTitle": "Quote request summary ready",
   "successMessage": "This is a mock submit for the MVP. The summary is shown on screen only and has not been sent to email, CRM or Telegram.",
   "priceBreakdownLabels": {

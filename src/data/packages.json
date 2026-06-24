@@ -5,20 +5,20 @@
     "name": "24h Express Reset",
     "slogan": "For urgent viewings or check-ins",
     "startingPrice": 595,
-    "description": "Fast reset for a property that is almost ready but still looks tired, messy or unfinished.",
-    "problem": "A tenant has moved out, an Airbnb guest arrives soon, or the property is not ready for photos.",
-    "solution": "Priority cleaning, small handyman fixes, essentials fitting and the most visible presentation issues.",
+    "description": "Fast help when the property is nearly ready, but the visible problems will put people off.",
+    "problem": "A tenant moved out and left it tired, an Airbnb guest arrives soon, or the property is not ready for photos.",
+    "solution": "Priority cleaning, small handyman fixes, essentials fitting and the visible problems people notice first.",
     "result": "A cleaner, tidier property ready for the next viewing, check-in or handover.",
     "includedServices": [
       "Priority clean of key rooms",
       "Small handyman repairs",
       "Bathroom and kitchen touch points",
       "Basic setup and fitting jobs",
-      "Photo/viewing readiness check",
+      "Photo/viewing check before handover",
       "Clear list of any bigger issues"
     ],
     "microGuarantees": [
-      "Fast readiness",
+      "Fast response",
       "One coordinated visit"
     ],
     "image": "/images/generated/kitchen-before-after.jpg",
@@ -26,7 +26,7 @@
     "proofDetails": [
       "Built for urgent deadlines",
       "Focus on what visitors notice first",
-      "Good for light tenant move-out issues"
+      "Photo update after the reset"
     ],
     "visible": true,
     "order": 1,
@@ -41,20 +41,20 @@
     "name": "48h Pro Flair Reset",
     "slogan": "For landlords and letting agents",
     "startingPrice": 1195,
-    "description": "The practical middle option when cleaning alone will not make the property feel ready.",
-    "problem": "The property needs visible cleaning, small repairs, setup and finishing before listing, viewing or handover.",
-    "solution": "Cleaning, maintenance, fittings, furniture arrangement and detail work in one coordinated visit.",
-    "result": "A property that feels looked after and easier to show to tenants, buyers, guests or family.",
+    "description": "For rental and short-let properties where a standard clean is not enough.",
+    "problem": "The agent needs it presentable for viewings, or the landlord needs it ready quickly without organising several trades.",
+    "solution": "Cleaning, small repairs, fittings, furniture arrangement and practical detail work in one coordinated visit.",
+    "result": "A property that is easier to photograph, show, let, host or hand over.",
     "includedServices": [
       "Kitchen and bathroom deep reset",
       "Touch-ups and small repairs",
       "Furniture and room setup",
       "Flat-pack, curtains, TV and fittings",
-      "Photo/viewing presentation check",
+      "Photo/viewing check",
       "For landlords, agents and Airbnb hosts"
     ],
     "microGuarantees": [
-      "Recommended for most tired rentals",
+      "Good for tired rentals",
       "Best when photos/viewings matter"
     ],
     "image": "/images/generated/hero-living-room-reset.jpg",
@@ -62,7 +62,7 @@
     "proofDetails": [
       "Best balance of speed and scope",
       "Covers cleaning plus practical fixes",
-      "Good for agents and landlords"
+      "Clear quote before work starts"
     ],
     "visible": true,
     "order": 2,
@@ -77,17 +77,17 @@
     "name": "72h Ultimate Reset",
     "slogan": "For tired properties needing more work",
     "startingPrice": 1600,
-    "description": "For properties with several visible problems before tenants, guests, photos or move-in.",
-    "problem": "Walls are marked, bathrooms look neglected, carpets smell, or the property feels uncared for.",
-    "solution": "Deeper cleaning, touch-ups, detailing, repairs, fittings, exterior base clean and readiness coordination.",
-    "result": "A noticeably cleaner and more presentable property with the main issues dealt with.",
+    "description": "For properties with several obvious problems before tenants, guests, photos or move-in.",
+    "problem": "Walls are marked, bathrooms look neglected, carpets smell, frames are dirty, or the property feels uncared for.",
+    "solution": "Deeper cleaning, touch-ups, detailing, small repairs, fittings and entrance cleaning where needed.",
+    "result": "A cleaner, more believable property with the main visible issues dealt with.",
     "includedServices": [
       "Everything in 48h Reset",
       "Deeper clean and detail work",
       "Wall marks and visible touch-ups",
       "Furniture and room setup",
       "Wall mounting and fittings",
-      "Entrance or exterior base clean"
+      "Entrance or exterior clean where needed"
     ],
     "microGuarantees": [
       "Wider scope",
@@ -96,9 +96,9 @@
     "image": "/images/generated/driveway-before-after.jpg",
     "visualLabel": "72h full property reset visual",
     "proofDetails": [
-      "Deeper reset for tired or marked properties",
-      "Exterior base clean for first impression",
-      "Photo and handover readiness"
+      "For tired or marked properties",
+      "Exterior clean for first impression",
+      "Photo update after work"
     ],
     "visible": true,
     "order": 3,

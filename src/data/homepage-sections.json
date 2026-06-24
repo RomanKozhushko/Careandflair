@@ -4,41 +4,41 @@
     "type": "hero",
     "visible": true,
     "order": 1,
-    "eyebrow": "24-72h property resets across Bromley, Rochester, Medway and Kent",
+    "eyebrow": "Local property reset and maintenance",
     "headline": "Property resets for homes that need to be ready fast.",
-    "subheadline": "Care & Flair helps landlords, letting agents, Airbnb hosts and families get tired properties clean, repaired and presentable in 24-72 hours.",
+    "subheadline": "Care & Flair helps landlords, letting agents, Airbnb hosts and families get tired properties clean, repaired and presentable in 24-72 hours across Bromley, Rochester, Medway and Kent.",
     "primaryCtaId": "build-your-quote",
     "secondaryCtaId": "view-reset-packages",
     "trustBadges": [
-      "24-72h reset options",
-      "Cleaning, small repairs and setup in one visit",
-      "For landlords, agents, Airbnb hosts and families",
-      "Bromley, Rochester, Medway and Kent"
+      "24-72h help when the deadline is close",
+      "Clear quote before work starts",
+      "Photo updates after the job",
+      "Keys and property handled carefully"
     ],
     "heroImage": "/images/generated/hero-living-room-reset.jpg",
     "visualSteps": [
-      "Assess",
-      "Repair",
-      "Set up",
+      "Photos",
+      "Quote",
+      "Fix",
       "Ready"
     ],
     "visualProofs": [
       {
         "label": "Move-in basics",
         "title": "Rooms ready to use",
-        "description": "Furniture positioned, essentials fitted and tired areas made presentable.",
+        "description": "Small setup jobs, fittings and visible issues dealt with before someone arrives.",
         "image": "/images/generated/hero-living-room-reset.jpg"
       },
       {
         "label": "Bathroom reset",
         "title": "Neglected areas fixed",
-        "description": "Limescale, tired silicone, grout marks and hygiene details dealt with before handover.",
+        "description": "Tired silicone, limescale, grout marks and bathroom details cleaned up before handover.",
         "image": "/images/generated/bathroom-before-after.jpg"
       },
       {
         "label": "Viewing ready",
         "title": "Better first impression",
-        "description": "Entrance, windows, patios and visible details cleaned up for photos or viewings.",
+        "description": "Dirty frames, entrances, patios and visible details cleaned up before photos or viewings.",
         "image": "/images/generated/driveway-before-after.jpg"
       }
     ],
@@ -50,7 +50,7 @@
     "visible": true,
     "order": 2,
     "title": "Choose the reset speed that fits your deadline",
-    "subtitle": "Simple 24h, 48h and 72h starting points. Final price depends on condition, access, urgency and selected fixes."
+    "subtitle": "Simple 24h, 48h and 72h starting points for real deadlines. Final price depends on condition, access, urgency and selected fixes."
   },
   {
     "id": "flair-solutions",
@@ -58,7 +58,7 @@
     "visible": true,
     "order": 3,
     "title": "What we actually fix",
-    "subtitle": "Practical cleaning, small repairs and setup jobs that stop a property being ready for tenants, guests, photos or move-in."
+    "subtitle": "Most properties do not need a full renovation. They need the right visible problems fixed quickly: smells, wall marks, tired bathrooms, greasy kitchens, stained carpets, dirty frames and small repairs."
   },
   {
     "id": "how-it-works",
@@ -66,23 +66,23 @@
     "visible": true,
     "order": 4,
     "title": "How to get a quote",
-    "subtitle": "Send the details, confirm the deadline and get a practical reset plan before work starts.",
+    "subtitle": "Send the details, confirm the deadline and get a clear quote before work starts.",
     "steps": [
       {
         "title": "Send the problem",
-        "description": "Tell us the postcode, deadline, property type and what is not ready. Photos help."
+        "description": "Tell us the postcode, deadline, property type and what is not ready. Photos make quoting faster."
       },
       {
         "title": "Get a clear scope",
-        "description": "We match the right reset package and list the cleaning, repairs, setup or upgrades needed."
+        "description": "We confirm what needs cleaning, what needs fixing and what can wait."
       },
       {
         "title": "We do the work",
-        "description": "Cleaning, handyman fixes, fittings, furniture setup and presentation are handled together."
+        "description": "Cleaning, handyman fixes, fittings, furniture setup and small repairs are handled together."
       },
       {
         "title": "Ready for the next step",
-        "description": "The property is left cleaner, tidier and more presentable for viewings, guests, tenants or family move-in."
+        "description": "The property is left cleaner, tidier and easier to hand over. Photo updates can be sent after the work."
       }
     ]
   },
@@ -91,8 +91,8 @@
     "type": "beforeAfter",
     "visible": true,
     "order": 5,
-    "title": "Visible improvements before someone walks in",
-    "subtitle": "Examples of the kinds of tired areas we reset before photos, viewings, check-ins and handovers."
+    "title": "Before someone walks in, fix what they notice first",
+    "subtitle": "Examples of tired bathrooms, stained carpets, dirty frames, neglected entrances and rooms that need a practical reset."
   },
   {
     "id": "guardian-plans",
@@ -100,7 +100,7 @@
     "visible": true,
     "order": 6,
     "title": "Ongoing checks for landlords and hosts",
-    "subtitle": "Optional recurring visits, photo updates and small-fix support when you need someone local to keep an eye on the property."
+    "subtitle": "Optional recurring visits, photo updates and small-fix support when you need someone local to check the property."
   },
   {
     "id": "areas-served",
@@ -124,7 +124,7 @@
     "visible": true,
     "order": 9,
     "title": "Need a tired property ready quickly?",
-    "subtitle": "Send the property details, photos and deadline. We will help you choose the right reset and quote the work clearly.",
+    "subtitle": "Send the property details, photos and deadline. We will reply with the right reset option and a clear quote before work starts.",
     "primaryCtaId": "build-my-property-reset-quote"
   }
 ]

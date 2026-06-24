@@ -1,7 +1,7 @@
 [
   { "id": "bromley", "name": "Bromley", "description": "Core local service area for rapid property resets.", "visible": true, "order": 1 },
   { "id": "south-east-london", "name": "South East London", "description": "Support for landlords, agents and homeowners across nearby boroughs.", "visible": true, "order": 2 },
-  { "id": "kent", "name": "Kent", "description": "Property presentation and reset support across key Kent locations.", "visible": true, "order": 3 },
+  { "id": "kent", "name": "Kent", "description": "Property reset and maintenance support across key Kent locations.", "visible": true, "order": 3 },
   { "id": "medway", "name": "Medway", "description": "Turnover and reset help for rental and sale preparation.", "visible": true, "order": 4 },
   { "id": "rochester", "name": "Rochester", "description": "Reset packages and specialist upgrades for local properties.", "visible": true, "order": 5 }
 ]

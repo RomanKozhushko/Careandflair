@@ -3,41 +3,41 @@
     "visible": true,
     "eyebrow": "Common urgent property problems",
     "title": "Is your property almost ready, but not quite?",
-    "subtitle": "Choose what is stopping the property being ready. We will turn it into a practical reset path with priority fixes, package guidance and quote details.",
+    "subtitle": "Choose what is stopping the property being ready: smell, wall marks, greasy kitchen surfaces, tired silicone, stained carpets, dirty frames or small repairs.",
     "steps": {
       "mode": "1. Who needs it ready?",
-      "problems": "2. What is the problem?",
-      "score": "3. How urgent is it?",
-      "recommendation": "4. Quote path"
+      "problems": "2. What needs fixing?",
+      "score": "3. Check the urgency",
+      "recommendation": "4. Request a quote"
     },
     "problemPicker": {
-      "title": "What is stopping the property being ready?",
-      "subtitle": "Pick every issue that applies: smells, stained carpets, bathroom marks, wall scuffs, dirty windows or outdoor areas.",
+      "title": "What would a tenant, guest or agent notice first?",
+      "subtitle": "Pick every issue that applies: smells, stained carpets, tired bathroom silicone, greasy kitchen surfaces, wall marks, dirty frames or outdoor areas.",
       "emptySummary": "No property problems selected yet.",
       "selectedSummary": "Selected property problems"
     },
     "score": {
-      "title": "Readiness check",
-      "caption": "Estimate based on visible problems and deadline. Final scope is confirmed after quote request."
+      "title": "Urgency check",
+      "caption": "A simple guide based on visible problems and deadline. The final scope is confirmed before work starts."
     },
     "report": {
       "title": "Suggested reset path",
-      "subtitle": "Built from your selected client type, problems and urgency.",
+      "subtitle": "Built from the client type, visible problems and deadline.",
       "emptyState": "Pick at least one problem to generate your reset path.",
       "problemLabel": "Problems selected",
-      "pathLabel": "Recommended package",
-      "modeLabel": "Client route",
+      "pathLabel": "Suggested reset option",
+      "modeLabel": "Who needs it ready",
       "viewingKillerLabel": "Main issue to fix first",
       "priorityLabel": "Top 3 priority fixes",
       "upgradesLabel": "Suggested add-ons",
       "whyLabel": "Why this matters",
       "previewLabel": "Similar property example",
       "fallbackTitle": "Care & Flair Reset Example",
-      "fallbackText": "No exact before-after case is live for this problem yet, so we will use a Care & Flair reset example and scope the precise work in the quote."
+      "fallbackText": "No exact before-after case is live for this problem yet, so we will use a Care & Flair reset example and confirm the precise work in the quote."
     },
     "cta": {
       "label": "Get a quote with these problems",
-      "helper": "Your selected problems and recommended package will be attached to the quote request.",
+      "helper": "Your selected problems and suggested reset option will be attached to the quote request.",
       "prefillNotice": "Your selected property problems have been attached to this quote request.",
       "disabledLabel": "Select at least one problem to unlock the quote path."
     }

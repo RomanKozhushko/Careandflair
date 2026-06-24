@@ -1,6 +1,6 @@
 [
   { "id": "speed", "question": "Can you help if the property needs to be ready quickly?", "answer": "Yes. Depending on condition, access and availability, we work around 24h, 48h and 72h reset options.", "visible": true, "order": 1 },
   { "id": "agents", "question": "Who is this service for?", "answer": "Landlords, letting agents, Airbnb hosts, property owners and families who need a tired property cleaned, fixed and made presentable.", "visible": true, "order": 2 },
-  { "id": "cleaning-repairs", "question": "Do you do cleaning and small repairs together?", "answer": "Yes. The reset model combines practical cleaning, small maintenance jobs, fittings, setup and visible presentation fixes.", "visible": true, "order": 3 },
+  { "id": "cleaning-repairs", "question": "Do you do cleaning and small repairs together?", "answer": "Yes. The reset model combines practical cleaning, small maintenance jobs, fittings, setup and visible fixes.", "visible": true, "order": 3 },
   { "id": "pricing", "question": "Are the prices fixed?", "answer": "The website shows from-prices. Final pricing depends on property size, condition, urgency, access, parking and selected work.", "visible": true, "order": 4 }
 ]
