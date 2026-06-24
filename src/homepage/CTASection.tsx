@@ -17,7 +17,7 @@ export function CTASection() {
               <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">{section.title}</h2>
               <p className="mt-4 max-w-2xl text-base leading-7 text-[#E6D6BD]">{section.subtitle}</p>
             </div>
-            <CtaButton cta={cta} />
+            <CtaButton cta={cta} variant="light" />
           </div>
         </div>
       </div>

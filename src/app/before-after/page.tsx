@@ -31,8 +31,8 @@ export default function BeforeAfterPage() {
                 <h1 className="max-w-4xl text-5xl font-semibold tracking-[-0.04em] sm:text-6xl">See the kinds of problems we fix.</h1>
                 <p className="mt-6 max-w-2xl text-lg leading-8 text-[#E6D6BD]">Bathrooms that look neglected, carpets with stains or smells, dirty windows and tired entrances can stop a property feeling ready. These examples show the type of visible reset we quote for.</p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                  <Link href="#gallery" className="inline-flex justify-center rounded-full brass-fill px-6 py-3 text-sm font-semibold text-[#061A17] transition hover:brightness-105">See examples</Link>
-                  <Link href="/quote" className="inline-flex justify-center rounded-full border border-[#b07e33]/35 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10">Get a quote</Link>
+                  <Link href="#gallery" className="inline-flex justify-center rounded-full border border-white/75 bg-white px-6 py-3 text-sm font-semibold text-[#061A17] transition hover:bg-[#f5ecdc]">See examples</Link>
+                  <Link href="/quote" className="inline-flex justify-center rounded-full border border-white/55 bg-white/10 px-6 py-3 text-sm font-semibold text-white transition hover:border-white/80 hover:bg-white/15">Get a quote</Link>
                 </div>
               </div>
               <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
@@ -62,7 +62,7 @@ export default function BeforeAfterPage() {
               <p className="brand-label text-xs brass-text">Need this sorted quickly?</p>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight">Get a quote for your property</h2>
               <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-[#E6D6BD]">Send the property details, condition, photos and deadline. We will match the right reset package and quote the practical work.</p>
-              <Link href="/quote" className="mt-6 inline-flex rounded-full brass-fill px-6 py-3 text-sm font-semibold text-[#061A17] transition hover:brightness-105">
+              <Link href="/quote" className="mt-6 inline-flex rounded-full border border-white/75 bg-white px-6 py-3 text-sm font-semibold text-[#061A17] transition hover:bg-[#f5ecdc]">
                 Get a quote
               </Link>
             </div>

@@ -17,7 +17,7 @@
   "navigation": [
     { "label": "Services", "href": "/#solutions" },
     { "label": "Packages", "href": "/#packages" },
-    { "label": "Before/After", "href": "/#before-after" },
+    { "label": "Before/After", "href": "/before-after" },
     { "label": "Areas", "href": "/#areas" },
     { "label": "FAQ", "href": "/#faq" }
   ],

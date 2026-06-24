@@ -21,7 +21,7 @@ export function FeaturedTransformation({ item }: FeaturedTransformationProps) {
             <p><span className="font-semibold text-white">Solution:</span> {item.solution}</p>
             <p><span className="font-semibold text-white">Result:</span> {item.result}</p>
           </div>
-          <Link href={visualCtaHref(item.ctaPreset)} className="mt-8 inline-flex rounded-full brass-fill px-6 py-3 text-sm font-semibold text-[#061A17] transition hover:brightness-105">
+          <Link href={visualCtaHref(item.ctaPreset)} className="mt-8 inline-flex rounded-full border border-white/75 bg-white px-6 py-3 text-sm font-semibold text-[#061A17] transition hover:bg-[#f5ecdc]">
             {item.ctaLabel}
           </Link>
         </div>

@@ -1,4 +1,6 @@
+import { cookies } from "next/headers";
 import { AdminShell } from "@/admin/components/AdminShell";
+import { adminAuthCookieName, getAdminPassword, isAdminTokenValid } from "@/admin/auth";
 import type { AdminSection } from "@/admin/types";
 import areas from "@/data/areas.json";
 import beforeAfter from "@/data/before-after.json";
@@ -9,6 +11,7 @@ import packages from "@/data/packages.json";
 import problemCategories from "@/data/problem-categories.json";
 import quoteBuilder from "@/data/quote-builder.json";
 import solutions from "@/data/solutions.json";
+import AdminLogin from "@/app/admin/AdminLogin";
 
 export const metadata = {
   title: "Admin MVP | Care & Flair",
@@ -111,7 +114,15 @@ const sections: AdminSection[] = [
   },
 ];
 
-export default function AdminPage() {
+export default async function AdminPage() {
+  const cookieStore = await cookies();
+  const authToken = cookieStore.get(adminAuthCookieName)?.value;
+  const adminPassword = getAdminPassword();
+
+  if (!isAdminTokenValid(authToken)) {
+    return <AdminLogin passwordConfigured={Boolean(adminPassword)} />;
+  }
+
   return (
     <AdminShell
       sections={sections}
