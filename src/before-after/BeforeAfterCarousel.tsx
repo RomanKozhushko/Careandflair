@@ -57,12 +57,12 @@ export function BeforeAfterCarousel({ items }: BeforeAfterCarouselProps) {
     <section>
       <div className="mb-5 flex items-end justify-between gap-4">
         <div>
-          <p className="brand-label text-xs brass-text">Visual proof carousel</p>
-          <h2 className="mt-2 text-2xl font-semibold tracking-tight text-[#0a2a24]">Featured transformations first</h2>
+          <p className="brand-label text-xs brass-text">Common examples</p>
+          <h2 className="mt-2 text-2xl font-semibold tracking-tight text-[#0a2a24]">Problems that stop a property feeling ready</h2>
         </div>
         <div className="hidden gap-2 lg:flex">
-          <button type="button" onClick={() => scrollToIndex(activeIndex - 1)} className="grid h-11 w-11 place-items-center rounded-full border border-[#E6D6BD] bg-white text-xl font-semibold text-[#0a2a24] shadow-sm transition hover:border-[#b07e33]/35" aria-label="Previous transformation">‹</button>
-          <button type="button" onClick={() => scrollToIndex(activeIndex + 1)} className="grid h-11 w-11 place-items-center rounded-full border border-[#E6D6BD] bg-white text-xl font-semibold text-[#0a2a24] shadow-sm transition hover:border-[#b07e33]/35" aria-label="Next transformation">›</button>
+          <button type="button" onClick={() => scrollToIndex(activeIndex - 1)} className="grid h-11 w-11 place-items-center rounded-full border border-[#E6D6BD] bg-white text-xl font-semibold text-[#0a2a24] shadow-sm transition hover:border-[#b07e33]/35" aria-label="Previous example">‹</button>
+          <button type="button" onClick={() => scrollToIndex(activeIndex + 1)} className="grid h-11 w-11 place-items-center rounded-full border border-[#E6D6BD] bg-white text-xl font-semibold text-[#0a2a24] shadow-sm transition hover:border-[#b07e33]/35" aria-label="Next example">›</button>
         </div>
       </div>
 

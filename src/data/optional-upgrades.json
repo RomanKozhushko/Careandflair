@@ -1,8 +1,8 @@
 [
-  { "id": "driveway-patio-revival", "title": "Driveway & Patio Revival", "description": "Pressure washing and kerb appeal reset for entrances, drives or patios.", "basePrice": 180, "visible": true, "order": 1 },
+  { "id": "driveway-patio-revival", "title": "Driveway & Patio Clean", "description": "Pressure washing for entrances, drives or patios before photos, viewings or check-in.", "basePrice": 180, "visible": true, "order": 1 },
   { "id": "window-frame-detail", "title": "Window & Frame Detail", "description": "Internal frame, sill and glass detailing for brighter viewing photos.", "basePrice": 95, "visible": true, "order": 2 },
-  { "id": "anti-mould-shield", "title": "Anti-Mould Shield", "description": "Targeted mould removal, treatment and wet-area presentation recovery.", "basePrice": 140, "visible": true, "order": 3 },
-  { "id": "odour-elimination", "title": "Odour Elimination", "description": "Odour source cleaning and deodorising for smoke, pets, damp or tenant history.", "basePrice": 120, "visible": true, "order": 4 },
-  { "id": "carpet-extraction", "title": "Carpet Extraction", "description": "Hot water extraction workflow for fresher rental carpets.", "basePrice": 130, "visible": true, "order": 5 },
-  { "id": "bathroom-face-lift", "title": "Bathroom Face-Lift", "description": "Silicone, grout, descaling and detail clean for tired bathrooms.", "basePrice": 160, "visible": true, "order": 6 }
+  { "id": "anti-mould-shield", "title": "Mould & Damp Marks Clean", "description": "Targeted mould removal and wet-area cleaning where the property looks neglected.", "basePrice": 140, "visible": true, "order": 3 },
+  { "id": "odour-elimination", "title": "Odour Source Clean", "description": "Source cleaning and deodorising for smoke, pets, damp or previous tenant smells.", "basePrice": 120, "visible": true, "order": 4 },
+  { "id": "carpet-extraction", "title": "Carpet Stain & Smell Clean", "description": "Hot water extraction workflow for marked or tired rental carpets.", "basePrice": 130, "visible": true, "order": 5 },
+  { "id": "bathroom-face-lift", "title": "Bathroom Detail Reset", "description": "Silicone, grout, descaling and focused detail clean for tired bathrooms.", "basePrice": 160, "visible": true, "order": 6 }
 ]

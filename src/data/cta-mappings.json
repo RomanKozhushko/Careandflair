@@ -1,14 +1,14 @@
 [
   { "id": "build-your-quote", "label": "Get Quote", "href": "/quote" },
-  { "id": "build-my-property-reset-quote", "label": "Build My Reset", "href": "/quote" },
-  { "id": "view-reset-packages", "label": "Prepare My Property", "href": "#packages" },
-  { "id": "quote-24h-reset", "label": "Request Property Readiness", "href": "/quote?preset=24h-express-reset" },
-  { "id": "quote-48h-reset", "label": "Request Property Readiness", "href": "/quote?preset=48h-pro-flair-reset" },
-  { "id": "quote-72h-reset", "label": "Request Property Readiness", "href": "/quote?preset=72h-ultimate-reset" },
-  { "id": "quote-driveway-patio", "label": "Add to Reset", "href": "/quote?upgrade=driveway-patio-revival" },
-  { "id": "quote-window-frame", "label": "Add to Reset", "href": "/quote?upgrade=window-frame-detail" },
-  { "id": "quote-anti-mould", "label": "Add to Reset", "href": "/quote?upgrade=anti-mould-shield" },
-  { "id": "quote-odour", "label": "Add to Reset", "href": "/quote?upgrade=odour-elimination" },
-  { "id": "quote-carpet", "label": "Add to Reset", "href": "/quote?upgrade=carpet-extraction" },
-  { "id": "quote-bathroom", "label": "Add to Reset", "href": "/quote?upgrade=bathroom-face-lift" }
+  { "id": "build-my-property-reset-quote", "label": "Get a quote", "href": "/quote" },
+  { "id": "view-reset-packages", "label": "See what we fix", "href": "/#solutions" },
+  { "id": "quote-24h-reset", "label": "Quote this 24h reset", "href": "/quote?preset=24h-express-reset" },
+  { "id": "quote-48h-reset", "label": "Quote this 48h reset", "href": "/quote?preset=48h-pro-flair-reset" },
+  { "id": "quote-72h-reset", "label": "Quote this 72h reset", "href": "/quote?preset=72h-ultimate-reset" },
+  { "id": "quote-driveway-patio", "label": "Add to quote", "href": "/quote?upgrade=driveway-patio-revival" },
+  { "id": "quote-window-frame", "label": "Add to quote", "href": "/quote?upgrade=window-frame-detail" },
+  { "id": "quote-anti-mould", "label": "Add to quote", "href": "/quote?upgrade=anti-mould-shield" },
+  { "id": "quote-odour", "label": "Add to quote", "href": "/quote?upgrade=odour-elimination" },
+  { "id": "quote-carpet", "label": "Add to quote", "href": "/quote?upgrade=carpet-extraction" },
+  { "id": "quote-bathroom", "label": "Add to quote", "href": "/quote?upgrade=bathroom-face-lift" }
 ]

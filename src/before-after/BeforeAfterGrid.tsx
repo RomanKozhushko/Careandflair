@@ -28,9 +28,9 @@ export function BeforeAfterGrid({ items }: BeforeAfterGridProps) {
     <section>
       <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <p className="brand-label text-xs brass-text">Gallery grid</p>
-          <h2 className="mt-2 text-3xl font-semibold tracking-tight text-[#0a2a24]">Browse before & after proof</h2>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-[#746754]">Filter by reset type and jump from each visual proof card into a quote intent.</p>
+          <p className="brand-label text-xs brass-text">Pick the closest issue</p>
+          <h2 className="mt-2 text-3xl font-semibold tracking-tight text-[#0a2a24]">Find a similar property problem</h2>
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-[#746754]">Filter by issue type, then use the quote button if your property needs similar work.</p>
         </div>
         <div className="flex max-w-full gap-2 overflow-x-auto pb-1 lg:max-w-3xl lg:flex-wrap lg:justify-end lg:overflow-visible">
           {galleryCategories.map((category) => {

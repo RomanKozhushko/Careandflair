@@ -1,45 +1,45 @@
 {
   "conversionCore": {
     "visible": true,
-    "eyebrow": "Property readiness planner",
-    "title": "Build the Reset",
-    "subtitle": "Select what is holding the property back. We will turn it into a calm readiness path with priority fixes, package guidance and quote details.",
+    "eyebrow": "Common urgent property problems",
+    "title": "Is your property almost ready, but not quite?",
+    "subtitle": "Choose what is stopping the property being ready. We will turn it into a practical reset path with priority fixes, package guidance and quote details.",
     "steps": {
-      "mode": "1. Choose your route",
-      "problems": "2. Pick property blockers",
-      "score": "3. Readiness score",
-      "recommendation": "4. Reset plan"
+      "mode": "1. Who needs it ready?",
+      "problems": "2. What is the problem?",
+      "score": "3. How urgent is it?",
+      "recommendation": "4. Quote path"
     },
     "problemPicker": {
-      "title": "What needs to be made ready?",
-      "subtitle": "Choose every issue that applies. We’ll shape it into a practical property reset, not a generic form.",
-      "emptySummary": "No readiness blockers selected yet.",
-      "selectedSummary": "Selected property blockers"
+      "title": "What is stopping the property being ready?",
+      "subtitle": "Pick every issue that applies: smells, stained carpets, bathroom marks, wall scuffs, dirty windows or outdoor areas.",
+      "emptySummary": "No property problems selected yet.",
+      "selectedSummary": "Selected property problems"
     },
     "score": {
-      "title": "Property Readiness Score",
-      "caption": "Estimate based on visible blockers and client route. Final scope is confirmed after quote request."
+      "title": "Readiness check",
+      "caption": "Estimate based on visible problems and deadline. Final scope is confirmed after quote request."
     },
     "report": {
-      "title": "Property Readiness Plan",
-      "subtitle": "Built from your selected route, blockers and score.",
-      "emptyState": "Pick at least one blocker to generate your readiness plan.",
+      "title": "Suggested reset path",
+      "subtitle": "Built from your selected client type, problems and urgency.",
+      "emptyState": "Pick at least one problem to generate your reset path.",
       "problemLabel": "Problems selected",
       "pathLabel": "Recommended package",
       "modeLabel": "Client route",
-      "viewingKillerLabel": "Main readiness blocker",
+      "viewingKillerLabel": "Main issue to fix first",
       "priorityLabel": "Top 3 priority fixes",
-      "upgradesLabel": "Suggested upgrades",
+      "upgradesLabel": "Suggested add-ons",
       "whyLabel": "Why this matters",
-      "previewLabel": "Matching transformation preview",
-      "fallbackTitle": "Care & Flair Reset Preview",
-      "fallbackText": "No exact before-after case is live for this blocker yet, so we’ll use a Care & Flair reset preview and scope the precise transformation in the quote."
+      "previewLabel": "Similar property example",
+      "fallbackTitle": "Care & Flair Reset Example",
+      "fallbackText": "No exact before-after case is live for this problem yet, so we will use a Care & Flair reset example and scope the precise work in the quote."
     },
     "cta": {
-      "label": "Get Quote With This Plan",
-      "helper": "Your readiness plan, score and recommended package will be attached to the quote request.",
-      "prefillNotice": "Your readiness plan has been attached to this quote request.",
-      "disabledLabel": "Select at least one problem to unlock the reset quote path."
+      "label": "Get a quote with these problems",
+      "helper": "Your selected problems and recommended package will be attached to the quote request.",
+      "prefillNotice": "Your selected property problems have been attached to this quote request.",
+      "disabledLabel": "Select at least one problem to unlock the quote path."
     }
   }
 }

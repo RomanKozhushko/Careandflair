@@ -3,19 +3,19 @@
     "id": "24h-express-reset",
     "slug": "24h-express-reset",
     "name": "24h Express Reset",
-    "slogan": "48-Hour Property Readiness",
+    "slogan": "For urgent viewings or check-ins",
     "startingPrice": 595,
-    "description": "Fast-track property reset for urgent viewing, listing, guest-readiness or move-in preparation.",
-    "problem": "The property is empty, unfinished or not ready for a tenant, guest or client handover.",
-    "solution": "High-speed cleaning, handyman repairs, essentials fitting and minor presentation fixes in one coordinated visit.",
-    "result": "A tidy, sharper property ready for the next step with less stress.",
+    "description": "Fast reset for a property that is almost ready but still looks tired, messy or unfinished.",
+    "problem": "A tenant has moved out, an Airbnb guest arrives soon, or the property is not ready for photos.",
+    "solution": "Priority cleaning, small handyman fixes, essentials fitting and the most visible presentation issues.",
+    "result": "A cleaner, tidier property ready for the next viewing, check-in or handover.",
     "includedServices": [
-      "48-Hour Property Readiness",
-      "Property Resets",
-      "Handyman Repairs",
-      "Kitchen & Living Setup",
-      "Curtains, TV & Essentials Installed",
-      "Wall Mounting & Fittings"
+      "Priority clean of key rooms",
+      "Small handyman repairs",
+      "Bathroom and kitchen touch points",
+      "Basic setup and fitting jobs",
+      "Photo/viewing readiness check",
+      "Clear list of any bigger issues"
     ],
     "microGuarantees": [
       "Fast readiness",
@@ -24,9 +24,9 @@
     "image": "/images/generated/kitchen-before-after.jpg",
     "visualLabel": "24h rental reset visual",
     "proofDetails": [
-      "Urgent turnover workflow",
-      "Kitchen and bathroom presentation focus",
-      "Minor touch-ups included"
+      "Built for urgent deadlines",
+      "Focus on what visitors notice first",
+      "Good for light tenant move-out issues"
     ],
     "visible": true,
     "order": 1,
@@ -39,30 +39,30 @@
     "id": "48h-pro-flair-reset",
     "slug": "48h-pro-flair-reset",
     "name": "48h Pro Flair Reset",
-    "slogan": "Our Signature Property Preparation",
+    "slogan": "For landlords and letting agents",
     "startingPrice": 1195,
-    "description": "The recommended reset for landlords and agents who want stronger presentation, tidy finish and move-in confidence.",
-    "problem": "The property needs more than cleaning. It needs a visible reset, setup and finishing before listing, viewing or handover.",
-    "solution": "Cleaning, maintenance, fittings, furniture arrangement and detail work in one coordinated property readiness service.",
-    "result": "A calmer, fresher property prepared for tenants, clients, guests or family move-in.",
+    "description": "The practical middle option when cleaning alone will not make the property feel ready.",
+    "problem": "The property needs visible cleaning, small repairs, setup and finishing before listing, viewing or handover.",
+    "solution": "Cleaning, maintenance, fittings, furniture arrangement and detail work in one coordinated visit.",
+    "result": "A property that feels looked after and easier to show to tenants, buyers, guests or family.",
     "includedServices": [
-      "Full Home Setup Before Move-In",
-      "Furniture Installation & Space Arrangement",
-      "Flat-Pack Assembly",
-      "Curtains, TV & Essentials Installed",
-      "Turnkey Property Preparation",
-      "For Landlords, Agents & Airbnb"
+      "Kitchen and bathroom deep reset",
+      "Touch-ups and small repairs",
+      "Furniture and room setup",
+      "Flat-pack, curtains, TV and fittings",
+      "Photo/viewing presentation check",
+      "For landlords, agents and Airbnb hosts"
     ],
     "microGuarantees": [
-      "Signature package",
-      "Best for agents"
+      "Recommended for most tired rentals",
+      "Best when photos/viewings matter"
     ],
     "image": "/images/generated/hero-living-room-reset.jpg",
     "visualLabel": "48h signature reset visual",
     "proofDetails": [
-      "Best balance of speed and presentation",
-      "Interior detail plus hygiene recovery",
-      "Designed for agents and landlords"
+      "Best balance of speed and scope",
+      "Covers cleaning plus practical fixes",
+      "Good for agents and landlords"
     ],
     "visible": true,
     "order": 2,
@@ -75,30 +75,30 @@
     "id": "72h-ultimate-reset",
     "slug": "72h-ultimate-reset",
     "name": "72h Ultimate Reset",
-    "slogan": "Turnkey Property Preparation",
+    "slogan": "For tired properties needing more work",
     "startingPrice": 1600,
-    "description": "For properties that need the strongest visual reset and a fresher, premium handover feel.",
-    "problem": "The property feels tired, marked, neglected or below its income potential.",
-    "solution": "Deeper cleaning, repainting, detailing, repairs, fittings, exterior base clean and full readiness coordination.",
-    "result": "A stronger, fresher property ready for premium photos, viewings, tenants or guests.",
+    "description": "For properties with several visible problems before tenants, guests, photos or move-in.",
+    "problem": "Walls are marked, bathrooms look neglected, carpets smell, or the property feels uncared for.",
+    "solution": "Deeper cleaning, touch-ups, detailing, repairs, fittings, exterior base clean and readiness coordination.",
+    "result": "A noticeably cleaner and more presentable property with the main issues dealt with.",
     "includedServices": [
       "Everything in 48h Reset",
-      "Turnkey Property Preparation",
-      "Full Home Setup Before Move-In",
-      "Furniture Installation & Space Arrangement",
-      "Wall Mounting & Fittings",
-      "Exterior base clean"
+      "Deeper clean and detail work",
+      "Wall marks and visible touch-ups",
+      "Furniture and room setup",
+      "Wall mounting and fittings",
+      "Entrance or exterior base clean"
     ],
     "microGuarantees": [
-      "Maximum presentation",
-      "Best for tired properties"
+      "Wider scope",
+      "Best for neglected properties"
     ],
     "image": "/images/generated/driveway-before-after.jpg",
     "visualLabel": "72h full property reset visual",
     "proofDetails": [
-      "Deeper reset for tired properties",
+      "Deeper reset for tired or marked properties",
       "Exterior base clean for first impression",
-      "Premium photo and handover readiness"
+      "Photo and handover readiness"
     ],
     "visible": true,
     "order": 3,

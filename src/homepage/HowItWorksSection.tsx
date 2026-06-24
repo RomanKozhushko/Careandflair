@@ -8,7 +8,7 @@ export function HowItWorksSection() {
   return (
     <section className="bg-[#f5ecdc] px-4 py-20 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <SectionHeader eyebrow="A calmer handover" title={section.title} subtitle={section.subtitle} align="center" />
+        <SectionHeader eyebrow="Simple process" title={section.title} subtitle={section.subtitle} align="center" />
         <div className="mt-10 grid gap-4 md:grid-cols-4">
           {steps.map((step, index) => (
             <article key={step.title} className="rounded-[1.5rem] border border-[#E6D6BD] bg-white p-5 shadow-sm shadow-[#0a2a24]/5">

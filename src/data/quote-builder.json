@@ -8,19 +8,19 @@
   ],
   "estimateLabel": "Estimated from price",
   "currency": "GBP",
-  "disclaimer": "Final price depends on property condition, access, urgency, parking and selected scope. This estimate is a starting point, not a fixed quote.",
+  "disclaimer": "Final price depends on property condition, access, urgency, parking and selected work. This is a starting point, not a fixed quote.",
   "page": {
-    "eyebrow": "Guided Quote Builder",
-    "title": "Build your property reset quote.",
-    "intro": "Choose a reset package, property type and useful upgrades. Submit is currently a mock confirmation only — no email, CRM or notifications are connected.",
-    "mockNotice": "MVP mode: this form shows a success summary only and does not send data externally."
+    "eyebrow": "Quick quote request",
+    "title": "Tell us what needs to be ready.",
+    "intro": "Choose the deadline, property type and visible problems. Use this to request a practical reset quote for cleaning, small repairs and setup.",
+    "mockNotice": "MVP mode: this form shows a summary only and does not send the request yet."
   },
   "stepLabels": {
-    "servicePackage": "Choose package / service",
+    "servicePackage": "Choose reset speed",
     "propertyCategory": "Choose property category",
     "propertyType": "Choose property type",
-    "optionalUpgrades": "Choose optional upgrades",
-    "contactSummary": "Contact details + request summary"
+    "optionalUpgrades": "Choose visible problems",
+    "contactSummary": "Contact details + property notes"
   },
   "actions": {
     "next": "Continue",
@@ -33,9 +33,9 @@
     "phone": "Phone",
     "email": "Email",
     "postcode": "Postcode",
-    "message": "Message / property condition"
+    "message": "Deadline, access, photos, condition notes"
   },
-  "summaryTitle": "Your quote request summary",
+  "summaryTitle": "Your property reset summary",
   "successTitle": "Quote request summary ready",
   "successMessage": "This is a mock submit for the MVP. The summary is shown on screen only and has not been sent to email, CRM or Telegram.",
   "priceBreakdownLabels": {

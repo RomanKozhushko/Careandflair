@@ -1,29 +1,29 @@
 {
   "siteName": "CARE & FLAIR",
-  "positioning": "Property Turnover & Maintenance Specialist",
+  "positioning": "Local Property Reset & Maintenance",
   "primaryObjective": "Generate qualified quote requests through a guided quote builder",
   "defaultLocale": "en-GB",
   "phone": "+44 7445 897204",
   "website": "careandflair.life",
   "email": "hello@careandflair.life",
-  "brandLine": "Ready homes. Tidy finish. Less stress.",
-  "coreMessage": "We prepare properties so clients can move in immediately.",
-  "serviceAreaSummary": "Bromley, South East London, Kent & Medway",
+  "brandLine": "Cleaned, fixed and ready faster.",
+  "coreMessage": "We help tired properties become ready for photos, viewings, guests, tenants or family move-in.",
+  "serviceAreaSummary": "Bromley, Rochester, Medway and Kent",
   "parallax": {
     "parallaxEnabled": true,
     "parallaxIntensity": "subtle",
     "disableOnMobile": true
   },
   "navigation": [
-    { "label": "Services", "href": "#solutions" },
-    { "label": "Packages", "href": "#packages" },
-    { "label": "Before/After", "href": "#before-after" },
-    { "label": "Areas", "href": "#areas" },
-    { "label": "FAQ", "href": "#faq" }
+    { "label": "Services", "href": "/#solutions" },
+    { "label": "Packages", "href": "/#packages" },
+    { "label": "Before/After", "href": "/#before-after" },
+    { "label": "Areas", "href": "/#areas" },
+    { "label": "FAQ", "href": "/#faq" }
   ],
   "footerLinks": [
-    { "label": "Reset Packages", "href": "#packages" },
-    { "label": "Flair Solutions", "href": "#solutions" },
+    { "label": "Reset Packages", "href": "/#packages" },
+    { "label": "What We Fix", "href": "/#solutions" },
     { "label": "Before & After", "href": "/before-after" },
     { "label": "Get Quote", "href": "/quote" }
   ]

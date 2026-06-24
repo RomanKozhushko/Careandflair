@@ -9,7 +9,7 @@ export function ResetPackagesSection() {
   return (
     <section id="packages" className="bg-[#f5ecdc] px-4 py-20 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <SectionHeader eyebrow="Ready homes, tidy finish" title={section.title} subtitle={section.subtitle} />
+        <SectionHeader eyebrow="From prices for real deadlines" title={section.title} subtitle={section.subtitle} />
         <div className="mt-10 grid gap-5 lg:grid-cols-3">
           {packages.map((item) => (
             <PackageCard key={item.id} item={item} />

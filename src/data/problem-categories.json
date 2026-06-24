@@ -164,7 +164,7 @@
   {
     "id": "garden-overgrowth",
     "label": "Garden overgrowth",
-    "description": "Outdoor areas reducing kerb appeal and usability.",
+    "description": "Outdoor areas reducing first impression and usability.",
     "weight": 11,
     "severity": "moderate",
     "tags": ["garden", "exterior"],

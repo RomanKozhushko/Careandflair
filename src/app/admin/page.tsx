@@ -41,8 +41,8 @@ const sections: AdminSection[] = [
   },
   {
     id: "flair-solutions",
-    label: "Flair Solutions",
-    description: "Service solution cards, visual assets, problem/solution/result copy and quote mappings.",
+    label: "What We Fix",
+    description: "Service cards, visual assets, problem/solution/result copy and quote mappings.",
     fileName: "solutions.json",
     status: "mock",
     items: solutions,

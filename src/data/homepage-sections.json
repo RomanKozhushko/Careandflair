@@ -4,16 +4,16 @@
     "type": "hero",
     "visible": true,
     "order": 1,
-    "eyebrow": "Property Turnover & Maintenance Specialist",
-    "headline": "We prepare properties so clients can move in immediately",
-    "subheadline": "Property turnover, setup and maintenance for landlords, agents, Airbnb hosts and busy families.",
+    "eyebrow": "24-72h property resets across Bromley, Rochester, Medway and Kent",
+    "headline": "Property resets for homes that need to be ready fast.",
+    "subheadline": "Care & Flair helps landlords, letting agents, Airbnb hosts and families get tired properties clean, repaired and presentable in 24-72 hours.",
     "primaryCtaId": "build-your-quote",
     "secondaryCtaId": "view-reset-packages",
     "trustBadges": [
-      "48-hour property readiness",
-      "Turnover, setup and maintenance in one visit",
+      "24-72h reset options",
+      "Cleaning, small repairs and setup in one visit",
       "For landlords, agents, Airbnb hosts and families",
-      "Bromley, South East London, Kent & Medway"
+      "Bromley, Rochester, Medway and Kent"
     ],
     "heroImage": "/images/generated/hero-living-room-reset.jpg",
     "visualSteps": [
@@ -24,21 +24,21 @@
     ],
     "visualProofs": [
       {
-        "label": "Ready home",
-        "title": "Soft, tidy living spaces",
-        "description": "Furniture positioned, essentials fitted and rooms prepared for immediate move-in.",
+        "label": "Move-in basics",
+        "title": "Rooms ready to use",
+        "description": "Furniture positioned, essentials fitted and tired areas made presentable.",
         "image": "/images/generated/hero-living-room-reset.jpg"
       },
       {
-        "label": "Fresh finish",
-        "title": "Bathroom recovery",
-        "description": "Detail cleaning, small repairs and hygiene-focused presentation before handover.",
+        "label": "Bathroom reset",
+        "title": "Neglected areas fixed",
+        "description": "Limescale, tired silicone, grout marks and hygiene details dealt with before handover.",
         "image": "/images/generated/bathroom-before-after.jpg"
       },
       {
-        "label": "First impression",
-        "title": "Exterior arrival moment",
-        "description": "Entrances, patios and outdoor areas reset so the property feels cared for.",
+        "label": "Viewing ready",
+        "title": "Better first impression",
+        "description": "Entrance, windows, patios and visible details cleaned up for photos or viewings.",
         "image": "/images/generated/driveway-before-after.jpg"
       }
     ],
@@ -49,40 +49,40 @@
     "type": "packages",
     "visible": true,
     "order": 2,
-    "title": "Property Readiness Packages",
-    "subtitle": "Choose the level of turnover, setup and maintenance your property needs before move-in, viewing or handover."
+    "title": "Choose the reset speed that fits your deadline",
+    "subtitle": "Simple 24h, 48h and 72h starting points. Final price depends on condition, access, urgency and selected fixes."
   },
   {
     "id": "flair-solutions",
     "type": "solutions",
     "visible": true,
     "order": 3,
-    "title": "Flair Solutions",
-    "subtitle": "Calm, practical finishing services for a ready home: setup, fittings, repairs, resets and presentation details."
+    "title": "What we actually fix",
+    "subtitle": "Practical cleaning, small repairs and setup jobs that stop a property being ready for tenants, guests, photos or move-in."
   },
   {
     "id": "how-it-works",
     "type": "howItWorks",
     "visible": true,
     "order": 4,
-    "title": "How It Works",
-    "subtitle": "A simple route from tired or unfinished property to move-in ready presentation.",
+    "title": "How to get a quote",
+    "subtitle": "Send the details, confirm the deadline and get a practical reset plan before work starts.",
     "steps": [
       {
-        "title": "Share the property",
-        "description": "Send property type, postcode, deadline and photos where possible."
+        "title": "Send the problem",
+        "description": "Tell us the postcode, deadline, property type and what is not ready. Photos help."
       },
       {
-        "title": "Build the reset",
-        "description": "Select the readiness package and any essentials: furniture, fittings, curtains, TV, kitchen or living setup."
+        "title": "Get a clear scope",
+        "description": "We match the right reset package and list the cleaning, repairs, setup or upgrades needed."
       },
       {
-        "title": "We prepare the home",
-        "description": "Handyman repairs, flat-pack assembly, wall mounting, cleaning and arrangement are coordinated together."
+        "title": "We do the work",
+        "description": "Cleaning, handyman fixes, fittings, furniture setup and presentation are handled together."
       },
       {
-        "title": "Ready for move-in",
-        "description": "The property is left tidy, finished and prepared for tenants, guests, viewings or family handover."
+        "title": "Ready for the next step",
+        "description": "The property is left cleaner, tidier and more presentable for viewings, guests, tenants or family move-in."
       }
     ]
   },
@@ -91,16 +91,16 @@
     "type": "beforeAfter",
     "visible": true,
     "order": 5,
-    "title": "Before & After Proof",
-    "subtitle": "Real transformation stories framed around readiness, tidy finish and reduced stress."
+    "title": "Visible improvements before someone walks in",
+    "subtitle": "Examples of the kinds of tired areas we reset before photos, viewings, check-ins and handovers."
   },
   {
     "id": "guardian-plans",
     "type": "guardianPlans",
     "visible": true,
     "order": 6,
-    "title": "Guardian Property Oversight",
-    "subtitle": "Recurring checks, reporting and small-fix support for landlords, agents and hosts."
+    "title": "Ongoing checks for landlords and hosts",
+    "subtitle": "Optional recurring visits, photo updates and small-fix support when you need someone local to keep an eye on the property."
   },
   {
     "id": "areas-served",
@@ -108,7 +108,7 @@
     "visible": true,
     "order": 7,
     "title": "Areas Served",
-    "subtitle": "Local property turnover and maintenance support across our core operating area."
+    "subtitle": "Local property reset and maintenance support across our core operating area."
   },
   {
     "id": "faq",
@@ -123,8 +123,8 @@
     "type": "cta",
     "visible": true,
     "order": 9,
-    "title": "Need the property ready without the stress?",
-    "subtitle": "Build a clear readiness plan for turnover, setup, repairs and final presentation.",
+    "title": "Need a tired property ready quickly?",
+    "subtitle": "Send the property details, photos and deadline. We will help you choose the right reset and quote the work clearly.",
     "primaryCtaId": "build-my-property-reset-quote"
   }
 ]

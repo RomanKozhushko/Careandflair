@@ -22,10 +22,10 @@ export default function Home() {
       <Header />
       <main>
         <HeroSection />
-        <TrustBadges />
-        <ResetPackagesSection />
         <LazyInteractiveConversionCore />
         <FlairSolutionsGrid />
+        <ResetPackagesSection />
+        <TrustBadges />
         <BeforeAfterPreview />
         <HowItWorksSection />
         <GuardianPlansSection />

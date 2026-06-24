@@ -23,7 +23,7 @@ export function Header() {
         </nav>
         <div className="flex shrink-0 items-center gap-3">
           <a href={telHref} className="hidden text-sm font-semibold text-[#0a2a24] hover:text-[#b07e33] lg:inline-flex">{siteSettings.phone}</a>
-          <div className="hidden sm:block"><CtaButton cta={primaryCta} variant="primary" className="px-4 py-2.5" /></div>
+          <CtaButton cta={primaryCta} variant="primary" className="px-3 py-2.5 sm:px-4" />
         </div>
       </div>
       <div className="h-px bg-gradient-to-r from-transparent via-[#b07e33]/45 to-transparent" />
