@@ -18,7 +18,7 @@ function safeFileName(name: string): string {
 
 export async function POST(request: Request) {
   if (!isAdminRouteRequestAuthorized(request)) {
-    return Response.json({ success: false, error: "Admin password required." }, { status: 401 });
+    return Response.json({ success: false, error: "Login required." }, { status: 401 });
   }
 
   if (process.env.VERCEL) {

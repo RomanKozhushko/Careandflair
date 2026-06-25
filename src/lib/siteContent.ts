@@ -1,6 +1,7 @@
 import { readResource, type JsonRecord } from "@/admin/jsonStore";
 import { getAdminResource, type AdminResourceKey } from "@/admin/resources";
 import { fallbackContent, type ContentBundle } from "@/lib/content";
+import { formatSupabaseAdminError } from "@/lib/supabase/errors";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import type {
   Area,
@@ -19,9 +20,9 @@ import type {
   Solution,
 } from "@/lib/types";
 
-type ContentSource = "supabase" | "json" | "json-fallback";
+export type ContentSource = "supabase" | "json" | "json-fallback";
 
-type ReadResourceResult = {
+export type ReadResourceResult = {
   items: JsonRecord[];
   source: ContentSource;
   configured: boolean;
@@ -86,7 +87,7 @@ export async function readEditableResource(resourceKey: AdminResourceKey): Promi
     .maybeSingle();
 
   if (error) {
-    return readFallback(resourceKey, "json-fallback", `Supabase content storage is not ready: ${error.message}`);
+    return readFallback(resourceKey, "json-fallback", formatSupabaseAdminError(error.message, "site_content"));
   }
 
   if (!data?.content) {
@@ -120,7 +121,7 @@ export async function saveEditableResource(resourceKey: AdminResourceKey, items:
     .single();
 
   if (error) {
-    throw new Error(error.message);
+    throw new Error(formatSupabaseAdminError(error.message, "site_content"));
   }
 
   return {

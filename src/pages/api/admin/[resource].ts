@@ -31,7 +31,7 @@ function parseItem(value: unknown): JsonRecord {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<AdminResponse>) {
   if (!isAdminApiRequestAuthorized(req)) {
-    return res.status(401).json({ error: "Admin password required." });
+    return res.status(401).json({ error: "Login required." });
   }
 
   const resourceParam = req.query.resource;

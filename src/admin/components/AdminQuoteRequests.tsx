@@ -81,6 +81,7 @@ export function AdminQuoteRequests() {
     }
 
     setItems((current) => current.map((item) => (item.id === result.item?.id ? result.item : item)));
+    setMessage("Quote request updated.");
     setSaving(false);
   }
 

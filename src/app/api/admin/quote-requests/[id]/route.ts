@@ -1,5 +1,6 @@
 import { isAdminRouteRequestAuthorized } from "@/admin/auth";
 import { isQuoteRequestStatus } from "@/lib/quoteRequests";
+import { formatSupabaseAdminError } from "@/lib/supabase/errors";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 
 export const runtime = "nodejs";
@@ -10,7 +11,7 @@ type RouteContext = {
 
 export async function PATCH(request: Request, context: RouteContext) {
   if (!isAdminRouteRequestAuthorized(request)) {
-    return Response.json({ success: false, error: "Admin password required." }, { status: 401 });
+    return Response.json({ success: false, error: "Login required." }, { status: 401 });
   }
 
   const { id } = await context.params;
@@ -49,7 +50,7 @@ export async function PATCH(request: Request, context: RouteContext) {
     .single();
 
   if (error) {
-    return Response.json({ success: false, error: error.message }, { status: 500 });
+    return Response.json({ success: false, error: formatSupabaseAdminError(error.message, "quote_requests") }, { status: 500 });
   }
 
   return Response.json({ success: true, item: data });
