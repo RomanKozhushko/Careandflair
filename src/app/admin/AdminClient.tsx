@@ -574,7 +574,7 @@ export default function AdminClient({
             {error ? <div className="mt-5 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm font-semibold leading-6 text-red-950">{error}</div> : null}
             {!isJsonValid ? <div className="mt-5 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-950">JSON parse error. Check commas, quotes and brackets before saving.</div> : null}
 
-            <div className="mt-6 grid gap-5 xl:grid-cols-[18rem_1fr]">
+            <div className="mt-6 grid gap-5 xl:grid-cols-[16rem_1fr]">
               <nav className="rounded-2xl border border-[#E6D6BD] bg-[#fbf6ee] p-3">
                 <p className="px-3 pb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#746754]">Resources</p>
                 <div className="grid gap-1">
@@ -594,12 +594,12 @@ export default function AdminClient({
                 </div>
               </nav>
 
-              <div className="grid gap-5 2xl:grid-cols-[20rem_1fr]">
+              <div className="grid gap-5">
                 <aside className="rounded-2xl border border-[#E6D6BD] bg-[#fbf6ee] p-4">
                   <div className="flex items-center justify-between gap-3">
                     <div>
-                      <h3 className="text-lg font-bold text-[#0a2a24]">Items</h3>
-                      <p className="text-sm text-[#746754]">{isObjectResource ? "Single settings object" : `${activeItems.length} items`}</p>
+                      <h3 className="text-lg font-bold text-[#0a2a24]">1. Choose what to edit</h3>
+                      <p className="text-sm text-[#746754]">{isObjectResource ? "Single settings object" : `${activeItems.length} items in this section`}</p>
                     </div>
                     {!isObjectResource ? (
                       <button type="button" onClick={addItem} className="rounded-full bg-[#0a2a24] px-4 py-2 text-sm font-bold text-white hover:bg-[#061A17]">
@@ -608,13 +608,13 @@ export default function AdminClient({
                     ) : null}
                   </div>
 
-                  <div className="mt-4 max-h-[34rem] space-y-2 overflow-auto pr-1">
+                  <div className="mt-4 grid max-h-[28rem] gap-2 overflow-auto pr-1 md:grid-cols-2 xl:grid-cols-3">
                     {activeItems.map((item, index) => (
                       <button
                         key={`${activeResource}-${index}-${String(item.id ?? "item")}`}
                         type="button"
                         onClick={() => selectItem(index)}
-                        className={`w-full rounded-xl border px-3 py-3 text-left transition ${
+                        className={`min-h-20 w-full rounded-xl border px-4 py-3 text-left transition ${
                           index === selectedIndex ? "border-[#b07e33] bg-white" : "border-[#E6D6BD] bg-[#f5ecdc] hover:bg-white"
                         }`}
                       >
@@ -655,21 +655,21 @@ export default function AdminClient({
 
                   {saveDisabledReason ? <p className="mt-3 text-sm font-semibold text-[#746754]">{saveDisabledReason}</p> : null}
 
-                  <div className="mt-5 rounded-2xl border border-[#E6D6BD] bg-white p-4">
+                  <div className="mt-5 rounded-2xl border border-[#E6D6BD] bg-white p-5">
                     <div className="mb-4 flex flex-col gap-1">
-                      <h4 className="font-bold text-[#0a2a24]">Simple editor</h4>
-                      <p className="text-sm text-[#746754]">Edit the common fields here. Complex grouped settings remain available in the advanced JSON box below.</p>
+                      <h4 className="text-lg font-bold text-[#0a2a24]">2. Text and data</h4>
+                      <p className="text-sm text-[#746754]">Edit one row at a time. These fields update the same content that will be saved to Supabase.</p>
                     </div>
 
                     {draftItem ? (
-                      <div className="grid gap-4 md:grid-cols-2">
+                      <div className="grid gap-4">
                         {Object.entries(draftItem).map(([field, value]) => {
                           if (visibleImageFields.includes(field)) return null;
                           const label = displayLabel(field);
 
                           if (typeof value === "boolean") {
                             return (
-                              <label key={field} className="flex items-center justify-between gap-4 rounded-xl border border-[#E6D6BD] bg-[#fbf6ee] px-4 py-3 text-sm font-bold text-[#14241F]">
+                              <label key={field} className="flex min-h-16 items-center justify-between gap-4 rounded-xl border border-[#E6D6BD] bg-[#fbf6ee] px-4 py-3 text-sm font-bold text-[#14241F]">
                                 <span>{label}</span>
                                 <input
                                   type="checkbox"
@@ -683,13 +683,13 @@ export default function AdminClient({
 
                           if (typeof value === "number") {
                             return (
-                              <label key={field} className="text-sm font-bold text-[#14241F]">
+                              <label key={field} className="block rounded-xl border border-[#E6D6BD] bg-[#fbf6ee] p-4 text-sm font-bold text-[#14241F]">
                                 {label}
                                 <input
                                   type="number"
                                   value={value}
                                   onChange={(event) => updateDraftField(field, Number(event.target.value))}
-                                  className="mt-2 w-full rounded-xl border border-[#E6D6BD] bg-[#fbf6ee] px-3 py-2 text-sm font-normal text-[#14241F] outline-none focus:border-[#b07e33]"
+                                  className="mt-2 min-h-12 w-full rounded-xl border border-[#E6D6BD] bg-white px-3 py-3 text-base font-normal text-[#14241F] outline-none focus:border-[#b07e33]"
                                 />
                               </label>
                             );
@@ -697,20 +697,20 @@ export default function AdminClient({
 
                           if (typeof value === "string") {
                             return (
-                              <label key={field} className="text-sm font-bold text-[#14241F]">
+                              <label key={field} className="block rounded-xl border border-[#E6D6BD] bg-[#fbf6ee] p-4 text-sm font-bold text-[#14241F]">
                                 {label}
                                 {shouldUseTextarea(field, value) ? (
                                   <textarea
                                     value={value}
                                     rows={4}
                                     onChange={(event) => updateDraftField(field, event.target.value)}
-                                    className="mt-2 w-full rounded-xl border border-[#E6D6BD] bg-[#fbf6ee] px-3 py-2 text-sm font-normal leading-6 text-[#14241F] outline-none focus:border-[#b07e33]"
+                                    className="mt-2 min-h-32 w-full rounded-xl border border-[#E6D6BD] bg-white px-3 py-3 text-base font-normal leading-7 text-[#14241F] outline-none focus:border-[#b07e33]"
                                   />
                                 ) : (
                                   <input
                                     value={value}
                                     onChange={(event) => updateDraftField(field, event.target.value)}
-                                    className="mt-2 w-full rounded-xl border border-[#E6D6BD] bg-[#fbf6ee] px-3 py-2 text-sm font-normal text-[#14241F] outline-none focus:border-[#b07e33]"
+                                    className="mt-2 min-h-12 w-full rounded-xl border border-[#E6D6BD] bg-white px-3 py-3 text-base font-normal text-[#14241F] outline-none focus:border-[#b07e33]"
                                   />
                                 )}
                               </label>
@@ -719,13 +719,13 @@ export default function AdminClient({
 
                           if (isStringArray(value)) {
                             return (
-                              <label key={field} className="text-sm font-bold text-[#14241F] md:col-span-2">
+                              <label key={field} className="block rounded-xl border border-[#E6D6BD] bg-[#fbf6ee] p-4 text-sm font-bold text-[#14241F]">
                                 {label}
                                 <textarea
                                   value={value.join("\n")}
                                   rows={Math.min(Math.max(value.length, 3), 8)}
                                   onChange={(event) => updateStringListField(field, event.target.value)}
-                                  className="mt-2 w-full rounded-xl border border-[#E6D6BD] bg-[#fbf6ee] px-3 py-2 text-sm font-normal leading-6 text-[#14241F] outline-none focus:border-[#b07e33]"
+                                  className="mt-2 min-h-32 w-full rounded-xl border border-[#E6D6BD] bg-white px-3 py-3 text-base font-normal leading-7 text-[#14241F] outline-none focus:border-[#b07e33]"
                                 />
                                 <span className="mt-1 block text-xs font-normal text-[#746754]">One item per line.</span>
                               </label>
@@ -734,7 +734,7 @@ export default function AdminClient({
 
                           if (Array.isArray(value) || isPlainRecord(value)) {
                             return (
-                              <div key={field} className="rounded-xl border border-[#E6D6BD] bg-[#fbf6ee] p-3 text-sm text-[#14241F] md:col-span-2">
+                              <div key={field} className="rounded-xl border border-[#E6D6BD] bg-[#fbf6ee] p-4 text-sm text-[#14241F]">
                                 <p className="font-bold">{label}</p>
                                 <p className="mt-1 text-xs leading-5 text-[#746754]">Grouped field. Edit this in the advanced JSON box below.</p>
                               </div>
@@ -749,28 +749,28 @@ export default function AdminClient({
                     )}
                   </div>
 
-                  <div className="mt-5 rounded-2xl border border-[#E6D6BD] bg-white p-4">
+                  <div className="mt-5 rounded-2xl border border-[#E6D6BD] bg-white p-5">
                     <div className="mb-4 flex flex-col gap-1">
-                      <h4 className="font-bold text-[#0a2a24]">Visual fields</h4>
-                      <p className="text-sm text-[#746754]">Upload public website images to Supabase Storage, preview them here, then save the resource.</p>
+                      <h4 className="text-lg font-bold text-[#0a2a24]">3. Pictures</h4>
+                      <p className="text-sm text-[#746754]">Upload or replace website images. After upload, press Save changes so the new URL is stored.</p>
                     </div>
 
-                    <div className="grid gap-4 md:grid-cols-2">
+                    <div className="grid gap-4">
                       {visibleImageFields.map((field) => {
                         const value = draftItem?.[field];
                         const path = typeof value === "string" ? value : "";
 
                         return (
-                          <div key={field} className="rounded-xl border border-[#E6D6BD] bg-[#fbf6ee] p-3">
+                          <div key={field} className="rounded-xl border border-[#E6D6BD] bg-[#fbf6ee] p-4">
                             <label className="text-sm font-bold text-[#14241F]">{displayLabel(field)}</label>
-                            <div className="relative mt-3 aspect-video overflow-hidden rounded-xl border border-[#E6D6BD] bg-white">
+                            <div className="relative mt-3 aspect-video max-h-[26rem] overflow-hidden rounded-xl border border-[#E6D6BD] bg-white">
                               {path ? <Image src={path} alt="" fill sizes="(min-width: 768px) 16rem, 100vw" className="object-cover" /> : <div className="flex h-full items-center justify-center text-sm text-[#746754]">No image</div>}
                             </div>
                             <input
                               value={path}
                               onChange={(event) => updateDraftField(field, event.target.value)}
                               placeholder="https://...supabase.co/storage/v1/object/public/site-images/image.webp"
-                              className="mt-3 w-full rounded-xl border border-[#E6D6BD] bg-white px-3 py-2 text-sm text-[#14241F] outline-none focus:border-[#b07e33]"
+                              className="mt-3 min-h-12 w-full rounded-xl border border-[#E6D6BD] bg-white px-3 py-3 text-base text-[#14241F] outline-none focus:border-[#b07e33]"
                             />
                             <input
                               type="file"
@@ -785,7 +785,7 @@ export default function AdminClient({
                       })}
                     </div>
 
-                    <div className="mt-4 grid gap-3 md:grid-cols-2">
+                    <div className="mt-4 grid gap-3">
                       {visibleAltFields.map((field) => (
                         <label key={field} className="text-sm font-bold text-[#14241F]">
                           {displayLabel(field)}
@@ -793,7 +793,7 @@ export default function AdminClient({
                             value={typeof draftItem?.[field] === "string" ? String(draftItem[field]) : ""}
                             onChange={(event) => updateDraftField(field, event.target.value)}
                             placeholder="Alternative text / visual label"
-                            className="mt-2 w-full rounded-xl border border-[#E6D6BD] bg-white px-3 py-2 text-sm font-normal text-[#14241F] outline-none focus:border-[#b07e33]"
+                            className="mt-2 min-h-12 w-full rounded-xl border border-[#E6D6BD] bg-white px-3 py-3 text-base font-normal text-[#14241F] outline-none focus:border-[#b07e33]"
                           />
                         </label>
                       ))}
@@ -801,7 +801,7 @@ export default function AdminClient({
                   </div>
 
                   <label className="mt-5 block text-sm font-bold text-[#14241F]">
-                    Structured content JSON
+                    4. Advanced JSON
                     <textarea
                       value={draft}
                       onChange={(event) => {
