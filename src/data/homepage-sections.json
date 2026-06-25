@@ -6,7 +6,8 @@
     "order": 1,
     "eyebrow": "Local property reset and maintenance",
     "headline": "Property resets for homes that need to be ready fast.",
-    "subheadline": "Care & Flair helps landlords, agents, new homeowners and hosts get tired properties clean, repaired and presentable in 24-72 hours across Bromley, Rochester, Medway and Kent.",
+    "subheadline": "We help get tired homes ready again — cleaned, repaired, touched up and easier to hand over, show, sell or move into.",
+    "explanation": "A property reset is a practical mix of deep cleaning, small repairs, touch-ups and fittings to make a home ready again.",
     "primaryCtaId": "build-your-quote",
     "secondaryCtaId": "view-reset-packages",
     "trustBadges": [
@@ -14,7 +15,8 @@
       "Clear quote before work starts",
       "Photo updates after the job",
       "Keys and property handled carefully",
-      "Airbnb launch and recovery resets, not routine changeovers"
+      "Local help across Bromley, Rochester, Medway and Kent",
+      "Airbnb launch/recovery only, not routine changeovers"
     ],
     "heroImage": "/images/generated/hero-living-room-reset.jpg",
     "visualSteps": [
@@ -27,18 +29,18 @@
       {
         "label": "Move-In Reset",
         "title": "Ready before the first night",
-        "description": "Cleaning, small repairs, fittings and visible issues handled before removals arrive.",
+        "description": "Dusty rooms, tired bathrooms, wall marks and fittings handled before the boxes arrive.",
         "image": "/images/generated/hero-living-room-reset.jpg"
       },
       {
         "label": "Bathroom reset",
-        "title": "Neglected areas fixed",
-        "description": "Tired silicone, limescale, grout marks and bathroom details cleaned up before handover.",
+        "title": "Visible issues fixed",
+        "description": "Old silicone, limescale, grout marks and bathroom details cleaned up before handover.",
         "image": "/images/generated/bathroom-before-after.jpg"
       },
       {
         "label": "Viewing ready",
-        "title": "Better first impression",
+        "title": "Ready for photos",
         "description": "Dirty frames, entrances, patios and visible details cleaned up before photos or viewings.",
         "image": "/images/generated/driveway-before-after.jpg"
       }
@@ -51,7 +53,7 @@
     "visible": true,
     "order": 2,
     "title": "Choose the reset speed that fits your deadline",
-    "subtitle": "24h, 48h and 72h starting points for rental resets, move-in resets, sale-ready resets and Airbnb launch or recovery resets. Final price depends on condition, access, urgency and selected fixes."
+    "subtitle": "24h, 48h and 72h starting points. Send photos and your deadline; the final quote depends on condition, access, urgency and selected fixes."
   },
   {
     "id": "flair-solutions",
@@ -59,7 +61,7 @@
     "visible": true,
     "order": 3,
     "title": "What we actually reset",
-    "subtitle": "Most properties do not need a full renovation. They need the right visible problems fixed quickly: smells, wall marks, tired bathrooms, greasy kitchens, stained carpets, dirty frames, fittings and small repairs."
+    "subtitle": "Most properties do not need a full renovation. They need visible problems sorted: stale rooms, wall marks, tired bathrooms, greasy kitchens, stained carpets, dirty frames, fittings and small repairs."
   },
   {
     "id": "how-it-works",
@@ -70,20 +72,20 @@
     "subtitle": "Send the details, confirm the deadline and get a clear quote before work starts.",
     "steps": [
       {
-        "title": "Send the problem",
-        "description": "Tell us the postcode, deadline, property type and what is not ready. Photos make quoting faster."
+        "title": "Send photos",
+        "description": "Send photos of the property, the postcode and the main visible problems."
       },
       {
-        "title": "Get a clear scope",
-        "description": "We confirm what needs cleaning, what needs fixing and what can wait."
+        "title": "Tell us the deadline",
+        "description": "Tell us when it needs to be ready for viewing, handover, photos or move-in."
       },
       {
-        "title": "We do the work",
-        "description": "Cleaning, handyman fixes, fittings, furniture setup and small repairs are handled together."
+        "title": "We confirm the scope",
+        "description": "You get a clear quote before work starts, with the main cleaning and fixes agreed."
       },
       {
-        "title": "Ready for the next step",
-        "description": "The property is left cleaner, tidier and easier to hand over. Photo updates can be sent after the work."
+        "title": "We get it ready",
+        "description": "Cleaning, touch-ups, fittings and small repairs are handled so the property feels ready again."
       }
     ]
   },

@@ -5,17 +5,15 @@
     "name": "24h Essential Reset",
     "slogan": "For the most visible problems",
     "startingPrice": 595,
-    "description": "Fast help when the property is nearly ready, but the visible problems will put people off.",
-    "problem": "The property is close, but the most visible problems could still affect viewing, move-in or guest-ready launch.",
-    "solution": "Priority cleaning, small handyman fixes, essentials fitting and the visible problems people notice first.",
-    "result": "A cleaner, tidier property ready for the next viewing, move-in, launch or handover.",
+    "description": "For the most visible problems when the deadline is close.",
+    "problem": "The property is nearly ready, but a few obvious problems still stand out.",
+    "solution": "Priority cleaning, small fixes and the details people notice first.",
+    "result": "A cleaner, tidier property for the next viewing, move-in, launch or handover.",
     "includedServices": [
       "Priority clean of key rooms",
       "Small handyman repairs",
       "Bathroom and kitchen touch points",
-      "Basic setup and fitting jobs",
-      "Photo/viewing check before handover",
-      "Clear list of any bigger issues"
+      "Basic setup and fitting jobs"
     ],
     "microGuarantees": [
       "Fast response",
@@ -25,8 +23,7 @@
     "visualLabel": "24h rental reset visual",
     "proofDetails": [
       "Built for urgent deadlines",
-      "Focus on what visitors notice first",
-      "Photo update after the reset"
+      "Focus on what visitors notice first"
     ],
     "visible": true,
     "order": 1,
@@ -41,17 +38,16 @@
     "name": "48h Ready Reset",
     "slogan": "For cleaning, touch-ups and small fixes",
     "startingPrice": 1195,
-    "description": "For properties that need cleaning, touch-ups, small fixes and better presentation.",
-    "problem": "The landlord, agent, buyer, seller or host needs the property ready quickly without organising several trades.",
-    "solution": "Cleaning, small repairs, fittings, furniture arrangement and practical detail work in one coordinated visit.",
-    "result": "A property that is easier to photograph, show, let, move into, launch or hand over.",
+    "description": "For cleaning, touch-ups, small repairs and better presentation.",
+    "problem": "The property needs more than a clean, but not a full renovation.",
+    "solution": "Cleaning, touch-ups, fittings, small repairs and practical detail work in one visit.",
+    "result": "A property that is easier to photograph, show, let, move into or hand over.",
     "includedServices": [
       "Kitchen and bathroom deep reset",
       "Touch-ups and small repairs",
       "Furniture and room setup",
       "Flat-pack, curtains, TV and fittings",
-      "Photo/viewing check",
-      "For rental, move-in, sale-ready and launch/recovery resets"
+      "Photo/viewing check"
     ],
     "microGuarantees": [
       "Good for tired properties",
@@ -60,7 +56,6 @@
     "image": "/images/generated/hero-living-room-reset.jpg",
     "visualLabel": "48h signature reset visual",
     "proofDetails": [
-      "Best balance of speed and scope",
       "Covers cleaning plus practical fixes",
       "Clear quote before work starts"
     ],
@@ -78,14 +73,13 @@
     "slogan": "For tired properties needing a deeper reset",
     "startingPrice": 1600,
     "description": "For tired properties that need a deeper practical refresh before listing, letting or moving in.",
-    "problem": "Walls are marked, bathrooms look neglected, carpets smell, frames are dirty, or the property feels uncared for.",
+    "problem": "Marked walls, tired bathrooms, stained carpets, dirty frames or stale rooms make the property feel neglected.",
     "solution": "Deeper cleaning, touch-ups, detailing, small repairs, fittings and entrance cleaning where needed.",
-    "result": "A cleaner, more believable property with the main visible issues dealt with before listing, letting or move-in.",
+    "result": "A cleaner, fresher property with the main visible issues dealt with before listing, letting or move-in.",
     "includedServices": [
       "Everything in 48h Reset",
       "Deeper clean and detail work",
       "Wall marks and visible touch-ups",
-      "Furniture and room setup",
       "Wall mounting and fittings",
       "Entrance or exterior clean where needed"
     ],
@@ -97,7 +91,6 @@
     "visualLabel": "72h full property reset visual",
     "proofDetails": [
       "For tired or marked properties",
-      "Exterior clean for first impression",
       "Photo update after work"
     ],
     "visible": true,

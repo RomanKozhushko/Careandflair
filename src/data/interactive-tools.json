@@ -3,7 +3,16 @@
     "visible": true,
     "eyebrow": "Common urgent property problems",
     "title": "Is your property almost ready, but not quite?",
-    "subtitle": "Choose what is stopping the property being ready: smell, wall marks, greasy kitchen surfaces, tired silicone, stained carpets, dirty frames or small repairs.",
+    "subtitle": "Common reasons a property does not feel ready:",
+    "commonReasons": [
+      "smells or stale air",
+      "marked walls",
+      "tired bathroom silicone",
+      "greasy kitchen surfaces",
+      "stained carpets",
+      "dirty windows and frames",
+      "small fittings still not done"
+    ],
     "steps": {
       "mode": "1. Who needs it ready?",
       "problems": "2. What needs fixing?",
@@ -12,7 +21,7 @@
     },
     "problemPicker": {
       "title": "What would a tenant, guest or agent notice first?",
-      "subtitle": "Pick every issue that applies: smells, stained carpets, tired bathroom silicone, greasy kitchen surfaces, wall marks, dirty frames or outdoor areas.",
+      "subtitle": "Pick the problems and we will suggest the reset.",
       "emptySummary": "No property problems selected yet.",
       "selectedSummary": "Selected property problems"
     },
@@ -36,7 +45,7 @@
       "fallbackText": "No exact before-after case is live for this problem yet, so we will use a Care & Flair reset example and confirm the precise work in the quote."
     },
     "cta": {
-      "label": "Get a quote with these problems",
+      "label": "Send photos for a quote",
       "helper": "Your selected problems and suggested reset option will be attached to the quote request.",
       "prefillNotice": "Your selected property problems have been attached to this quote request.",
       "disabledLabel": "Select at least one problem to unlock the quote path."

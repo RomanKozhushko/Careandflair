@@ -50,6 +50,7 @@ export type HomepageSection = Visibility & {
   eyebrow?: string;
   headline?: string;
   subheadline?: string;
+  explanation?: string;
   primaryCtaId?: string;
   secondaryCtaId?: string;
   trustBadges?: string[];

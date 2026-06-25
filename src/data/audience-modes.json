@@ -33,7 +33,7 @@
     "id": "airbnb-launch-recovery",
     "label": "Airbnb Launch & Recovery Reset",
     "shortLabel": "Airbnb",
-    "description": "For hosts who need more than a standard cleaner: launch preparation, photo-ready resets, deep refreshes or recovery after a difficult guest.",
+    "description": "For hosts who need more than a standard cleaner: launch preparation, photo-ready refreshes or recovery after a difficult guest. Not routine changeovers or linen service.",
     "priorityProblems": ["odour", "kitchen-grease", "carpet-stains", "dirty-windows-frames", "tired-bathroom-silicone"],
     "ctaLabel": "Build launch/recovery reset quote",
     "visible": true,

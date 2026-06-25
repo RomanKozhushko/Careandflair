@@ -27,16 +27,25 @@ export function InteractiveConversionCore() {
   if (!config.visible) return null;
 
   return (
-    <section className="overflow-hidden bg-[#0a2a24] px-4 py-16 text-[#f5ecdc] sm:px-6 lg:px-8 lg:py-20">
+    <section className="overflow-hidden border-y border-[#E6D6BD] bg-[#fbf6ee] px-4 py-16 text-[#0a2a24] sm:px-6 lg:px-8 lg:py-20">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
           <div>
-            <p className="brand-label text-xs brass-text">{config.eyebrow}</p>
+            <p className="text-sm font-semibold text-[#746754]">{config.eyebrow}</p>
             <h2 className="mt-4 text-4xl font-semibold tracking-[-0.035em] sm:text-5xl lg:text-6xl">{config.title}</h2>
-            <div className="my-5 h-px max-w-sm bg-gradient-to-r from-[#b07e33] to-transparent" />
-            <p className="max-w-2xl text-base leading-8 text-[#E6D6BD] sm:text-lg">{config.subtitle}</p>
+            <p className="mt-5 max-w-2xl text-base leading-8 text-[#746754] sm:text-lg">{config.subtitle}</p>
+            {config.commonReasons?.length ? (
+              <ul className="mt-4 grid max-w-2xl gap-2 text-sm leading-6 text-[#14241F] sm:grid-cols-2">
+                {config.commonReasons.map((reason: string) => (
+                  <li key={reason} className="flex gap-2">
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#b07e33]" />
+                    <span>{reason}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
           </div>
-          <div className="grid gap-3 rounded-[2rem] border border-[#b07e33]/30 bg-[#f5ecdc]/[0.06] p-4 text-sm text-[#E6D6BD] sm:grid-cols-2">
+          <div className="grid gap-3 rounded-[1.5rem] border border-[#E6D6BD] bg-white p-4 text-sm text-[#746754] shadow-sm sm:grid-cols-2">
             <span>{config.steps.mode}</span>
             <span>{config.steps.problems}</span>
             <span>{config.steps.score}</span>

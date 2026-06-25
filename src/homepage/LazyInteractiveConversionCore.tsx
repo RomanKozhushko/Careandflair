@@ -2,7 +2,7 @@
 
 import { ComponentType, useEffect, useRef, useState } from "react";
 
-const fallback = <section className="bg-[#0f172a] px-4 py-12 text-white sm:px-6 lg:px-8" aria-label="Build the Reset loading" />;
+const fallback = <section className="border-y border-[#E6D6BD] bg-[#fbf6ee] px-4 py-12 sm:px-6 lg:px-8" aria-label="Build the Reset loading" />;
 
 type InteractiveModule = {
   InteractiveConversionCore: ComponentType;

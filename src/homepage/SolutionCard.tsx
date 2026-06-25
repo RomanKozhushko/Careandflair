@@ -13,16 +13,16 @@ export function SolutionCard({ item }: SolutionCardProps) {
   const afterImage = item.afterImage ?? item.imageAfter;
 
   return (
-    <article className="premium-depth-card group flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-[#E6D6BD] bg-white shadow-sm transition sm:hover:-translate-y-1 sm:hover:shadow-2xl sm:hover:shadow-[#0a2a24]/10">
+    <article className="premium-depth-card group flex h-full flex-col overflow-hidden rounded-xl border border-[#E6D6BD] bg-white shadow-sm transition sm:hover:shadow-lg sm:hover:shadow-[#0a2a24]/10">
       <div className="relative">
         <VisualMedia src={item.image} alt={item.imageAlt ?? `${item.title} property reset visual`} label={item.title} className="h-56" imageClassName="object-cover transition duration-500 sm:group-hover:scale-105" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 92vw" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a2a24]/78 via-[#0a2a24]/10 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a2a24]/70 via-[#0a2a24]/5 to-transparent" />
         <div className="absolute left-4 top-4 flex flex-wrap gap-2">
-          <span className="rounded-full bg-[#f5ecdc]/95 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-[#0a2a24]">{item.category}</span>
-          {item.featured ? <span className="rounded-full brass-fill px-3 py-1 text-xs font-bold text-white">Featured</span> : null}
+          <span className="rounded-full bg-[#f5ecdc]/95 px-3 py-1 text-xs font-semibold text-[#0a2a24]">{item.category}</span>
+          {item.featured ? <span className="rounded-full bg-white px-3 py-1 text-xs font-semibold text-[#0a2a24]">Common</span> : null}
         </div>
         <div className="absolute bottom-4 left-4 right-4">
-          <p className="brand-label text-xs text-[#F7DFA6]">{item.serviceType}</p>
+          <p className="text-xs font-semibold text-[#F7DFA6]">{item.serviceType}</p>
           <h3 className="mt-2 text-2xl font-semibold tracking-tight text-white">{item.title}</h3>
         </div>
       </div>
@@ -39,13 +39,13 @@ export function SolutionCard({ item }: SolutionCardProps) {
       </div>
 
       <div className="flex flex-1 flex-col p-5">
-        <p className="brand-label text-xs brass-text">{item.location}</p>
+        <p className="text-xs font-semibold text-[#746754]">{item.location}</p>
         <div className="mt-4 grid gap-3 text-sm leading-6 text-[#746754]">
           <p><span className="font-semibold text-[#0a2a24]">Problem:</span> {item.problem}</p>
           <p><span className="font-semibold text-[#0a2a24]">Solution:</span> {item.solution}</p>
           <p><span className="font-semibold text-[#0a2a24]">Result:</span> {item.result}</p>
         </div>
-        <div className="mt-auto pt-5"><CtaButton cta={cta} variant="dark" className="w-full py-2.5" /></div>
+        <div className="mt-auto pt-5"><CtaButton cta={cta} variant="secondary" className="w-full py-2.5" /></div>
       </div>
     </article>
   );

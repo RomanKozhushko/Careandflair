@@ -11,8 +11,8 @@ export function HowItWorksSection() {
         <SectionHeader eyebrow="Simple process" title={section.title} subtitle={section.subtitle} align="center" />
         <div className="mt-10 grid gap-4 md:grid-cols-4">
           {steps.map((step, index) => (
-            <article key={step.title} className="rounded-[1.5rem] border border-[#E6D6BD] bg-white p-5 shadow-sm shadow-[#0a2a24]/5">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#0a2a24] text-sm font-bold brass-text">{index + 1}</div>
+            <article key={step.title} className="rounded-xl border border-[#E6D6BD] bg-white p-5 shadow-sm shadow-[#0a2a24]/5">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[#E6D6BD] bg-[#fbf6ee] text-sm font-bold text-[#0a2a24]">{index + 1}</div>
               <h3 className="mt-5 text-lg font-semibold text-[#0a2a24]">{step.title}</h3>
               <p className="mt-3 text-sm leading-6 text-[#746754]">{step.description}</p>
             </article>
