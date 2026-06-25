@@ -1,26 +1,31 @@
-import dynamic from "next/dynamic";
+import dynamicImport from "next/dynamic";
 import Link from "next/link";
 import { FeaturedTransformation } from "@/before-after/FeaturedTransformation";
-import { beforeAfterItems, visibleSorted } from "@/lib/content";
+import { createContentHelpers } from "@/lib/content";
+import { getPublicContentBundle } from "@/lib/siteContent";
 import { Footer } from "@/layout/Footer";
 import { Header } from "@/layout/Header";
 
-const BeforeAfterCarousel = dynamic(() => import("@/before-after/BeforeAfterCarousel").then((mod) => mod.BeforeAfterCarousel), {
+const BeforeAfterCarousel = dynamicImport(() => import("@/before-after/BeforeAfterCarousel").then((mod) => mod.BeforeAfterCarousel), {
   loading: () => <section className="h-72 rounded-[2rem] bg-white/70" aria-label="Before and after carousel loading" />,
 });
 
-const BeforeAfterGrid = dynamic(() => import("@/before-after/BeforeAfterGrid").then((mod) => mod.BeforeAfterGrid), {
+const BeforeAfterGrid = dynamicImport(() => import("@/before-after/BeforeAfterGrid").then((mod) => mod.BeforeAfterGrid), {
   loading: () => <section className="h-96 rounded-[2rem] bg-white/70" aria-label="Before and after grid loading" />,
 });
 
-export default function BeforeAfterPage() {
+export const dynamic = "force-dynamic";
+
+export default async function BeforeAfterPage() {
+  const content = await getPublicContentBundle();
+  const { beforeAfterItems, visibleSorted } = createContentHelpers(content);
   const items = visibleSorted(beforeAfterItems);
   const featuredItem = items.find((item) => item.featured) ?? items[0];
   const featuredCount = items.filter((item) => item.featured).length;
 
   return (
     <div className="min-h-screen overflow-x-clip bg-[#f5ecdc] text-[#14241F]">
-      <Header />
+      <Header content={content} />
       <main>
         <section className="relative overflow-hidden border-b border-[#E6D6BD] bg-[#fbf6ee] px-4 py-16 text-[#0a2a24] sm:px-6 lg:px-8 lg:py-20">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(176,126,51,0.08),transparent_30%)]" />
@@ -69,7 +74,7 @@ export default function BeforeAfterPage() {
           </div>
         </section>
       </main>
-      <Footer />
+      <Footer content={content} />
     </div>
   );
 }

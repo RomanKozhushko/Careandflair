@@ -223,7 +223,7 @@ export default function AdminClient({ initialData }: { initialData: ResourceData
                 Edit packages, service cards, before/after examples, FAQs, testimonials, areas and homepage sections.
               </p>
             </div>
-            <span className="rounded-full border border-amber-300/40 px-4 py-2 text-sm text-amber-100">JSON content + image uploads</span>
+            <span className="rounded-full border border-amber-300/40 px-4 py-2 text-sm text-amber-100">Supabase content + JSON fallback</span>
           </div>
         </div>
 
@@ -295,7 +295,7 @@ export default function AdminClient({ initialData }: { initialData: ResourceData
               <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                 <div>
                   <h3 className="text-xl font-bold text-white">Edit item</h3>
-                  <p className="text-sm text-[#746754]">Upload visuals, edit alt text, then save to src/data/{activeMeta.fileName}.</p>
+                  <p className="text-sm text-[#746754]">Upload visuals, edit alt text, then save live content to Supabase.</p>
                 </div>
                 <div className="flex gap-2">
                   {!isObjectResource ? (
@@ -319,7 +319,7 @@ export default function AdminClient({ initialData }: { initialData: ResourceData
               <div className="mb-4 rounded-2xl border border-[#b07e33]/15 bg-[#061A17]/60 p-4">
                 <div className="mb-4 flex flex-col gap-1">
                   <h4 className="font-bold text-white">Visual content</h4>
-                  <p className="text-sm text-[#746754]">Files upload to public/uploads and update the JSON path automatically.</p>
+                  <p className="text-sm text-[#746754]">Files upload to public/uploads and update the saved media path automatically.</p>
                 </div>
 
                 <div className="grid gap-4 md:grid-cols-2">
@@ -377,7 +377,7 @@ export default function AdminClient({ initialData }: { initialData: ResourceData
               />
 
               <div className="mt-4 min-h-6 text-sm">
-                {saveState === "saved" && <p className="text-emerald-300">Saved to JSON.</p>}
+                {saveState === "saved" && <p className="text-emerald-300">Saved to Supabase.</p>}
                 {saveState === "error" && <p className="text-red-300">{error}</p>}
               </div>
             </form>

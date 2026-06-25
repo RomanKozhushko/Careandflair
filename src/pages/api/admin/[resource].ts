@@ -1,11 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { isAdminApiRequestAuthorized } from "@/admin/auth";
 import { getAdminResource, type AdminResourceKey } from "@/admin/resources";
-import { readResource, writeResource, type JsonRecord } from "@/admin/jsonStore";
+import type { JsonRecord } from "@/admin/jsonStore";
+import { readEditableResource, saveEditableResource } from "@/lib/siteContent";
 
 type AdminResponse = {
   items?: JsonRecord[];
   error?: string;
+  source?: string;
+  message?: string;
 };
 
 function parseIndex(value: unknown, maxInclusive: number): number {
@@ -41,34 +44,40 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   const key = resourceKey as AdminResourceKey;
 
   try {
-    const items = await readResource(key);
+    const result = await readEditableResource(key);
+    const items = result.items;
 
     if (req.method === "GET") {
-      return res.status(200).json({ items });
+      return res.status(200).json({ items, source: result.source, message: result.message });
     }
 
     if (req.method === "POST") {
       const item = parseItem(req.body?.item);
       const nextItems = [...items, item];
-      return res.status(200).json({ items: await writeResource(key, nextItems) });
+      const saved = await saveEditableResource(key, nextItems);
+      return res.status(200).json({ items: saved.items, source: saved.source });
     }
 
     if (req.method === "PUT") {
       const index = parseIndex(req.body?.index, items.length - 1);
       const item = parseItem(req.body?.item);
       const nextItems = items.map((currentItem, currentIndex) => (currentIndex === index ? item : currentItem));
-      return res.status(200).json({ items: await writeResource(key, nextItems) });
+      const saved = await saveEditableResource(key, nextItems);
+      return res.status(200).json({ items: saved.items, source: saved.source });
     }
 
     if (req.method === "DELETE") {
       const index = parseIndex(req.body?.index, items.length - 1);
       const nextItems = items.filter((_, currentIndex) => currentIndex !== index);
-      return res.status(200).json({ items: await writeResource(key, nextItems) });
+      const saved = await saveEditableResource(key, nextItems);
+      return res.status(200).json({ items: saved.items, source: saved.source });
     }
 
     res.setHeader("Allow", "GET, POST, PUT, DELETE");
     return res.status(405).json({ error: "Method not allowed." });
   } catch (caught) {
-    return res.status(400).json({ error: caught instanceof Error ? caught.message : "Admin API error." });
+    const message = caught instanceof Error ? caught.message : "Admin API error.";
+    const status = message.includes("Supabase content storage is not configured") ? 503 : 400;
+    return res.status(status).json({ error: message });
   }
 }

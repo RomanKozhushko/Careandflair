@@ -2,8 +2,9 @@ import { cookies } from "next/headers";
 import { AdminShell } from "@/admin/components/AdminShell";
 import { adminAuthCookieName, getAdminPassword, isAdminTokenValid } from "@/admin/auth";
 import { adminResources, type AdminResourceKey } from "@/admin/resources";
-import { readResource, type JsonRecord } from "@/admin/jsonStore";
+import type { JsonRecord } from "@/admin/jsonStore";
 import type { AdminSection } from "@/admin/types";
+import { readEditableResource } from "@/lib/siteContent";
 import areas from "@/data/areas.json";
 import beforeAfter from "@/data/before-after.json";
 import faqs from "@/data/faqs.json";
@@ -127,7 +128,7 @@ export default async function AdminPage() {
   }
 
   const editableData = Object.fromEntries(
-    await Promise.all(adminResources.map(async (resource) => [resource.key, await readResource(resource.key)])),
+    await Promise.all(adminResources.map(async (resource) => [resource.key, (await readEditableResource(resource.key)).items])),
   ) as Record<AdminResourceKey, JsonRecord[]>;
 
   return (

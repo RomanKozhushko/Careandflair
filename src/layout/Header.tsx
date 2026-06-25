@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { findCta, siteSettings } from "@/lib/content";
+import { createContentHelpers, type ContentBundle } from "@/lib/content";
 import { CtaButton } from "@/ui/CtaButton";
 
-export function Header() {
+export function Header({ content }: { content?: ContentBundle }) {
+  const { findCta, siteSettings } = createContentHelpers(content);
   const primaryCta = findCta("build-your-quote");
   const telHref = `tel:${siteSettings.phone.replace(/[^+\d]/g, "")}`;
 

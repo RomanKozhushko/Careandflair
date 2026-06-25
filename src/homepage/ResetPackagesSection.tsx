@@ -1,8 +1,9 @@
-import { findSection, servicePackages, visibleSorted } from "@/lib/content";
+import { createContentHelpers, type ContentBundle } from "@/lib/content";
 import { PackageCard } from "@/homepage/PackageCard";
 import { SectionHeader } from "@/ui/SectionHeader";
 
-export function ResetPackagesSection() {
+export function ResetPackagesSection({ content }: { content?: ContentBundle }) {
+  const { findSection, servicePackages, visibleSorted } = createContentHelpers(content);
   const section = findSection("reset-packages");
   const packages = visibleSorted(servicePackages);
 
@@ -12,7 +13,7 @@ export function ResetPackagesSection() {
         <SectionHeader eyebrow="From prices for real deadlines" title={section.title} subtitle={section.subtitle} />
         <div className="mt-10 grid gap-5 lg:grid-cols-3">
           {packages.map((item) => (
-            <PackageCard key={item.id} item={item} />
+            <PackageCard key={item.id} item={item} content={content} />
           ))}
         </div>
       </div>

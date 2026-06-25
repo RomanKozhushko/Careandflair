@@ -1,8 +1,9 @@
-import { findCta, findSection, guardianPlans, visibleSorted } from "@/lib/content";
+import { createContentHelpers, type ContentBundle } from "@/lib/content";
 import { CtaButton } from "@/ui/CtaButton";
 import { SectionHeader } from "@/ui/SectionHeader";
 
-export function GuardianPlansSection() {
+export function GuardianPlansSection({ content }: { content?: ContentBundle }) {
+  const { findCta, findSection, guardianPlans, visibleSorted } = createContentHelpers(content);
   const section = findSection("guardian-plans");
   const plans = visibleSorted(guardianPlans);
   const cta = findCta("build-your-quote");

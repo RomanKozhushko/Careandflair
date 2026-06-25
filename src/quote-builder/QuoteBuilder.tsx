@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { optionalUpgrades, pricingMatrix, propertyCategories, propertyTypes, quoteBuilderConfig, servicePackages, visibleSorted } from "@/lib/content";
+import { createContentHelpers, type ContentBundle } from "@/lib/content";
 import { estimateQuote } from "@/lib/pricing";
 import { parseProblemParams } from "@/lib/quotePrefill";
 import { createInitialQuoteSelection, findSelectedCategory, findSelectedPackage, findSelectedPropertyType, findSelectedUpgrades, isContactComplete } from "@/lib/quote";
@@ -15,12 +15,14 @@ import { PropertyTypeStep } from "@/quote-builder/PropertyTypeStep";
 import { QuoteSummary } from "@/quote-builder/QuoteSummary";
 import { UpgradesStep } from "@/quote-builder/UpgradesStep";
 
-export function QuoteBuilder() {
+export function QuoteBuilder({ content }: { content?: ContentBundle }) {
   const searchParams = useSearchParams();
-  const packages = useMemo(() => visibleSorted(servicePackages), []);
-  const categories = useMemo(() => visibleSorted(propertyCategories), []);
-  const types = useMemo(() => visibleSorted(propertyTypes), []);
-  const upgrades = useMemo(() => visibleSorted(optionalUpgrades), []);
+  const contentHelpers = useMemo(() => createContentHelpers(content), [content]);
+  const { optionalUpgrades, pricingMatrix, propertyCategories, propertyTypes, quoteBuilderConfig, servicePackages, visibleSorted } = contentHelpers;
+  const packages = useMemo(() => visibleSorted(servicePackages), [servicePackages, visibleSorted]);
+  const categories = useMemo(() => visibleSorted(propertyCategories), [propertyCategories, visibleSorted]);
+  const types = useMemo(() => visibleSorted(propertyTypes), [propertyTypes, visibleSorted]);
+  const upgrades = useMemo(() => visibleSorted(optionalUpgrades), [optionalUpgrades, visibleSorted]);
   const preset = searchParams?.get("preset") ?? null;
   const upgrade = searchParams?.get("upgrade") ?? null;
   const mode = searchParams?.get("mode") ?? null;

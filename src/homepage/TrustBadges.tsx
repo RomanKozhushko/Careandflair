@@ -1,6 +1,7 @@
-import { findSection } from "@/lib/content";
+import { createContentHelpers, type ContentBundle } from "@/lib/content";
 
-export function TrustBadges() {
+export function TrustBadges({ content }: { content?: ContentBundle }) {
+  const { findSection } = createContentHelpers(content);
   const badges = findSection("hero").trustBadges ?? [];
 
   return (

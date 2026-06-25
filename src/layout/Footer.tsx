@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { siteSettings } from "@/lib/content";
+import { createContentHelpers, type ContentBundle } from "@/lib/content";
 
-export function Footer() {
+export function Footer({ content }: { content?: ContentBundle }) {
+  const { siteSettings } = createContentHelpers(content);
   const telHref = `tel:${siteSettings.phone.replace(/[^+\d]/g, "")}`;
 
   return (

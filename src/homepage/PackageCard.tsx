@@ -1,13 +1,15 @@
-import { findCta } from "@/lib/content";
+import { createContentHelpers, type ContentBundle } from "@/lib/content";
 import type { ServicePackage } from "@/lib/types";
 import { CtaButton } from "@/ui/CtaButton";
 import { VisualMedia } from "@/ui/VisualMedia";
 
 type PackageCardProps = {
   item: ServicePackage;
+  content?: ContentBundle;
 };
 
-export function PackageCard({ item }: PackageCardProps) {
+export function PackageCard({ item, content }: PackageCardProps) {
+  const { findCta } = createContentHelpers(content);
   const cta = findCta(item.ctaMappingId);
 
   return (

@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { BeforeAfterSlider } from "@/before-after/BeforeAfterSlider";
 import { visualCtaHref } from "@/before-after/cta";
-import { beforeAfterItems, findSection, visibleSorted } from "@/lib/content";
+import { createContentHelpers, type ContentBundle } from "@/lib/content";
 import { SectionHeader } from "@/ui/SectionHeader";
 
-export function BeforeAfterPreview() {
+export function BeforeAfterPreview({ content }: { content?: ContentBundle }) {
+  const { beforeAfterItems, findSection, visibleSorted } = createContentHelpers(content);
   const section = findSection("before-after");
   const items = visibleSorted(beforeAfterItems).filter((item) => item.showOnHomepage).slice(0, 3);
   const strongestItem = items.find((item) => item.featured) ?? items[0];

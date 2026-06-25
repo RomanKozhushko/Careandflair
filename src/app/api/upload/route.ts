@@ -21,6 +21,13 @@ export async function POST(request: Request) {
     return Response.json({ success: false, error: "Admin password required." }, { status: 401 });
   }
 
+  if (process.env.VERCEL) {
+    return Response.json(
+      { success: false, error: "Image uploads are not configured for live storage yet. Edit image paths manually or add Supabase Storage in a later phase." },
+      { status: 501 },
+    );
+  }
+
   const formData = await request.formData();
   const file = formData.get("file");
 

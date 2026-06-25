@@ -1,7 +1,8 @@
-import { areas, findSection, visibleSorted } from "@/lib/content";
+import { createContentHelpers, type ContentBundle } from "@/lib/content";
 import { SectionHeader } from "@/ui/SectionHeader";
 
-export function AreasServedSection() {
+export function AreasServedSection({ content }: { content?: ContentBundle }) {
+  const { areas, findSection, visibleSorted } = createContentHelpers(content);
   const section = findSection("areas-served");
   const items = visibleSorted(areas);
 

@@ -38,7 +38,7 @@ export default function AdminLogin({ passwordConfigured }: { passwordConfigured:
         <h1 className="mt-3 text-3xl font-bold tracking-tight text-white">Care & Flair Admin</h1>
         <p className="mt-3 text-[#E6D6BD]">
           {passwordConfigured
-            ? "Enter the temporary admin password to edit local JSON content."
+            ? "Enter the admin password to edit live site content."
             : "ADMIN_PASSWORD is not configured. Admin editing is disabled until it is set in the environment."}
         </p>
 

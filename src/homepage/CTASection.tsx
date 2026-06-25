@@ -1,7 +1,8 @@
-import { findCta, findSection, siteSettings } from "@/lib/content";
+import { createContentHelpers, type ContentBundle } from "@/lib/content";
 import { CtaButton } from "@/ui/CtaButton";
 
-export function CTASection() {
+export function CTASection({ content }: { content?: ContentBundle }) {
+  const { findCta, findSection, siteSettings } = createContentHelpers(content);
   const section = findSection("final-cta");
   const cta = findCta(section.primaryCtaId);
 

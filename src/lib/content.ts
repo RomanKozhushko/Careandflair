@@ -29,6 +29,40 @@ export const beforeAfterItems = beforeAfterData as BeforeAfterItem[];
 export const areas = areasData as Area[];
 export const faqs = faqsData as FaqItem[];
 
+export type ContentBundle = {
+  siteSettings: SiteSettings;
+  ctaMappings: CtaMapping[];
+  homepageSections: HomepageSection[];
+  servicePackages: ServicePackage[];
+  propertyCategories: PropertyCategory[];
+  propertyTypes: PropertyType[];
+  optionalUpgrades: OptionalUpgrade[];
+  pricingMatrix: PricingMatrixRow[];
+  quoteBuilderConfig: QuoteBuilderConfig;
+  solutions: Solution[];
+  guardianPlans: GuardianPlan[];
+  beforeAfterItems: BeforeAfterItem[];
+  areas: Area[];
+  faqs: FaqItem[];
+};
+
+export const fallbackContent: ContentBundle = {
+  siteSettings,
+  ctaMappings,
+  homepageSections,
+  servicePackages,
+  propertyCategories,
+  propertyTypes,
+  optionalUpgrades,
+  pricingMatrix,
+  quoteBuilderConfig,
+  solutions,
+  guardianPlans,
+  beforeAfterItems,
+  areas,
+  faqs,
+};
+
 export function visibleSorted<T extends Visibility>(items: T[]): T[] {
   return items.filter((item) => item.visible).sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 }
@@ -42,4 +76,20 @@ export function findSection(id: string): HomepageSection {
   const section = homepageSections.find((item) => item.id === id);
   if (!section) throw new Error(`Missing homepage section: ${id}`);
   return section;
+}
+
+export function createContentHelpers(content: ContentBundle = fallbackContent) {
+  return {
+    ...content,
+    visibleSorted,
+    findCta(id?: string): CtaMapping | undefined {
+      if (!id) return undefined;
+      return content.ctaMappings.find((cta) => cta.id === id);
+    },
+    findSection(id: string): HomepageSection {
+      const section = content.homepageSections.find((item) => item.id === id);
+      if (!section) throw new Error(`Missing homepage section: ${id}`);
+      return section;
+    },
+  };
 }

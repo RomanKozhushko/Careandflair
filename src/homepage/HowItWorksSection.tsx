@@ -1,7 +1,8 @@
-import { findSection } from "@/lib/content";
+import { createContentHelpers, type ContentBundle } from "@/lib/content";
 import { SectionHeader } from "@/ui/SectionHeader";
 
-export function HowItWorksSection() {
+export function HowItWorksSection({ content }: { content?: ContentBundle }) {
+  const { findSection } = createContentHelpers(content);
   const section = findSection("how-it-works");
   const steps = section.steps ?? [];
 

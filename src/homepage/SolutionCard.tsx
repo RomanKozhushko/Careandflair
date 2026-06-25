@@ -1,13 +1,15 @@
-import { findCta } from "@/lib/content";
+import { createContentHelpers, type ContentBundle } from "@/lib/content";
 import type { Solution } from "@/lib/types";
 import { CtaButton } from "@/ui/CtaButton";
 import { VisualMedia } from "@/ui/VisualMedia";
 
 type SolutionCardProps = {
   item: Solution;
+  content?: ContentBundle;
 };
 
-export function SolutionCard({ item }: SolutionCardProps) {
+export function SolutionCard({ item, content }: SolutionCardProps) {
+  const { findCta } = createContentHelpers(content);
   const cta = findCta(item.ctaMappingId);
   const beforeImage = item.beforeImage ?? item.imageBefore;
   const afterImage = item.afterImage ?? item.imageAfter;

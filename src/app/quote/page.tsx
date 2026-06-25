@@ -1,15 +1,18 @@
 import { Suspense } from "react";
 import { Header } from "@/layout/Header";
 import { Footer } from "@/layout/Footer";
-import { quoteBuilderConfig } from "@/lib/content";
+import { getPublicContentBundle } from "@/lib/siteContent";
 import { QuoteBuilder } from "@/quote-builder/QuoteBuilder";
 
-export default function QuotePage() {
-  const config = quoteBuilderConfig;
+export const dynamic = "force-dynamic";
+
+export default async function QuotePage() {
+  const content = await getPublicContentBundle();
+  const config = content.quoteBuilderConfig;
 
   return (
     <div className="min-h-screen bg-[#f5ecdc] text-[#14241F]">
-      <Header />
+      <Header content={content} />
       <main className="px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <div className="mb-10 max-w-3xl">
@@ -19,11 +22,11 @@ export default function QuotePage() {
             <p className="mt-4 rounded-2xl border border-[#E6D6BD] bg-white/70 p-4 text-sm font-medium text-[#14241F] shadow-sm">{config.page.mockNotice}</p>
           </div>
           <Suspense fallback={null}>
-            <QuoteBuilder />
+            <QuoteBuilder content={content} />
           </Suspense>
         </div>
       </main>
-      <Footer />
+      <Footer content={content} />
     </div>
   );
 }

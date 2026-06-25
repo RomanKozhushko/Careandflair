@@ -37,6 +37,10 @@ export async function readResource(resourceKey: AdminResourceKey): Promise<JsonR
 }
 
 export async function writeResource(resourceKey: AdminResourceKey, items: JsonRecord[]): Promise<JsonRecord[]> {
+  if (process.env.VERCEL) {
+    throw new Error("File-based content writes are disabled on Vercel. Use Supabase site_content storage.");
+  }
+
   const resource = getAdminResource(resourceKey);
   const filePath = getResourcePath(resourceKey);
   const nextValue = resource?.kind === "object" ? (items[0] ?? {}) : items;

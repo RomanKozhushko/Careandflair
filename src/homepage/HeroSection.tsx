@@ -1,8 +1,9 @@
-import { findCta, findSection, siteSettings } from "@/lib/content";
+import { createContentHelpers, type ContentBundle } from "@/lib/content";
 import { CtaButton } from "@/ui/CtaButton";
 import { VisualMedia } from "@/ui/VisualMedia";
 
-export function HeroSection() {
+export function HeroSection({ content }: { content?: ContentBundle }) {
+  const { findCta, findSection, siteSettings } = createContentHelpers(content);
   const section = findSection("hero");
   const primaryCta = findCta(section.primaryCtaId);
   const secondaryCta = findCta(section.secondaryCtaId);
