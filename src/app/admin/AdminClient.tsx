@@ -15,8 +15,17 @@ type ResourceState = {
 };
 type ResourceStateData = Record<AdminResourceKey, ResourceState>;
 type SaveState = "idle" | "saving" | "saved" | "error";
-type ImageField = "image" | "beforeImage" | "afterImage" | "imageBefore" | "imageAfter" | "heroImage";
+type ImageField = string;
 type AltField = "imageAlt" | "beforeAlt" | "afterAlt" | "heroImageAlt" | "visualLabel";
+type UploadResponse = {
+  success?: boolean;
+  name?: string;
+  url?: string;
+  publicUrl?: string;
+  path?: string;
+  storagePath?: string;
+  error?: string;
+};
 type Diagnostics = {
   supabaseUrlConfigured: boolean;
   serviceKeyConfigured: boolean;
@@ -26,7 +35,7 @@ type Diagnostics = {
   quoteRequestsError?: string;
 };
 
-const imageFields: ImageField[] = ["image", "beforeImage", "afterImage", "imageBefore", "imageAfter", "heroImage"];
+const imageFields: ImageField[] = ["image", "imageUrl", "src", "beforeImage", "afterImage", "imageBefore", "imageAfter", "heroImage", "media"];
 const altFields: AltField[] = ["imageAlt", "beforeAlt", "afterAlt", "heroImageAlt", "visualLabel"];
 
 const preferredImageFieldsByResource: Partial<Record<AdminResourceKey, ImageField[]>> = {
@@ -299,13 +308,15 @@ export default function AdminClient({
       formData.append("file", file);
 
       const response = await fetch("/api/upload", { method: "POST", body: formData });
-      const result = (await response.json()) as { success?: boolean; name?: string; error?: string };
+      const result = (await response.json()) as UploadResponse;
+      const uploadedUrl = result.url ?? result.publicUrl;
 
-      if (!response.ok || !result.success || !result.name) {
+      if (!response.ok || !result.success || !uploadedUrl) {
         throw new Error(result.error ?? "Upload failed");
       }
 
-      updateDraftField(field, `/uploads/${result.name}`);
+      updateDraftField(field, uploadedUrl);
+      setNotice("Image uploaded. Remember to save this resource.");
     } catch (caught) {
       setSaveState("error");
       setError(caught instanceof Error ? caught.message : "Upload failed");
@@ -624,7 +635,7 @@ export default function AdminClient({
                   <div className="mt-5 rounded-2xl border border-[#E6D6BD] bg-white p-4">
                     <div className="mb-4 flex flex-col gap-1">
                       <h4 className="font-bold text-[#0a2a24]">Visual fields</h4>
-                      <p className="text-sm text-[#746754]">For now, image uploads are local-only. On live Vercel, edit image paths manually until Supabase Storage is added.</p>
+                      <p className="text-sm text-[#746754]">Upload public website images to Supabase Storage, preview them here, then save the resource.</p>
                     </div>
 
                     <div className="grid gap-4 md:grid-cols-2">
@@ -641,7 +652,7 @@ export default function AdminClient({
                             <input
                               value={path}
                               onChange={(event) => updateDraftField(field, event.target.value)}
-                              placeholder="/uploads/image.jpg"
+                              placeholder="https://...supabase.co/storage/v1/object/public/site-images/image.webp"
                               className="mt-3 w-full rounded-xl border border-[#E6D6BD] bg-white px-3 py-2 text-sm text-[#14241F] outline-none focus:border-[#b07e33]"
                             />
                             <input
@@ -650,6 +661,7 @@ export default function AdminClient({
                               onChange={(event) => void uploadFile(field, event.target.files?.[0] ?? null)}
                               className="mt-3 block w-full text-sm text-[#746754] file:mr-3 file:rounded-full file:border-0 file:bg-[#0a2a24] file:px-3 file:py-2 file:text-sm file:font-bold file:text-white"
                             />
+                            <p className="mt-2 text-xs text-[#746754]">Upload image / replace image</p>
                             {uploadingField === field && <p className="mt-2 text-xs font-semibold text-[#746754]">Uploading...</p>}
                           </div>
                         );
