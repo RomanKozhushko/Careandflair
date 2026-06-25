@@ -35,14 +35,14 @@ type Diagnostics = {
   quoteRequestsError?: string;
 };
 
-const imageFields: ImageField[] = ["image", "imageUrl", "src", "beforeImage", "afterImage", "imageBefore", "imageAfter", "heroImage", "media"];
+const imageFields: ImageField[] = ["image", "imageUrl", "image_url", "src", "url", "beforeImage", "afterImage", "imageBefore", "imageAfter", "before", "after", "heroImage", "hero_image", "media", "photos", "gallery"];
 const altFields: AltField[] = ["imageAlt", "beforeAlt", "afterAlt", "heroImageAlt", "visualLabel"];
 
 const preferredImageFieldsByResource: Partial<Record<AdminResourceKey, ImageField[]>> = {
-  packages: ["image"],
-  solutions: ["image", "beforeImage", "afterImage"],
-  "before-after": ["beforeImage", "afterImage", "image"],
-  "homepage-sections": ["heroImage", "image"],
+  packages: ["image", "imageUrl", "src"],
+  solutions: ["image", "imageUrl", "src", "beforeImage", "afterImage", "imageBefore", "imageAfter"],
+  "before-after": ["beforeImage", "afterImage", "image", "src", "url", "before", "after"],
+  "homepage-sections": ["heroImage", "hero_image", "image", "imageUrl", "image_url", "src"],
 };
 
 const resourceHelp: Partial<Record<AdminResourceKey, string>> = {
@@ -172,6 +172,7 @@ export default function AdminClient({
   const [draft, setDraft] = useState(() => formatItem(initialData["site-settings"] ?? [], 0));
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [uploadingField, setUploadingField] = useState<string | null>(null);
+  const [uploadMessages, setUploadMessages] = useState<Record<string, string>>({});
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
   const [diagnostics, setDiagnostics] = useState<Diagnostics | null>(null);
@@ -201,7 +202,7 @@ export default function AdminClient({
           : "";
   const visibleImageFields = useMemo(() => {
     const preferred = preferredImageFieldsByResource[activeResource] ?? ["image"];
-    const existing = imageFields.filter((field) => draftItem && field in draftItem);
+    const existing = imageFields.filter((field) => draftItem && field in draftItem && typeof draftItem[field] === "string");
     return Array.from(new Set([...preferred, ...existing]));
   }, [activeResource, draftItem]);
   const visibleAltFields = useMemo(() => {
@@ -219,6 +220,7 @@ export default function AdminClient({
     setSaveState("idle");
     setError("");
     setNotice("");
+    setUploadMessages({});
   }
 
   function selectResource(resourceKey: AdminResourceKey) {
@@ -325,8 +327,17 @@ export default function AdminClient({
 
     setUploadingField(field);
     setError("");
+    setUploadMessages((current) => ({ ...current, [field]: "Uploading image..." }));
 
     try {
+      if (!["image/jpeg", "image/jpg", "image/png", "image/webp"].includes(file.type)) {
+        throw new Error("Invalid file type. Use JPG, PNG or WebP.");
+      }
+
+      if (file.size > 5 * 1024 * 1024) {
+        throw new Error("File too large. Maximum size is 5 MB.");
+      }
+
       const formData = new FormData();
       formData.append("file", file);
 
@@ -339,13 +350,22 @@ export default function AdminClient({
       }
 
       updateDraftField(field, uploadedUrl);
-      setNotice("Image uploaded. Remember to save this resource.");
+      setNotice("Image uploaded. Click Save changes to publish it.");
+      setUploadMessages((current) => ({ ...current, [field]: "Image uploaded. Click Save changes to publish it." }));
     } catch (caught) {
+      const message = caught instanceof Error ? caught.message : "Upload failed";
       setSaveState("error");
-      setError(caught instanceof Error ? caught.message : "Upload failed");
+      setError(message);
+      setUploadMessages((current) => ({ ...current, [field]: message }));
     } finally {
       setUploadingField(null);
     }
+  }
+
+  function removeImage(field: ImageField) {
+    updateDraftField(field, "");
+    setNotice("Image removed from this page. Click Save changes to publish it.");
+    setUploadMessages((current) => ({ ...current, [field]: "Image removed from page. Click Save changes to publish it." }));
   }
 
   async function request(method: "POST" | "PUT" | "DELETE", body: unknown) {
@@ -759,27 +779,50 @@ export default function AdminClient({
                       {visibleImageFields.map((field) => {
                         const value = draftItem?.[field];
                         const path = typeof value === "string" ? value : "";
+                        const inputId = `${activeResource}-${selectedIndex}-${field}-upload`;
+                        const fieldMessage = uploadMessages[field];
 
                         return (
                           <div key={field} className="rounded-xl border border-[#E6D6BD] bg-[#fbf6ee] p-4">
-                            <label className="text-sm font-bold text-[#14241F]">{displayLabel(field)}</label>
+                            <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                              <label className="text-sm font-bold text-[#14241F]" htmlFor={inputId}>{displayLabel(field)}</label>
+                              <span className="text-xs font-semibold text-[#746754]">{path ? "Current image set" : "No image on page"}</span>
+                            </div>
                             <div className="relative mt-3 aspect-video max-h-[26rem] overflow-hidden rounded-xl border border-[#E6D6BD] bg-white">
                               {path ? <Image src={path} alt="" fill sizes="(min-width: 768px) 16rem, 100vw" className="object-cover" /> : <div className="flex h-full items-center justify-center text-sm text-[#746754]">No image</div>}
                             </div>
+                            <p className="mt-3 text-xs font-bold uppercase tracking-[0.14em] text-[#746754]">Image URL / path</p>
                             <input
                               value={path}
                               onChange={(event) => updateDraftField(field, event.target.value)}
                               placeholder="https://...supabase.co/storage/v1/object/public/site-images/image.webp"
                               className="mt-3 min-h-12 w-full rounded-xl border border-[#E6D6BD] bg-white px-3 py-3 text-base text-[#14241F] outline-none focus:border-[#b07e33]"
                             />
-                            <input
-                              type="file"
-                              accept="image/*"
-                              onChange={(event) => void uploadFile(field, event.target.files?.[0] ?? null)}
-                              className="mt-3 block w-full text-sm text-[#746754] file:mr-3 file:rounded-full file:border-0 file:bg-[#0a2a24] file:px-3 file:py-2 file:text-sm file:font-bold file:text-white"
-                            />
-                            <p className="mt-2 text-xs text-[#746754]">Upload image / replace image</p>
-                            {uploadingField === field && <p className="mt-2 text-xs font-semibold text-[#746754]">Uploading...</p>}
+                            <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center">
+                              <input
+                                id={inputId}
+                                type="file"
+                                accept="image/jpeg,image/jpg,image/png,image/webp"
+                                onChange={(event) => {
+                                  void uploadFile(field, event.target.files?.[0] ?? null);
+                                  event.currentTarget.value = "";
+                                }}
+                                className="sr-only"
+                              />
+                              <label htmlFor={inputId} className="inline-flex cursor-pointer justify-center rounded-full bg-[#0a2a24] px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[#061A17]">
+                                {path ? "Replace image" : "Upload image"}
+                              </label>
+                              <button
+                                type="button"
+                                onClick={() => removeImage(field)}
+                                disabled={!path}
+                                className="inline-flex justify-center rounded-full border border-red-200 px-5 py-2.5 text-sm font-bold text-red-900 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-45"
+                              >
+                                Remove from page
+                              </button>
+                              {uploadingField === field ? <span className="text-sm font-semibold text-[#746754]">Uploading...</span> : null}
+                            </div>
+                            {fieldMessage ? <p className="mt-3 rounded-xl border border-[#E6D6BD] bg-white p-3 text-sm font-semibold text-[#14241F]">{fieldMessage}</p> : null}
                           </div>
                         );
                       })}
