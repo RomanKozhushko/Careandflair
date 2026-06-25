@@ -19,6 +19,7 @@ export function AdminSidebar({ sections }: AdminSidebarProps) {
         <nav className="mt-6 grid gap-2" aria-label="Admin sections">
           <a href="#dashboard" className="rounded-2xl bg-white/10 px-4 py-3 text-sm font-semibold text-white transition hover:bg-white/15">Dashboard</a>
           <a href="#quote-requests" className="rounded-2xl px-4 py-3 text-sm font-semibold text-[#E6D6BD] transition hover:bg-white/10 hover:text-white">Quote Requests</a>
+          <a href="#content-editor" className="rounded-2xl px-4 py-3 text-sm font-semibold text-[#E6D6BD] transition hover:bg-white/10 hover:text-white">Content Editor</a>
           {sections.map((section) => (
             <a key={section.id} href={`#${section.id}`} className="rounded-2xl px-4 py-3 text-sm font-semibold text-[#E6D6BD] transition hover:bg-white/10 hover:text-white">
               {section.label}

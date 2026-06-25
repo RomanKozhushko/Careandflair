@@ -1,6 +1,8 @@
 import { cookies } from "next/headers";
 import { AdminShell } from "@/admin/components/AdminShell";
 import { adminAuthCookieName, getAdminPassword, isAdminTokenValid } from "@/admin/auth";
+import { adminResources, type AdminResourceKey } from "@/admin/resources";
+import { readResource, type JsonRecord } from "@/admin/jsonStore";
 import type { AdminSection } from "@/admin/types";
 import areas from "@/data/areas.json";
 import beforeAfter from "@/data/before-after.json";
@@ -11,6 +13,7 @@ import packages from "@/data/packages.json";
 import problemCategories from "@/data/problem-categories.json";
 import quoteBuilder from "@/data/quote-builder.json";
 import solutions from "@/data/solutions.json";
+import AdminClient from "@/app/admin/AdminClient";
 import AdminLogin from "@/app/admin/AdminLogin";
 
 export const metadata = {
@@ -123,17 +126,24 @@ export default async function AdminPage() {
     return <AdminLogin passwordConfigured={Boolean(adminPassword)} />;
   }
 
+  const editableData = Object.fromEntries(
+    await Promise.all(adminResources.map(async (resource) => [resource.key, await readResource(resource.key)])),
+  ) as Record<AdminResourceKey, JsonRecord[]>;
+
   return (
-    <AdminShell
-      sections={sections}
-      stats={{
-        packages: countVisible(packages),
-        solutions: countVisible(solutions),
-        beforeAfter: countVisible(beforeAfter),
-        interactiveProblems: countVisible(problemCategories),
-        faqs: countVisible(faqs),
-      }}
-      activeRoutes={["/", "/before-after", "/quote", "/admin"]}
-    />
+    <>
+      <AdminShell
+        sections={sections}
+        stats={{
+          packages: countVisible(packages),
+          solutions: countVisible(solutions),
+          beforeAfter: countVisible(beforeAfter),
+          interactiveProblems: countVisible(problemCategories),
+          faqs: countVisible(faqs),
+        }}
+        activeRoutes={["/", "/before-after", "/quote", "/admin"]}
+      />
+      <AdminClient initialData={editableData} />
+    </>
   );
 }

@@ -17,9 +17,17 @@ function getResourcePath(resourceKey: AdminResourceKey): string {
 }
 
 export async function readResource(resourceKey: AdminResourceKey): Promise<JsonRecord[]> {
+  const resource = getAdminResource(resourceKey);
   const filePath = getResourcePath(resourceKey);
   const file = await fs.readFile(filePath, "utf8");
   const parsed: unknown = JSON.parse(file);
+
+  if (resource?.kind === "object") {
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+      throw new Error(`Admin resource ${resourceKey} must be a JSON object.`);
+    }
+    return [parsed as JsonRecord];
+  }
 
   if (!Array.isArray(parsed)) {
     throw new Error(`Admin resource ${resourceKey} must be a JSON array.`);
@@ -29,9 +37,11 @@ export async function readResource(resourceKey: AdminResourceKey): Promise<JsonR
 }
 
 export async function writeResource(resourceKey: AdminResourceKey, items: JsonRecord[]): Promise<JsonRecord[]> {
+  const resource = getAdminResource(resourceKey);
   const filePath = getResourcePath(resourceKey);
-  await fs.writeFile(filePath, `${JSON.stringify(items, null, 2)}\n`, "utf8");
-  return items;
+  const nextValue = resource?.kind === "object" ? (items[0] ?? {}) : items;
+  await fs.writeFile(filePath, `${JSON.stringify(nextValue, null, 2)}\n`, "utf8");
+  return resource?.kind === "object" ? [nextValue as JsonRecord] : items;
 }
 
 export function getItemTitle(item: JsonRecord, index: number): string {

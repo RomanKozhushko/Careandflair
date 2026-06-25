@@ -81,6 +81,7 @@ export default function AdminClient({ initialData }: { initialData: ResourceData
     () => adminResources.find((resource) => resource.key === activeResource) ?? adminResources[0],
     [activeResource],
   );
+  const isObjectResource = activeMeta.kind === "object";
   const visibleImageFields = useMemo(() => {
     const preferred = preferredImageFieldsByResource[activeResource] ?? ["image"];
     const existing = imageFields.filter((field) => draftItem && field in draftItem);
@@ -211,18 +212,18 @@ export default function AdminClient({ initialData }: { initialData: ResourceData
   }
 
   return (
-    <main className="min-h-screen bg-[#061A17] text-[#f5ecdc]">
+    <main id="content-editor" className="min-h-screen scroll-mt-6 bg-[#061A17] text-[#f5ecdc]">
       <section className="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 py-8 sm:px-6 lg:px-8">
         <div className="rounded-3xl border border-[#b07e33]/20 bg-[#0a2a24] p-6 shadow-2xl shadow-black/30">
-          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-amber-300">Login placeholder</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-amber-300">Site content editor</p>
           <div className="mt-3 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight text-white md:text-4xl">Care & Flair Admin MVP</h1>
+              <h1 className="text-3xl font-bold tracking-tight text-white md:text-4xl">Edit Care & Flair Website Content</h1>
               <p className="mt-2 max-w-3xl text-[#E6D6BD]">
-                Temporary admin screen for editing JSON content and local visual uploads. Real authentication comes later.
+                Edit packages, service cards, before/after examples, FAQs, testimonials, areas and homepage sections.
               </p>
             </div>
-            <span className="rounded-full border border-amber-300/40 px-4 py-2 text-sm text-amber-100">Local JSON + uploads editor</span>
+            <span className="rounded-full border border-amber-300/40 px-4 py-2 text-sm text-amber-100">JSON content + image uploads</span>
           </div>
         </div>
 
@@ -252,15 +253,17 @@ export default function AdminClient({ initialData }: { initialData: ResourceData
               <div className="mb-4 flex items-center justify-between gap-3">
                 <div>
                   <h2 className="text-xl font-bold text-white">{activeMeta.label}</h2>
-                  <p className="text-sm text-[#746754]">{activeItems.length} items</p>
+                  <p className="text-sm text-[#746754]">{isObjectResource ? "Single settings object" : `${activeItems.length} items`}</p>
                 </div>
-                <button
-                  type="button"
-                  onClick={addItem}
-                  className="rounded-full bg-white px-4 py-2 text-sm font-bold text-[#0a2a24] hover:bg-[#f5ecdc]"
-                >
-                  Add
-                </button>
+                {!isObjectResource ? (
+                  <button
+                    type="button"
+                    onClick={addItem}
+                    className="rounded-full bg-white px-4 py-2 text-sm font-bold text-[#0a2a24] hover:bg-[#f5ecdc]"
+                  >
+                    Add
+                  </button>
+                ) : null}
               </div>
 
               <div className="max-h-[620px] space-y-2 overflow-auto pr-1">
@@ -295,13 +298,15 @@ export default function AdminClient({ initialData }: { initialData: ResourceData
                   <p className="text-sm text-[#746754]">Upload visuals, edit alt text, then save to src/data/{activeMeta.fileName}.</p>
                 </div>
                 <div className="flex gap-2">
-                  <button
-                    type="button"
-                    onClick={() => void deleteItem()}
-                    className="rounded-full border border-red-300/40 px-4 py-2 text-sm font-bold text-red-100 hover:bg-red-500/20"
-                  >
-                    Delete
-                  </button>
+                  {!isObjectResource ? (
+                    <button
+                      type="button"
+                      onClick={() => void deleteItem()}
+                      className="rounded-full border border-red-300/40 px-4 py-2 text-sm font-bold text-red-100 hover:bg-red-500/20"
+                    >
+                      Delete
+                    </button>
+                  ) : null}
                   <button
                     type="submit"
                     className="rounded-full bg-white px-5 py-2 text-sm font-bold text-[#0a2a24] ring-1 ring-[#b07e33]/20 hover:bg-[#f5ecdc]"
