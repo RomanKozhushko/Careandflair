@@ -137,6 +137,19 @@ function boolLabel(value?: boolean) {
   return value ? "Yes" : "No";
 }
 
+function isPlainRecord(value: unknown): value is JsonRecord {
+  return Boolean(value && typeof value === "object" && !Array.isArray(value));
+}
+
+function isStringArray(value: unknown): value is string[] {
+  return Array.isArray(value) && value.every((item) => typeof item === "string");
+}
+
+function shouldUseTextarea(field: string, value: string) {
+  const lower = field.toLowerCase();
+  return value.length > 80 || ["description", "intro", "message", "summary", "subheadline", "subtitle", "problem", "solution", "result", "answer"].some((term) => lower.includes(term));
+}
+
 function countItems(data: ResourceData) {
   return Object.values(data).reduce((total, items) => total + items.length, 0);
 }
@@ -237,6 +250,16 @@ export default function AdminClient({
 
     setDraft(JSON.stringify({ ...parsed, [field]: value }, null, 2));
     resetMessages();
+  }
+
+  function updateStringListField(field: string, value: string) {
+    updateDraftField(
+      field,
+      value
+        .split("\n")
+        .map((item) => item.trim())
+        .filter(Boolean),
+    );
   }
 
   async function loadDiagnostics() {
@@ -631,6 +654,100 @@ export default function AdminClient({
                   </div>
 
                   {saveDisabledReason ? <p className="mt-3 text-sm font-semibold text-[#746754]">{saveDisabledReason}</p> : null}
+
+                  <div className="mt-5 rounded-2xl border border-[#E6D6BD] bg-white p-4">
+                    <div className="mb-4 flex flex-col gap-1">
+                      <h4 className="font-bold text-[#0a2a24]">Simple editor</h4>
+                      <p className="text-sm text-[#746754]">Edit the common fields here. Complex grouped settings remain available in the advanced JSON box below.</p>
+                    </div>
+
+                    {draftItem ? (
+                      <div className="grid gap-4 md:grid-cols-2">
+                        {Object.entries(draftItem).map(([field, value]) => {
+                          if (visibleImageFields.includes(field)) return null;
+                          const label = displayLabel(field);
+
+                          if (typeof value === "boolean") {
+                            return (
+                              <label key={field} className="flex items-center justify-between gap-4 rounded-xl border border-[#E6D6BD] bg-[#fbf6ee] px-4 py-3 text-sm font-bold text-[#14241F]">
+                                <span>{label}</span>
+                                <input
+                                  type="checkbox"
+                                  checked={value}
+                                  onChange={(event) => updateDraftField(field, event.target.checked)}
+                                  className="h-5 w-5 accent-[#0a2a24]"
+                                />
+                              </label>
+                            );
+                          }
+
+                          if (typeof value === "number") {
+                            return (
+                              <label key={field} className="text-sm font-bold text-[#14241F]">
+                                {label}
+                                <input
+                                  type="number"
+                                  value={value}
+                                  onChange={(event) => updateDraftField(field, Number(event.target.value))}
+                                  className="mt-2 w-full rounded-xl border border-[#E6D6BD] bg-[#fbf6ee] px-3 py-2 text-sm font-normal text-[#14241F] outline-none focus:border-[#b07e33]"
+                                />
+                              </label>
+                            );
+                          }
+
+                          if (typeof value === "string") {
+                            return (
+                              <label key={field} className="text-sm font-bold text-[#14241F]">
+                                {label}
+                                {shouldUseTextarea(field, value) ? (
+                                  <textarea
+                                    value={value}
+                                    rows={4}
+                                    onChange={(event) => updateDraftField(field, event.target.value)}
+                                    className="mt-2 w-full rounded-xl border border-[#E6D6BD] bg-[#fbf6ee] px-3 py-2 text-sm font-normal leading-6 text-[#14241F] outline-none focus:border-[#b07e33]"
+                                  />
+                                ) : (
+                                  <input
+                                    value={value}
+                                    onChange={(event) => updateDraftField(field, event.target.value)}
+                                    className="mt-2 w-full rounded-xl border border-[#E6D6BD] bg-[#fbf6ee] px-3 py-2 text-sm font-normal text-[#14241F] outline-none focus:border-[#b07e33]"
+                                  />
+                                )}
+                              </label>
+                            );
+                          }
+
+                          if (isStringArray(value)) {
+                            return (
+                              <label key={field} className="text-sm font-bold text-[#14241F] md:col-span-2">
+                                {label}
+                                <textarea
+                                  value={value.join("\n")}
+                                  rows={Math.min(Math.max(value.length, 3), 8)}
+                                  onChange={(event) => updateStringListField(field, event.target.value)}
+                                  className="mt-2 w-full rounded-xl border border-[#E6D6BD] bg-[#fbf6ee] px-3 py-2 text-sm font-normal leading-6 text-[#14241F] outline-none focus:border-[#b07e33]"
+                                />
+                                <span className="mt-1 block text-xs font-normal text-[#746754]">One item per line.</span>
+                              </label>
+                            );
+                          }
+
+                          if (Array.isArray(value) || isPlainRecord(value)) {
+                            return (
+                              <div key={field} className="rounded-xl border border-[#E6D6BD] bg-[#fbf6ee] p-3 text-sm text-[#14241F] md:col-span-2">
+                                <p className="font-bold">{label}</p>
+                                <p className="mt-1 text-xs leading-5 text-[#746754]">Grouped field. Edit this in the advanced JSON box below.</p>
+                              </div>
+                            );
+                          }
+
+                          return null;
+                        })}
+                      </div>
+                    ) : (
+                      <p className="rounded-xl border border-red-200 bg-red-50 p-3 text-sm font-semibold text-red-950">Fix JSON before using the simple editor.</p>
+                    )}
+                  </div>
 
                   <div className="mt-5 rounded-2xl border border-[#E6D6BD] bg-white p-4">
                     <div className="mb-4 flex flex-col gap-1">
