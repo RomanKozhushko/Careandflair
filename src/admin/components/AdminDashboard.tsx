@@ -33,20 +33,19 @@ export function AdminDashboard({ sections, stats, activeRoutes }: AdminDashboard
     <section id="dashboard" className="scroll-mt-6 rounded-[2rem] border border-[#E6D6BD] bg-white p-5 shadow-sm sm:p-6">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div>
-          <p className="brand-label text-xs brass-text">Phase 3</p>
-          <h1 className="mt-2 text-3xl font-bold tracking-tight text-[#0a2a24] sm:text-4xl">Admin MVP Foundation</h1>
-          <p className="mt-3 max-w-3xl text-sm leading-6 text-[#746754]">Preview local JSON content and admin information architecture before Phase 3.1 editable admin work.</p>
+          <p className="brand-label text-xs brass-text">Phase 4.1</p>
+          <h1 className="mt-2 text-3xl font-bold tracking-tight text-[#0a2a24] sm:text-4xl">Admin Foundation</h1>
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-[#746754]">Password-protected JSON content editor with a simple Supabase quote request inbox.</p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <AdminStatusBadge status="warning">Unprotected MVP</AdminStatusBadge>
-          <AdminStatusBadge status="readonly">No database</AdminStatusBadge>
-          <AdminStatusBadge status="mock">Mock/local only</AdminStatusBadge>
+          <AdminStatusBadge status="active">Password protected</AdminStatusBadge>
+          <AdminStatusBadge status="active">Quote database ready</AdminStatusBadge>
+          <AdminStatusBadge status="mock">Content still JSON</AdminStatusBadge>
         </div>
       </div>
 
-      <div className="mt-6 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm font-semibold leading-6 text-red-900">
-        This admin MVP is not protected. Do not deploy as production admin without authentication.
-        <br />Admin is currently local/mock only. No production auth yet.
+      <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm font-semibold leading-6 text-amber-950">
+        Quote requests use Supabase when environment variables are configured. Site content is still managed from local JSON files.
       </div>
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">

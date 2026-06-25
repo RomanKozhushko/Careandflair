@@ -13,7 +13,7 @@
     "eyebrow": "Quick quote request",
     "title": "Tell us what needs sorting before the property is ready.",
     "intro": "Choose the reset speed, property type and visible problems. Use the notes for Rental Reset, Move-In Reset, Sale-Ready Reset or Airbnb Launch & Recovery Reset details.",
-    "mockNotice": "MVP mode: this form currently shows a summary only and does not send the request yet."
+    "mockNotice": "For a faster quote, send property photos on WhatsApp after submitting the request."
   },
   "stepLabels": {
     "servicePackage": "Choose reset speed",
@@ -25,7 +25,7 @@
   "actions": {
     "next": "Continue",
     "back": "Back",
-    "submit": "Show Quote Summary",
+    "submit": "Send Quote Request",
     "startAgain": "Start Again"
   },
   "contactFields": {
@@ -36,8 +36,8 @@
     "message": "Reset type, deadline, access, keys, photos, condition notes"
   },
   "summaryTitle": "Your property reset quote summary",
-  "successTitle": "Quote request summary ready",
-  "successMessage": "This is a mock submit for the MVP. The summary is shown on screen only and has not been sent to email, CRM or Telegram.",
+  "successTitle": "Thanks. Your quote request has been sent. We will contact you shortly.",
+  "successMessage": "For a faster quote, you can send property photos on WhatsApp: +44 7445 897204.",
   "priceBreakdownLabels": {
     "packageBase": "Package base",
     "upgrades": "Upgrades",

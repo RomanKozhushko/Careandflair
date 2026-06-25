@@ -31,6 +31,8 @@ export function QuoteBuilder() {
   const [selection, setSelection] = useState<QuoteSelection>(() => createInitialQuoteSelection(preset, upgrade));
   const [stepIndex, setStepIndex] = useState(preset ? 1 : 0);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   const estimate = estimateQuote(selection, pricingMatrix, upgrades);
   const selectedPackage = findSelectedPackage(selection, packages);
@@ -41,6 +43,7 @@ export function QuoteBuilder() {
 
   function updateSelection(next: Partial<QuoteSelection>) {
     setSubmitted(false);
+    setSubmitError("");
     setSelection((current) => ({ ...current, ...next }));
   }
 
@@ -66,15 +69,51 @@ export function QuoteBuilder() {
     updateSelection({ upgradeIds });
   }
 
-  function submit() {
+  async function submit() {
     if (!canContinue()) return;
-    setSubmitted(true);
+    setSubmitting(true);
+    setSubmitError("");
+
+    try {
+      const response = await fetch("/api/quote-request", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: selection.contact.name,
+          phone: selection.contact.phone,
+          email: selection.contact.email,
+          postcode: selection.contact.postcode,
+          selected_package: selectedPackage?.name ?? selection.packageId,
+          service_type: mode ?? selectedPackage?.name ?? selection.packageId,
+          property_category: selectedCategory?.name ?? selection.propertyCategoryId,
+          property_type: selectedPropertyType?.name ?? selection.propertyTypeId,
+          selected_problems: problems,
+          selected_upgrades: selectedUpgrades.map((item) => ({ id: item.id, title: item.title, basePrice: item.basePrice })),
+          estimated_price: estimate.totalFromPrice,
+          message: selection.contact.message,
+          source_page: "quote-builder",
+        }),
+      });
+
+      const result = (await response.json().catch(() => null)) as { success?: boolean; error?: string; errors?: string[] } | null;
+
+      if (!response.ok || !result?.success) {
+        throw new Error(result?.errors?.join(" ") || result?.error || "Quote request failed.");
+      }
+
+      setSubmitted(true);
+    } catch {
+      setSubmitError("Something went wrong. Please call or WhatsApp us on +44 7445 897204.");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   function reset() {
     setSelection(createInitialQuoteSelection(null, null));
     setStepIndex(0);
     setSubmitted(false);
+    setSubmitError("");
   }
 
   const currentStep = [
@@ -111,9 +150,10 @@ export function QuoteBuilder() {
           <div className="flex gap-3">
             {submitted ? <button type="button" onClick={reset} className="rounded-full border border-[#E6D6BD] px-5 py-3 text-sm font-semibold text-[#746754] transition hover:border-[#b07e33]/45">{config.actions.startAgain}</button> : null}
             {!submitted && stepIndex < config.steps.length - 1 ? <button type="button" onClick={next} disabled={!canContinue()} className="rounded-full brass-fill px-6 py-3 text-sm font-semibold text-[#061A17] transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-40">{config.actions.next}</button> : null}
-            {!submitted && stepIndex === config.steps.length - 1 ? <button type="button" onClick={submit} disabled={!canContinue()} className="rounded-full bg-[#0a2a24] px-6 py-3 text-sm font-semibold text-white ring-1 ring-[#b07e33]/20 transition hover:bg-[#14241F] disabled:cursor-not-allowed disabled:opacity-40">{config.actions.submit}</button> : null}
+            {!submitted && stepIndex === config.steps.length - 1 ? <button type="button" onClick={() => void submit()} disabled={!canContinue() || submitting} className="rounded-full bg-[#0a2a24] px-6 py-3 text-sm font-semibold text-white ring-1 ring-[#b07e33]/20 transition hover:bg-[#14241F] disabled:cursor-not-allowed disabled:opacity-40">{submitting ? "Sending..." : config.actions.submit}</button> : null}
           </div>
         </div>
+        {submitError ? <p className="mt-4 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-900">{submitError}</p> : null}
       </div>
 
       <div className="space-y-5">

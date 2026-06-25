@@ -2,6 +2,7 @@ import type { AdminSection } from "@/admin/types";
 import { AdminDashboard } from "./AdminDashboard";
 import { AdminDataTable } from "./AdminDataTable";
 import { AdminJsonPreview } from "./AdminJsonPreview";
+import { AdminQuoteRequests } from "./AdminQuoteRequests";
 import { AdminSectionCard } from "./AdminSectionCard";
 import { AdminSidebar } from "./AdminSidebar";
 
@@ -24,6 +25,7 @@ export function AdminShell({ sections, stats, activeRoutes }: AdminShellProps) {
         <AdminSidebar sections={sections} />
         <div className="grid gap-6">
           <AdminDashboard sections={sections} stats={stats} activeRoutes={activeRoutes} />
+          <AdminQuoteRequests />
           {sections.map((section) => (
             <AdminSectionCard key={section.id} section={section}>
               <div className="grid gap-4">
