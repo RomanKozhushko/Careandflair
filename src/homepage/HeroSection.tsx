@@ -18,19 +18,28 @@ export function HeroSection({ content }: { content?: ContentBundle }) {
       <div className="absolute left-0 top-28 hidden h-px w-full bg-gradient-to-r from-transparent via-[rgba(183,232,106,0.7)] to-transparent lg:block" />
       <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[0.86fr_1.14fr] lg:px-8 lg:pb-12 lg:pt-24">
         <div className="self-center">
-          <p className="inline-flex rounded-full border border-[rgba(8,47,40,0.12)] bg-white/78 px-4 py-2 text-sm font-semibold text-[var(--cf-muted)] shadow-sm">{section.eyebrow}</p>
-          <h1 className="mt-5 max-w-4xl text-4xl font-semibold tracking-[-0.03em] sm:text-6xl lg:text-7xl">{section.headline}</h1>
-          <p className="mt-5 max-w-2xl text-base leading-7 text-[var(--cf-text)] sm:text-lg sm:leading-8">{section.subheadline}</p>
-          {section.explanation ? <p className="light-glass-panel mt-5 max-w-2xl rounded-2xl px-4 py-3 text-sm leading-6 text-[var(--cf-text)]">{section.explanation}</p> : null}
+          <p className="inline-flex rounded-full border border-[rgba(8,47,40,0.12)] bg-white/78 px-4 py-2 text-sm font-semibold text-[var(--cf-muted)] shadow-sm">The Reset Moment</p>
+          <h1 className="mt-5 max-w-4xl text-4xl font-semibold tracking-[-0.03em] sm:text-6xl lg:text-7xl">Your property is almost ready. We fix what people notice first.</h1>
+          <p className="mt-5 max-w-2xl text-base leading-7 text-[var(--cf-text)] sm:text-lg sm:leading-8">Send photos, tell us the deadline, and we will quote the visible reset work that makes a home ready for move-in, viewing, sale photos or guests.</p>
+          {section.explanation ? <p className="light-glass-panel mt-5 max-w-2xl rounded-2xl px-4 py-3 text-sm leading-6 text-[var(--cf-text)]">Most homes do not need a full renovation. They need the tired details cleaned, freshened and fixed before people walk in.</p> : null}
           <p className="mt-4 max-w-2xl text-sm font-semibold leading-6 text-[var(--cf-green-2)] sm:text-base">{siteSettings.brandLine}</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row"><CtaButton cta={primaryCta} className="cta-glow" /><CtaButton cta={secondaryCta} variant="secondary" /></div>
           <div className="mt-8 grid gap-3 sm:grid-cols-2">
-            {(section.trustBadges ?? []).slice(0, 4).map((badge, index) => (
+            {["Old silicone", "Marked walls", "Greasy kitchen", "Stained carpet"].map((badge, index) => (
               <div key={badge} className="interactive-border rounded-xl border border-[var(--cf-line)] bg-white/70 px-4 py-3 text-sm font-medium text-[var(--cf-text)] shadow-sm shadow-[#0a2a24]/5">
-                <span className="mr-2 inline-block h-2 w-2 rounded-full bg-[var(--cf-lime)] align-middle" aria-hidden="true" />
-                {index === 0 ? "24-72h help" : badge}
+                <span className={`mr-2 inline-block h-2 w-2 rounded-full align-middle ${index === 0 ? "bg-[var(--cf-coral)]" : "bg-[var(--cf-lime)]"}`} aria-hidden="true" />
+                {badge}
               </div>
             ))}
+          </div>
+          <div className="float-soft mt-6 rounded-[1.5rem] border border-[rgba(6,31,26,0.12)] bg-white/86 p-4 shadow-[var(--cf-shadow-soft)]">
+            <p className="brand-label text-[10px] text-[var(--cf-green)]">Proof and trust</p>
+            <div className="mt-3 grid gap-2 text-sm font-semibold text-[var(--cf-text)] sm:grid-cols-2">
+              <span>24-72h readiness options</span>
+              <span>Clear quote before work starts</span>
+              <span>Photo proof after the job</span>
+              <span>WhatsApp-friendly updates</span>
+            </div>
           </div>
         </div>
 

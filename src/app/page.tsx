@@ -8,6 +8,7 @@ import { HeroSection } from "@/homepage/HeroSection";
 import { HowItWorksSection } from "@/homepage/HowItWorksSection";
 import { LazyInteractiveConversionCore } from "@/homepage/LazyInteractiveConversionCore";
 import { ResetPackagesSection } from "@/homepage/ResetPackagesSection";
+import { ResetScanner } from "@/homepage/ResetScanner";
 import { TrustBadges } from "@/homepage/TrustBadges";
 import { TransformationStrip } from "@/homepage/TransformationStrip";
 import { Footer } from "@/layout/Footer";
@@ -33,12 +34,13 @@ export default async function Home() {
       <main>
         <HeroSection content={content} />
         <TransformationStrip />
-        <LazyInteractiveConversionCore />
+        <ResetScanner image="/images/generated/hero-living-room-reset.jpg" />
         <FlairSolutionsGrid content={content} />
-        <ResetPackagesSection content={content} />
-        <TrustBadges content={content} />
         <BeforeAfterPreview content={content} />
         <HowItWorksSection content={content} />
+        <LazyInteractiveConversionCore />
+        <ResetPackagesSection content={content} />
+        <TrustBadges content={content} />
         <GuardianPlansSection content={content} />
         <AreasServedSection content={content} />
         <FAQSection content={content} />

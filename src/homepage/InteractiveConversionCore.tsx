@@ -31,9 +31,9 @@ export function InteractiveConversionCore() {
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
           <div>
-            <p className="text-sm font-semibold text-[var(--cf-muted)]">{config.eyebrow}</p>
-            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.035em] sm:text-5xl lg:text-6xl">{config.title}</h2>
-            <p className="mt-5 max-w-2xl text-base leading-8 text-[var(--cf-muted)] sm:text-lg">{config.subtitle}</p>
+            <p className="text-sm font-semibold text-[var(--cf-green)]">Quote builder entry</p>
+            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.035em] sm:text-5xl lg:text-6xl">Not sure what the property needs?</h2>
+            <p className="mt-5 max-w-2xl text-base leading-8 text-[var(--cf-muted)] sm:text-lg">Pick the visible problems and we will suggest the reset path before you send the quote request.</p>
             {config.commonReasons?.length ? (
               <ul className="mt-4 grid max-w-2xl gap-2 text-sm leading-6 text-[var(--cf-text)] sm:grid-cols-2">
                 {config.commonReasons.map((reason: string) => (
@@ -46,10 +46,10 @@ export function InteractiveConversionCore() {
             ) : null}
           </div>
           <div className="light-glass-panel grid gap-3 rounded-[1.5rem] p-4 text-sm text-[var(--cf-muted)] sm:grid-cols-2">
-            <span>{config.steps.mode}</span>
-            <span>{config.steps.problems}</span>
-            <span>{config.steps.score}</span>
-            <span>{config.steps.recommendation}</span>
+            <span className="rounded-xl bg-[var(--cf-mint)] px-3 py-2 font-semibold text-[var(--cf-green)]">{config.steps.mode}</span>
+            <span className="rounded-xl bg-white px-3 py-2">{config.steps.problems}</span>
+            <span className="rounded-xl bg-white px-3 py-2">{config.steps.score}</span>
+            <span className="rounded-xl bg-[var(--cf-lime)] px-3 py-2 font-black text-[var(--cf-deep)]">Your reset path</span>
           </div>
         </div>
 

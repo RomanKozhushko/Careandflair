@@ -5,13 +5,13 @@ import { SectionHeader } from "@/ui/SectionHeader";
 export function HowItWorksSection({ content }: { content?: ContentBundle }) {
   const { findSection } = createContentHelpers(content);
   const section = findSection("how-it-works");
-  const steps = section.steps ?? [];
+  const steps = [...(section.steps ?? []), { title: "You receive photo proof", description: "We send clear photos so you can see the property is ready before the next step." }];
 
   return (
     <section className="bg-[var(--cf-bg)] px-4 py-20 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <SectionHeader eyebrow="Simple process" title={section.title} subtitle={section.subtitle} align="center" />
-        <div className="relative mt-10 grid gap-4 md:grid-cols-4">
+        <div className="relative mt-10 grid gap-4 md:grid-cols-5">
           <div className="lime-accent absolute left-[12%] right-[12%] top-5 hidden h-1 rounded-full md:block" />
           {steps.map((step, index) => (
             <article key={step.title} className="reveal-on-scroll soft-3d-card relative rounded-xl border border-[var(--cf-line)] bg-white p-5 shadow-sm shadow-[#0a2a24]/5" style={{ animationDelay: `${index * 80}ms` }}>

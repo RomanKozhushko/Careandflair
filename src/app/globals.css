@@ -1,29 +1,34 @@
 @import "tailwindcss";
 
 :root {
-  --cf-bg: #F7F3EA;
+  --cf-bg: #F5EFE4;
   --cf-bg-soft: #FBF8F1;
   --cf-bg-bright: #FFFDF7;
+  --cf-cream-2: #EFE3D1;
   --cf-card: rgba(255,255,255,0.78);
   --cf-card-solid: #FFFFFF;
-  --cf-deep-green: #062B24;
-  --cf-green: #0D4A3E;
-  --cf-green-2: #0D4A3E;
-  --cf-text: #10201C;
-  --cf-muted: #64736C;
+  --cf-white: #FFFFFF;
+  --cf-glass-strong: rgba(255,255,255,0.9);
+  --cf-deep: #041F1A;
+  --cf-deep-green: #041F1A;
+  --cf-green: #073B32;
+  --cf-green-2: #0B5A48;
+  --cf-text: #0C1714;
+  --cf-muted: #5F6F68;
   --cf-line: #E6DAC6;
-  --cf-lime: #B8F24A;
-  --cf-lime-strong: #9BE22D;
-  --cf-mint: #CFFFE0;
-  --cf-mint-strong: #76E7B2;
-  --cf-coral: #FFB067;
-  --cf-brass: #B88A3B;
+  --cf-lime: #B8FF3D;
+  --cf-lime-strong: #93E600;
+  --cf-mint: #BDFBE0;
+  --cf-mint-strong: #62E6AD;
+  --cf-coral: #FF9F5A;
+  --cf-brass: #B98A3D;
   --cf-brass-soft: #E4C98F;
   --cf-glass: rgba(255,255,255,0.72);
   --cf-dark-glass: rgba(6,43,36,0.82);
-  --cf-shadow-soft: 0 18px 45px rgba(16, 32, 28, 0.12);
-  --cf-shadow-lift: 0 30px 80px rgba(16,32,28,0.22);
-  --cf-glow-lime: 0 0 0 1px rgba(184,242,74,0.35), 0 18px 50px rgba(184,242,74,0.18);
+  --cf-shadow-soft: 0 20px 60px rgba(4,31,26,0.12);
+  --cf-shadow-lift: 0 30px 80px rgba(4,31,26,0.22);
+  --cf-shadow-deep: 0 35px 100px rgba(4,31,26,0.24);
+  --cf-glow-lime: 0 0 0 1px rgba(184,255,61,0.45), 0 20px 70px rgba(184,255,61,0.25);
   --background: var(--cf-bg);
   --foreground: var(--cf-text);
   --brand-green: var(--cf-deep-green);
@@ -195,6 +200,23 @@ h3,
   animation: cf-pulse-once 1.35s ease-out both;
 }
 
+.scanner-line {
+  position: absolute;
+  inset-block: 0;
+  width: 3px;
+  background: linear-gradient(180deg, transparent, var(--cf-lime), transparent);
+  box-shadow: 0 0 28px rgba(184, 255, 61, 0.76);
+  animation: cf-scan 3.4s ease-in-out infinite;
+}
+
+.scan-reveal-tag {
+  animation: cf-tag-pop 3.4s ease-in-out infinite;
+}
+
+.float-soft {
+  animation: cf-float-soft 5.6s ease-in-out infinite;
+}
+
 .reveal-on-scroll {
   animation: cf-reveal 0.7s ease both;
   animation-timeline: view();
@@ -261,6 +283,43 @@ h3,
   }
 }
 
+@keyframes cf-scan {
+  0%, 10% {
+    left: 8%;
+    opacity: 0;
+  }
+  18%, 78% {
+    opacity: 1;
+  }
+  90%, 100% {
+    left: 92%;
+    opacity: 0;
+  }
+}
+
+@keyframes cf-tag-pop {
+  0%, 18% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+  30%, 78% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  92%, 100% {
+    opacity: 0.72;
+  }
+}
+
+@keyframes cf-float-soft {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -8px, 0);
+  }
+}
+
 @media (max-width: 767px) {
   * {
     scroll-behavior: auto !important;
@@ -275,6 +334,9 @@ h3,
   .reveal-on-scroll,
   .progress-sheen,
   .status-pulse-once,
+  .scanner-line,
+  .scan-reveal-tag,
+  .float-soft,
   .group:hover,
   [class*="hover\\:-translate-y"],
   [class*="hover\\:shadow"],
@@ -358,7 +420,10 @@ h3,
   .reveal-on-scroll,
   .progress-sheen,
   .progress-sheen::after,
-  .status-pulse-once {
+  .status-pulse-once,
+  .scanner-line,
+  .scan-reveal-tag,
+  .float-soft {
     transition: none;
     animation: none;
   }
