@@ -8,7 +8,7 @@ export function FlairSolutionsGrid({ content }: { content?: ContentBundle }) {
   const items = visibleSorted(solutions);
 
   return (
-    <section id="solutions" className="bg-[#f5ecdc] px-4 py-20 sm:px-6 lg:px-8">
+    <section id="solutions" className="bg-[var(--cf-bg)] px-4 py-20 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <SectionHeader eyebrow="Cleaning • repairs • setup" title={section.title} subtitle={section.subtitle} />
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

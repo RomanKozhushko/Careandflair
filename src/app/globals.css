@@ -1,15 +1,31 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f5ecdc;
-  --foreground: #14241F;
-  --brand-green: #0a2a24;
+  --cf-bg: #F7F3EA;
+  --cf-bg-soft: #FBF8F1;
+  --cf-card: rgba(255, 255, 255, 0.72);
+  --cf-card-solid: #FFFFFF;
+  --cf-deep-green: #082F28;
+  --cf-green-2: #10483E;
+  --cf-text: #10201C;
+  --cf-muted: #66736C;
+  --cf-line: #E7DAC2;
+  --cf-lime: #B7E86A;
+  --cf-mint: #DDF7D8;
+  --cf-brass: #B88A3B;
+  --cf-brass-soft: #E4C98F;
+  --cf-dark-glass: rgba(8, 47, 40, 0.78);
+  --cf-shadow-soft: 0 18px 45px rgba(16, 32, 28, 0.12);
+  --cf-shadow-lift: 0 26px 70px rgba(16, 32, 28, 0.18);
+  --background: var(--cf-bg);
+  --foreground: var(--cf-text);
+  --brand-green: var(--cf-deep-green);
   --brand-dark-green: #061A17;
-  --brand-ivory: #f5ecdc;
-  --brand-beige: #E6D6BD;
-  --brand-gold: #b07e33;
-  --brand-muted: #746754;
-  --brand-white: #FFFFFF;
+  --brand-ivory: var(--cf-bg);
+  --brand-beige: var(--cf-line);
+  --brand-gold: var(--cf-brass);
+  --brand-muted: var(--cf-muted);
+  --brand-white: var(--cf-card-solid);
 }
 
 @theme inline {
@@ -30,8 +46,9 @@ html {
 
 body {
   background:
-    radial-gradient(circle at 18% -10%, rgba(176, 126, 51, 0.08), transparent 30%),
-    linear-gradient(180deg, var(--brand-ivory) 0%, #fbf6ee 44%, var(--brand-ivory) 100%);
+    radial-gradient(circle at 18% -10%, rgba(183, 232, 106, 0.18), transparent 28%),
+    radial-gradient(circle at 82% 8%, rgba(184, 138, 59, 0.1), transparent 24%),
+    linear-gradient(180deg, var(--cf-bg) 0%, var(--cf-bg-soft) 44%, var(--cf-bg) 100%);
   color: var(--foreground);
   overflow-x: clip;
 }
@@ -55,11 +72,11 @@ h3,
 
 .brand-line {
   height: 1px;
-  background: linear-gradient(90deg, transparent 0%, #7d5521 18%, #d4ad62 40%, #fff0b8 50%, #b07e33 62%, #6f481a 82%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, var(--cf-lime) 18%, var(--cf-brass-soft) 48%, var(--cf-brass) 72%, transparent 100%);
 }
 
 .brass-text {
-  background: linear-gradient(115deg, #8f6328 0%, #b07e33 28%, #e0bf77 46%, #fff0b8 54%, #b07e33 70%, #75501f 100%);
+  background: linear-gradient(115deg, #8f6328 0%, var(--cf-brass) 34%, var(--cf-brass-soft) 62%, #75501f 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -67,13 +84,13 @@ h3,
 }
 
 .brass-fill {
-  background: linear-gradient(135deg, #7d5521 0%, #b07e33 27%, #e0bf77 45%, #fff0b8 52%, #b07e33 66%, #6f481a 100%);
-  box-shadow: inset 0 1px 0 rgba(255, 245, 206, 0.6), inset 0 -1px 0 rgba(81, 49, 12, 0.28), 0 10px 26px rgba(10, 42, 36, 0.08);
+  background: linear-gradient(135deg, #946824 0%, var(--cf-brass) 42%, var(--cf-brass-soft) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 245, 206, 0.5), 0 10px 26px rgba(16, 32, 28, 0.08);
 }
 
 .brass-line {
   height: 1px;
-  background: linear-gradient(90deg, transparent 0%, #7d5521 18%, #d4ad62 40%, #fff0b8 50%, #b07e33 62%, #6f481a 82%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, var(--cf-brass) 20%, var(--cf-brass-soft) 54%, var(--cf-brass) 80%, transparent 100%);
 }
 
 .brass-border {
@@ -94,6 +111,94 @@ h3,
   isolation: isolate;
 }
 
+.glass-card {
+  border: 1px solid rgba(231, 218, 194, 0.9);
+  background: var(--cf-card);
+  box-shadow: var(--cf-shadow-soft);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+}
+
+.light-glass-panel {
+  border: 1px solid rgba(231, 218, 194, 0.9);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.86), rgba(251, 248, 241, 0.66));
+  box-shadow: var(--cf-shadow-soft);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+.dark-glass-panel {
+  border: 1px solid rgba(221, 247, 216, 0.18);
+  background: linear-gradient(135deg, var(--cf-dark-glass), rgba(16, 72, 62, 0.72));
+  box-shadow: var(--cf-shadow-soft);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+}
+
+.soft-3d-card {
+  transform: translateZ(0);
+  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease, background-color 220ms ease;
+}
+
+.parallax-layer {
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+.floating-badge {
+  border: 1px solid rgba(231, 218, 194, 0.95);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 14px 34px rgba(16, 32, 28, 0.14);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+.reveal-on-scroll {
+  animation: cf-reveal 0.7s ease both;
+  animation-timeline: view();
+  animation-range: entry 12% cover 26%;
+}
+
+.lime-accent {
+  background: linear-gradient(90deg, var(--cf-lime), var(--cf-mint));
+}
+
+.interactive-border {
+  position: relative;
+}
+
+.interactive-border::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(183, 232, 106, 0);
+  transition: box-shadow 220ms ease;
+}
+
+.interactive-border:hover::after {
+  box-shadow: inset 0 0 0 1px rgba(183, 232, 106, 0.78);
+}
+
+.mobile-sticky-cta {
+  position: sticky;
+  bottom: 0;
+  z-index: 30;
+}
+
+@keyframes cf-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (max-width: 767px) {
   * {
     scroll-behavior: auto !important;
@@ -101,6 +206,9 @@ h3,
 
   .premium-hero-visual,
   .premium-depth-card,
+  .soft-3d-card,
+  .parallax-layer,
+  .reveal-on-scroll,
   .group:hover,
   [class*="hover\\:-translate-y"],
   [class*="hover\\:shadow"],
@@ -109,6 +217,7 @@ h3,
     transition: none !important;
     filter: none !important;
     will-change: auto !important;
+    animation: none !important;
   }
 
   .premium-depth-card,
@@ -154,17 +263,27 @@ h3,
   .premium-depth-card:hover::before {
     opacity: 1;
   }
+
+  .soft-3d-card:hover {
+    transform: translateY(-5px) rotateX(1.2deg) rotateY(-1deg);
+    box-shadow: var(--cf-shadow-lift);
+  }
 }
 
 @media (max-width: 767px), (prefers-reduced-motion: reduce) {
   .premium-hero-visual,
-  .premium-depth-card {
+  .premium-depth-card,
+  .soft-3d-card,
+  .parallax-layer {
     transform-style: flat;
   }
 
   .premium-depth-card,
-  .premium-depth-card::before {
+  .premium-depth-card::before,
+  .soft-3d-card,
+  .reveal-on-scroll {
     transition: none;
+    animation: none;
   }
 
   .premium-depth-card:hover {

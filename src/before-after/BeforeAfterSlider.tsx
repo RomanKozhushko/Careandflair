@@ -41,7 +41,7 @@ export function BeforeAfterSlider({ item, className = "" }: BeforeAfterSliderPro
   return (
     <div
       ref={frameRef}
-      className={`relative aspect-[4/3] min-h-72 select-none overflow-hidden rounded-[1.75rem] bg-[#E6D6BD] touch-none ${className}`}
+      className={`relative aspect-[4/3] min-h-72 select-none overflow-hidden rounded-[1.75rem] border border-[rgba(255,255,255,0.72)] bg-[var(--cf-line)] shadow-[0_24px_64px_rgba(16,32,28,0.16)] touch-none ${className}`}
       onPointerDown={startDrag}
       onPointerMove={(event) => event.buttons === 1 && updateFromPointer(event)}
     >
@@ -61,15 +61,16 @@ export function BeforeAfterSlider({ item, className = "" }: BeforeAfterSliderPro
         />
       </div>
 
-      <div className="pointer-events-none absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-[#14241F] shadow-sm">Before</div>
-      <div className="pointer-events-none absolute right-4 top-4 rounded-full bg-[#0a2a24]/90 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-white shadow-sm">After</div>
+      <div className="pointer-events-none absolute left-4 top-4 rounded-full bg-white/92 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-[var(--cf-text)] shadow-sm">Before</div>
+      <div className="pointer-events-none absolute right-4 top-4 rounded-full bg-[var(--cf-deep-green)]/92 px-3 py-1 text-xs font-bold uppercase tracking-[0.16em] text-white shadow-sm">After</div>
+      <div className="pointer-events-none absolute bottom-4 left-4 rounded-full bg-[var(--cf-mint)] px-3 py-1 text-xs font-semibold text-[var(--cf-deep-green)] shadow-sm">Drag to compare</div>
 
       <div
-        className="pointer-events-none absolute inset-y-0 w-1 -translate-x-1/2 bg-white shadow-[0_0_0_1px_rgba(10,42,36,0.12)] sm:shadow-[0_0_0_1px_rgba(10,42,36,0.12),0_0_18px_rgba(10,42,36,0.24)]"
+        className="pointer-events-none absolute inset-y-0 w-1 -translate-x-1/2 bg-white shadow-[0_0_0_1px_rgba(8,47,40,0.12),0_0_20px_rgba(183,232,106,0.42)]"
         style={{ left: `${position}%` }}
         aria-hidden="true"
       >
-        <div className="absolute left-1/2 top-1/2 grid h-12 w-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-[#E6D6BD] bg-white text-[#0a2a24] shadow-md sm:shadow-xl">
+        <div className="absolute left-1/2 top-1/2 grid h-12 w-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-[var(--cf-line)] bg-white text-[var(--cf-deep-green)] shadow-md sm:shadow-xl">
           <span className="text-lg font-bold leading-none">↔</span>
         </div>
       </div>

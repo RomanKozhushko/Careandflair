@@ -14,7 +14,7 @@ import { Header } from "@/layout/Header";
 import { getPublicContentBundle } from "@/lib/siteContent";
 
 const BeforeAfterPreview = dynamicImport(() => import("@/homepage/BeforeAfterPreview").then((mod) => mod.BeforeAfterPreview), {
-  loading: () => <section className="bg-[#f5ecdc] px-4 py-12 sm:px-6 lg:px-8" aria-label="Before and after preview loading" />,
+  loading: () => <section className="bg-[var(--cf-bg)] px-4 py-12 sm:px-6 lg:px-8" aria-label="Before and after preview loading" />,
 });
 
 export const dynamic = "force-dynamic";
@@ -23,7 +23,7 @@ export default async function Home() {
   const content = await getPublicContentBundle();
 
   return (
-    <div className="min-h-screen overflow-x-clip bg-[#f5ecdc] text-[#14241F]">
+    <div className="min-h-screen overflow-x-clip bg-[var(--cf-bg)] text-[var(--cf-text)]">
       <Header content={content} />
       <main>
         <HeroSection content={content} />
