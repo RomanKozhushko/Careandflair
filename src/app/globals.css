@@ -410,6 +410,117 @@ h3,
   }
 }
 
+.vision-page {
+  --vf-ink: #05110E;
+  --vf-deep: #06241E;
+  --vf-green: #073D32;
+  --vf-green-bright: #0A6B55;
+  --vf-cream: #F4EBDD;
+  --vf-paper: #FFF9EE;
+  --vf-white: #FFFFFF;
+  --vf-lime: #B8FF3D;
+  --vf-lime-hot: #9DFF00;
+  --vf-mint: #BDFBE0;
+  --vf-mint-hot: #5FE6AD;
+  --vf-coral: #FF8F5A;
+  --vf-amber: #FFC861;
+  --vf-text-dark: #081613;
+  --vf-text-soft: #5E7068;
+  --vf-text-light: #EFFFFA;
+  --vf-glass: rgba(255,255,255,0.78);
+  --vf-glass-soft: rgba(255,255,255,0.56);
+  --vf-glass-dark: rgba(5,17,14,0.72);
+  --vf-glow-lime: 0 0 0 1px rgba(184,255,61,0.45), 0 22px 80px rgba(184,255,61,0.28);
+  --vf-glow-mint: 0 0 0 1px rgba(95,230,173,0.35), 0 22px 70px rgba(95,230,173,0.2);
+  --vf-shadow-3d: 0 40px 120px rgba(5,17,14,0.35);
+  --vf-shadow-soft: 0 24px 70px rgba(5,17,14,0.16);
+}
+
+.vf-stage {
+  perspective: 1600px;
+  transform-style: preserve-3d;
+}
+
+.vf-hero-visual {
+  --rx: 0deg;
+  --ry: 0deg;
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transform-style: preserve-3d;
+}
+
+.vf-depth-card {
+  transform-style: preserve-3d;
+  transition: transform 260ms ease, box-shadow 260ms ease;
+}
+
+.vf-depth-card:hover {
+  transform: translateY(-8px) rotateX(3deg) rotateY(-4deg);
+  box-shadow: var(--vf-shadow-3d);
+}
+
+.vf-float {
+  animation: vf-float 6.5s ease-in-out infinite;
+}
+
+.vf-scan-line {
+  position: absolute;
+  inset-block: -8%;
+  width: 5px;
+  background: linear-gradient(180deg, transparent, var(--vf-lime), var(--vf-text-light), var(--vf-lime), transparent);
+  box-shadow: 0 0 40px rgba(184,255,61,0.88), 0 0 90px rgba(95,230,173,0.35);
+  animation: vf-scan 3.4s ease-in-out infinite;
+}
+
+.vf-orbit {
+  animation: vf-orbit 12s linear infinite;
+}
+
+.vf-reveal-after {
+  clip-path: inset(0 0 0 52%);
+  animation: vf-reveal 5.5s ease-in-out infinite;
+}
+
+.vf-progress {
+  position: relative;
+  overflow: hidden;
+}
+
+.vf-progress::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  width: 38%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.86), transparent);
+  animation: vf-flow 2.6s ease-in-out infinite;
+}
+
+@keyframes vf-float {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -12px, 0); }
+}
+
+@keyframes vf-scan {
+  0%, 9% { left: 6%; opacity: 0; }
+  18%, 76% { opacity: 1; }
+  92%, 100% { left: 94%; opacity: 0; }
+}
+
+@keyframes vf-orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes vf-reveal {
+  0%, 16% { clip-path: inset(0 0 0 72%); }
+  50%, 70% { clip-path: inset(0 0 0 30%); }
+  100% { clip-path: inset(0 0 0 58%); }
+}
+
+@keyframes vf-flow {
+  from { transform: translateX(-140%); }
+  to { transform: translateX(330%); }
+}
+
 @media (max-width: 767px) {
   * {
     scroll-behavior: auto !important;
@@ -433,6 +544,14 @@ h3,
   .concept-scan-line,
   .concept-reveal-after,
   .concept-progress-flow,
+  .vf-stage,
+  .vf-hero-visual,
+  .vf-depth-card,
+  .vf-float,
+  .vf-scan-line,
+  .vf-orbit,
+  .vf-reveal-after,
+  .vf-progress,
   .group:hover,
   [class*="hover\\:-translate-y"],
   [class*="hover\\:shadow"],
@@ -506,6 +625,9 @@ h3,
   .ad-depth-scene,
   .concept-stage,
   .concept-tilt-card,
+  .vf-stage,
+  .vf-hero-visual,
+  .vf-depth-card,
   .reset-journey-card,
   .parallax-layer {
     transform-style: flat;
@@ -526,7 +648,16 @@ h3,
   .concept-scan-line,
   .concept-reveal-after,
   .concept-progress-flow,
-  .concept-progress-flow::after {
+  .vf-stage,
+  .vf-hero-visual,
+  .vf-depth-card,
+  .vf-float,
+  .vf-scan-line,
+  .vf-orbit,
+  .vf-reveal-after,
+  .vf-progress,
+  .concept-progress-flow::after,
+  .vf-progress::after {
     transition: none;
     animation: none;
   }
