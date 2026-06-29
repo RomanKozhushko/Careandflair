@@ -13,22 +13,27 @@ export function BeforeAfterPreview({ content }: { content?: ContentBundle }) {
   if (!strongestItem) return null;
 
   return (
-    <section id="before-after" className="bg-[var(--cf-bg-soft)] px-4 py-16 sm:px-6 lg:px-8">
+    <section id="before-after" className="relative overflow-hidden bg-[var(--cf-bg-bright)] px-4 py-16 sm:px-6 lg:px-8">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_12%,rgba(118,231,178,0.18),transparent_24%),radial-gradient(circle_at_82%_18%,rgba(184,242,74,0.18),transparent_22%)]" />
       <div className="mx-auto max-w-7xl">
-        <div className="grid gap-6 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
-          <SectionHeader eyebrow="Before someone books a viewing" title={section.title} subtitle={section.subtitle} />
+        <div className="relative grid gap-6 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
+          <SectionHeader eyebrow="Before someone books a viewing" title="Proof you can see." subtitle="Most properties do not need a full renovation. They need the visible problems fixed first." />
           <div className="light-glass-panel rounded-3xl px-5 py-4 text-sm font-semibold leading-6 text-[var(--cf-text)]">
-            Use these as examples of the visible issues we can quote for: bathrooms, carpets, windows, entrances and tired rooms.
+            {section.subtitle}
           </div>
         </div>
 
-        <div className="glass-card mt-8 grid gap-8 overflow-hidden rounded-[2rem] p-4 sm:p-6 lg:grid-cols-[1.12fr_0.88fr] lg:items-center">
+        <div className="glass-card relative mt-8 grid gap-8 overflow-hidden rounded-[2rem] p-4 sm:p-6 lg:grid-cols-[1.12fr_0.88fr] lg:items-center">
           <BeforeAfterSlider item={strongestItem} />
           <div className="p-2 sm:p-4">
             <p className="brand-label text-xs brass-text">Common property problem</p>
             <h3 className="mt-3 text-3xl font-semibold tracking-tight text-[var(--cf-deep-green)]">{strongestItem.title}</h3>
             <p className="mt-2 text-sm font-semibold uppercase tracking-[0.16em] text-[var(--cf-muted)]">{strongestItem.category} · {strongestItem.location}</p>
-            <div className="mt-5 inline-flex rounded-full bg-[var(--cf-mint)] px-4 py-2 text-sm font-semibold text-[var(--cf-deep-green)]">Visible result before viewing</div>
+            <div className="mt-5 flex flex-wrap gap-2">
+              {["Viewing ready", "Move-in ready", "Photo ready", "Guest-ready recovery"].map((badge, index) => (
+                <span key={badge} className={`rounded-full px-4 py-2 text-sm font-semibold text-[var(--cf-deep-green)] ${index === 0 ? "status-pulse-once bg-[var(--cf-lime)]" : "bg-[var(--cf-mint)]"}`}>{badge}</span>
+              ))}
+            </div>
             <div className="mt-5 grid gap-3 text-sm leading-6 text-[var(--cf-muted)]">
               <p><span className="font-semibold text-[var(--cf-deep-green)]">Problem:</span> {strongestItem.problem}</p>
               <p><span className="font-semibold text-[var(--cf-deep-green)]">Solution:</span> {strongestItem.solution}</p>

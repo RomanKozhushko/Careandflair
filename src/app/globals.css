@@ -3,20 +3,27 @@
 :root {
   --cf-bg: #F7F3EA;
   --cf-bg-soft: #FBF8F1;
-  --cf-card: rgba(255, 255, 255, 0.72);
+  --cf-bg-bright: #FFFDF7;
+  --cf-card: rgba(255,255,255,0.78);
   --cf-card-solid: #FFFFFF;
-  --cf-deep-green: #082F28;
-  --cf-green-2: #10483E;
+  --cf-deep-green: #062B24;
+  --cf-green: #0D4A3E;
+  --cf-green-2: #0D4A3E;
   --cf-text: #10201C;
-  --cf-muted: #66736C;
-  --cf-line: #E7DAC2;
-  --cf-lime: #B7E86A;
-  --cf-mint: #DDF7D8;
+  --cf-muted: #64736C;
+  --cf-line: #E6DAC6;
+  --cf-lime: #B8F24A;
+  --cf-lime-strong: #9BE22D;
+  --cf-mint: #CFFFE0;
+  --cf-mint-strong: #76E7B2;
+  --cf-coral: #FFB067;
   --cf-brass: #B88A3B;
   --cf-brass-soft: #E4C98F;
-  --cf-dark-glass: rgba(8, 47, 40, 0.78);
+  --cf-glass: rgba(255,255,255,0.72);
+  --cf-dark-glass: rgba(6,43,36,0.82);
   --cf-shadow-soft: 0 18px 45px rgba(16, 32, 28, 0.12);
-  --cf-shadow-lift: 0 26px 70px rgba(16, 32, 28, 0.18);
+  --cf-shadow-lift: 0 30px 80px rgba(16,32,28,0.22);
+  --cf-glow-lime: 0 0 0 1px rgba(184,242,74,0.35), 0 18px 50px rgba(184,242,74,0.18);
   --background: var(--cf-bg);
   --foreground: var(--cf-text);
   --brand-green: var(--cf-deep-green);
@@ -46,9 +53,9 @@ html {
 
 body {
   background:
-    radial-gradient(circle at 18% -10%, rgba(183, 232, 106, 0.18), transparent 28%),
-    radial-gradient(circle at 82% 8%, rgba(184, 138, 59, 0.1), transparent 24%),
-    linear-gradient(180deg, var(--cf-bg) 0%, var(--cf-bg-soft) 44%, var(--cf-bg) 100%);
+    radial-gradient(circle at 18% -10%, rgba(184, 242, 74, 0.22), transparent 28%),
+    radial-gradient(circle at 82% 8%, rgba(118, 231, 178, 0.16), transparent 24%),
+    linear-gradient(180deg, var(--cf-bg-bright) 0%, var(--cf-bg-soft) 44%, var(--cf-bg) 100%);
   color: var(--foreground);
   overflow-x: clip;
 }
@@ -113,7 +120,7 @@ h3,
 
 .glass-card {
   border: 1px solid rgba(231, 218, 194, 0.9);
-  background: var(--cf-card);
+  background: linear-gradient(135deg, rgba(255,255,255,0.84), var(--cf-card));
   box-shadow: var(--cf-shadow-soft);
   -webkit-backdrop-filter: blur(18px);
   backdrop-filter: blur(18px);
@@ -152,6 +159,40 @@ h3,
   box-shadow: 0 14px 34px rgba(16, 32, 28, 0.14);
   -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
+}
+
+.ad-depth-scene {
+  perspective: 1100px;
+  transform-style: preserve-3d;
+}
+
+.reset-journey-card {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.86), rgba(207, 255, 224, 0.24)),
+    radial-gradient(circle at 80% 10%, rgba(184, 242, 74, 0.32), transparent 34%);
+  box-shadow: var(--cf-shadow-lift);
+}
+
+.cta-glow {
+  box-shadow: var(--cf-glow-lime), 0 18px 48px rgba(6, 43, 36, 0.22);
+}
+
+.progress-sheen {
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+  transform: translateX(-120%);
+  animation: cf-sheen 2.8s ease-in-out infinite;
+}
+
+.status-pulse-once {
+  animation: cf-pulse-once 1.35s ease-out both;
 }
 
 .reveal-on-scroll {
@@ -199,6 +240,27 @@ h3,
   }
 }
 
+@keyframes cf-sheen {
+  0%, 45% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(120%);
+  }
+}
+
+@keyframes cf-pulse-once {
+  0% {
+    box-shadow: 0 0 0 0 rgba(184, 242, 74, 0.38);
+  }
+  72% {
+    box-shadow: 0 0 0 12px rgba(184, 242, 74, 0);
+  }
+  100% {
+    box-shadow: none;
+  }
+}
+
 @media (max-width: 767px) {
   * {
     scroll-behavior: auto !important;
@@ -207,8 +269,12 @@ h3,
   .premium-hero-visual,
   .premium-depth-card,
   .soft-3d-card,
+  .ad-depth-scene,
+  .reset-journey-card,
   .parallax-layer,
   .reveal-on-scroll,
+  .progress-sheen,
+  .status-pulse-once,
   .group:hover,
   [class*="hover\\:-translate-y"],
   [class*="hover\\:shadow"],
@@ -221,7 +287,8 @@ h3,
   }
 
   .premium-depth-card,
-  .mobile-static-card {
+  .mobile-static-card,
+  .reset-journey-card {
     box-shadow: none !important;
   }
 
@@ -268,20 +335,30 @@ h3,
     transform: translateY(-5px) rotateX(1.2deg) rotateY(-1deg);
     box-shadow: var(--cf-shadow-lift);
   }
+
+  .ad-depth-scene:hover .reset-journey-card {
+    transform: rotateX(2deg) rotateY(-3deg) translateY(-4px);
+  }
 }
 
 @media (max-width: 767px), (prefers-reduced-motion: reduce) {
   .premium-hero-visual,
   .premium-depth-card,
   .soft-3d-card,
+  .ad-depth-scene,
+  .reset-journey-card,
   .parallax-layer {
     transform-style: flat;
+    transform: none !important;
   }
 
   .premium-depth-card,
   .premium-depth-card::before,
   .soft-3d-card,
-  .reveal-on-scroll {
+  .reveal-on-scroll,
+  .progress-sheen,
+  .progress-sheen::after,
+  .status-pulse-once {
     transition: none;
     animation: none;
   }

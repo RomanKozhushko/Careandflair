@@ -1,6 +1,6 @@
 import { createContentHelpers, type ContentBundle } from "@/lib/content";
+import Link from "next/link";
 import type { Solution } from "@/lib/types";
-import { CtaButton } from "@/ui/CtaButton";
 import { VisualMedia } from "@/ui/VisualMedia";
 
 type SolutionCardProps = {
@@ -8,11 +8,21 @@ type SolutionCardProps = {
   content?: ContentBundle;
 };
 
+function scenarioFor(title: string) {
+  const lower = title.toLowerCase();
+  if (lower.includes("move")) return { text: "You have the keys, but it still feels like someone else's home.", cta: "Make it move-in ready" };
+  if (lower.includes("rental")) return { text: "Tenant moved out and the property needs to be shown again.", cta: "Get it viewing ready" };
+  if (lower.includes("sale")) return { text: "Before photos and viewings, fix what buyers notice first.", cta: "Prepare for photos" };
+  if (lower.includes("airbnb")) return { text: "More than a standard cleaner when launch or recovery needs visible fixes.", cta: "Make it guest-ready" };
+  return { text: "Visible problems are stopping the property from feeling ready.", cta: "Get it ready" };
+}
+
 export function SolutionCard({ item, content }: SolutionCardProps) {
   const { findCta } = createContentHelpers(content);
   const cta = findCta(item.ctaMappingId);
   const beforeImage = item.beforeImage ?? item.imageBefore;
   const afterImage = item.afterImage ?? item.imageAfter;
+  const scenario = scenarioFor(item.title);
 
   return (
     <article className="soft-3d-card interactive-border group flex h-full flex-col overflow-hidden rounded-xl border border-[var(--cf-line)] bg-white/82 shadow-sm transition">
@@ -43,12 +53,19 @@ export function SolutionCard({ item, content }: SolutionCardProps) {
 
       <div className="flex flex-1 flex-col p-5">
         <p className="text-xs font-semibold text-[var(--cf-muted)]">{item.location}</p>
+        <div className="mt-3 rounded-2xl bg-[var(--cf-mint)] px-4 py-3 text-sm font-semibold leading-6 text-[var(--cf-deep-green)]">{scenario.text}</div>
         <div className="mt-4 grid gap-3 text-sm leading-6 text-[var(--cf-muted)]">
-          <p><span className="font-semibold text-[var(--cf-deep-green)]">Client situation:</span> {item.problem}</p>
-          <p><span className="font-semibold text-[var(--cf-deep-green)]">Reset:</span> {item.solution}</p>
+          <p><span className="font-semibold text-[var(--cf-deep-green)]">Visible problem:</span> {item.problem}</p>
+          <p><span className="font-semibold text-[var(--cf-deep-green)]">What we fix:</span> {item.solution}</p>
           <p><span className="font-semibold text-[var(--cf-deep-green)]">Result:</span> {item.result}</p>
         </div>
-        <div className="mt-auto pt-5"><CtaButton cta={cta} variant="secondary" className="w-full py-2.5" /></div>
+        <div className="mt-auto pt-5">
+          {cta ? (
+            <Link href={cta.href} className="interactive-border inline-flex w-full items-center justify-center rounded-full border border-[rgba(6,43,36,0.18)] bg-white/76 px-5 py-3 text-sm font-bold text-[var(--cf-deep-green)] transition hover:-translate-y-0.5 hover:border-[var(--cf-lime)] hover:bg-white">
+              {scenario.cta}
+            </Link>
+          ) : null}
+        </div>
       </div>
     </article>
   );

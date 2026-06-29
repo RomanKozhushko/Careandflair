@@ -1,4 +1,5 @@
 import { createContentHelpers, type ContentBundle } from "@/lib/content";
+import { ResetJourneyCard } from "@/homepage/ResetJourneyCard";
 import { CtaButton } from "@/ui/CtaButton";
 import { VisualMedia } from "@/ui/VisualMedia";
 
@@ -13,16 +14,16 @@ export function HeroSection({ content }: { content?: ContentBundle }) {
 
   return (
     <section className="relative overflow-hidden bg-[var(--cf-bg)] text-[var(--cf-deep-green)]">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_14%_8%,rgba(183,232,106,0.22),transparent_28%),radial-gradient(circle_at_86%_14%,rgba(184,138,59,0.12),transparent_24%),linear-gradient(180deg,var(--cf-bg-soft)_0%,var(--cf-bg)_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_14%_8%,rgba(184,242,74,0.28),transparent_28%),radial-gradient(circle_at_86%_14%,rgba(118,231,178,0.2),transparent_24%),linear-gradient(180deg,var(--cf-bg-bright)_0%,var(--cf-bg)_100%)]" />
       <div className="absolute left-0 top-28 hidden h-px w-full bg-gradient-to-r from-transparent via-[rgba(183,232,106,0.7)] to-transparent lg:block" />
-      <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8 lg:py-24">
+      <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[0.86fr_1.14fr] lg:px-8 lg:pb-12 lg:pt-24">
         <div className="self-center">
-          <p className="inline-flex rounded-full border border-[rgba(8,47,40,0.12)] bg-white/70 px-4 py-2 text-sm font-semibold text-[var(--cf-muted)] shadow-sm">{section.eyebrow}</p>
+          <p className="inline-flex rounded-full border border-[rgba(8,47,40,0.12)] bg-white/78 px-4 py-2 text-sm font-semibold text-[var(--cf-muted)] shadow-sm">{section.eyebrow}</p>
           <h1 className="mt-5 max-w-4xl text-4xl font-semibold tracking-[-0.03em] sm:text-6xl lg:text-7xl">{section.headline}</h1>
           <p className="mt-5 max-w-2xl text-base leading-7 text-[var(--cf-text)] sm:text-lg sm:leading-8">{section.subheadline}</p>
           {section.explanation ? <p className="light-glass-panel mt-5 max-w-2xl rounded-2xl px-4 py-3 text-sm leading-6 text-[var(--cf-text)]">{section.explanation}</p> : null}
           <p className="mt-4 max-w-2xl text-sm font-semibold leading-6 text-[var(--cf-green-2)] sm:text-base">{siteSettings.brandLine}</p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row"><CtaButton cta={primaryCta} /><CtaButton cta={secondaryCta} variant="secondary" /></div>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row"><CtaButton cta={primaryCta} className="cta-glow" /><CtaButton cta={secondaryCta} variant="secondary" /></div>
           <div className="mt-8 grid gap-3 sm:grid-cols-2">
             {(section.trustBadges ?? []).slice(0, 4).map((badge, index) => (
               <div key={badge} className="interactive-border rounded-xl border border-[var(--cf-line)] bg-white/70 px-4 py-3 text-sm font-medium text-[var(--cf-text)] shadow-sm shadow-[#0a2a24]/5">
@@ -33,7 +34,7 @@ export function HeroSection({ content }: { content?: ContentBundle }) {
           </div>
         </div>
 
-        <div className="premium-hero-visual glass-card relative rounded-[1.5rem] p-2 sm:p-3 lg:rounded-[2rem]">
+        <div className="premium-hero-visual glass-card ad-depth-scene relative rounded-[1.5rem] p-2 sm:p-3 lg:rounded-[2rem]">
           <div className="floating-badge parallax-layer pointer-events-none absolute -left-4 top-10 z-20 hidden rounded-xl px-4 py-3 text-[var(--cf-deep-green)] lg:block lg:translate-y-2">
             <p className="text-[11px] font-semibold text-[var(--cf-muted)]">24-72h help</p>
             <p className="mt-1 text-sm font-semibold">Deadline pressure handled</p>
@@ -48,7 +49,7 @@ export function HeroSection({ content }: { content?: ContentBundle }) {
           <div className="floating-badge pointer-events-none absolute -bottom-5 left-10 z-20 hidden rounded-full px-5 py-2 text-xs font-semibold text-[var(--cf-deep-green)] lg:block">
             Quote before work starts
           </div>
-          <div className="overflow-hidden rounded-[1.75rem] bg-[var(--cf-bg-soft)] text-[var(--cf-deep-green)] lg:arch-mask">
+          <div className="overflow-hidden rounded-[1.75rem] bg-[var(--cf-bg-soft)] text-[var(--cf-deep-green)] shadow-[0_28px_80px_rgba(16,32,28,0.18)] lg:arch-mask">
             <VisualMedia
               src={heroImage}
               alt="Viewing-ready living room after a Care & Flair property reset"
@@ -86,6 +87,9 @@ export function HeroSection({ content }: { content?: ContentBundle }) {
             ) : null}
           </div>
         </div>
+      </div>
+      <div className="relative mx-auto max-w-7xl px-4 pb-14 sm:px-6 lg:px-8 lg:pb-20">
+        <ResetJourneyCard image={heroImage} />
       </div>
     </section>
   );

@@ -34,7 +34,7 @@ export function ProblemPicker({ title, subtitle, summaryLabel, emptySummary, pro
               key={problem.id}
               type="button"
               onClick={() => onToggle(problem.id)}
-              className={`interactive-border min-w-0 rounded-3xl border p-4 text-left transition ${selected ? "border-[rgba(183,232,106,0.92)] bg-[var(--cf-deep-green)] text-white shadow-lg shadow-[#0a2a24]/15" : "border-[var(--cf-line)] bg-white/72 text-[var(--cf-deep-green)] hover:border-[var(--cf-lime)] hover:bg-white"}`}
+              className={`interactive-border min-w-0 rounded-3xl border p-4 text-left transition ${selected ? "status-pulse-once border-[rgba(184,242,74,0.92)] bg-[var(--cf-deep-green)] text-white shadow-lg shadow-[#0a2a24]/15" : "border-[var(--cf-line)] bg-white/72 text-[var(--cf-deep-green)] hover:border-[var(--cf-lime)] hover:bg-white"}`}
             >
               <span className="flex items-center justify-between gap-3">
                 <span className="font-semibold">{problem.label}</span>
