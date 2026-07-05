@@ -156,6 +156,163 @@ function WhatWeReset() {
   );
 }
 
+const resetPackages = [
+  {
+    title: "24h Express Reset",
+    badge: "Fastest",
+    price: "From \u00a3595",
+    duration: "24 hours / 1 working day",
+    bestFor: "Quick visible reset before viewings, move-in or handover.",
+    cta: "Get 24h quote",
+    href: "/quote?preset=24h-express-reset",
+    featured: false,
+    includes: [
+      "Deep clean",
+      "Kitchen degreasing",
+      "Bathroom descaling",
+      "Internal windows",
+      "Carpet extraction",
+      "Taps refresh",
+      "Basic handyman fixes",
+      "Wall touch-ups",
+      "Silicone reseal",
+      "Electrical/window check",
+      "Light garden tidy",
+      "Photo proof after completion",
+    ],
+  },
+  {
+    title: "48h Pro Flair Reset",
+    badge: "Most popular",
+    price: "From \u00a31,195",
+    duration: "48 hours / 2 working days",
+    bestFor: "Landlords, sellers and move-in homes that need a stronger visual uplift.",
+    cta: "Get 48h quote",
+    href: "/quote?preset=48h-pro-flair-reset",
+    featured: true,
+    includes: [
+      "Everything in 24h Express Reset",
+      "1-coat repaint where needed",
+      "Walls and ceilings refresh",
+      "Anti-mould treatment and protection",
+      "Window and frame detail",
+      "Staging and flair touches",
+      "TDS-style cleaning proof",
+      "Stronger presentation finish",
+      "Before/after photo proof",
+    ],
+  },
+  {
+    title: "72h Ultimate Reset",
+    badge: "Maximum transformation",
+    price: "From \u00a31,600",
+    duration: "72 hours / 3 working days",
+    bestFor: "Properties that need the strongest reset before sale photos, new tenants, guests or move-in.",
+    cta: "Get 72h quote",
+    href: "/quote?preset=72h-ultimate-reset",
+    featured: false,
+    includes: [
+      "Everything in 48h Pro Flair Reset",
+      "Full repaint, 2 coats where needed",
+      "Woodwork refresh: skirting, frames, doors",
+      "Grout revival",
+      "Patio / driveway wash",
+      "External windows",
+      "Stronger finishing details",
+      "Presentation-ready final setup",
+      "Full before/after photo proof",
+    ],
+  },
+];
+
+function ResetPackagesSection() {
+  const upgrades = [
+    "Deep Carpet Extraction",
+    "Bathroom Face-Lift",
+    "Kitchen Deep Reset",
+    "Anti-Mould Shield",
+    "Window & Frame Detail",
+    "Driveway & Patio Revival",
+    "Odour Elimination",
+    "Professional Photography",
+    "Fittings & Small Repairs",
+    "Flat-Pack Assembly",
+    "TV Wall Mounting",
+  ];
+
+  return (
+    <section id="packages" className="mx-auto max-w-[1280px] px-4 py-8 sm:px-6 lg:px-8">
+      <div className="grid gap-5 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
+        <div>
+          <SectionLabel>Reset packages</SectionLabel>
+          <h2 className="mt-4 max-w-[620px] font-serif text-[34px] font-semibold leading-[1.1] tracking-[-0.02em] text-[var(--cf-navy)] lg:text-[44px]">
+            Choose the right reset for your property.
+          </h2>
+        </div>
+        <p className="max-w-[620px] text-[17px] leading-8 text-[var(--cf-text-soft)] lg:justify-self-end">
+          Flexible reset options depending on how quickly the property needs to feel ready.
+        </p>
+      </div>
+
+      <div className="mt-7 grid gap-5 lg:grid-cols-3 lg:items-stretch">
+        {resetPackages.map((item) => (
+          <article
+            key={item.title}
+            className={`relative flex flex-col rounded-[26px] border bg-[var(--cf-cream-card)] p-5 shadow-[var(--cf-shadow-soft)] transition hover:-translate-y-1 sm:p-6 ${
+              item.featured ? "border-[var(--cf-cherry)] lg:-mt-3 lg:mb-3 lg:shadow-[var(--cf-shadow-card)]" : "border-[var(--cf-border)]"
+            }`}
+          >
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <span className={`inline-flex rounded-full px-3 py-1 text-xs font-extrabold uppercase tracking-[0.08em] ${item.featured ? "bg-[var(--cf-cherry)] text-white" : "bg-[var(--cf-warm-card)] text-[var(--cf-gold)]"}`}>
+                  {item.badge}
+                </span>
+                <h3 className="mt-4 text-[22px] font-extrabold leading-tight text-[var(--cf-navy)]">{item.title}</h3>
+              </div>
+              {item.featured ? <span className="mt-1 h-3 w-3 rounded-full bg-[var(--cf-gold)] shadow-[0_0_0_6px_rgba(197,145,59,0.14)]" aria-hidden="true" /> : null}
+            </div>
+
+            <p className="mt-5 font-serif text-[34px] font-semibold tracking-[-0.02em] text-[var(--cf-navy)]">{item.price}</p>
+            <p className="mt-2 rounded-[14px] border border-[var(--cf-border)] bg-[var(--cf-ivory)] px-3 py-2 text-sm font-bold text-[var(--cf-navy)]">{item.duration}</p>
+            <p className="mt-4 text-[15px] leading-6 text-[var(--cf-text-soft)]"><span className="font-extrabold text-[var(--cf-navy)]">Best for:</span> {item.bestFor}</p>
+
+            <ul className="mt-5 grid gap-2 text-sm leading-6 text-[var(--cf-navy)]">
+              {item.includes.map((included) => (
+                <li key={included} className="flex gap-2">
+                  <span className="mt-[0.45rem] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--cf-gold)]" aria-hidden="true" />
+                  <span>{included}</span>
+                </li>
+              ))}
+            </ul>
+
+            <Link href={item.href} className="mt-6 inline-flex h-12 w-full items-center justify-center rounded-[14px] bg-[var(--cf-cherry)] px-5 text-sm font-extrabold text-white shadow-[0_14px_30px_rgba(138,15,46,0.22)] transition hover:-translate-y-px hover:bg-[var(--cf-cherry-2)]">
+              {item.cta}
+            </Link>
+          </article>
+        ))}
+      </div>
+
+      <div className="mt-5 rounded-[24px] border border-[var(--cf-border)] bg-[var(--cf-cream-card)] p-5 shadow-[var(--cf-shadow-soft)]">
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+          <div>
+            <h3 className="text-lg font-extrabold text-[var(--cf-navy)]">Add extra impact where needed</h3>
+            <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--cf-text-soft)]">
+              Final price depends on property size, condition, access and selected upgrades. Send photos for a clear quote before work starts.
+            </p>
+          </div>
+        </div>
+        <div className="mt-4 flex flex-wrap gap-2">
+          {upgrades.map((upgrade) => (
+            <span key={upgrade} className="rounded-full border border-[var(--cf-border)] bg-white px-3 py-2 text-sm font-bold text-[var(--cf-navy)]">
+              {upgrade}
+            </span>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function HowItWorksApproved({ phone }: { phone: string }) {
   const wa = whatsappHref(phone);
 
@@ -273,6 +430,7 @@ export function ApprovedHomePage({ content }: { content: ContentBundle }) {
       <HeroApproved content={content} strongestItem={strongestItem} />
       <TrustFeatureRow />
       <HomepageTransformationCarousel content={homepageTransformations} />
+      <ResetPackagesSection />
       <WhatWeReset />
       <HowItWorksApproved phone={siteSettings.phone} />
       <TrustAreasRow />
