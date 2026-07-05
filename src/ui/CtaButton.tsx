@@ -11,16 +11,16 @@ export function CtaButton({ cta, variant = "primary", className = "" }: CtaButto
   if (!cta) return null;
 
   const variants = {
-    primary: "bg-[var(--cf-deep-green)] text-white shadow-[0_18px_42px_rgba(8,47,40,0.2)] ring-1 ring-[rgba(184,242,74,0.35)] hover:-translate-y-0.5 hover:bg-[var(--cf-green)] hover:shadow-[0_20px_54px_rgba(8,47,40,0.26)]",
-    secondary: "border border-[rgba(8,47,40,0.18)] bg-white/72 text-[var(--cf-deep-green)] shadow-sm hover:border-[rgba(183,232,106,0.9)] hover:bg-white",
-    dark: "bg-[var(--cf-deep-green)] text-white hover:bg-[var(--cf-green-2)]",
-    light: "border border-white/80 bg-white text-[var(--cf-deep-green)] shadow-[0_16px_38px_rgba(0,0,0,0.16)] hover:bg-[var(--cf-mint)]",
+    primary: "bg-[var(--cf-cherry)] text-white shadow-[0_14px_30px_rgba(138,15,46,0.22)] hover:-translate-y-0.5 hover:bg-[var(--cf-cherry-2)]",
+    secondary: "border border-[rgba(8,27,45,0.22)] bg-white text-[var(--cf-navy)] shadow-sm hover:bg-[var(--cf-cream-card)]",
+    dark: "bg-[var(--cf-cherry)] text-white hover:bg-[var(--cf-cherry-2)]",
+    light: "border border-white/80 bg-white text-[var(--cf-navy)] shadow-[0_16px_38px_rgba(0,0,0,0.16)] hover:bg-[var(--cf-cream-card)]",
   };
 
   return (
-    <Link href={cta.href} className={`group inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition duration-200 ${variants[variant]} ${className}`}>
+    <Link href={cta.href} className={`group inline-flex items-center justify-center gap-2 rounded-[14px] px-5 py-3 text-sm font-bold transition duration-200 ${variants[variant]} ${className}`}>
       <span>{cta.label}</span>
-      <span className="grid h-5 w-5 place-items-center rounded-full bg-[var(--cf-lime)] text-[11px] font-black text-[var(--cf-deep-green)] transition group-hover:translate-x-0.5 group-hover:bg-[var(--cf-lime-strong)]" aria-hidden="true">→</span>
+      <span className="grid h-5 w-5 place-items-center rounded-full bg-white/18 text-[11px] font-black text-current transition group-hover:translate-x-0.5" aria-hidden="true">→</span>
     </Link>
   );
 }

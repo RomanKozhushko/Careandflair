@@ -1,34 +1,53 @@
 @import "tailwindcss";
 
 :root {
-  --cf-bg: #F5EFE4;
-  --cf-bg-soft: #FBF8F1;
-  --cf-bg-bright: #FFFDF7;
-  --cf-cream-2: #EFE3D1;
-  --cf-card: rgba(255,255,255,0.78);
-  --cf-card-solid: #FFFFFF;
+  --cf-ivory: #F8F3EA;
+  --cf-ivory-2: #FFF9F0;
+  --cf-cream-card: #FFFDF8;
+  --cf-warm-card: #F4EBDD;
+  --cf-navy: #061D33;
+  --cf-navy-2: #08243F;
+  --cf-navy-3: #0B2E4F;
+  --cf-text: #081B2D;
+  --cf-text-soft: #586474;
+  --cf-text-light: #FFFFFF;
+  --cf-text-light-soft: rgba(255,255,255,0.82);
+  --cf-cherry: #8A0F2E;
+  --cf-cherry-2: #A3163A;
+  --cf-cherry-dark: #650A22;
+  --cf-gold: #C5913B;
+  --cf-gold-soft: #E8D1A2;
+  --cf-border: #E7DDD0;
+  --cf-border-dark: rgba(255,255,255,0.18);
+  --cf-shadow-soft: 0 18px 50px rgba(8,27,45,0.10);
+  --cf-shadow-card: 0 24px 70px rgba(8,27,45,0.14);
+  --cf-shadow-navy: 0 28px 80px rgba(6,29,51,0.28);
+  --cf-bg: var(--cf-ivory);
+  --cf-bg-soft: var(--cf-ivory);
+  --cf-bg-bright: var(--cf-ivory-2);
+  --cf-cream-2: var(--cf-warm-card);
+  --cf-card: rgba(255,253,248,0.86);
+  --cf-card-solid: var(--cf-cream-card);
   --cf-white: #FFFFFF;
-  --cf-glass-strong: rgba(255,255,255,0.9);
-  --cf-deep: #041F1A;
-  --cf-deep-green: #041F1A;
-  --cf-green: #073B32;
-  --cf-green-2: #0B5A48;
-  --cf-text: #0C1714;
-  --cf-muted: #5F6F68;
-  --cf-line: #E6DAC6;
-  --cf-lime: #B8FF3D;
-  --cf-lime-strong: #93E600;
-  --cf-mint: #BDFBE0;
-  --cf-mint-strong: #62E6AD;
-  --cf-coral: #FF9F5A;
-  --cf-brass: #B98A3D;
-  --cf-brass-soft: #E4C98F;
+  --cf-glass-strong: rgba(255,253,248,0.9);
+  --cf-deep: var(--cf-navy);
+  --cf-deep-green: var(--cf-navy);
+  --cf-green: var(--cf-navy-2);
+  --cf-green-2: var(--cf-navy-3);
+  --cf-muted: var(--cf-text-soft);
+  --cf-line: var(--cf-border);
+  --cf-lime: var(--cf-cherry);
+  --cf-lime-strong: var(--cf-cherry-2);
+  --cf-mint: var(--cf-gold-soft);
+  --cf-mint-strong: var(--cf-gold);
+  --cf-coral: var(--cf-cherry-2);
+  --cf-brass: var(--cf-gold);
+  --cf-brass-soft: var(--cf-gold-soft);
   --cf-glass: rgba(255,255,255,0.72);
-  --cf-dark-glass: rgba(6,43,36,0.82);
-  --cf-shadow-soft: 0 20px 60px rgba(4,31,26,0.12);
-  --cf-shadow-lift: 0 30px 80px rgba(4,31,26,0.22);
-  --cf-shadow-deep: 0 35px 100px rgba(4,31,26,0.24);
-  --cf-glow-lime: 0 0 0 1px rgba(184,255,61,0.45), 0 20px 70px rgba(184,255,61,0.25);
+  --cf-dark-glass: rgba(6,29,51,0.82);
+  --cf-shadow-lift: var(--cf-shadow-card);
+  --cf-shadow-deep: var(--cf-shadow-navy);
+  --cf-glow-lime: 0 14px 30px rgba(138,15,46,0.22);
   --background: var(--cf-bg);
   --foreground: var(--cf-text);
   --brand-green: var(--cf-deep-green);
@@ -57,11 +76,9 @@ html {
 }
 
 body {
-  background:
-    radial-gradient(circle at 18% -10%, rgba(184, 242, 74, 0.22), transparent 28%),
-    radial-gradient(circle at 82% 8%, rgba(118, 231, 178, 0.16), transparent 24%),
-    linear-gradient(180deg, var(--cf-bg-bright) 0%, var(--cf-bg-soft) 44%, var(--cf-bg) 100%);
+  background: linear-gradient(180deg, var(--cf-ivory-2) 0%, var(--cf-ivory) 42%, var(--cf-warm-card) 100%);
   color: var(--foreground);
+  font-family: Inter, Manrope, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   overflow-x: clip;
 }
 
@@ -179,7 +196,7 @@ h3,
 }
 
 .cta-glow {
-  box-shadow: var(--cf-glow-lime), 0 18px 48px rgba(6, 43, 36, 0.22);
+  box-shadow: 0 14px 30px rgba(138, 15, 46, 0.22);
 }
 
 .progress-sheen {
