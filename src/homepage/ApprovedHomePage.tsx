@@ -29,15 +29,11 @@ function WhatsAppButton({ href, children, className = "" }: { href: string; chil
   );
 }
 
-function OutlineButton({ href, children, dark = false, className = "" }: { href: string; children: React.ReactNode; dark?: boolean; className?: string }) {
+function QuoteButton({ href, children, className = "" }: { href: string; children: React.ReactNode; className?: string }) {
   return (
     <Link
       href={href}
-      className={`inline-flex h-12 items-center justify-center rounded-[14px] border px-6 text-sm font-bold transition hover:-translate-y-px ${
-        dark
-          ? "border-white/30 text-white hover:bg-white/10"
-          : "border-[rgba(8,27,45,0.22)] bg-white text-[var(--cf-navy)] hover:bg-[var(--cf-cream-card)]"
-      } ${className}`}
+      className={`inline-flex h-12 items-center justify-center rounded-[14px] bg-[var(--cf-cherry)] px-6 text-sm font-bold text-white shadow-[0_14px_30px_rgba(138,15,46,0.22)] transition hover:-translate-y-px hover:bg-[var(--cf-cherry-2)] active:bg-[var(--cf-cherry-dark)] ${className}`}
     >
       {children}
     </Link>
@@ -128,7 +124,7 @@ function HeroApproved({ content, strongestItem }: { content: ContentBundle; stro
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <WhatsAppButton href={wa} className="w-full sm:w-auto">Send photos on WhatsApp</WhatsAppButton>
-            <OutlineButton href="/quote" className="w-full sm:w-auto">Get a quote</OutlineButton>
+            <QuoteButton href="/quote" className="w-full sm:w-auto">Get a quote</QuoteButton>
           </div>
           <div className="mt-7 flex flex-wrap items-center gap-3 text-sm font-bold text-[var(--cf-navy)]">
             <span className="text-[var(--cf-gold)]" aria-label="5.0 stars">★★★★★</span>
@@ -195,7 +191,7 @@ function HowItWorksApproved({ phone }: { phone: string }) {
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <WhatsAppButton href={wa} className="w-full sm:w-auto">Send photos on WhatsApp</WhatsAppButton>
-            <OutlineButton href="/quote" dark className="w-full sm:w-auto">Get a quote</OutlineButton>
+            <QuoteButton href="/quote" className="w-full sm:w-auto">Get a quote</QuoteButton>
           </div>
         </div>
         <div className="grid gap-4 md:grid-cols-3">
@@ -274,7 +270,7 @@ function FinalCta({ phone, image }: { phone: string; image?: string }) {
           <p className="mt-4 max-w-[620px] text-[17px] leading-8 text-[var(--cf-text-soft)]">Send photos on WhatsApp and we&apos;ll take care of the visible details.</p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <WhatsAppButton href={whatsappHref(phone)} className="w-full sm:w-auto">Send photos on WhatsApp</WhatsAppButton>
-            <OutlineButton href="/quote" className="w-full sm:w-auto">Get a quote</OutlineButton>
+            <QuoteButton href="/quote" className="w-full sm:w-auto">Get a quote</QuoteButton>
           </div>
         </div>
         <div className="relative hidden min-h-[280px] lg:block">
