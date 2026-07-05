@@ -47,8 +47,6 @@ function HomepageBeforeAfterSlider({ slide, position, onChange }: { slide: Homep
     <div
       ref={frameRef}
       className="group relative h-full min-h-[320px] touch-none select-none overflow-hidden rounded-[24px] border border-white/70 bg-[var(--cf-warm-card)] shadow-[var(--cf-shadow-card)] lg:min-h-[360px]"
-      onPointerDown={startDrag}
-      onPointerMove={(event) => event.buttons === 1 && updateFromPointer(event)}
       aria-label={`${slide.title} before and after comparison`}
     >
       <div className="absolute inset-0">
@@ -74,6 +72,14 @@ function HomepageBeforeAfterSlider({ slide, position, onChange }: { slide: Homep
           <span aria-hidden="true">||</span>
         </div>
       </div>
+
+      <div
+        className="absolute inset-y-0 z-30 -translate-x-1/2 cursor-ew-resize"
+        style={{ left: `${position}%`, width: "20%" }}
+        onPointerDown={startDrag}
+        onPointerMove={(event) => event.buttons === 1 && updateFromPointer(event)}
+        aria-hidden="true"
+      />
     </div>
   );
 }
