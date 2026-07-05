@@ -40,7 +40,7 @@ export function BeforeAfterPreview({ content }: { content?: ContentBundle }) {
               <p><span className="font-semibold text-white">Result:</span> {strongestItem.result}</p>
             </div>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-              <Link href="/before-after" className="inline-flex justify-center rounded-full border border-[rgba(8,47,40,0.18)] bg-white/72 px-6 py-3 text-sm font-semibold text-[var(--cf-deep-green)] transition hover:border-[var(--cf-lime)] hover:bg-white">
+              <Link href="/#before-after" className="inline-flex justify-center rounded-full border border-[rgba(8,47,40,0.18)] bg-white/72 px-6 py-3 text-sm font-semibold text-[var(--cf-deep-green)] transition hover:border-[var(--cf-lime)] hover:bg-white">
                 See before and after
               </Link>
               <Link href={visualCtaHref(strongestItem.ctaPreset)} className="inline-flex justify-center rounded-full bg-[var(--cf-deep-green)] px-6 py-3 text-sm font-semibold text-white shadow-[0_18px_42px_rgba(8,47,40,0.18)] transition hover:bg-[var(--cf-green-2)]">

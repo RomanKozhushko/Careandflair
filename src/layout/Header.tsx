@@ -8,7 +8,7 @@ export function Header({ content }: { content?: ContentBundle }) {
   const navItems = [
     { label: "Services", href: "/#solutions" },
     { label: "How it works", href: "/#how-it-works" },
-    { label: "Before & after", href: "/before-after" },
+    { label: "Before & after", href: "/#before-after" },
     { label: "Areas", href: "/#areas" },
     { label: "About", href: "/#areas" },
   ];

@@ -182,7 +182,7 @@ export function HomepageTransformationCarousel({ content }: { content: HomepageT
                 />
               ))}
             </div>
-            <Link href={content.ctaHref || "/before-after"} className="inline-flex h-11 items-center justify-center rounded-[14px] border border-white/30 px-5 text-sm font-extrabold text-white transition hover:bg-white/10">
+            <Link href={content.ctaHref || "/#before-after"} className="inline-flex h-11 items-center justify-center rounded-[14px] border border-white/30 px-5 text-sm font-extrabold text-white transition hover:bg-white/10">
               {content.ctaLabel || "See more transformations"}
             </Link>
           </div>
