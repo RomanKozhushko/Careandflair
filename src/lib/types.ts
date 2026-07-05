@@ -66,6 +66,33 @@ export type HomepageSection = Visibility & {
   }>;
 };
 
+export type HomepageTransformationSlide = {
+  id: string;
+  isActive?: boolean;
+  order?: number;
+  title: string;
+  beforeLabel: string;
+  beforeHeading: string;
+  beforeText: string;
+  afterLabel: string;
+  afterHeading: string;
+  afterText: string;
+  beforeImage?: string;
+  afterImage?: string;
+  beforeAlt?: string;
+  afterAlt?: string;
+  badges?: string[];
+};
+
+export type HomepageTransformationsContent = {
+  sectionLabel: string;
+  heading: string;
+  subheading: string;
+  ctaLabel: string;
+  ctaHref: string;
+  slides: HomepageTransformationSlide[];
+};
+
 export type ServicePackage = Visibility & {
   id: string;
   name: string;

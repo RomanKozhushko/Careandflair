@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { BeforeAfterItem } from "@/lib/types";
 import { createContentHelpers, type ContentBundle } from "@/lib/content";
+import { HomepageTransformationCarousel } from "@/homepage/HomepageTransformationCarousel";
 
 const whatsappMessage = "Hi Care & Flair, I'd like a quote. I can send photos of the property and tell you the deadline.";
 
@@ -147,38 +148,6 @@ function HeroApproved({ content, strongestItem }: { content: ContentBundle; stro
   );
 }
 
-function ProofBlock({ strongestItem, heroImage }: { strongestItem?: BeforeAfterItem; heroImage?: string }) {
-  return (
-    <section id="before-after" className="mx-auto max-w-[1280px] px-4 py-6 sm:px-6 lg:px-8">
-      <div className="overflow-hidden rounded-[28px] border border-[var(--cf-border-dark)] bg-[linear-gradient(135deg,var(--cf-navy),var(--cf-navy-2))] p-4 shadow-[var(--cf-shadow-navy)] lg:grid lg:grid-cols-[0.72fr_1.2fr_0.72fr] lg:items-stretch lg:gap-4">
-        <article className="rounded-[24px] bg-white/[0.04] p-6 text-white lg:p-8">
-          <SectionLabel light>Before</SectionLabel>
-          <h2 className="mt-4 font-serif text-[34px] font-semibold leading-[1.08] tracking-[-0.02em] lg:text-[44px]">Tired.<br />Not ready.</h2>
-          <p className="mt-4 text-[17px] leading-7 text-[var(--cf-text-light-soft)]">Little things make a big impression.</p>
-        </article>
-        <div className="relative my-4 min-h-[280px] lg:my-0">
-          <StaticSplitVisual item={strongestItem} heroImage={heroImage} />
-          <div className="absolute bottom-5 left-1/2 flex -translate-x-1/2 flex-wrap justify-center gap-2 rounded-full bg-white/94 px-3 py-2 text-xs font-extrabold text-[var(--cf-navy)] shadow-[var(--cf-shadow-soft)]">
-            <span>Move-in ready</span>
-            <span className="text-[var(--cf-gold)]">/</span>
-            <span>Viewing ready</span>
-            <span className="text-[var(--cf-gold)]">/</span>
-            <span>Guest ready</span>
-          </div>
-        </div>
-        <article className="rounded-[24px] bg-white/[0.04] p-6 text-white lg:p-8">
-          <SectionLabel light>After</SectionLabel>
-          <h2 className="mt-4 font-serif text-[34px] font-semibold leading-[1.08] tracking-[-0.02em] lg:text-[44px]">Reset.<br />Ready.</h2>
-          <p className="mt-4 text-[17px] leading-7 text-[var(--cf-text-light-soft)]">Clean details. Better feeling.</p>
-          <Link href="/before-after" className="mt-7 inline-flex text-sm font-extrabold text-[var(--cf-gold-soft)] underline decoration-white/30 underline-offset-4 hover:text-white">
-            See more transformations
-          </Link>
-        </article>
-      </div>
-    </section>
-  );
-}
-
 function WhatWeReset() {
   const items = [
     ["Deep cleaning", "Kitchens, bathrooms, rooms"],
@@ -317,7 +286,7 @@ function FinalCta({ phone, image }: { phone: string; image?: string }) {
 }
 
 export function ApprovedHomePage({ content }: { content: ContentBundle }) {
-  const { beforeAfterItems, findSection, siteSettings, visibleSorted } = createContentHelpers(content);
+  const { beforeAfterItems, findSection, homepageTransformations, siteSettings, visibleSorted } = createContentHelpers(content);
   const items = visibleSorted(beforeAfterItems).filter((item) => item.showOnHomepage);
   const strongestItem = items.find((item) => item.featured && item.beforeImage && item.afterImage) ?? items.find((item) => item.beforeImage && item.afterImage) ?? items[0];
   const hero = findSection("hero");
@@ -326,7 +295,7 @@ export function ApprovedHomePage({ content }: { content: ContentBundle }) {
     <>
       <HeroApproved content={content} strongestItem={strongestItem} />
       <TrustFeatureRow />
-      <ProofBlock strongestItem={strongestItem} heroImage={hero.heroImage} />
+      <HomepageTransformationCarousel content={homepageTransformations} />
       <WhatWeReset />
       <HowItWorksApproved phone={siteSettings.phone} />
       <TrustAreasRow />

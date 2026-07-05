@@ -26,6 +26,19 @@ type UploadResponse = {
   storagePath?: string;
   error?: string;
 };
+type ImageTarget = {
+  key: string;
+  label: string;
+  path: Array<string | number>;
+  value: string;
+};
+type NestedFieldTarget = {
+  key: string;
+  label: string;
+  field: string;
+  path: Array<string | number>;
+  value: string | number | boolean | string[];
+};
 type Diagnostics = {
   supabaseUrlConfigured: boolean;
   serviceKeyConfigured: boolean;
@@ -43,11 +56,13 @@ const preferredImageFieldsByResource: Partial<Record<AdminResourceKey, ImageFiel
   solutions: ["image", "imageUrl", "src", "beforeImage", "afterImage", "imageBefore", "imageAfter"],
   "before-after": ["beforeImage", "afterImage", "image", "src", "url", "before", "after"],
   "homepage-sections": ["heroImage", "hero_image", "image", "imageUrl", "image_url", "src"],
+  "homepage-transformations": [],
 };
 
 const resourceHelp: Partial<Record<AdminResourceKey, string>> = {
   "site-settings": "Business details, phone, email, navigation, footer copy and core positioning.",
   "homepage-sections": "Hero copy, section titles, process steps and homepage CTA blocks.",
+  "homepage-transformations": "Homepage before/after carousel: section copy, slide text, badges and nested before/after images.",
   packages: "Reset package cards, prices, included services and package positioning.",
   solutions: "Service cards for the visible problems Care & Flair fixes.",
   "optional-upgrades": "Add-on services shown in the quote builder.",
@@ -62,6 +77,7 @@ const sidebarLinks: { label: string; href: string }[] = [
   { label: "Quote Requests", href: "#quote-requests" },
   { label: "Site Settings", href: "#content-editor" },
   { label: "Homepage", href: "#content-editor" },
+  { label: "Transformations", href: "#content-editor" },
   { label: "Packages", href: "#content-editor" },
   { label: "Services", href: "#content-editor" },
   { label: "Upgrades", href: "#content-editor" },
@@ -109,6 +125,12 @@ function displayLabel(field: string): string {
   return field.replace(/([A-Z])/g, " $1").replace(/^./, (letter) => letter.toUpperCase());
 }
 
+function pathLabel(path: Array<string | number>): string {
+  return path
+    .map((part) => (typeof part === "number" ? `[${part + 1}]` : displayLabel(part)))
+    .join(" / ");
+}
+
 function altFieldFor(imageField: ImageField): AltField {
   if (imageField === "beforeImage" || imageField === "imageBefore") return "beforeAlt";
   if (imageField === "afterImage" || imageField === "imageAfter") return "afterAlt";
@@ -145,6 +167,77 @@ function isStringArray(value: unknown): value is string[] {
   return Array.isArray(value) && value.every((item) => typeof item === "string");
 }
 
+function isImageFieldName(field: string) {
+  return imageFields.includes(field) || /image|photo|gallery|media/i.test(field);
+}
+
+function setValueAtPath(source: JsonRecord, path: Array<string | number>, value: unknown): JsonRecord {
+  const clone = structuredClone(source) as JsonRecord;
+  let cursor: unknown = clone;
+
+  path.forEach((part, index) => {
+    if (index === path.length - 1) {
+      if (Array.isArray(cursor) && typeof part === "number") cursor[part] = value;
+      else if (isPlainRecord(cursor) && typeof part === "string") cursor[part] = value;
+      return;
+    }
+
+    if (Array.isArray(cursor) && typeof part === "number") cursor = cursor[part];
+    else if (isPlainRecord(cursor) && typeof part === "string") cursor = cursor[part];
+  });
+
+  return clone;
+}
+
+function collectNestedImageTargets(value: unknown, path: Array<string | number> = []): ImageTarget[] {
+  if (Array.isArray(value)) {
+    return value.flatMap((item, index) => collectNestedImageTargets(item, [...path, index]));
+  }
+
+  if (!isPlainRecord(value)) {
+    return [];
+  }
+
+  return Object.entries(value).flatMap(([field, fieldValue]) => {
+    const nextPath = [...path, field];
+    const directTarget =
+      isImageFieldName(field) && typeof fieldValue === "string"
+        ? [{ key: nextPath.join("."), label: pathLabel(nextPath), path: nextPath, value: fieldValue }]
+        : [];
+
+    return [...directTarget, ...collectNestedImageTargets(fieldValue, nextPath)];
+  });
+}
+
+function collectNestedEditableTargets(value: unknown, path: Array<string | number> = []): NestedFieldTarget[] {
+  if (Array.isArray(value)) {
+    if (isStringArray(value)) {
+      const field = String(path[path.length - 1] ?? "items");
+      return [{ key: path.join("."), label: pathLabel(path), field, path, value }];
+    }
+
+    return value.flatMap((item, index) => collectNestedEditableTargets(item, [...path, index]));
+  }
+
+  if (!isPlainRecord(value)) {
+    return [];
+  }
+
+  return Object.entries(value).flatMap(([field, fieldValue]) => {
+    const nextPath = [...path, field];
+
+    if (isImageFieldName(field)) {
+      return collectNestedEditableTargets(fieldValue, nextPath);
+    }
+
+    if (typeof fieldValue === "string" || typeof fieldValue === "number" || typeof fieldValue === "boolean" || isStringArray(fieldValue)) {
+      return nextPath.length > 1 ? [{ key: nextPath.join("."), label: pathLabel(nextPath), field, path: nextPath, value: fieldValue }] : [];
+    }
+
+    return collectNestedEditableTargets(fieldValue, nextPath);
+  });
+}
+
 function shouldUseTextarea(field: string, value: string) {
   const lower = field.toLowerCase();
   return value.length > 80 || ["description", "intro", "message", "summary", "subheadline", "subtitle", "problem", "solution", "result", "answer"].some((term) => lower.includes(term));
@@ -177,6 +270,9 @@ export default function AdminClient({
   const [notice, setNotice] = useState("");
   const [diagnostics, setDiagnostics] = useState<Diagnostics | null>(null);
   const [diagnosticsMessage, setDiagnosticsMessage] = useState("");
+  const [testUploading, setTestUploading] = useState(false);
+  const [testUploadMessage, setTestUploadMessage] = useState("");
+  const [testUploadUrl, setTestUploadUrl] = useState("");
 
   const activeItems = useMemo(() => data[activeResource] ?? [], [activeResource, data]);
   const activeState = resourceStates[activeResource];
@@ -204,6 +300,26 @@ export default function AdminClient({
     const preferred = preferredImageFieldsByResource[activeResource] ?? ["image"];
     const existing = imageFields.filter((field) => draftItem && field in draftItem && typeof draftItem[field] === "string");
     return Array.from(new Set([...preferred, ...existing]));
+  }, [activeResource, draftItem]);
+  const imageTargets = useMemo(() => {
+    const preferredTargets: ImageTarget[] = visibleImageFields.map((field) => ({
+      key: field,
+      label: displayLabel(field),
+      path: [field],
+      value: typeof draftItem?.[field] === "string" ? String(draftItem[field]) : "",
+    }));
+    const nestedTargets = collectNestedImageTargets(draftItem);
+    const targetMap = new Map<string, ImageTarget>();
+
+    [...preferredTargets, ...nestedTargets].forEach((target) => {
+      targetMap.set(target.key, target);
+    });
+
+    return Array.from(targetMap.values());
+  }, [draftItem, visibleImageFields]);
+  const nestedFieldTargets = useMemo(() => {
+    if (activeResource !== "homepage-transformations") return [];
+    return collectNestedEditableTargets(draftItem);
   }, [activeResource, draftItem]);
   const visibleAltFields = useMemo(() => {
     const existing = altFields.filter((field) => draftItem && field in draftItem);
@@ -254,9 +370,32 @@ export default function AdminClient({
     resetMessages();
   }
 
+  function updateDraftPath(path: Array<string | number>, value: unknown) {
+    const parsed = parseDraft(draft);
+
+    if (!parsed) {
+      setSaveState("error");
+      setError("Fix invalid JSON before using visual fields.");
+      return;
+    }
+
+    setDraft(JSON.stringify(setValueAtPath(parsed, path, value), null, 2));
+    resetMessages();
+  }
+
   function updateStringListField(field: string, value: string) {
     updateDraftField(
       field,
+      value
+        .split("\n")
+        .map((item) => item.trim())
+        .filter(Boolean),
+    );
+  }
+
+  function updateStringListPath(path: Array<string | number>, value: string) {
+    updateDraftPath(
+      path,
       value
         .split("\n")
         .map((item) => item.trim())
@@ -322,12 +461,12 @@ export default function AdminClient({
     setNotice("Reloaded latest content.");
   }
 
-  async function uploadFile(field: ImageField, file: File | null) {
+  async function uploadFile(target: ImageTarget, file: File | null) {
     if (!file) return;
 
-    setUploadingField(field);
+    setUploadingField(target.key);
     setError("");
-    setUploadMessages((current) => ({ ...current, [field]: "Uploading image..." }));
+    setUploadMessages((current) => ({ ...current, [target.key]: "Upload button clicked. Uploading image..." }));
 
     try {
       if (!["image/jpeg", "image/jpg", "image/png", "image/webp"].includes(file.type)) {
@@ -349,23 +488,51 @@ export default function AdminClient({
         throw new Error(result.error ?? "Upload failed");
       }
 
-      updateDraftField(field, uploadedUrl);
+      updateDraftPath(target.path, uploadedUrl);
       setNotice("Image uploaded. Click Save changes to publish it.");
-      setUploadMessages((current) => ({ ...current, [field]: "Image uploaded. Click Save changes to publish it." }));
+      setUploadMessages((current) => ({ ...current, [target.key]: "Image uploaded. Click Save changes to publish it." }));
     } catch (caught) {
       const message = caught instanceof Error ? caught.message : "Upload failed";
       setSaveState("error");
       setError(message);
-      setUploadMessages((current) => ({ ...current, [field]: message }));
+      setUploadMessages((current) => ({ ...current, [target.key]: `Upload failed: ${message}` }));
     } finally {
       setUploadingField(null);
     }
   }
 
-  function removeImage(field: ImageField) {
-    updateDraftField(field, "");
+  async function uploadTestFile(file: File | null) {
+    if (!file) return;
+
+    setTestUploading(true);
+    setTestUploadMessage("Upload test started...");
+    setTestUploadUrl("");
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch("/api/upload", { method: "POST", body: formData });
+      const result = (await response.json()) as UploadResponse;
+      const uploadedUrl = result.url ?? result.publicUrl;
+
+      if (!response.ok || !result.success || !uploadedUrl) {
+        throw new Error(result.error ?? "Upload failed");
+      }
+
+      setTestUploadUrl(uploadedUrl);
+      setTestUploadMessage("Upload API works. The file is in Supabase Storage.");
+    } catch (caught) {
+      setTestUploadMessage(caught instanceof Error ? `Upload failed: ${caught.message}` : "Upload failed.");
+    } finally {
+      setTestUploading(false);
+    }
+  }
+
+  function removeImage(target: ImageTarget) {
+    updateDraftPath(target.path, "");
     setNotice("Image removed from this page. Click Save changes to publish it.");
-    setUploadMessages((current) => ({ ...current, [field]: "Image removed from page. Click Save changes to publish it." }));
+    setUploadMessages((current) => ({ ...current, [target.key]: "Removed from page. Click Save changes to publish it." }));
   }
 
   async function request(method: "POST" | "PUT" | "DELETE", body: unknown) {
@@ -562,6 +729,32 @@ export default function AdminClient({
               </div>
               {diagnostics?.siteContentError ? <p className="mt-3 text-sm font-semibold text-red-900">site_content: {diagnostics.siteContentError}</p> : null}
               {diagnostics?.quoteRequestsError ? <p className="mt-2 text-sm font-semibold text-red-900">quote_requests: {diagnostics.quoteRequestsError}</p> : null}
+
+              <div className="mt-5 rounded-2xl border border-[#E6D6BD] bg-[#fbf6ee] p-4">
+                <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                  <div>
+                    <h4 className="font-bold text-[#0a2a24]">Image upload test</h4>
+                    <p className="mt-1 text-sm text-[#746754]">Use this to check Supabase Storage separately from the page editor.</p>
+                  </div>
+                  <div>
+                    <input
+                      id="admin-upload-test"
+                      type="file"
+                      accept="image/jpeg,image/jpg,image/png,image/webp"
+                      onChange={(event) => {
+                        void uploadTestFile(event.target.files?.[0] ?? null);
+                        event.currentTarget.value = "";
+                      }}
+                      className="sr-only"
+                    />
+                    <label htmlFor="admin-upload-test" className="inline-flex cursor-pointer justify-center rounded-full bg-[#0a2a24] px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[#061A17]">
+                      {testUploading ? "Uploading..." : "Upload test image"}
+                    </label>
+                  </div>
+                </div>
+                {testUploadMessage ? <p className="mt-3 rounded-xl border border-[#E6D6BD] bg-white p-3 text-sm font-semibold text-[#14241F]">{testUploadMessage}</p> : null}
+                {testUploadUrl ? <input value={testUploadUrl} readOnly className="mt-3 min-h-12 w-full rounded-xl border border-[#E6D6BD] bg-white px-3 py-3 text-sm text-[#14241F]" /> : null}
+              </div>
             </div>
           </section>
 
@@ -769,6 +962,81 @@ export default function AdminClient({
                     )}
                   </div>
 
+                  {nestedFieldTargets.length > 0 ? (
+                    <div className="mt-5 rounded-2xl border border-[#E6D6BD] bg-white p-5">
+                      <div className="mb-4 flex flex-col gap-1">
+                        <h4 className="text-lg font-bold text-[#0a2a24]">Carousel slide fields</h4>
+                        <p className="text-sm text-[#746754]">Edit slide text, order, active state and badges without touching the JSON.</p>
+                      </div>
+                      <div className="grid gap-4">
+                        {nestedFieldTargets.map((target) => {
+                          if (typeof target.value === "boolean") {
+                            return (
+                              <label key={target.key} className="flex min-h-16 items-center justify-between gap-4 rounded-xl border border-[#E6D6BD] bg-[#fbf6ee] px-4 py-3 text-sm font-bold text-[#14241F]">
+                                <span>{target.label}</span>
+                                <input
+                                  type="checkbox"
+                                  checked={target.value}
+                                  onChange={(event) => updateDraftPath(target.path, event.target.checked)}
+                                  className="h-5 w-5 accent-[#0a2a24]"
+                                />
+                              </label>
+                            );
+                          }
+
+                          if (typeof target.value === "number") {
+                            return (
+                              <label key={target.key} className="block rounded-xl border border-[#E6D6BD] bg-[#fbf6ee] p-4 text-sm font-bold text-[#14241F]">
+                                {target.label}
+                                <input
+                                  type="number"
+                                  value={target.value}
+                                  onChange={(event) => updateDraftPath(target.path, Number(event.target.value))}
+                                  className="mt-2 min-h-12 w-full rounded-xl border border-[#E6D6BD] bg-white px-3 py-3 text-base font-normal text-[#14241F] outline-none focus:border-[#b07e33]"
+                                />
+                              </label>
+                            );
+                          }
+
+                          if (Array.isArray(target.value)) {
+                            return (
+                              <label key={target.key} className="block rounded-xl border border-[#E6D6BD] bg-[#fbf6ee] p-4 text-sm font-bold text-[#14241F]">
+                                {target.label}
+                                <textarea
+                                  value={target.value.join("\n")}
+                                  rows={Math.min(Math.max(target.value.length, 3), 8)}
+                                  onChange={(event) => updateStringListPath(target.path, event.target.value)}
+                                  className="mt-2 min-h-32 w-full rounded-xl border border-[#E6D6BD] bg-white px-3 py-3 text-base font-normal leading-7 text-[#14241F] outline-none focus:border-[#b07e33]"
+                                />
+                                <span className="mt-1 block text-xs font-normal text-[#746754]">One badge per line.</span>
+                              </label>
+                            );
+                          }
+
+                          return (
+                            <label key={target.key} className="block rounded-xl border border-[#E6D6BD] bg-[#fbf6ee] p-4 text-sm font-bold text-[#14241F]">
+                              {target.label}
+                              {shouldUseTextarea(target.field, target.value) ? (
+                                <textarea
+                                  value={target.value}
+                                  rows={4}
+                                  onChange={(event) => updateDraftPath(target.path, event.target.value)}
+                                  className="mt-2 min-h-32 w-full rounded-xl border border-[#E6D6BD] bg-white px-3 py-3 text-base font-normal leading-7 text-[#14241F] outline-none focus:border-[#b07e33]"
+                                />
+                              ) : (
+                                <input
+                                  value={target.value}
+                                  onChange={(event) => updateDraftPath(target.path, event.target.value)}
+                                  className="mt-2 min-h-12 w-full rounded-xl border border-[#E6D6BD] bg-white px-3 py-3 text-base font-normal text-[#14241F] outline-none focus:border-[#b07e33]"
+                                />
+                              )}
+                            </label>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ) : null}
+
                   <div className="mt-5 rounded-2xl border border-[#E6D6BD] bg-white p-5">
                     <div className="mb-4 flex flex-col gap-1">
                       <h4 className="text-lg font-bold text-[#0a2a24]">3. Pictures</h4>
@@ -776,16 +1044,15 @@ export default function AdminClient({
                     </div>
 
                     <div className="grid gap-4">
-                      {visibleImageFields.map((field) => {
-                        const value = draftItem?.[field];
-                        const path = typeof value === "string" ? value : "";
-                        const inputId = `${activeResource}-${selectedIndex}-${field}-upload`;
-                        const fieldMessage = uploadMessages[field];
+                      {imageTargets.map((target) => {
+                        const path = target.value;
+                        const inputId = `${activeResource}-${selectedIndex}-${target.key}-upload`.replace(/[^a-zA-Z0-9_-]/g, "-");
+                        const fieldMessage = uploadMessages[target.key];
 
                         return (
-                          <div key={field} className="rounded-xl border border-[#E6D6BD] bg-[#fbf6ee] p-4">
+                          <div key={target.key} className="rounded-xl border border-[#E6D6BD] bg-[#fbf6ee] p-4">
                             <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-                              <label className="text-sm font-bold text-[#14241F]" htmlFor={inputId}>{displayLabel(field)}</label>
+                              <label className="text-sm font-bold text-[#14241F]" htmlFor={inputId}>{target.label}</label>
                               <span className="text-xs font-semibold text-[#746754]">{path ? "Current image set" : "No image on page"}</span>
                             </div>
                             <div className="relative mt-3 aspect-video max-h-[26rem] overflow-hidden rounded-xl border border-[#E6D6BD] bg-white">
@@ -794,7 +1061,7 @@ export default function AdminClient({
                             <p className="mt-3 text-xs font-bold uppercase tracking-[0.14em] text-[#746754]">Image URL / path</p>
                             <input
                               value={path}
-                              onChange={(event) => updateDraftField(field, event.target.value)}
+                              onChange={(event) => updateDraftPath(target.path, event.target.value)}
                               placeholder="https://...supabase.co/storage/v1/object/public/site-images/image.webp"
                               className="mt-3 min-h-12 w-full rounded-xl border border-[#E6D6BD] bg-white px-3 py-3 text-base text-[#14241F] outline-none focus:border-[#b07e33]"
                             />
@@ -804,7 +1071,7 @@ export default function AdminClient({
                                 type="file"
                                 accept="image/jpeg,image/jpg,image/png,image/webp"
                                 onChange={(event) => {
-                                  void uploadFile(field, event.target.files?.[0] ?? null);
+                                  void uploadFile(target, event.target.files?.[0] ?? null);
                                   event.currentTarget.value = "";
                                 }}
                                 className="sr-only"
@@ -814,13 +1081,13 @@ export default function AdminClient({
                               </label>
                               <button
                                 type="button"
-                                onClick={() => removeImage(field)}
+                                onClick={() => removeImage(target)}
                                 disabled={!path}
                                 className="inline-flex justify-center rounded-full border border-red-200 px-5 py-2.5 text-sm font-bold text-red-900 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-45"
                               >
                                 Remove from page
                               </button>
-                              {uploadingField === field ? <span className="text-sm font-semibold text-[#746754]">Uploading...</span> : null}
+                              {uploadingField === target.key ? <span className="text-sm font-semibold text-[#746754]">Uploading...</span> : null}
                             </div>
                             {fieldMessage ? <p className="mt-3 rounded-xl border border-[#E6D6BD] bg-white p-3 text-sm font-semibold text-[#14241F]">{fieldMessage}</p> : null}
                           </div>

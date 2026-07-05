@@ -17,6 +17,7 @@ export type AdminResourceKey =
   | "testimonials"
   | "areas"
   | "homepage-sections"
+  | "homepage-transformations"
   | "cta-mappings";
 
 export type AdminResource = {
@@ -29,6 +30,7 @@ export type AdminResource = {
 export const adminResources: AdminResource[] = [
   { key: "site-settings", label: "Site Settings", fileName: "site-settings.json", kind: "object" },
   { key: "homepage-sections", label: "Homepage Sections", fileName: "homepage-sections.json" },
+  { key: "homepage-transformations", label: "Homepage Transformations", fileName: "homepage-transformations.json", kind: "object" },
   { key: "quote-builder", label: "Quote Builder", fileName: "quote-builder.json", kind: "object" },
   { key: "interactive-tools", label: "Interactive Tools", fileName: "interactive-tools.json", kind: "object" },
   { key: "cta-mappings", label: "CTA Buttons & Links", fileName: "cta-mappings.json" },
