@@ -128,16 +128,16 @@ export function QuoteBuilder({ content }: { content?: ContentBundle }) {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_22rem]">
-      <div className="rounded-[2rem] border border-[#E6D6BD] bg-white/82 p-5 shadow-sm sm:p-8">
+      <div className="rounded-[28px] border border-[var(--cf-border)] bg-[var(--cf-cream-card)] p-5 shadow-[var(--cf-shadow-soft)] sm:p-8">
         {hasInteractivePrefill ? (
-          <div className="mb-6 rounded-3xl border border-[#b07e33]/35 bg-[#E6D6BD]/55 p-4 text-sm leading-6 text-[#14241F]">
-            <p className="font-semibold text-[#0a2a24]">Your readiness plan has been attached to this quote request.</p>
+          <div className="mb-6 rounded-[22px] border border-[var(--cf-gold-soft)] bg-[var(--cf-ivory)] p-4 text-sm leading-6 text-[var(--cf-navy)]">
+            <p className="font-semibold text-[var(--cf-navy)]">Your readiness plan has been attached to this quote request.</p>
             <p className="mt-1 break-words">{diagnosis ? `Diagnosis: ${diagnosis}. ` : ""}{score ? `Score: ${score}/100. ` : ""}{mode ? `Mode: ${mode}. ` : ""}{problems.length ? `Problems: ${problems.join(", ")}.` : ""}</p>
           </div>
         ) : null}
         <div className="mb-8 grid gap-2 sm:grid-cols-5">
           {config.steps.map((step, index) => (
-            <button key={step} type="button" onClick={() => setStepIndex(index)} className={`rounded-full px-3 py-2 text-xs font-bold transition ${index === stepIndex ? "bg-[#0a2a24] text-white ring-1 ring-[#b07e33]/25" : "bg-[#E6D6BD]/50 text-[#746754] hover:bg-[#E6D6BD]"}`}>
+            <button key={step} type="button" onClick={() => setStepIndex(index)} className={`rounded-[14px] px-3 py-2 text-xs font-bold transition ${index === stepIndex ? "bg-[var(--cf-navy)] text-white ring-1 ring-[var(--cf-gold)]/25" : "bg-[var(--cf-ivory)] text-[var(--cf-text-soft)] hover:bg-[var(--cf-warm-card)]"}`}>
               {index + 1}. {config.stepLabels[step]}
             </button>
           ))}
@@ -148,11 +148,11 @@ export function QuoteBuilder({ content }: { content?: ContentBundle }) {
         ) : currentStep}
 
         <div className="mt-8 flex flex-wrap justify-between gap-3">
-          <button type="button" onClick={back} disabled={stepIndex === 0 || submitted} className="rounded-full border border-[#E6D6BD] px-5 py-3 text-sm font-semibold text-[#746754] transition hover:border-[#b07e33]/45 disabled:cursor-not-allowed disabled:opacity-40">{config.actions.back}</button>
+          <button type="button" onClick={back} disabled={stepIndex === 0 || submitted} className="rounded-[14px] border border-[var(--cf-border)] bg-white px-5 py-3 text-sm font-bold text-[var(--cf-navy)] transition hover:bg-[var(--cf-ivory)] disabled:cursor-not-allowed disabled:opacity-40">{config.actions.back}</button>
           <div className="flex gap-3">
-            {submitted ? <button type="button" onClick={reset} className="rounded-full border border-[#E6D6BD] px-5 py-3 text-sm font-semibold text-[#746754] transition hover:border-[#b07e33]/45">{config.actions.startAgain}</button> : null}
-            {!submitted && stepIndex < config.steps.length - 1 ? <button type="button" onClick={next} disabled={!canContinue()} className="rounded-full brass-fill px-6 py-3 text-sm font-semibold text-[#061A17] transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-40">{config.actions.next}</button> : null}
-            {!submitted && stepIndex === config.steps.length - 1 ? <button type="button" onClick={() => void submit()} disabled={!canContinue() || submitting} className="rounded-full bg-[#0a2a24] px-6 py-3 text-sm font-semibold text-white ring-1 ring-[#b07e33]/20 transition hover:bg-[#14241F] disabled:cursor-not-allowed disabled:opacity-40">{submitting ? "Sending..." : config.actions.submit}</button> : null}
+            {submitted ? <button type="button" onClick={reset} className="rounded-[14px] border border-[var(--cf-border)] bg-white px-5 py-3 text-sm font-bold text-[var(--cf-navy)] transition hover:bg-[var(--cf-ivory)]">{config.actions.startAgain}</button> : null}
+            {!submitted && stepIndex < config.steps.length - 1 ? <button type="button" onClick={next} disabled={!canContinue()} className="rounded-[14px] bg-[var(--cf-cherry)] px-6 py-3 text-sm font-bold text-white shadow-[0_14px_30px_rgba(138,15,46,0.18)] transition hover:bg-[var(--cf-cherry-2)] disabled:cursor-not-allowed disabled:opacity-40">{config.actions.next}</button> : null}
+            {!submitted && stepIndex === config.steps.length - 1 ? <button type="button" onClick={() => void submit()} disabled={!canContinue() || submitting} className="rounded-[14px] bg-[var(--cf-cherry)] px-6 py-3 text-sm font-bold text-white shadow-[0_14px_30px_rgba(138,15,46,0.18)] transition hover:bg-[var(--cf-cherry-2)] disabled:cursor-not-allowed disabled:opacity-40">{submitting ? "Sending..." : config.actions.submit}</button> : null}
           </div>
         </div>
         {submitError ? <p className="mt-4 rounded-2xl border border-red-200 bg-red-50 p-4 text-sm font-semibold text-red-900">{submitError}</p> : null}

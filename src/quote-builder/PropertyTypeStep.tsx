@@ -13,10 +13,10 @@ export function PropertyTypeStep({ config, propertyTypes, categoryId, selectedId
 
   return (
     <section className="space-y-5">
-      <h2 className="text-2xl font-semibold tracking-tight text-[#0a2a24]">{config.stepLabels.propertyType}</h2>
+      <h2 className="font-serif text-3xl font-semibold tracking-[-0.02em] text-[var(--cf-navy)]">{config.stepLabels.propertyType}</h2>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((item) => (
-          <button key={item.id} type="button" onClick={() => onSelect(item.id)} className={`rounded-2xl border px-5 py-4 text-left font-semibold transition ${selectedId === item.id ? "border-[#b07e33]/55 bg-[#E6D6BD]/55 text-[#0a2a24]" : "border-[#E6D6BD] bg-white text-[#14241F] hover:border-[#b07e33]/35"}`}>
+          <button key={item.id} type="button" onClick={() => onSelect(item.id)} className={`rounded-[18px] border px-5 py-4 text-left font-bold transition hover:-translate-y-px ${selectedId === item.id ? "border-[var(--cf-cherry)] bg-[var(--cf-ivory)] text-[var(--cf-navy)] shadow-[var(--cf-shadow-soft)]" : "border-[var(--cf-border)] bg-white text-[var(--cf-navy)] hover:border-[var(--cf-gold-soft)]"}`}>
             {item.name}
           </button>
         ))}

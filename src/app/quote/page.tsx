@@ -11,15 +11,15 @@ export default async function QuotePage() {
   const config = content.quoteBuilderConfig;
 
   return (
-    <div className="min-h-screen bg-[#f5ecdc] text-[#14241F]">
+    <div className="min-h-screen bg-[var(--cf-ivory)] text-[var(--cf-text)]">
       <Header content={content} />
       <main className="px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto max-w-[1280px]">
           <div className="mb-10 max-w-3xl">
-            <p className="brand-label text-xs brass-text">{config.page.eyebrow}</p>
-            <h1 className="mt-4 text-5xl font-semibold tracking-[-0.04em] text-[#0a2a24] sm:text-6xl">{config.page.title}</h1>
-            <p className="mt-5 text-lg leading-8 text-[#746754]">{config.page.intro}</p>
-            <p className="mt-4 rounded-2xl border border-[#E6D6BD] bg-white/70 p-4 text-sm font-medium text-[#14241F] shadow-sm">{config.page.mockNotice}</p>
+            <p className="text-xs font-extrabold uppercase tracking-[0.08em] text-[var(--cf-gold)]">{config.page.eyebrow}</p>
+            <h1 className="mt-4 font-serif text-5xl font-semibold tracking-[-0.035em] text-[var(--cf-navy)] sm:text-6xl">{config.page.title}</h1>
+            <p className="mt-5 text-lg leading-8 text-[var(--cf-text-soft)]">{config.page.intro}</p>
+            <p className="mt-4 rounded-[22px] border border-[var(--cf-border)] bg-[var(--cf-cream-card)] p-4 text-sm font-semibold leading-6 text-[var(--cf-navy)] shadow-[var(--cf-shadow-soft)]">{config.page.mockNotice}</p>
           </div>
           <Suspense fallback={null}>
             <QuoteBuilder content={content} />

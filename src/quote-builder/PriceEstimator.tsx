@@ -8,14 +8,14 @@ type PriceEstimatorProps = {
 
 export function PriceEstimator({ config, estimate }: PriceEstimatorProps) {
   return (
-    <aside className="sticky top-6 rounded-[1.75rem] border border-[#E6D6BD] bg-white/82 p-6 shadow-sm">
-      <p className="brand-label text-xs brass-text">{config.estimateLabel}</p>
-      <p className="mt-3 text-4xl font-semibold tracking-tight text-[#0a2a24]">{formatPounds(estimate.totalFromPrice)}</p>
-      <div className="mt-5 space-y-2 text-sm text-[#746754]">
-        <div className="flex justify-between gap-4"><span>{config.priceBreakdownLabels.packageBase}</span><span className="font-semibold text-[#14241F]">{formatPounds(estimate.packageFromPrice)}</span></div>
-        <div className="flex justify-between gap-4"><span>{config.priceBreakdownLabels.upgrades}</span><span className="font-semibold text-[#14241F]">{formatPounds(estimate.upgradesTotal)}</span></div>
+    <aside className="sticky top-6 rounded-[24px] border border-[var(--cf-border)] bg-[var(--cf-cream-card)] p-6 shadow-[var(--cf-shadow-soft)]">
+      <p className="text-xs font-extrabold uppercase tracking-[0.08em] text-[var(--cf-gold)]">{config.estimateLabel}</p>
+      <p className="mt-3 font-serif text-4xl font-semibold tracking-[-0.02em] text-[var(--cf-navy)]">{formatPounds(estimate.totalFromPrice)}</p>
+      <div className="mt-5 space-y-2 text-sm text-[var(--cf-text-soft)]">
+        <div className="flex justify-between gap-4"><span>{config.priceBreakdownLabels.packageBase}</span><span className="font-semibold text-[var(--cf-navy)]">{formatPounds(estimate.packageFromPrice)}</span></div>
+        <div className="flex justify-between gap-4"><span>{config.priceBreakdownLabels.upgrades}</span><span className="font-semibold text-[var(--cf-navy)]">{formatPounds(estimate.upgradesTotal)}</span></div>
       </div>
-      <p className="mt-5 rounded-2xl border border-[#E6D6BD] bg-[#f5ecdc] p-4 text-xs leading-6 text-[#746754]">{config.disclaimer}</p>
+      <p className="mt-5 rounded-[18px] border border-[var(--cf-border)] bg-[var(--cf-ivory)] p-4 text-xs leading-6 text-[var(--cf-text-soft)]">{config.disclaimer}</p>
     </aside>
   );
 }

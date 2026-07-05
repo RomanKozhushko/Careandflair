@@ -13,12 +13,12 @@ export function ContactDetailsStep({ config, contact, onChange }: ContactDetails
     onChange({ ...contact, [field]: value });
   }
 
-  const inputClass = "w-full rounded-2xl border border-[#E6D6BD] bg-white px-4 py-3 font-normal text-[#14241F] outline-none transition focus:border-[#b07e33] focus:ring-4 focus:ring-[#b07e33]/10";
-  const labelClass = "space-y-2 text-sm font-semibold text-[#14241F]";
+  const inputClass = "w-full rounded-[18px] border border-[var(--cf-border)] bg-white px-4 py-3 font-normal text-[var(--cf-navy)] outline-none transition focus:border-[var(--cf-cherry)] focus:ring-4 focus:ring-[rgba(138,15,46,0.10)]";
+  const labelClass = "space-y-2 text-sm font-bold text-[var(--cf-navy)]";
 
   return (
     <section className="space-y-5">
-      <h2 className="text-2xl font-semibold tracking-tight text-[#0a2a24]">{config.stepLabels.contactSummary}</h2>
+      <h2 className="font-serif text-3xl font-semibold tracking-[-0.02em] text-[var(--cf-navy)]">{config.stepLabels.contactSummary}</h2>
       <div className="grid gap-4 sm:grid-cols-2">
         <label className={labelClass}>{labels.name}<input value={contact.name} onChange={(event) => update("name", event.target.value)} className={inputClass} /></label>
         <label className={labelClass}>{labels.phone}<input value={contact.phone} onChange={(event) => update("phone", event.target.value)} className={inputClass} /></label>
