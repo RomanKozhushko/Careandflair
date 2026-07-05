@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { BeforeAfterItem } from "@/lib/types";
 import { createContentHelpers, type ContentBundle } from "@/lib/content";
+import { HeroBeforeAfterSlider } from "@/homepage/HeroBeforeAfterSlider";
 import { HomepageTransformationCarousel } from "@/homepage/HomepageTransformationCarousel";
 
 const whatsappMessage = "Hi Care & Flair, I'd like a quote. I can send photos of the property and tell you the deadline.";
@@ -61,29 +62,6 @@ function PickImage({ src, alt, className = "", priority = false }: { src?: strin
   );
 }
 
-function StaticSplitVisual({ item, heroImage, priority = false }: { item?: BeforeAfterItem; heroImage?: string; priority?: boolean }) {
-  const before = imageOrFallback(item?.beforeImage, heroImage);
-  const after = imageOrFallback(item?.afterImage, heroImage);
-
-  return (
-    <div className="group relative h-full min-h-[320px] overflow-hidden rounded-[24px] bg-[var(--cf-warm-card)] shadow-[var(--cf-shadow-card)]">
-      <div className="absolute inset-0">
-        <PickImage src={before} alt={item?.beforeAlt ?? "Property before reset"} priority={priority} className="saturate-[0.82]" />
-      </div>
-      <div className="absolute inset-0 overflow-hidden [clip-path:inset(0_0_0_50%)]">
-        <PickImage src={after} alt={item?.afterAlt ?? "Property after reset"} priority={priority} className="transition duration-500 group-hover:scale-[1.015]" />
-      </div>
-      <div className="absolute left-4 top-4 rounded-full bg-white/92 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.08em] text-[var(--cf-navy)] shadow-sm">Before</div>
-      <div className="absolute right-4 top-4 rounded-full bg-[var(--cf-navy)]/94 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.08em] text-white shadow-sm">After</div>
-      <div className="absolute inset-y-0 left-1/2 w-1 -translate-x-1/2 bg-white shadow-[0_0_0_1px_rgba(8,27,45,0.14)]" aria-hidden="true">
-        <div className="absolute left-1/2 top-1/2 grid h-14 w-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-white bg-[var(--cf-cream-card)] text-lg font-black text-[var(--cf-cherry)] shadow-[var(--cf-shadow-soft)] transition group-hover:scale-105">
-          <span aria-hidden="true">||</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function TrustFeatureRow() {
   const items = [
     ["24-72h reset options", "Fast turnaround available", "clock"],
@@ -137,7 +115,7 @@ function HeroApproved({ content, strongestItem }: { content: ContentBundle; stro
           </div>
         </div>
         <div className="relative min-h-[360px] lg:h-[480px]">
-          <StaticSplitVisual item={strongestItem} heroImage={hero.heroImage} priority />
+          <HeroBeforeAfterSlider item={strongestItem} heroImage={hero.heroImage} priority />
           <div className="absolute left-5 top-5 rounded-full border border-[var(--cf-border)] bg-white/92 px-4 py-2 text-sm font-extrabold text-[var(--cf-navy)] shadow-sm">
             South West London & Kent
           </div>
