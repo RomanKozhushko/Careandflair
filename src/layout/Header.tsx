@@ -32,7 +32,7 @@ export function Header({ content }: { content?: ContentBundle }) {
           <Link href="/quote" className="hidden h-11 items-center justify-center rounded-[14px] bg-[var(--cf-cherry)] px-5 text-sm font-extrabold text-white shadow-[0_14px_30px_rgba(138,15,46,0.22)] transition hover:-translate-y-px hover:bg-[var(--cf-cherry-2)] sm:inline-flex">
             Get a quote
           </Link>
-          <a href={whatsappHref} className="inline-flex h-11 items-center justify-center rounded-[14px] border border-[rgba(8,27,45,0.22)] bg-white px-4 text-sm font-extrabold text-[var(--cf-navy)] transition hover:-translate-y-px hover:bg-[var(--cf-cream-card)]">
+          <a href={whatsappHref} className="inline-flex h-11 items-center justify-center rounded-[14px] bg-[var(--cf-whatsapp)] px-4 text-sm font-extrabold text-white shadow-[0_14px_30px_rgba(37,211,102,0.22)] transition hover:-translate-y-px hover:bg-[var(--cf-whatsapp-2)]">
             WhatsApp
           </a>
         </div>

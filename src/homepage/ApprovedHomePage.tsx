@@ -18,11 +18,11 @@ function SectionLabel({ children, light = false }: { children: React.ReactNode; 
   );
 }
 
-function CherryButton({ href, children, className = "" }: { href: string; children: React.ReactNode; className?: string }) {
+function WhatsAppButton({ href, children, className = "" }: { href: string; children: React.ReactNode; className?: string }) {
   return (
     <Link
       href={href}
-      className={`inline-flex h-12 items-center justify-center rounded-[14px] bg-[var(--cf-cherry)] px-6 text-sm font-bold text-white shadow-[0_14px_30px_rgba(138,15,46,0.22)] transition hover:-translate-y-px hover:bg-[var(--cf-cherry-2)] active:bg-[var(--cf-cherry-dark)] ${className}`}
+      className={`inline-flex h-12 items-center justify-center rounded-[14px] bg-[var(--cf-whatsapp)] px-6 text-sm font-bold text-white shadow-[0_14px_30px_rgba(37,211,102,0.24)] transition hover:-translate-y-px hover:bg-[var(--cf-whatsapp-2)] active:bg-[var(--cf-whatsapp-dark)] ${className}`}
     >
       {children}
     </Link>
@@ -127,7 +127,7 @@ function HeroApproved({ content, strongestItem }: { content: ContentBundle; stro
             We handle the visible problems that stop a property feeling ready. Not renovation. A practical reset that makes a home move-in, viewing or guest ready.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <CherryButton href={wa} className="w-full sm:w-auto">Send photos on WhatsApp</CherryButton>
+            <WhatsAppButton href={wa} className="w-full sm:w-auto">Send photos on WhatsApp</WhatsAppButton>
             <OutlineButton href="/quote" className="w-full sm:w-auto">Get a quote</OutlineButton>
           </div>
           <div className="mt-7 flex flex-wrap items-center gap-3 text-sm font-bold text-[var(--cf-navy)]">
@@ -194,7 +194,7 @@ function HowItWorksApproved({ phone }: { phone: string }) {
             Tell us what you need and when. We&apos;ll review the photos, identify the visible issues and send a clear quote for the practical reset work.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <CherryButton href={wa} className="w-full sm:w-auto">Send photos on WhatsApp</CherryButton>
+            <WhatsAppButton href={wa} className="w-full sm:w-auto">Send photos on WhatsApp</WhatsAppButton>
             <OutlineButton href="/quote" dark className="w-full sm:w-auto">Get a quote</OutlineButton>
           </div>
         </div>
@@ -273,7 +273,7 @@ function FinalCta({ phone, image }: { phone: string; image?: string }) {
           <h2 className="font-serif text-[34px] font-semibold leading-[1.1] tracking-[-0.02em] text-[var(--cf-navy)] lg:text-[44px]">Ready to get your property reset?</h2>
           <p className="mt-4 max-w-[620px] text-[17px] leading-8 text-[var(--cf-text-soft)]">Send photos on WhatsApp and we&apos;ll take care of the visible details.</p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-            <CherryButton href={whatsappHref(phone)} className="w-full sm:w-auto">Send photos on WhatsApp</CherryButton>
+            <WhatsAppButton href={whatsappHref(phone)} className="w-full sm:w-auto">Send photos on WhatsApp</WhatsAppButton>
             <OutlineButton href="/quote" className="w-full sm:w-auto">Get a quote</OutlineButton>
           </div>
         </div>

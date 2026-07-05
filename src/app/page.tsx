@@ -21,7 +21,7 @@ export default async function Home() {
       </main>
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/30 bg-[var(--cf-navy)]/96 p-3 shadow-[0_-16px_38px_rgba(6,29,51,0.22)] backdrop-blur sm:hidden">
         <div className="grid grid-cols-2 gap-2">
-          <a href={whatsappHref} className="inline-flex items-center justify-center rounded-[14px] bg-[var(--cf-cherry)] px-4 py-3 text-sm font-bold text-white shadow-[0_14px_30px_rgba(138,15,46,0.22)]">WhatsApp</a>
+          <a href={whatsappHref} className="inline-flex items-center justify-center rounded-[14px] bg-[var(--cf-whatsapp)] px-4 py-3 text-sm font-bold text-white shadow-[0_14px_30px_rgba(37,211,102,0.22)]">WhatsApp</a>
           <Link href="/quote" className="inline-flex items-center justify-center rounded-[14px] border border-white/35 bg-white px-4 py-3 text-sm font-black text-[var(--cf-navy)]">Get quote</Link>
         </div>
       </div>
