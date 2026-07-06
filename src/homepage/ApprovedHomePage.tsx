@@ -161,40 +161,62 @@ const resetPackages = [
     title: "24h Express Reset",
     badge: "Fastest",
     price: "From \u00a3595",
-    duration: "24 hours / 1 working day",
-    bestFor: "Quick visible reset before viewings, move-in or handover.",
+    priceNote: "Small flats. Standard homes usually \u00a3695-\u00a3895 after photos.",
+    duration: "1 working day / usually 8-10 hours on site",
+    bestFor: "Properties that are almost ready but need visible details fixed fast before viewings, move-in, handover or guests.",
+    description: "A fast visible reset for the areas people notice first. Ideal when the property does not need a full renovation, but tired details are making it feel unfinished.",
     cta: "Get 24h quote",
     href: "/quote?preset=24h-express-reset",
     featured: false,
     includes: [
-      "Deep clean",
-      "Kitchen degreasing",
-      "Bathroom descaling",
-      "Internal windows",
-      "Carpet extraction",
-      "Taps refresh",
-      "Basic handyman fixes",
-      "Wall touch-ups",
-      "Silicone reseal",
-      "Electrical/window check",
-      "Light garden tidy",
-      "Photo proof after completion",
+      "Kitchen visible reset",
+      "Bathroom visible reset",
+      "Descaling taps, sinks and shower areas",
+      "Internal windows and sills where reachable",
+      "Targeted carpet extraction in key areas",
+      "Small wall touch-ups where suitable",
+      "Limited silicone refresh where suitable",
+      "Basic small fixes: handles, loose fittings and minor details",
+      "Doors, switches and high-touch points",
+      "Light tidy and final presentation check",
+      "Before/after photo proof",
+    ],
+    notIncluded: [
+      "Full repaint",
+      "Full silicone reseal of multiple bathrooms",
+      "Oven or fridge deep clean",
+      "Inside all cupboards",
+      "Heavy mould treatment",
+      "Large rubbish clearance",
+      "Full garden clearance",
+      "Major repairs",
+      "Full carpet extraction for large houses",
+    ],
+    timing: [
+      "Arrival, before photos and scope check: 30 min",
+      "Kitchen visible reset: 1.5h",
+      "Bathroom visible reset: 1.5h",
+      "Small fixes and wall touch-ups: 1.5h",
+      "Targeted carpet/floor/windows: 1.5h",
+      "Final details and presentation check: 1h",
+      "After photos and client update: 30 min",
     ],
   },
   {
     title: "48h Pro Flair Reset",
     badge: "Most popular",
     price: "From \u00a31,195",
-    duration: "48 hours / 2 working days",
+    duration: "2 working days / usually 2 days on site",
     bestFor: "Landlords, sellers and move-in homes that need a stronger visual uplift.",
+    description: "For properties that need more than a quick reset but still do not need a full renovation.",
     cta: "Get 48h quote",
     href: "/quote?preset=48h-pro-flair-reset",
     featured: true,
     includes: [
       "Everything in 24h Express Reset",
-      "1-coat repaint where needed",
-      "Walls and ceilings refresh",
-      "Anti-mould treatment and protection",
+      "Targeted wall touch-ups and one-coat neutral refresh where suitable",
+      "Small scuff and mark coverage",
+      "Anti-mould treatment and protection where suitable",
       "Window and frame detail",
       "Staging and flair touches",
       "TDS-style cleaning proof",
@@ -206,18 +228,19 @@ const resetPackages = [
     title: "72h Ultimate Reset",
     badge: "Maximum transformation",
     price: "From \u00a31,600",
-    duration: "72 hours / 3 working days",
+    duration: "3 working days / usually 3 days on site",
     bestFor: "Properties that need the strongest reset before sale photos, new tenants, guests or move-in.",
+    description: "The strongest reset option for selected areas that need cleaning, fixing, refreshing and presentation work.",
     cta: "Get 72h quote",
     href: "/quote?preset=72h-ultimate-reset",
     featured: false,
     includes: [
       "Everything in 48h Pro Flair Reset",
-      "Full repaint, 2 coats where needed",
-      "Woodwork refresh: skirting, frames, doors",
+      "Selected room repaint or 2-coat finish where agreed",
+      "Woodwork refresh: skirting, frames and doors",
       "Grout revival",
-      "Patio / driveway wash",
-      "External windows",
+      "Patio / driveway wash where suitable",
+      "External windows where accessible",
       "Stronger finishing details",
       "Presentation-ready final setup",
       "Full before/after photo proof",
@@ -250,7 +273,7 @@ function ResetPackagesSection() {
           </h2>
         </div>
         <p className="max-w-[620px] text-[17px] leading-8 text-[var(--cf-text-soft)] lg:justify-self-end">
-          Flexible reset options depending on how quickly the property needs to feel ready.
+          Flexible reset options depending on size, condition and how quickly the property needs to feel ready.
         </p>
       </div>
 
@@ -273,8 +296,12 @@ function ResetPackagesSection() {
             </div>
 
             <p className="mt-5 font-serif text-[34px] font-semibold tracking-[-0.02em] text-[var(--cf-navy)]">{item.price}</p>
+            {"priceNote" in item && item.priceNote ? (
+              <p className="mt-1 text-sm font-semibold leading-5 text-[var(--cf-text-soft)]">{item.priceNote}</p>
+            ) : null}
             <p className="mt-2 rounded-[14px] border border-[var(--cf-border)] bg-[var(--cf-ivory)] px-3 py-2 text-sm font-bold text-[var(--cf-navy)]">{item.duration}</p>
             <p className="mt-4 text-[15px] leading-6 text-[var(--cf-text-soft)]"><span className="font-extrabold text-[var(--cf-navy)]">Best for:</span> {item.bestFor}</p>
+            <p className="mt-3 text-[15px] leading-6 text-[var(--cf-text-soft)]">{item.description}</p>
 
             <ul className="mt-5 grid gap-2 text-sm leading-6 text-[var(--cf-navy)]">
               {item.includes.map((included) => (
@@ -285,6 +312,30 @@ function ResetPackagesSection() {
               ))}
             </ul>
 
+            {"notIncluded" in item && item.notIncluded?.length ? (
+              <details className="mt-5 rounded-[16px] border border-[var(--cf-border)] bg-[var(--cf-ivory)] p-4 text-sm text-[var(--cf-text-soft)]">
+                <summary className="cursor-pointer font-extrabold text-[var(--cf-navy)]">Not included unless quoted separately</summary>
+                <p className="mt-2 leading-6">Some work needs more time. We&apos;ll tell you before quoting.</p>
+                <ul className="mt-3 grid gap-1.5 leading-5 sm:grid-cols-2 lg:grid-cols-1">
+                  {item.notIncluded.map((excluded) => (
+                    <li key={excluded}>- {excluded}</li>
+                  ))}
+                </ul>
+              </details>
+            ) : null}
+
+            {"timing" in item && item.timing?.length ? (
+              <details className="mt-3 rounded-[16px] border border-[var(--cf-gold-soft)] bg-white p-4 text-sm text-[var(--cf-text-soft)]">
+                <summary className="cursor-pointer font-extrabold text-[var(--cf-navy)]">Typical 24h timing</summary>
+                <ul className="mt-3 grid gap-1.5 leading-5">
+                  {item.timing.map((step) => (
+                    <li key={step}>- {step}</li>
+                  ))}
+                </ul>
+                <p className="mt-3 text-xs font-semibold text-[var(--cf-text-soft)]">Timing varies by size, condition and access.</p>
+              </details>
+            ) : null}
+
             <Link href={item.href} className="mt-6 inline-flex h-12 w-full items-center justify-center rounded-[14px] bg-[var(--cf-cherry)] px-5 text-sm font-extrabold text-white shadow-[0_14px_30px_rgba(138,15,46,0.22)] transition hover:-translate-y-px hover:bg-[var(--cf-cherry-2)]">
               {item.cta}
             </Link>
@@ -292,12 +343,18 @@ function ResetPackagesSection() {
         ))}
       </div>
 
+      <div className="mt-5 grid gap-3 rounded-[22px] border border-[var(--cf-border)] bg-[var(--cf-ivory-2)] p-5 text-sm leading-6 text-[var(--cf-text-soft)] shadow-[var(--cf-shadow-soft)] md:grid-cols-3">
+        <p><span className="font-extrabold text-[var(--cf-navy)]">Paint work:</span> Paint work is scoped from photos or visit. Colour, rooms/areas and number of coats are agreed before work starts. Exact colour matching or full room repaint can be quoted separately.</p>
+        <p><span className="font-extrabold text-[var(--cf-navy)]">Final price:</span> Final price depends on property size, condition, access, materials and selected upgrades. Send photos for a clear quote before work starts.</p>
+        <p><span className="font-extrabold text-[var(--cf-navy)]">Bigger jobs:</span> If the property is larger, heavily used or needs more than one working day, we may recommend the 48h reset or a custom quote.</p>
+      </div>
+
       <div className="mt-5 rounded-[24px] border border-[var(--cf-border)] bg-[var(--cf-cream-card)] p-5 shadow-[var(--cf-shadow-soft)]">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
           <div>
             <h3 className="text-lg font-extrabold text-[var(--cf-navy)]">Add extra impact where needed</h3>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--cf-text-soft)]">
-              Final price depends on property size, condition, access and selected upgrades. Send photos for a clear quote before work starts.
+              Choose only the target areas that add real value for the deadline.
             </p>
           </div>
         </div>
