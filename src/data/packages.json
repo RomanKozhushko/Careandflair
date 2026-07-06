@@ -79,29 +79,34 @@
     "id": "72h-ultimate-reset",
     "slug": "72h-ultimate-reset",
     "name": "72h Ultimate Reset",
-    "slogan": "For tired properties needing a deeper reset",
+    "slogan": "Strongest standard reset",
     "startingPrice": 1600,
-    "description": "The strongest reset option for selected areas that need cleaning, fixing, refreshing and presentation work.",
-    "problem": "Marked walls, tired bathrooms, stained carpets, dirty frames or stale rooms make the property feel neglected.",
-    "solution": "A wider reset for selected areas with cleaning, small repairs, selected room repaint or 2-coat finish where agreed, and stronger detail work.",
-    "result": "A cleaner, fresher property with the main visible issues dealt with before sale photos, new tenants, guests or move-in.",
+    "description": "Our most complete standard reset for selected areas that need cleaning, fixing, refreshing and presentation work.",
+    "problem": "The property needs the strongest reset before sale photos, new tenants, guests or move-in, but still needs a clear agreed scope.",
+    "solution": "Selected area reset work with agreed repaint finishes, woodwork refresh, grout revival, wider carpet coverage where suitable and presentation-ready final setup.",
+    "result": "A cleaner, fresher property with the main visible issues handled, photo proof and a final client update with the completed scope.",
     "includedServices": [
       "Everything in 48h Pro Flair Reset",
       "Selected room repaint or 2-coat finish where agreed",
       "Woodwork refresh: skirting, frames and doors",
-      "Grout revival",
+      "Grout revival in key areas",
+      "Deeper bathroom and kitchen detail",
+      "Wider carpet extraction coverage where suitable",
       "Patio / driveway wash where suitable",
-      "External windows where accessible"
+      "External windows where accessible",
+      "Additional small repairs and finishing details",
+      "Presentation-ready final setup",
+      "Final client update with completed scope"
     ],
     "microGuarantees": [
-      "Wider scope",
-      "Best for neglected properties"
+      "Usually 24-30 hours on site",
+      "Larger homes or heavy resets quoted from photos"
     ],
     "image": "/images/generated/driveway-before-after.jpg",
     "visualLabel": "72h full property reset visual",
     "proofDetails": [
-      "For tired or marked properties",
-      "Photo update after work"
+      "Most 2-3 bed homes: \u00a31,600-\u00a32,400 depending on scope",
+      "Custom quote used for heavy repairs, specialist work or extra days"
     ],
     "visible": true,
     "order": 3,

@@ -278,9 +278,10 @@ const resetPackages = [
     title: "72h Ultimate Reset",
     badge: "Maximum transformation",
     price: "From \u00a31,600",
-    duration: "3 working days / usually 3 days on site",
+    priceNote: "Small homes / selected areas. Larger homes or heavy resets are quoted from photos. Most 2-3 bed homes: \u00a31,600-\u00a32,400 depending on scope, paint, carpets and exterior work.",
+    duration: "3 working days / usually 24-30 hours on site",
     bestFor: "Properties that need the strongest reset before sale photos, new tenants, guests or move-in.",
-    description: "The strongest reset option for selected areas that need cleaning, fixing, refreshing and presentation work.",
+    description: "Our most complete standard reset for selected areas that need cleaning, fixing, refreshing and presentation work. Ideal when the property needs a stronger finish, but not building work.",
     cta: "Get 72h quote",
     href: "/quote?preset=72h-ultimate-reset",
     featured: false,
@@ -288,13 +289,68 @@ const resetPackages = [
       "Everything in 48h Pro Flair Reset",
       "Selected room repaint or 2-coat finish where agreed",
       "Woodwork refresh: skirting, frames and doors",
-      "Grout revival",
+      "Grout revival in key areas",
+      "Deeper bathroom and kitchen detail",
+      "Wider carpet extraction coverage where suitable",
       "Patio / driveway wash where suitable",
       "External windows where accessible",
-      "Stronger finishing details",
+      "Additional small repairs and finishing details",
       "Presentation-ready final setup",
       "Full before/after photo proof",
+      "Final client update with completed scope",
     ],
+    notIncluded: [
+      "Full property refurbishment",
+      "Full house repaint",
+      "Exact colour matching guarantee",
+      "Structural repairs",
+      "Electrical or plumbing work requiring certification",
+      "Major plastering",
+      "Tiling replacement",
+      "Full bathroom or kitchen renovation",
+      "Heavy mould remediation",
+      "Large rubbish clearance",
+      "Full garden clearance",
+      "High-level external windows or unsafe access work",
+      "Multiple rooms of heavy carpet restoration",
+      "Specialist pest/odour treatment",
+      "Professional photography if not selected as upgrade",
+    ],
+    notIncludedNote: "Some work needs more time, access or specialist trade. We'll confirm before quoting.",
+    timingGroups: [
+      {
+        label: "Day 1 - Deep reset and prep",
+        items: [
+          "Arrival, scope check and before photos: 45 min",
+          "Kitchen visible deep reset: 2.5h",
+          "Bathroom reset, limescale and grout focus: 2.5h",
+          "Prep for touch-ups / selected repaint areas: 1.5h",
+          "Small fixes and first progress update: 1h",
+        ],
+      },
+      {
+        label: "Day 2 - Paint, carpets and details",
+        items: [
+          "Selected room repaint or 2-coat agreed areas: 3h",
+          "Woodwork refresh: skirting, frames and doors: 2h",
+          "Carpet extraction / floor reset in agreed areas: 2h",
+          "Window/frame detail and touch points: 1h",
+        ],
+      },
+      {
+        label: "Day 3 - Exterior, finishing and proof",
+        items: [
+          "Patio / driveway wash where suitable: 2h",
+          "External windows where accessible: 1h",
+          "Grout revival / silicone detail where suitable: 1.5h",
+          "Final presentation setup: 1.5h",
+          "Final check, after photos and client update: 1.5h",
+        ],
+      },
+    ],
+    timingTitle: "Typical 72h timing",
+    timingNote: "Timing varies by property size, condition, access, drying time, weather and selected upgrades.",
+    moveUpNote: "If the property is heavily used, larger than a standard home, needs multiple rooms painted, heavy repairs or specialist work, we'll recommend a custom quote instead of forcing it into 72h.",
   },
 ];
 
@@ -424,7 +480,7 @@ function ResetPackagesSection() {
           <div>
             <h3 className="text-lg font-extrabold text-[var(--cf-navy)]">Add extra impact where needed</h3>
             <p className="mt-2 max-w-3xl text-sm leading-6 text-[var(--cf-text-soft)]">
-              Choose only the target areas that add real value for the deadline.
+              Choose only the target areas that add real value for the deadline. Some 72h selected scope can include patio / driveway wash or accessible exterior detail, but larger exterior cleaning, specialist odour work and professional photography are quoted separately.
             </p>
           </div>
         </div>
