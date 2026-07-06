@@ -38,29 +38,35 @@
     "id": "48h-pro-flair-reset",
     "slug": "48h-pro-flair-reset",
     "name": "48h Pro Flair Reset",
-    "slogan": "For cleaning, touch-ups and small fixes",
+    "slogan": "Most popular visible reset",
     "startingPrice": 1195,
-    "description": "For properties that need more than a quick reset but still do not need a full renovation.",
-    "problem": "The property needs more than a clean, but not a full renovation.",
-    "solution": "Visible reset work plus targeted wall touch-ups, one-coat neutral refresh where suitable, small repairs and presentation detail.",
-    "result": "A stronger visual uplift for photos, viewings, letting, move-in or handover.",
+    "description": "A stronger visible reset for properties that need more than a quick clean, but do not need refurbishment.",
+    "problem": "The property needs a stronger visual uplift before viewings, sale photos, handover or moving day.",
+    "solution": "Visible reset work plus targeted deep reset areas, wall touch-ups, one-coat neutral refresh where suitable, small fixes and presentation detail.",
+    "result": "A stronger visual uplift with cleaning proof, after photos and clearer presentation before the deadline.",
     "includedServices": [
       "Everything in 24h Express Reset",
-      "Targeted wall touch-ups and one-coat neutral refresh where suitable",
+      "Kitchen and bathroom visible deep reset",
+      "Targeted carpet extraction in key areas",
+      "Targeted wall touch-ups",
       "Small scuff and mark coverage",
-      "Anti-mould treatment and protection where suitable",
+      "One-coat neutral refresh where suitable",
+      "Anti-mould treatment where suitable",
       "Window and frame detail",
-      "Staging and flair touches"
+      "Doors, handles, switches and high-touch points",
+      "Small fittings and minor fixes",
+      "Staging and flair touches",
+      "TDS-style cleaning proof"
     ],
     "microGuarantees": [
-      "Good for tired properties",
-      "Best when photos/viewings matter"
+      "Usually 16-20 hours on site",
+      "Most 2-bed homes: \u00a31,295-\u00a31,595 after photos"
     ],
     "image": "/images/generated/hero-living-room-reset.jpg",
     "visualLabel": "48h signature reset visual",
     "proofDetails": [
-      "Covers cleaning plus practical fixes",
-      "Clear quote before work starts"
+      "Paint scope agreed before work starts",
+      "Larger or heavier properties may need 72h or custom quote"
     ],
     "visible": true,
     "order": 2,

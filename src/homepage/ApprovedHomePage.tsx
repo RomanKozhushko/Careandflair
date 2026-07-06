@@ -164,7 +164,7 @@ const resetPackages = [
     priceNote: "Small flats. Standard homes usually \u00a3695-\u00a3895 after photos.",
     duration: "1 working day / usually 8-10 hours on site",
     bestFor: "Properties that are almost ready but need visible details fixed fast before viewings, move-in, handover or guests.",
-    description: "A fast visible reset for the areas people notice first. Ideal when the property does not need a full renovation, but tired details are making it feel unfinished.",
+    description: "A fast visible reset for the areas people notice first. Ideal when the property does not need building work, but tired details are making it feel unfinished.",
     cta: "Get 24h quote",
     href: "/quote?preset=24h-express-reset",
     featured: false,
@@ -201,28 +201,78 @@ const resetPackages = [
       "Final details and presentation check: 1h",
       "After photos and client update: 30 min",
     ],
+    timingTitle: "Typical 24h timing",
+    timingNote: "Timing varies by size, condition and access.",
   },
   {
     title: "48h Pro Flair Reset",
     badge: "Most popular",
     price: "From \u00a31,195",
-    duration: "2 working days / usually 2 days on site",
-    bestFor: "Landlords, sellers and move-in homes that need a stronger visual uplift.",
-    description: "For properties that need more than a quick reset but still do not need a full renovation.",
+    priceNote: "Small flats / light-to-medium reset. Most 2-bed homes: \u00a31,295-\u00a31,595 after photos.",
+    duration: "2 working days / usually 16-20 hours on site",
+    bestFor: "Landlords, sellers and move-in homes that need a stronger visual uplift before viewings, sale photos, handover or moving day.",
+    description: "A stronger visible reset for properties that need more than a quick clean, but do not need refurbishment.",
     cta: "Get 48h quote",
     href: "/quote?preset=48h-pro-flair-reset",
     featured: true,
     includes: [
       "Everything in 24h Express Reset",
-      "Targeted wall touch-ups and one-coat neutral refresh where suitable",
+      "Kitchen and bathroom visible deep reset",
+      "Targeted carpet extraction in key areas",
+      "Targeted wall touch-ups",
       "Small scuff and mark coverage",
-      "Anti-mould treatment and protection where suitable",
+      "One-coat neutral refresh where suitable",
+      "Anti-mould treatment where suitable",
       "Window and frame detail",
+      "Doors, handles, switches and high-touch points",
+      "Small fittings and minor fixes",
       "Staging and flair touches",
       "TDS-style cleaning proof",
-      "Stronger presentation finish",
       "Before/after photo proof",
     ],
+    notIncluded: [
+      "Full property repaint",
+      "Exact colour matching guarantee",
+      "Full room repaint in multiple rooms",
+      "Full silicone reseal of multiple bathrooms",
+      "Oven or fridge deep clean",
+      "Inside all cupboards",
+      "Heavy mould removal",
+      "Large rubbish clearance",
+      "Major repairs",
+      "Full garden clearance",
+      "Full carpet extraction for large houses",
+      "External windows at height",
+      "Patio / driveway wash",
+      "Professional photography",
+    ],
+    notIncludedNote: "Some work needs more time. We'll confirm before quoting.",
+    timingGroups: [
+      {
+        label: "Day 1",
+        items: [
+          "Arrival, scope check and before photos: 45 min",
+          "Kitchen visible deep reset: 2.5h",
+          "Bathroom reset and descaling: 2.5h",
+          "Wall marks, small fixes and touch-ups: 2.5h",
+          "Progress photos and client update: 30 min",
+        ],
+      },
+      {
+        label: "Day 2",
+        items: [
+          "Selected wall refresh / neutral touch-ups: 1.5h",
+          "Targeted carpet extraction and floor reset: 2h",
+          "Window, frame and final cleaning pass: 1.5h",
+          "Staging and flair touches: 1.5h",
+          "Final check and cleaning proof: 1h",
+          "After photos and client update: 45 min",
+        ],
+      },
+    ],
+    timingTitle: "Typical 48h timing",
+    timingNote: "Timing varies by property size, condition, access, drying time and selected upgrades.",
+    moveUpNote: "If the property is larger, heavily used or needs multiple rooms painted, we may recommend the 72h reset or a custom quote.",
   },
   {
     title: "72h Ultimate Reset",
@@ -315,7 +365,7 @@ function ResetPackagesSection() {
             {"notIncluded" in item && item.notIncluded?.length ? (
               <details className="mt-5 rounded-[16px] border border-[var(--cf-border)] bg-[var(--cf-ivory)] p-4 text-sm text-[var(--cf-text-soft)]">
                 <summary className="cursor-pointer font-extrabold text-[var(--cf-navy)]">Not included unless quoted separately</summary>
-                <p className="mt-2 leading-6">Some work needs more time. We&apos;ll tell you before quoting.</p>
+                <p className="mt-2 leading-6">{"notIncludedNote" in item && item.notIncludedNote ? item.notIncludedNote : "Some work needs more time. We'll tell you before quoting."}</p>
                 <ul className="mt-3 grid gap-1.5 leading-5 sm:grid-cols-2 lg:grid-cols-1">
                   {item.notIncluded.map((excluded) => (
                     <li key={excluded}>- {excluded}</li>
@@ -324,16 +374,36 @@ function ResetPackagesSection() {
               </details>
             ) : null}
 
-            {"timing" in item && item.timing?.length ? (
+            {("timing" in item && item.timing?.length) || ("timingGroups" in item && item.timingGroups?.length) ? (
               <details className="mt-3 rounded-[16px] border border-[var(--cf-gold-soft)] bg-white p-4 text-sm text-[var(--cf-text-soft)]">
-                <summary className="cursor-pointer font-extrabold text-[var(--cf-navy)]">Typical 24h timing</summary>
-                <ul className="mt-3 grid gap-1.5 leading-5">
-                  {item.timing.map((step) => (
-                    <li key={step}>- {step}</li>
-                  ))}
-                </ul>
-                <p className="mt-3 text-xs font-semibold text-[var(--cf-text-soft)]">Timing varies by size, condition and access.</p>
+                <summary className="cursor-pointer font-extrabold text-[var(--cf-navy)]">{"timingTitle" in item && item.timingTitle ? item.timingTitle : "Typical timing"}</summary>
+                {"timingGroups" in item && item.timingGroups?.length ? (
+                  <div className="mt-3 grid gap-3 leading-5">
+                    {item.timingGroups.map((group) => (
+                      <div key={group.label}>
+                        <p className="font-extrabold text-[var(--cf-navy)]">{group.label}</p>
+                        <ul className="mt-1 grid gap-1.5">
+                          {group.items.map((step) => (
+                            <li key={step}>- {step}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                ) : null}
+                {"timing" in item && item.timing?.length ? (
+                  <ul className="mt-3 grid gap-1.5 leading-5">
+                    {item.timing.map((step) => (
+                      <li key={step}>- {step}</li>
+                    ))}
+                  </ul>
+                ) : null}
+                <p className="mt-3 text-xs font-semibold text-[var(--cf-text-soft)]">{"timingNote" in item && item.timingNote ? item.timingNote : "Timing varies by size, condition and access."}</p>
               </details>
+            ) : null}
+
+            {"moveUpNote" in item && item.moveUpNote ? (
+              <p className="mt-4 rounded-[16px] border border-[var(--cf-border)] bg-white px-4 py-3 text-sm font-semibold leading-6 text-[var(--cf-text-soft)]">{item.moveUpNote}</p>
             ) : null}
 
             <Link href={item.href} className="mt-6 inline-flex h-12 w-full items-center justify-center rounded-[14px] bg-[var(--cf-cherry)] px-5 text-sm font-extrabold text-white shadow-[0_14px_30px_rgba(138,15,46,0.22)] transition hover:-translate-y-px hover:bg-[var(--cf-cherry-2)]">
@@ -346,7 +416,7 @@ function ResetPackagesSection() {
       <div className="mt-5 grid gap-3 rounded-[22px] border border-[var(--cf-border)] bg-[var(--cf-ivory-2)] p-5 text-sm leading-6 text-[var(--cf-text-soft)] shadow-[var(--cf-shadow-soft)] md:grid-cols-3">
         <p><span className="font-extrabold text-[var(--cf-navy)]">Paint work:</span> Paint work is scoped from photos or visit. Colour, rooms/areas and number of coats are agreed before work starts. Exact colour matching or full room repaint can be quoted separately.</p>
         <p><span className="font-extrabold text-[var(--cf-navy)]">Final price:</span> Final price depends on property size, condition, access, materials and selected upgrades. Send photos for a clear quote before work starts.</p>
-        <p><span className="font-extrabold text-[var(--cf-navy)]">Bigger jobs:</span> If the property is larger, heavily used or needs more than one working day, we may recommend the 48h reset or a custom quote.</p>
+        <p><span className="font-extrabold text-[var(--cf-navy)]">Bigger jobs:</span> If the property is larger, heavily used or needs multiple rooms painted, we may recommend the 72h reset or a custom quote.</p>
       </div>
 
       <div className="mt-5 rounded-[24px] border border-[var(--cf-border)] bg-[var(--cf-cream-card)] p-5 shadow-[var(--cf-shadow-soft)]">
