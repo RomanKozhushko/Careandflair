@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import { BeforeAfterSlider } from "@/before-after/BeforeAfterSlider";
 import { Header } from "@/layout/Header";
 import { Footer } from "@/layout/Footer";
 import { createContentHelpers } from "@/lib/content";
@@ -18,7 +18,7 @@ export const metadata = pageMetadata({
 export default async function BeforeAfterPage() {
   const content = await getPublicContentBundle();
   const { beforeAfterItems, visibleSorted } = createContentHelpers(content);
-  const items = visibleSorted(beforeAfterItems).filter((item) => item.beforeImage || item.afterImage);
+  const items = visibleSorted(beforeAfterItems).filter((item) => item.beforeImage && item.afterImage);
 
   return (
     <div className="min-h-screen bg-[var(--cf-ivory)] text-[var(--cf-text)]">
@@ -42,16 +42,7 @@ export default async function BeforeAfterPage() {
         <section className="mx-auto grid max-w-[1280px] gap-6 px-4 pb-12 sm:px-6 lg:grid-cols-2 lg:px-8">
           {items.map((item) => (
             <article key={item.id} className="overflow-hidden rounded-[26px] border border-[var(--cf-border)] bg-[var(--cf-cream-card)] shadow-[var(--cf-shadow-soft)]">
-              <div className="grid min-h-[320px] grid-cols-2 bg-[var(--cf-warm-card)]">
-                <div className="relative min-h-[320px]">
-                  <Image src={item.beforeImage || item.image || "/images/generated/bathroom-before.jpg"} alt={item.beforeAlt || `${item.title} before`} fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover" />
-                  <span className="absolute left-4 top-4 rounded-full bg-white/92 px-3 py-1 text-xs font-extrabold uppercase text-[var(--cf-navy)]">Before</span>
-                </div>
-                <div className="relative min-h-[320px]">
-                  <Image src={item.afterImage || item.image || "/images/generated/bathroom-after.jpg"} alt={item.afterAlt || `${item.title} after`} fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover" />
-                  <span className="absolute right-4 top-4 rounded-full bg-[var(--cf-navy)] px-3 py-1 text-xs font-extrabold uppercase text-white">After</span>
-                </div>
-              </div>
+              <BeforeAfterSlider item={item} className="rounded-none border-0 shadow-none" />
               <div className="p-6">
                 <p className="text-xs font-extrabold uppercase tracking-[0.08em] text-[var(--cf-gold)]">{item.location} / {item.category}</p>
                 <h2 className="mt-3 text-2xl font-extrabold text-[var(--cf-navy)]">{item.title}</h2>
