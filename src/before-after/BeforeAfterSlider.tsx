@@ -43,8 +43,6 @@ export function BeforeAfterSlider({ item, className = "" }: BeforeAfterSliderPro
     <div
       ref={frameRef}
       className={`group relative aspect-[4/3] min-h-72 select-none overflow-hidden rounded-[1.75rem] border border-[rgba(255,255,255,0.72)] bg-[var(--cf-line)] shadow-[0_30px_80px_rgba(16,32,28,0.22)] touch-none ${className}`}
-      onPointerDown={startDrag}
-      onPointerMove={(event) => event.buttons === 1 && updateFromPointer(event)}
     >
       <div className="absolute inset-0 overflow-hidden">
         <SliderLayer
@@ -77,6 +75,14 @@ export function BeforeAfterSlider({ item, className = "" }: BeforeAfterSliderPro
           <span className="text-lg font-bold leading-none">↔</span>
         </div>
       </div>
+
+      <div
+        className="absolute inset-y-0 z-30 -translate-x-1/2 cursor-ew-resize"
+        style={{ left: `${position}%`, width: "20%" }}
+        onPointerDown={startDrag}
+        onPointerMove={(event) => event.buttons === 1 && updateFromPointer(event)}
+        aria-hidden="true"
+      />
     </div>
   );
 }
