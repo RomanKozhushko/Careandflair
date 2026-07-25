@@ -67,12 +67,12 @@ export function BeforeAfterSlider({ item, className = "" }: BeforeAfterSliderPro
       <div className="pointer-events-none absolute bottom-4 left-4 rounded-full bg-[var(--cf-mint)] px-3 py-1 text-xs font-semibold text-[var(--cf-deep-green)] shadow-sm transition group-hover:bg-[var(--cf-lime)]">Drag to compare</div>
 
       <div
-        className="pointer-events-none absolute inset-y-0 w-1.5 -translate-x-1/2 bg-white shadow-[0_0_0_1px_rgba(8,47,40,0.12),0_0_26px_rgba(184,242,74,0.62)]"
+        className="pointer-events-none absolute inset-y-0 w-1 -translate-x-1/2 bg-white shadow-[0_0_0_1px_rgba(8,27,45,0.14)]"
         style={{ left: `${position}%` }}
         aria-hidden="true"
       >
-        <div className="cta-glow absolute left-1/2 top-1/2 grid h-14 w-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-white bg-[var(--cf-lime)] text-[var(--cf-deep-green)] shadow-md transition sm:shadow-xl sm:group-hover:scale-105">
-          <span className="text-lg font-bold leading-none">↔</span>
+        <div className="absolute left-1/2 top-1/2 grid h-14 w-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-white bg-[var(--cf-cream-card)] text-lg font-black text-[var(--cf-cherry)] shadow-[var(--cf-shadow-soft)] transition group-hover:scale-105">
+          <span aria-hidden="true">||</span>
         </div>
       </div>
 
