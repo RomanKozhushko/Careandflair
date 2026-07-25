@@ -5,13 +5,7 @@ export function Header({ content }: { content?: ContentBundle }) {
   const { siteSettings } = createContentHelpers(content);
   const whatsappMessage = "Hi Care & Flair, I'd like a quote. I can send photos of the property and tell you the deadline.";
   const whatsappHref = `https://wa.me/${siteSettings.phone.replace(/\D/g, "")}?text=${encodeURIComponent(whatsappMessage)}`;
-  const navItems = [
-    { label: "Services", href: "/#solutions" },
-    { label: "How it works", href: "/#how-it-works" },
-    { label: "Before & after", href: "/#before-after" },
-    { label: "Areas", href: "/#areas" },
-    { label: "About", href: "/#areas" },
-  ];
+  const navItems = siteSettings.navigation;
 
   return (
     <header className="mobile-no-backdrop sticky top-0 z-50 border-b border-[var(--cf-border)] bg-[var(--cf-ivory-2)]/96 text-[var(--cf-navy)] shadow-sm shadow-[rgba(8,27,45,0.06)] sm:backdrop-blur-xl">

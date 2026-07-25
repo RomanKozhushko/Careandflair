@@ -2,10 +2,35 @@ import Image from "next/image";
 import Link from "next/link";
 import type { BeforeAfterItem } from "@/lib/types";
 import { createContentHelpers, type ContentBundle } from "@/lib/content";
+import { FAQSection } from "@/homepage/FAQSection";
+import { GuardianPlansSection } from "@/homepage/GuardianPlansSection";
 import { HeroBeforeAfterSlider } from "@/homepage/HeroBeforeAfterSlider";
 import { HomepageTransformationCarousel } from "@/homepage/HomepageTransformationCarousel";
 
 const whatsappMessage = "Hi Care & Flair, I'd like a quote. I can send photos of the property and tell you the deadline.";
+
+const heroProofItem: BeforeAfterItem = {
+  id: "hero-anti-mould-proof",
+  title: "Bathroom Mould Reset",
+  slug: "bathroom-mould-reset",
+  category: "Bathroom",
+  serviceType: "Anti-mould treatment, silicone detail and bathroom reset",
+  propertyType: "Rental bathroom",
+  location: "Bromley, South East London & Kent",
+  beforeImage: "/images/generated/anti-mould-before.jpg",
+  afterImage: "/images/generated/anti-mould-after.jpg",
+  beforeAlt: "Bathroom wet area before Care & Flair anti-mould reset",
+  afterAlt: "Bathroom wet area after Care & Flair anti-mould reset",
+  problem: "Visible mould and tired wet areas make a property feel neglected.",
+  solution: "Targeted clean-up, treatment where suitable and presentation reset.",
+  result: "A cleaner bathroom that feels easier to show, hand over or move into.",
+  featured: true,
+  visible: true,
+  showOnHomepage: true,
+  order: 0,
+  ctaLabel: "Get a quote for this",
+  ctaPreset: "anti-mould-shield",
+};
 
 function whatsappHref(phone: string) {
   return `https://wa.me/${phone.replace(/\D/g, "")}?text=${encodeURIComponent(whatsappMessage)}`;
@@ -67,7 +92,7 @@ function TrustFeatureRow() {
     ["24-72h reset options", "Fast turnaround available", "clock"],
     ["Clear quote before work", "No surprises", "doc"],
     ["Photo proof after", "See what was done", "photo"],
-    ["Local & reliable", "South West London & Kent", "pin"],
+    ["Local & reliable", "Bromley, South East London & Kent", "pin"],
   ];
 
   return (
@@ -98,10 +123,10 @@ function HeroApproved({ content, strongestItem }: { content: ContentBundle; stro
         <div className="px-1 py-5 md:px-3 lg:py-10">
           <SectionLabel>Property reset services</SectionLabel>
           <h1 className="mt-5 max-w-[620px] font-serif text-[clamp(42px,5vw,72px)] font-semibold leading-[1.02] tracking-[-0.035em] text-[var(--cf-navy)]">
-            We fix what people <em className="font-serif italic text-[var(--cf-gold)]">notice</em> first.
+            Property resets in 24-72h for homes that need to feel <em className="font-serif italic text-[var(--cf-gold)]">ready</em>.
           </h1>
           <p className="mt-6 max-w-[540px] text-[17px] leading-[1.6] text-[var(--cf-text-soft)] sm:text-[18px]">
-            We handle the visible problems that stop a property feeling ready. Not renovation. A practical reset that makes a home move-in, viewing or guest ready.
+            Cleaning, small repairs, touch-ups and presentation work for landlords, agents, sellers, new homeowners and hosts across Bromley, South East London, Kent, Medway and Rochester.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <WhatsAppButton href={wa} className="w-full sm:w-auto">Send photos on WhatsApp</WhatsAppButton>
@@ -117,7 +142,7 @@ function HeroApproved({ content, strongestItem }: { content: ContentBundle; stro
         <div className="relative min-h-[360px] lg:h-[480px]">
           <HeroBeforeAfterSlider item={strongestItem} heroImage={hero.heroImage} priority />
           <div className="absolute left-5 top-5 rounded-full border border-[var(--cf-border)] bg-white/92 px-4 py-2 text-sm font-extrabold text-[var(--cf-navy)] shadow-sm">
-            South West London & Kent
+            Bromley, South East London & Kent
           </div>
         </div>
       </div>
@@ -552,7 +577,7 @@ function HowItWorksApproved({ phone }: { phone: string }) {
 }
 
 function TrustAreasRow() {
-  const areas = ["Wimbledon", "Putney", "Clapham", "Battersea", "Balham", "Beckenham", "Orpington", "Dartford", "Maidstone", "Sevenoaks", "...and more"];
+  const areas = ["Bromley", "Beckenham", "Orpington", "Chislehurst", "South East London", "Dartford", "Rochester", "Medway", "Maidstone", "Sevenoaks", "...and more"];
 
   return (
     <section id="areas" className="mx-auto grid max-w-[1280px] gap-5 px-4 py-8 sm:px-6 lg:grid-cols-3 lg:px-8">
@@ -567,11 +592,11 @@ function TrustAreasRow() {
         <blockquote className="mt-5 text-[20px] font-semibold leading-8 text-[var(--cf-navy)]">
           &quot;The difference was unreal. The little details we didn&apos;t have time for - they handled everything. Place looked perfect for photos.&quot;
         </blockquote>
-        <p className="mt-5 text-sm font-extrabold text-[var(--cf-text-soft)]">Sarah, Landlord in Wimbledon</p>
+        <p className="mt-5 text-sm font-extrabold text-[var(--cf-text-soft)]">Sarah, Landlord in Bromley</p>
       </article>
       <article className="relative overflow-hidden rounded-[24px] border border-[var(--cf-border)] bg-[var(--cf-cream-card)] p-6 shadow-[var(--cf-shadow-soft)]">
         <SectionLabel>Areas we cover</SectionLabel>
-        <h2 className="mt-4 font-serif text-[32px] font-semibold leading-tight text-[var(--cf-navy)]">South West London & Kent</h2>
+        <h2 className="mt-4 font-serif text-[32px] font-semibold leading-tight text-[var(--cf-navy)]">Bromley, South East London & Kent</h2>
         <div className="mt-5 flex flex-wrap gap-2">
           {areas.map((area) => (
             <span key={area} className="rounded-full border border-[var(--cf-border)] bg-white px-3 py-2 text-sm font-bold text-[var(--cf-navy)]">{area}</span>
@@ -603,20 +628,20 @@ function FinalCta({ phone, image }: { phone: string; image?: string }) {
 }
 
 export function ApprovedHomePage({ content }: { content: ContentBundle }) {
-  const { beforeAfterItems, findSection, homepageTransformations, siteSettings, visibleSorted } = createContentHelpers(content);
-  const items = visibleSorted(beforeAfterItems).filter((item) => item.showOnHomepage);
-  const strongestItem = items.find((item) => item.featured && item.beforeImage && item.afterImage) ?? items.find((item) => item.beforeImage && item.afterImage) ?? items[0];
+  const { findSection, homepageTransformations, siteSettings } = createContentHelpers(content);
   const hero = findSection("hero");
 
   return (
     <>
-      <HeroApproved content={content} strongestItem={strongestItem} />
+      <HeroApproved content={content} strongestItem={heroProofItem} />
       <TrustFeatureRow />
       <HomepageTransformationCarousel content={homepageTransformations} />
       <ResetPackagesSection />
       <WhatWeReset />
       <HowItWorksApproved phone={siteSettings.phone} />
+      <GuardianPlansSection content={content} />
       <TrustAreasRow />
+      <FAQSection content={content} />
       <FinalCta phone={siteSettings.phone} image={hero.heroImage} />
     </>
   );

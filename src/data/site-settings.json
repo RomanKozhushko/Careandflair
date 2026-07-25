@@ -6,25 +6,29 @@
   "phone": "+44 7445 897204",
   "website": "careandflair.life",
   "email": "hello@careandflair.life",
-  "brandLine": "For landlords, agents, new homeowners and local hosts across Bromley, Rochester, Medway and Kent.",
-  "coreMessage": "Care & Flair helps landlords, agents, new homeowners and hosts get properties cleaned, repaired and ready for viewings, move-ins, sale photos or Airbnb launch/recovery across Bromley, Rochester, Medway and Kent.",
-  "serviceAreaSummary": "Bromley, Rochester, Medway and Kent",
+  "brandLine": "For landlords, agents, new homeowners and local hosts across Bromley, South East London, Kent, Medway and Rochester.",
+  "coreMessage": "Care & Flair helps landlords, agents, new homeowners and hosts get properties cleaned, repaired and ready for viewings, move-ins, sale photos or Airbnb launch/recovery across Bromley, South East London, Kent, Medway and Rochester.",
+  "serviceAreaSummary": "Bromley, South East London, Kent, Medway and Rochester",
   "parallax": {
     "parallaxEnabled": true,
     "parallaxIntensity": "subtle",
     "disableOnMobile": true
   },
   "navigation": [
-    { "label": "Services", "href": "/#solutions" },
-    { "label": "Packages", "href": "/#packages" },
-    { "label": "Before/After", "href": "/#before-after" },
-    { "label": "Areas", "href": "/#areas" },
+    { "label": "Services", "href": "/services" },
+    { "label": "Packages", "href": "/reset-packages" },
+    { "label": "Before/After", "href": "/before-after" },
+    { "label": "Areas", "href": "/areas" },
+    { "label": "About", "href": "/about" },
     { "label": "FAQ", "href": "/#faq" }
   ],
   "footerLinks": [
-    { "label": "Reset Packages", "href": "/#packages" },
-    { "label": "What We Fix", "href": "/#solutions" },
-    { "label": "Before & After", "href": "/#before-after" },
+    { "label": "Services", "href": "/services" },
+    { "label": "Reset Packages", "href": "/reset-packages" },
+    { "label": "Guardian Plans", "href": "/guardian-plans" },
+    { "label": "Areas Served", "href": "/areas" },
+    { "label": "Before & After", "href": "/before-after" },
+    { "label": "Contact", "href": "/contact" },
     { "label": "Get Quote", "href": "/quote" }
   ]
 }

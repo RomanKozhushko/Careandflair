@@ -14,12 +14,13 @@ type SliderLayerProps = {
   src?: string;
   alt: string;
   label: string;
+  className?: string;
 };
 
-function SliderLayer({ src, alt, label }: SliderLayerProps) {
+function SliderLayer({ src, alt, label, className = "" }: SliderLayerProps) {
   if (!src) return <BrandedPlaceholder label={label} />;
 
-  return <Image src={src} alt={alt} fill quality={72} className="object-cover" sizes="(min-width: 1024px) 50vw, 100vw" />;
+  return <Image src={src} alt={alt} fill quality={72} className={`object-cover ${className}`} sizes="(min-width: 1024px) 50vw, 100vw" />;
 }
 
 export function BeforeAfterSlider({ item, className = "" }: BeforeAfterSliderProps) {
@@ -50,14 +51,16 @@ export function BeforeAfterSlider({ item, className = "" }: BeforeAfterSliderPro
           src={item.beforeImage}
           alt={item.beforeAlt ?? `${item.title} before`}
           label={`${item.title} before`}
+          className="object-left"
         />
       </div>
 
-      <div className="absolute inset-0 overflow-hidden" style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}>
+      <div className="absolute inset-0 overflow-hidden" style={{ clipPath: `inset(0 0 0 ${position}%)` }}>
         <SliderLayer
           src={item.afterImage}
           alt={item.afterAlt ?? `${item.title} after`}
           label={`${item.title} after`}
+          className="object-right"
         />
       </div>
 

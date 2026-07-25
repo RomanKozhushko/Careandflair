@@ -47,10 +47,10 @@ export function HeroBeforeAfterSlider({ item, heroImage, priority = false }: { i
       aria-label="Hero before and after comparison"
     >
       <div className="absolute inset-0">
-        <SliderImage src={before} alt={item?.beforeAlt ?? "Property before reset"} priority={priority} className="saturate-[0.82]" />
+        <SliderImage src={before} alt={item?.beforeAlt ?? "Property before reset"} priority={priority} className="object-left saturate-[0.82]" />
       </div>
-      <div className="absolute inset-0 overflow-hidden" style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}>
-        <SliderImage src={after} alt={item?.afterAlt ?? "Property after reset"} priority={priority} className="transition duration-500 group-hover:scale-[1.015]" />
+      <div className="absolute inset-0 overflow-hidden" style={{ clipPath: `inset(0 0 0 ${position}%)` }}>
+        <SliderImage src={after} alt={item?.afterAlt ?? "Property after reset"} priority={priority} className="object-right transition duration-500 group-hover:scale-[1.015]" />
       </div>
 
       <div className="pointer-events-none absolute left-4 top-4 rounded-full bg-white/92 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.08em] text-[var(--cf-navy)] shadow-sm">Before</div>

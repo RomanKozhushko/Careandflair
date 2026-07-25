@@ -3,9 +3,16 @@ import { Footer } from "@/layout/Footer";
 import { Header } from "@/layout/Header";
 import { createContentHelpers } from "@/lib/content";
 import { getPublicContentBundle } from "@/lib/siteContent";
+import { faqJsonLd, pageMetadata } from "@/lib/seo";
 import Link from "next/link";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
+
+export const metadata = pageMetadata({
+  title: "Care & Flair | 24-72h Property Resets in Bromley, Kent & Medway",
+  description:
+    "Cleaning, minor repairs and presentation resets for landlords, agents, homeowners and hosts across Bromley, South East London, Kent, Medway and Rochester.",
+});
 
 export default async function Home() {
   const content = await getPublicContentBundle();
@@ -16,6 +23,11 @@ export default async function Home() {
   return (
     <div className="min-h-screen overflow-x-clip bg-[var(--cf-ivory)] pb-16 text-[var(--cf-text)] sm:pb-0">
       <Header content={content} />
+      <script
+        type="application/ld+json"
+        suppressHydrationWarning
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd(content.faqs.filter((item) => item.visible))) }}
+      />
       <main>
         <ApprovedHomePage content={content} />
       </main>

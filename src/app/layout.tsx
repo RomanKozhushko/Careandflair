@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { AnalyticsEvents } from "@/components/AnalyticsEvents";
+import { absoluteUrl, businessName, localBusinessJsonLd, pageMetadata } from "@/lib/seo";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,14 +15,31 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CARE & FLAIR | Property Turnover & Maintenance Specialist",
-  description: "Property resets for landlords, agents, new homeowners, sellers and hosts across Bromley, Rochester, Medway and Kent.",
+  metadataBase: new URL(absoluteUrl("/")),
+  ...pageMetadata({
+    title: "Care & Flair | Property Reset, Cleaning & Maintenance in Bromley",
+    description:
+      "24-72h property resets, cleaning and minor maintenance for landlords, agents, homeowners and hosts across Bromley, South East London, Kent, Medway and Rochester.",
+  }),
+  applicationName: businessName,
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full scroll-smooth antialiased`}>
-      <body className="min-h-full bg-[#f5ecdc] font-sans text-[#14241F]">{children}</body>
+      <body className="min-h-full bg-[#f5ecdc] font-sans text-[#14241F]">
+        <script
+          type="application/ld+json"
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessJsonLd()) }}
+        />
+        <AnalyticsEvents />
+        {children}
+      </body>
     </html>
   );
 }
