@@ -1,7 +1,7 @@
-import optionalUpgradesData from "@/data/optional-upgrades.json";
 import { MatchingTransformationPreview } from "@/components/interactive/MatchingTransformationPreview";
 import { PriorityFixList } from "@/components/interactive/PriorityFixList";
 import { ViewingKillerDetector } from "@/components/interactive/ViewingKillerDetector";
+import type { ContentBundle } from "@/lib/content";
 import type { AudienceMode, ScoreResult } from "@/lib/scoreEngine";
 import type { OptionalUpgrade } from "@/lib/types";
 
@@ -19,15 +19,14 @@ type ResetDiagnosisReportProps = {
   previewLabel: string;
   fallbackTitle: string;
   fallbackText: string;
+  content: ContentBundle;
   mode: AudienceMode;
   result: ScoreResult;
 };
 
-const upgrades = optionalUpgradesData as OptionalUpgrade[];
-
-export function ResetDiagnosisReport({ title, subtitle, emptyState, modeLabel, problemLabel, pathLabel, viewingKillerLabel, priorityLabel, upgradesLabel, whyLabel, previewLabel, fallbackTitle, fallbackText, mode, result }: ResetDiagnosisReportProps) {
+export function ResetDiagnosisReport({ title, subtitle, emptyState, modeLabel, problemLabel, pathLabel, viewingKillerLabel, priorityLabel, upgradesLabel, whyLabel, previewLabel, fallbackTitle, fallbackText, content, mode, result }: ResetDiagnosisReportProps) {
   const hasProblems = result.selectedProblems.length > 0;
-  const suggestedUpgrades = result.suggestedUpgradeIds.map((id) => upgrades.find((upgrade) => upgrade.id === id)).filter((item): item is OptionalUpgrade => Boolean(item));
+  const suggestedUpgrades = result.suggestedUpgradeIds.map((id) => content.optionalUpgrades.find((upgrade) => upgrade.id === id)).filter((item): item is OptionalUpgrade => Boolean(item));
 
   return (
     <div className="rounded-[2rem] border border-[#E6D6BD] bg-white p-5 shadow-sm sm:p-6">
@@ -79,7 +78,7 @@ export function ResetDiagnosisReport({ title, subtitle, emptyState, modeLabel, p
       </div>
 
       <div className="mt-5">
-        <MatchingTransformationPreview label={previewLabel} result={result} fallbackTitle={fallbackTitle} fallbackText={fallbackText} />
+        <MatchingTransformationPreview label={previewLabel} result={result} fallbackTitle={fallbackTitle} fallbackText={fallbackText} content={content} />
       </div>
     </div>
   );

@@ -186,6 +186,88 @@ export type PropertyType = Visibility & { id: string; categoryId: string; name: 
 export type OptionalUpgrade = Visibility & { id: string; title: string; description?: string; basePrice: number };
 export type PricingMatrixRow = { packageId: string; propertyCategoryId: string; propertyTypeId: string; fromPrice: number };
 
+export type AudienceMode = Visibility & {
+  id: string;
+  label: string;
+  shortLabel: string;
+  description: string;
+  priorityProblems: string[];
+  ctaLabel: string;
+};
+
+export type RiskCategory =
+  | "bathroom-trust"
+  | "odour-smell"
+  | "photo-readiness"
+  | "curb-appeal"
+  | "hygiene-confidence"
+  | "tenant-damage-impression"
+  | "guest-readiness-risk";
+
+export type ProblemCategory = Visibility & {
+  id: string;
+  label: string;
+  description: string;
+  weight: number;
+  severity: "light" | "moderate" | "heavy";
+  tags: string[];
+  riskCategory: RiskCategory;
+  riskLabel: string;
+  riskExplanation: string;
+  recommendedAction: string;
+  recommendedPackage: string;
+  recommendedUpgrades: string[];
+  quotePreset: string;
+  matchingBeforeAfterCategory: string;
+};
+
+export type ReadinessBand = {
+  id: string;
+  min: number;
+  max: number;
+  label: string;
+  tone: "good" | "watch" | "urgent" | "critical";
+  summary: string;
+  preset: string;
+  recommendation: string;
+};
+
+export type ReadinessScoresConfig = {
+  baseScore: number;
+  audiencePenaltyBoost: number;
+  bands: ReadinessBand[];
+  rules: {
+    heavyProblemCountForUltimate: number;
+    totalProblemsForUltimate: number;
+    totalProblemsForPro: number;
+  };
+};
+
+export type BeforeAfterMatch = {
+  problemId: string;
+  matchingBeforeAfterCategory: string;
+  matchingServiceType: string;
+  fallbackCaseSlug: string;
+  fallbackTitle: string;
+  fallbackProblem: string;
+  fallbackSolution: string;
+  fallbackResult: string;
+  quoteParamType: "preset" | "upgrade";
+  quoteParamValue: string;
+};
+
+export type InteractiveToolsConfig = {
+  conversionCore: {
+    visible: boolean;
+    commonReasons?: string[];
+    steps: Record<string, string>;
+    problemPicker: Record<string, string>;
+    score: Record<string, string>;
+    report: Record<string, string>;
+    cta: Record<string, string>;
+  };
+};
+
 export type QuoteBuilderConfig = {
   steps: string[];
   estimateLabel: string;

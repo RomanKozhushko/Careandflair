@@ -1,34 +1,18 @@
 import Link from "next/link";
-import beforeAfterData from "@/data/before-after.json";
-import beforeAfterMatchesData from "@/data/before-after-matches.json";
+import type { ContentBundle } from "@/lib/content";
 import type { ScoreResult } from "@/lib/scoreEngine";
-import type { BeforeAfterItem } from "@/lib/types";
+import type { BeforeAfterItem, BeforeAfterMatch } from "@/lib/types";
 import { VisualMedia } from "@/ui/VisualMedia";
-
-type BeforeAfterMatch = {
-  problemId: string;
-  matchingBeforeAfterCategory: string;
-  matchingServiceType: string;
-  fallbackCaseSlug: string;
-  fallbackTitle: string;
-  fallbackProblem: string;
-  fallbackSolution: string;
-  fallbackResult: string;
-  quoteParamType: "preset" | "upgrade";
-  quoteParamValue: string;
-};
 
 type MatchingTransformationPreviewProps = {
   label: string;
   result: ScoreResult;
   fallbackTitle: string;
   fallbackText: string;
+  content: ContentBundle;
 };
 
-const matches = beforeAfterMatchesData as BeforeAfterMatch[];
-const cases = beforeAfterData as BeforeAfterItem[];
-
-function getFeaturedDefaultCase() {
+function getFeaturedDefaultCase(cases: BeforeAfterItem[]) {
   return cases.find((item) => item.visible && item.featured) ?? cases.find((item) => item.visible);
 }
 
@@ -36,14 +20,14 @@ function getPrimaryProblemId(result: ScoreResult) {
   return result.viewingKiller.sourceProblem?.id ?? result.priorityFixes[0]?.id ?? result.selectedProblems[0]?.id;
 }
 
-function getMatch(result: ScoreResult) {
+function getMatch(result: ScoreResult, matches: BeforeAfterMatch[]) {
   const primaryProblemId = getPrimaryProblemId(result);
   return matches.find((item) => item.problemId === primaryProblemId);
 }
 
-function getCase(match?: BeforeAfterMatch) {
+function getCase(cases: BeforeAfterItem[], match?: BeforeAfterMatch) {
   const matchedCase = match?.fallbackCaseSlug ? cases.find((item) => item.visible && item.slug === match.fallbackCaseSlug) : undefined;
-  return matchedCase ?? getFeaturedDefaultCase();
+  return matchedCase ?? getFeaturedDefaultCase(cases);
 }
 
 function getQuoteHref(match: BeforeAfterMatch | undefined, item: BeforeAfterItem | undefined) {
@@ -52,9 +36,9 @@ function getQuoteHref(match: BeforeAfterMatch | undefined, item: BeforeAfterItem
   return "/quote";
 }
 
-export function MatchingTransformationPreview({ label, result, fallbackTitle, fallbackText }: MatchingTransformationPreviewProps) {
-  const match = getMatch(result);
-  const item = getCase(match);
+export function MatchingTransformationPreview({ label, result, fallbackTitle, fallbackText, content }: MatchingTransformationPreviewProps) {
+  const match = getMatch(result, content.beforeAfterMatches);
+  const item = getCase(content.beforeAfterItems, match);
   if (!item) return null;
 
   const title = match?.fallbackTitle ?? item.title ?? fallbackTitle;

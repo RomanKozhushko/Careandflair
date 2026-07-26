@@ -1,23 +1,31 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import interactiveToolsData from "@/data/interactive-tools.json";
 import { InteractiveCTA } from "@/components/interactive/InteractiveCTA";
 import { MarketReadyScore } from "@/components/interactive/MarketReadyScore";
 import { ModeSwitch } from "@/components/interactive/ModeSwitch";
 import { ProblemPicker } from "@/components/interactive/ProblemPicker";
 import { ResetReportSummary } from "@/components/interactive/ResetReportSummary";
 import { buildQuotePrefillUrl } from "@/lib/quotePrefill";
-import { audienceModes, calculateMarketReadyScore, getAudienceMode, problemCategories } from "@/lib/scoreEngine";
+import { createScoreEngine } from "@/lib/scoreEngine";
+import type { ContentBundle } from "@/lib/content";
 
-const config = interactiveToolsData.conversionCore;
-
-export function InteractiveConversionCore() {
-  const [modeId, setModeId] = useState(audienceModes[0]?.id ?? "landlord");
+export function InteractiveConversionCore({ content }: { content: ContentBundle }) {
+  const config = content.interactiveTools.conversionCore;
+  const scoreEngine = useMemo(
+    () =>
+      createScoreEngine({
+        modes: content.audienceModes,
+        problems: content.problemCategories,
+        config: content.readinessScores,
+      }),
+    [content.audienceModes, content.problemCategories, content.readinessScores],
+  );
+  const [modeId, setModeId] = useState(scoreEngine.audienceModes[0]?.id ?? "landlord");
   const [selectedProblems, setSelectedProblems] = useState<string[]>([]);
 
-  const mode = getAudienceMode(modeId);
-  const scoreResult = useMemo(() => calculateMarketReadyScore(modeId, selectedProblems), [modeId, selectedProblems]);
+  const mode = scoreEngine.getAudienceMode(modeId);
+  const scoreResult = useMemo(() => scoreEngine.calculateMarketReadyScore(modeId, selectedProblems), [modeId, scoreEngine, selectedProblems]);
   const quoteHref = buildQuotePrefillUrl({ modeId, problemIds: selectedProblems, scoreResult });
 
   function toggleProblem(id: string) {
@@ -54,13 +62,13 @@ export function InteractiveConversionCore() {
         </div>
 
         <div className="mt-10 grid gap-5">
-          <ModeSwitch title={config.steps.mode} modes={audienceModes} selectedId={modeId} onSelect={setModeId} />
+          <ModeSwitch title={config.steps.mode} modes={scoreEngine.audienceModes} selectedId={modeId} onSelect={setModeId} />
           <ProblemPicker
             title={config.problemPicker.title}
             subtitle={config.problemPicker.subtitle}
             summaryLabel={config.problemPicker.selectedSummary}
             emptySummary={config.problemPicker.emptySummary}
-            problems={problemCategories}
+            problems={scoreEngine.problemCategories}
             selectedIds={selectedProblems}
             onToggle={toggleProblem}
           />
@@ -81,6 +89,7 @@ export function InteractiveConversionCore() {
               previewLabel={config.report.previewLabel}
               fallbackTitle={config.report.fallbackTitle}
               fallbackText={config.report.fallbackText}
+              content={content}
               mode={mode}
               result={scoreResult}
             />

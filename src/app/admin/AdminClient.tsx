@@ -75,17 +75,10 @@ const resourceHelp: Partial<Record<AdminResourceKey, string>> = {
 const sidebarLinks: { label: string; href: string }[] = [
   { label: "Dashboard", href: "#dashboard" },
   { label: "Quote Requests", href: "#quote-requests" },
-  { label: "Site Settings", href: "#content-editor" },
-  { label: "Homepage", href: "#content-editor" },
-  { label: "Transformations", href: "#content-editor" },
-  { label: "Packages", href: "#content-editor" },
-  { label: "Services", href: "#content-editor" },
-  { label: "Upgrades", href: "#content-editor" },
-  { label: "Quote Builder", href: "#content-editor" },
-  { label: "Before / After", href: "#content-editor" },
-  { label: "FAQ", href: "#content-editor" },
-  { label: "Areas", href: "#content-editor" },
+  { label: "Content Editor", href: "#content-editor" },
 ];
+
+const resourceGroups = Array.from(new Set(adminResources.map((resource) => resource.group)));
 
 function itemTitle(item: JsonRecord, index: number): string {
   const title = item.name ?? item.title ?? item.headline ?? item.question ?? item.id;
@@ -247,6 +240,14 @@ function countItems(data: ResourceData) {
   return Object.values(data).reduce((total, items) => total + items.length, 0);
 }
 
+function itemMatchesQuery(item: JsonRecord, index: number, query: string) {
+  const normalizedQuery = query.trim().toLowerCase();
+  if (!normalizedQuery) return true;
+  return `${itemTitle(item, index)} ${String(item.id ?? "")} ${String(item.slug ?? "")} ${String(item.category ?? "")}`
+    .toLowerCase()
+    .includes(normalizedQuery);
+}
+
 function hasSupabaseContentConfigured(states: ResourceStateData) {
   return Object.values(states).some((state) => state.configured);
 }
@@ -273,6 +274,8 @@ export default function AdminClient({
   const [testUploading, setTestUploading] = useState(false);
   const [testUploadMessage, setTestUploadMessage] = useState("");
   const [testUploadUrl, setTestUploadUrl] = useState("");
+  const [resourceQuery, setResourceQuery] = useState("");
+  const [itemQuery, setItemQuery] = useState("");
 
   const activeItems = useMemo(() => data[activeResource] ?? [], [activeResource, data]);
   const activeState = resourceStates[activeResource];
@@ -318,9 +321,29 @@ export default function AdminClient({
     return Array.from(targetMap.values());
   }, [draftItem, visibleImageFields]);
   const nestedFieldTargets = useMemo(() => {
-    if (activeResource !== "homepage-transformations") return [];
     return collectNestedEditableTargets(draftItem);
-  }, [activeResource, draftItem]);
+  }, [draftItem]);
+  const filteredItems = useMemo(
+    () => activeItems.map((item, index) => ({ item, index })).filter(({ item, index }) => itemMatchesQuery(item, index, itemQuery)),
+    [activeItems, itemQuery],
+  );
+  const groupedResources = useMemo(
+    () =>
+      resourceGroups.map((group) => ({
+        group,
+        resources: adminResources.filter((resource) => {
+          const query = resourceQuery.trim().toLowerCase();
+          if (!query) return resource.group === group;
+          return (
+            resource.group === group &&
+            `${resource.label} ${resource.key} ${resource.description}`
+              .toLowerCase()
+              .includes(query)
+          );
+        }),
+      })).filter((group) => group.resources.length > 0),
+    [resourceQuery],
+  );
   const visibleAltFields = useMemo(() => {
     const existing = altFields.filter((field) => draftItem && field in draftItem);
     const paired = visibleImageFields.map(altFieldFor);
@@ -346,6 +369,7 @@ export default function AdminClient({
     setActiveResource(resourceKey);
     setSelectedIndex(0);
     setDraft(formatItem(items, 0));
+    setItemQuery("");
     resetMessages();
   }
 
@@ -535,7 +559,7 @@ export default function AdminClient({
     setUploadMessages((current) => ({ ...current, [target.key]: "Removed from page. Click Save changes to publish it." }));
   }
 
-  async function request(method: "POST" | "PUT" | "DELETE", body: unknown) {
+  async function request(method: "POST" | "PUT" | "PATCH" | "DELETE", body: unknown) {
     setSaveState("saving");
     setError("");
     setNotice("");
@@ -598,6 +622,50 @@ export default function AdminClient({
     setSelectedIndex(activeItems.length);
     setDraft(JSON.stringify(nextItem, null, 2));
     resetMessages();
+  }
+
+  async function duplicateItem() {
+    if (isObjectResource || selectedIndex >= activeItems.length) return;
+    if (!confirmLeaveDirty()) return;
+
+    const sourceItem = activeItems[selectedIndex];
+    const suffix = `${Date.now()}`.slice(-5);
+    const clonedItem = structuredClone(sourceItem) as JsonRecord;
+
+    if (typeof clonedItem.id === "string") clonedItem.id = `${clonedItem.id}-copy-${suffix}`;
+    if (typeof clonedItem.slug === "string") clonedItem.slug = `${clonedItem.slug}-copy-${suffix}`;
+    if (typeof clonedItem.title === "string") clonedItem.title = `${clonedItem.title} copy`;
+    if (typeof clonedItem.name === "string") clonedItem.name = `${clonedItem.name} copy`;
+    if (typeof clonedItem.order === "number") clonedItem.order = clonedItem.order + 1;
+
+    try {
+      const items = await request("PATCH", { items: [...activeItems.slice(0, selectedIndex + 1), clonedItem, ...activeItems.slice(selectedIndex + 1)] });
+      const nextIndex = Math.min(selectedIndex + 1, Math.max(items.length - 1, 0));
+      setSelectedIndex(nextIndex);
+      setDraft(formatItem(items, nextIndex));
+    } catch (caught) {
+      setSaveState("error");
+      setError(caught instanceof Error ? caught.message : "Duplicate failed");
+    }
+  }
+
+  async function moveItem(direction: -1 | 1) {
+    if (isObjectResource || isDirty || selectedIndex >= activeItems.length) return;
+    const targetIndex = selectedIndex + direction;
+    if (targetIndex < 0 || targetIndex >= activeItems.length) return;
+
+    const nextItems = [...activeItems];
+    const [movedItem] = nextItems.splice(selectedIndex, 1);
+    nextItems.splice(targetIndex, 0, movedItem);
+
+    try {
+      const items = await request("PATCH", { items: nextItems });
+      setSelectedIndex(targetIndex);
+      setDraft(formatItem(items, targetIndex));
+    } catch (caught) {
+      setSaveState("error");
+      setError(caught instanceof Error ? caught.message : "Reorder failed");
+    }
   }
 
   async function deleteItem() {
@@ -766,11 +834,16 @@ export default function AdminClient({
                 <p className="text-sm font-semibold text-[#746754]">Site content editor</p>
                 <h2 className="mt-2 text-3xl font-bold tracking-tight text-[#0a2a24]">{activeMeta.label}</h2>
                 <p className="mt-2 max-w-3xl text-sm leading-6 text-[#746754]">
-                  {resourceHelp[activeResource] ?? "Edit this resource as structured JSON. Keep field names unchanged unless you know the public component uses the new field."}
+                  {activeMeta.description || resourceHelp[activeResource] || "Edit this resource as structured JSON. Keep field names unchanged unless you know the public component uses the new field."}
                 </p>
               </div>
               <div className="flex flex-wrap items-center gap-2">
                 <span className={`rounded-full border px-3 py-1.5 text-xs font-bold ${sourceClass(activeState)}`}>{sourceLabel(activeState)}</span>
+                {activeMeta.publicPath ? (
+                  <a href={activeMeta.publicPath} target="_blank" rel="noreferrer" className="rounded-full border border-[#E6D6BD] px-4 py-2 text-sm font-semibold text-[#0a2a24] hover:border-[#b07e33]/55">
+                    Open page
+                  </a>
+                ) : null}
                 <button type="button" onClick={() => void reloadResource()} className="rounded-full border border-[#E6D6BD] px-4 py-2 text-sm font-semibold text-[#0a2a24] hover:border-[#b07e33]/55">
                   Reload
                 </button>
@@ -790,19 +863,32 @@ export default function AdminClient({
             <div className="mt-6 grid gap-5 xl:grid-cols-[16rem_1fr]">
               <nav className="rounded-2xl border border-[#E6D6BD] bg-[#fbf6ee] p-3">
                 <p className="px-3 pb-2 text-xs font-bold uppercase tracking-[0.16em] text-[#746754]">Resources</p>
-                <div className="grid gap-1">
-                  {adminResources.map((resource) => (
-                    <button
-                      key={resource.key}
-                      type="button"
-                      onClick={() => selectResource(resource.key)}
-                      className={`rounded-xl px-3 py-2.5 text-left text-sm font-semibold transition ${
-                        resource.key === activeResource ? "bg-[#0a2a24] text-white" : "text-[#14241F] hover:bg-white"
-                      }`}
-                    >
-                      <span className="block">{resource.label}</span>
-                      <span className="mt-0.5 block text-xs opacity-70">{data[resource.key]?.length ?? 0} item(s)</span>
-                    </button>
+                <input
+                  value={resourceQuery}
+                  onChange={(event) => setResourceQuery(event.target.value)}
+                  placeholder="Search sections"
+                  className="mb-3 min-h-11 w-full rounded-xl border border-[#E6D6BD] bg-white px-3 py-2 text-sm text-[#14241F] outline-none focus:border-[#b07e33]"
+                />
+                <div className="grid max-h-[42rem] gap-4 overflow-auto pr-1">
+                  {groupedResources.map((group) => (
+                    <div key={group.group}>
+                      <p className="px-3 pb-1 text-[0.65rem] font-black uppercase tracking-[0.14em] text-[#746754]">{group.group}</p>
+                      <div className="grid gap-1">
+                        {group.resources.map((resource) => (
+                          <button
+                            key={resource.key}
+                            type="button"
+                            onClick={() => selectResource(resource.key)}
+                            className={`rounded-xl px-3 py-2.5 text-left text-sm font-semibold transition ${
+                              resource.key === activeResource ? "bg-[#0a2a24] text-white" : "text-[#14241F] hover:bg-white"
+                            }`}
+                          >
+                            <span className="block">{resource.label}</span>
+                            <span className="mt-0.5 block text-xs opacity-70">{data[resource.key]?.length ?? 0} item(s)</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                   ))}
                 </div>
               </nav>
@@ -814,15 +900,31 @@ export default function AdminClient({
                       <h3 className="text-lg font-bold text-[#0a2a24]">1. Choose what to edit</h3>
                       <p className="text-sm text-[#746754]">{isObjectResource ? "Single settings object" : `${activeItems.length} items in this section`}</p>
                     </div>
-                    {!isObjectResource ? (
-                      <button type="button" onClick={addItem} className="rounded-full bg-[#0a2a24] px-4 py-2 text-sm font-bold text-white hover:bg-[#061A17]">
-                        Add
-                      </button>
-                    ) : null}
+                    <div className="flex flex-wrap gap-2">
+                      {!isObjectResource ? (
+                        <>
+                          <button type="button" onClick={addItem} className="rounded-full bg-[#0a2a24] px-4 py-2 text-sm font-bold text-white hover:bg-[#061A17]">
+                            Add
+                          </button>
+                          <button type="button" onClick={() => void duplicateItem()} disabled={selectedIndex >= activeItems.length || isDirty} className="rounded-full border border-[#E6D6BD] px-4 py-2 text-sm font-bold text-[#0a2a24] hover:border-[#b07e33]/55 disabled:cursor-not-allowed disabled:opacity-50">
+                            Duplicate
+                          </button>
+                        </>
+                      ) : null}
+                    </div>
                   </div>
 
+                  {!isObjectResource ? (
+                    <input
+                      value={itemQuery}
+                      onChange={(event) => setItemQuery(event.target.value)}
+                      placeholder="Search items"
+                      className="mt-4 min-h-11 w-full rounded-xl border border-[#E6D6BD] bg-white px-3 py-2 text-sm text-[#14241F] outline-none focus:border-[#b07e33]"
+                    />
+                  ) : null}
+
                   <div className="mt-4 grid max-h-[28rem] gap-2 overflow-auto pr-1 md:grid-cols-2 xl:grid-cols-3">
-                    {activeItems.map((item, index) => (
+                    {filteredItems.map(({ item, index }) => (
                       <button
                         key={`${activeResource}-${index}-${String(item.id ?? "item")}`}
                         type="button"
@@ -835,6 +937,9 @@ export default function AdminClient({
                         <span className="mt-1 block truncate text-xs text-[#746754]">{String(item.id ?? `index-${index}`)}</span>
                       </button>
                     ))}
+                    {!filteredItems.length ? (
+                      <div className="rounded-xl border border-[#E6D6BD] bg-white px-3 py-3 text-sm font-semibold text-[#746754]">No matching items.</div>
+                    ) : null}
                     {isNewItem ? (
                       <div className="rounded-xl border border-[#b07e33] bg-white px-3 py-3 text-sm font-semibold text-[#0a2a24]">New unsaved item</div>
                     ) : null}
@@ -858,9 +963,17 @@ export default function AdminClient({
                         Reset
                       </button>
                       {!isObjectResource ? (
-                        <button type="button" onClick={() => void deleteItem()} className="rounded-full border border-red-200 px-4 py-2 text-sm font-bold text-red-900 hover:bg-red-50">
-                          Delete
-                        </button>
+                        <>
+                          <button type="button" onClick={() => void moveItem(-1)} disabled={isDirty || selectedIndex <= 0} className="rounded-full border border-[#E6D6BD] px-4 py-2 text-sm font-bold text-[#0a2a24] hover:border-[#b07e33]/55 disabled:cursor-not-allowed disabled:opacity-50">
+                            Move up
+                          </button>
+                          <button type="button" onClick={() => void moveItem(1)} disabled={isDirty || selectedIndex >= activeItems.length - 1} className="rounded-full border border-[#E6D6BD] px-4 py-2 text-sm font-bold text-[#0a2a24] hover:border-[#b07e33]/55 disabled:cursor-not-allowed disabled:opacity-50">
+                            Move down
+                          </button>
+                          <button type="button" onClick={() => void deleteItem()} className="rounded-full border border-red-200 px-4 py-2 text-sm font-bold text-red-900 hover:bg-red-50">
+                            Delete
+                          </button>
+                        </>
                       ) : null}
                       {renderSaveButton()}
                     </div>
@@ -965,8 +1078,8 @@ export default function AdminClient({
                   {nestedFieldTargets.length > 0 ? (
                     <div className="mt-5 rounded-2xl border border-[#E6D6BD] bg-white p-5">
                       <div className="mb-4 flex flex-col gap-1">
-                        <h4 className="text-lg font-bold text-[#0a2a24]">Carousel slide fields</h4>
-                        <p className="text-sm text-[#746754]">Edit slide text, order, active state and badges without touching the JSON.</p>
+                        <h4 className="text-lg font-bold text-[#0a2a24]">Grouped fields</h4>
+                        <p className="text-sm text-[#746754]">Edit nested copy, settings, order, active state and badges without touching the JSON.</p>
                       </div>
                       <div className="grid gap-4">
                         {nestedFieldTargets.map((target) => {

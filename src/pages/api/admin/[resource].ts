@@ -29,6 +29,14 @@ function parseItem(value: unknown): JsonRecord {
   return value as JsonRecord;
 }
 
+function parseItems(value: unknown): JsonRecord[] {
+  if (!Array.isArray(value) || value.some((item) => !item || typeof item !== "object" || Array.isArray(item))) {
+    throw new Error("Items must be a JSON array of objects.");
+  }
+
+  return value as JsonRecord[];
+}
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse<AdminResponse>) {
   if (!isAdminApiRequestAuthorized(req)) {
     return res.status(401).json({ error: "Login required." });
@@ -66,6 +74,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       return res.status(200).json({ items: saved.items, source: saved.source });
     }
 
+    if (req.method === "PATCH") {
+      const nextItems = parseItems(req.body?.items);
+      const saved = await saveEditableResource(key, nextItems);
+      return res.status(200).json({ items: saved.items, source: saved.source });
+    }
+
     if (req.method === "DELETE") {
       const index = parseIndex(req.body?.index, items.length - 1);
       const nextItems = items.filter((_, currentIndex) => currentIndex !== index);
@@ -73,7 +87,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       return res.status(200).json({ items: saved.items, source: saved.source });
     }
 
-    res.setHeader("Allow", "GET, POST, PUT, DELETE");
+    res.setHeader("Allow", "GET, POST, PUT, PATCH, DELETE");
     return res.status(405).json({ error: "Method not allowed." });
   } catch (caught) {
     const message = caught instanceof Error ? caught.message : "Admin API error.";
