@@ -2,13 +2,14 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { isAdminApiRequestAuthorized } from "@/admin/auth";
 import { getAdminResource, type AdminResourceKey } from "@/admin/resources";
 import type { JsonRecord } from "@/admin/jsonStore";
-import { readEditableResource, saveEditableResource } from "@/lib/siteContent";
+import { discardDraftResource, publishDraftResource, readDraftResource, readEditableResource, saveDraftResource, saveEditableResource } from "@/lib/siteContent";
 
 type AdminResponse = {
   items?: JsonRecord[];
   error?: string;
   source?: string;
   message?: string;
+  hasDraft?: boolean;
 };
 
 function parseIndex(value: unknown, maxInclusive: number): number {
@@ -37,6 +38,16 @@ function parseItems(value: unknown): JsonRecord[] {
   return value as JsonRecord[];
 }
 
+async function saveItems(key: AdminResourceKey, items: JsonRecord[], useDraft: boolean): Promise<AdminResponse> {
+  if (useDraft) {
+    const saved = await saveDraftResource(key, items);
+    return { items: saved.items, source: saved.source, hasDraft: saved.hasDraft };
+  }
+
+  const saved = await saveEditableResource(key, items);
+  return { items: saved.items, source: saved.source, hasDraft: false };
+}
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse<AdminResponse>) {
   if (!isAdminApiRequestAuthorized(req)) {
     return res.status(401).json({ error: "Login required." });
@@ -50,41 +61,50 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   }
 
   const key = resourceKey as AdminResourceKey;
+  const versionParam = Array.isArray(req.query.version) ? req.query.version[0] : req.query.version;
+  const actionParam = Array.isArray(req.query.action) ? req.query.action[0] : req.query.action;
+  const useDraft = versionParam === "draft";
 
   try {
-    const result = await readEditableResource(key);
+    if (req.method === "POST" && actionParam === "publish") {
+      const saved = await publishDraftResource(key);
+      return res.status(200).json({ items: saved.items, source: saved.source, hasDraft: false });
+    }
+
+    if (req.method === "POST" && actionParam === "discard") {
+      const live = await discardDraftResource(key);
+      return res.status(200).json({ items: live.items, source: live.source, message: live.message, hasDraft: false });
+    }
+
+    const result = useDraft ? await readDraftResource(key) : await readEditableResource(key);
     const items = result.items;
 
     if (req.method === "GET") {
-      return res.status(200).json({ items, source: result.source, message: result.message });
+      return res.status(200).json({ items, source: result.source, message: result.message, hasDraft: result.hasDraft });
     }
 
     if (req.method === "POST") {
       const item = parseItem(req.body?.item);
       const nextItems = [...items, item];
-      const saved = await saveEditableResource(key, nextItems);
-      return res.status(200).json({ items: saved.items, source: saved.source });
+      return res.status(200).json(await saveItems(key, nextItems, useDraft));
     }
 
     if (req.method === "PUT") {
       const index = parseIndex(req.body?.index, items.length - 1);
       const item = parseItem(req.body?.item);
       const nextItems = items.map((currentItem, currentIndex) => (currentIndex === index ? item : currentItem));
-      const saved = await saveEditableResource(key, nextItems);
-      return res.status(200).json({ items: saved.items, source: saved.source });
+      return res.status(200).json(await saveItems(key, nextItems, useDraft));
     }
 
     if (req.method === "PATCH") {
       const nextItems = parseItems(req.body?.items);
-      const saved = await saveEditableResource(key, nextItems);
-      return res.status(200).json({ items: saved.items, source: saved.source });
+      return res.status(200).json(await saveItems(key, nextItems, useDraft));
     }
 
     if (req.method === "DELETE") {
       const index = parseIndex(req.body?.index, items.length - 1);
       const nextItems = items.filter((_, currentIndex) => currentIndex !== index);
-      const saved = await saveEditableResource(key, nextItems);
-      return res.status(200).json({ items: saved.items, source: saved.source });
+      return res.status(200).json(await saveItems(key, nextItems, useDraft));
     }
 
     res.setHeader("Allow", "GET, POST, PUT, PATCH, DELETE");

@@ -34,11 +34,20 @@ export type ReadResourceResult = {
   source: ContentSource;
   configured: boolean;
   message?: string;
+  hasDraft?: boolean;
 };
 
 type SaveResourceResult = {
   items: JsonRecord[];
   source: "supabase";
+};
+
+export type DraftResourceResult = {
+  items: JsonRecord[];
+  source: "draft" | ContentSource;
+  configured: boolean;
+  hasDraft: boolean;
+  message?: string;
 };
 
 const supabaseConfigMessage =
@@ -108,6 +117,40 @@ export async function readEditableResource(resourceKey: AdminResourceKey): Promi
   };
 }
 
+export async function readDraftResource(resourceKey: AdminResourceKey): Promise<DraftResourceResult> {
+  const live = await readEditableResource(resourceKey);
+  const supabase = getSupabaseServerClient();
+
+  if (supabase.error || !supabase.client) {
+    return { ...live, hasDraft: false };
+  }
+
+  const { data, error } = await supabase.client
+    .from("site_content_drafts")
+    .select("content")
+    .eq("resource_key", resourceKey)
+    .maybeSingle();
+
+  if (error) {
+    return {
+      ...live,
+      hasDraft: false,
+      message: formatSupabaseAdminError(error.message, "site_content_drafts"),
+    };
+  }
+
+  if (!data?.content) {
+    return { ...live, hasDraft: false };
+  }
+
+  return {
+    items: normalizeToItems(resourceKey, data.content),
+    source: "draft",
+    configured: true,
+    hasDraft: true,
+  };
+}
+
 export async function saveEditableResource(resourceKey: AdminResourceKey, items: JsonRecord[]): Promise<SaveResourceResult> {
   const supabase = getSupabaseServerClient();
 
@@ -135,6 +178,65 @@ export async function saveEditableResource(resourceKey: AdminResourceKey, items:
     items: normalizeToItems(resourceKey, data.content),
     source: "supabase",
   };
+}
+
+export async function saveDraftResource(resourceKey: AdminResourceKey, items: JsonRecord[]): Promise<DraftResourceResult> {
+  const supabase = getSupabaseServerClient();
+
+  if (supabase.error) {
+    throw new Error(supabaseConfigMessage);
+  }
+
+  const client = supabase.client;
+  if (!client) {
+    throw new Error(supabaseConfigMessage);
+  }
+
+  const content = normalizeForSave(resourceKey, items);
+  const { data, error } = await client
+    .from("site_content_drafts")
+    .upsert({ resource_key: resourceKey, content }, { onConflict: "resource_key" })
+    .select("content")
+    .single();
+
+  if (error) {
+    throw new Error(formatSupabaseAdminError(error.message, "site_content_drafts"));
+  }
+
+  return {
+    items: normalizeToItems(resourceKey, data.content),
+    source: "draft",
+    configured: true,
+    hasDraft: true,
+  };
+}
+
+export async function publishDraftResource(resourceKey: AdminResourceKey): Promise<SaveResourceResult> {
+  const draft = await readDraftResource(resourceKey);
+
+  if (!draft.hasDraft) {
+    throw new Error("No draft exists for this resource.");
+  }
+
+  const saved = await saveEditableResource(resourceKey, draft.items);
+  await discardDraftResource(resourceKey);
+  return saved;
+}
+
+export async function discardDraftResource(resourceKey: AdminResourceKey): Promise<ReadResourceResult> {
+  const supabase = getSupabaseServerClient();
+
+  if (supabase.error || !supabase.client) {
+    throw new Error(supabaseConfigMessage);
+  }
+
+  const { error } = await supabase.client.from("site_content_drafts").delete().eq("resource_key", resourceKey);
+
+  if (error) {
+    throw new Error(formatSupabaseAdminError(error.message, "site_content_drafts"));
+  }
+
+  return readEditableResource(resourceKey);
 }
 
 async function readPublicValue<T>(resourceKey: AdminResourceKey, fallback: T): Promise<T> {

@@ -9,9 +9,10 @@ import type { ContentSource } from "@/lib/siteContent";
 type JsonRecord = Record<string, unknown>;
 type ResourceData = Record<AdminResourceKey, JsonRecord[]>;
 type ResourceState = {
-  source: ContentSource;
+  source: ContentSource | "draft";
   configured: boolean;
   message?: string;
+  hasDraft?: boolean;
 };
 type ResourceStateData = Record<AdminResourceKey, ResourceState>;
 type SaveState = "idle" | "saving" | "saved" | "error";
@@ -137,6 +138,7 @@ function formatItem(items: JsonRecord[], index: number): string {
 
 function sourceLabel(state?: ResourceState) {
   if (!state) return "Unknown";
+  if (state.source === "draft") return "Draft";
   if (state.source === "supabase") return "Supabase";
   if (state.source === "json-fallback") return "JSON fallback";
   return "Not configured";
@@ -144,6 +146,7 @@ function sourceLabel(state?: ResourceState) {
 
 function sourceClass(state?: ResourceState) {
   if (state?.source === "supabase") return "border-emerald-200 bg-emerald-50 text-emerald-950";
+  if (state?.source === "draft") return "border-sky-200 bg-sky-50 text-sky-950";
   if (state?.source === "json-fallback") return "border-amber-200 bg-amber-50 text-amber-950";
   return "border-red-200 bg-red-50 text-red-950";
 }
@@ -451,11 +454,12 @@ export default function AdminClient({
     setNotice("Loading latest content...");
     setError("");
 
-    const response = await fetch(`/api/admin/${resourceKey}`);
+    const response = await fetch(`/api/admin/${resourceKey}?version=draft`);
     const result = (await response.json().catch(() => null)) as {
       items?: JsonRecord[];
-      source?: ContentSource;
+      source?: ContentSource | "draft";
       message?: string;
+      hasDraft?: boolean;
       error?: string;
     } | null;
 
@@ -473,6 +477,7 @@ export default function AdminClient({
         source: result.source ?? "json",
         configured: result.source !== "json",
         message: result.message,
+        hasDraft: result.hasDraft,
       },
     }));
 
@@ -564,7 +569,7 @@ export default function AdminClient({
     setError("");
     setNotice("");
 
-    const response = await fetch(`/api/admin/${activeResource}`, {
+    const response = await fetch(`/api/admin/${activeResource}?version=draft`, {
       method,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
@@ -572,8 +577,9 @@ export default function AdminClient({
 
     const result = (await response.json().catch(() => null)) as {
       items?: JsonRecord[];
-      source?: ContentSource;
+      source?: ContentSource | "draft";
       message?: string;
+      hasDraft?: boolean;
       error?: string;
     } | null;
 
@@ -588,10 +594,11 @@ export default function AdminClient({
         source: result.source ?? "supabase",
         configured: true,
         message: result.message,
+        hasDraft: result.hasDraft,
       },
     }));
     setSaveState("saved");
-    setNotice("Saved to Supabase.");
+    setNotice("Draft saved. Publish when you want it live.");
     return result.items;
   }
 
