@@ -1,11 +1,21 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import type { BeforeAfterItem } from "@/lib/types";
 import { createContentHelpers, type ContentBundle } from "@/lib/content";
 import { FAQSection } from "@/homepage/FAQSection";
 import { GuardianPlansSection } from "@/homepage/GuardianPlansSection";
 import { HeroBeforeAfterSlider } from "@/homepage/HeroBeforeAfterSlider";
 import { HomepageTransformationCarousel } from "@/homepage/HomepageTransformationCarousel";
+
+export type HomepageEditableResource = "homepage-sections" | "homepage-transformations" | "cta-mappings";
+
+export type HomepageEditorAdapter = {
+  section: (id: string, label: string, children: ReactNode) => ReactNode;
+  text: (resource: HomepageEditableResource, path: Array<string | number>, value: string) => ReactNode;
+  button: (ctaId: string, label: string, href: string, className: string, fallback: ReactNode) => ReactNode;
+  image: (resource: HomepageEditableResource, path: Array<string | number>, value: string | undefined, label: string, children: ReactNode) => ReactNode;
+};
 
 const whatsappMessage = "Hi Care & Flair, I'd like a quote. I can send photos of the property and tell you the deadline.";
 
@@ -112,25 +122,40 @@ function TrustFeatureRow() {
   );
 }
 
-function HeroApproved({ content, strongestItem }: { content: ContentBundle; strongestItem?: BeforeAfterItem }) {
-  const { findSection, siteSettings } = createContentHelpers(content);
+function HeroApproved({ content, editor, strongestItem }: { content: ContentBundle; editor?: HomepageEditorAdapter; strongestItem?: BeforeAfterItem }) {
+  const { ctaMappings, findSection, siteSettings } = createContentHelpers(content);
   const hero = findSection("hero");
+  const heroIndex = content.homepageSections.findIndex((section) => section.id === "hero");
+  const primaryCta = ctaMappings.find((cta) => cta.id === hero.primaryCtaId) ?? { id: "build-your-quote", label: "Send photos on WhatsApp", href: "/quote" };
+  const secondaryCta = ctaMappings.find((cta) => cta.id === hero.secondaryCtaId) ?? { id: "view-reset-packages", label: "Get a quote", href: "/quote" };
+  const headline = hero.headline ?? "Property resets in 24-72h for homes that need to feel ready.";
+  const subheadline =
+    hero.subheadline ??
+    "Cleaning, small repairs, touch-ups and presentation work for landlords, agents, sellers, new homeowners and hosts across Bromley, South East London, Kent, Medway and Rochester.";
   const wa = whatsappHref(siteSettings.phone);
 
   return (
     <section className="mx-auto max-w-[1280px] px-4 pb-5 pt-6 sm:px-6 lg:px-8">
       <div className="grid min-h-[520px] gap-8 rounded-[28px] border border-[var(--cf-border)] bg-[linear-gradient(135deg,var(--cf-ivory-2),var(--cf-cream-card))] p-5 shadow-[var(--cf-shadow-soft)] md:p-8 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
         <div className="px-1 py-5 md:px-3 lg:py-10">
-          <SectionLabel>Property reset services</SectionLabel>
+          <SectionLabel>{editor ? editor.text("homepage-sections", [heroIndex, "eyebrow"], hero.eyebrow ?? "Property reset services") : "Property reset services"}</SectionLabel>
           <h1 className="mt-5 max-w-[620px] font-serif text-[clamp(42px,5vw,72px)] font-semibold leading-[1.02] tracking-[-0.035em] text-[var(--cf-navy)]">
-            Property resets in 24-72h for homes that need to feel <em className="font-serif italic text-[var(--cf-gold)]">ready</em>.
+            {editor ? editor.text("homepage-sections", [heroIndex, "headline"], headline) : <>Property resets in 24-72h for homes that need to feel <em className="font-serif italic text-[var(--cf-gold)]">ready</em>.</>}
           </h1>
           <p className="mt-6 max-w-[540px] text-[17px] leading-[1.6] text-[var(--cf-text-soft)] sm:text-[18px]">
-            Cleaning, small repairs, touch-ups and presentation work for landlords, agents, sellers, new homeowners and hosts across Bromley, South East London, Kent, Medway and Rochester.
+            {editor ? editor.text("homepage-sections", [heroIndex, "subheadline"], subheadline) : subheadline}
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <WhatsAppButton href={wa} className="w-full sm:w-auto">Send photos on WhatsApp</WhatsAppButton>
-            <QuoteButton href="/quote" className="w-full sm:w-auto">Get a quote</QuoteButton>
+            {editor ? (
+              editor.button(primaryCta.id, primaryCta.label, primaryCta.href, "w-full sm:w-auto", <WhatsAppButton href={wa} className="w-full sm:w-auto">Send photos on WhatsApp</WhatsAppButton>)
+            ) : (
+              <WhatsAppButton href={wa} className="w-full sm:w-auto">Send photos on WhatsApp</WhatsAppButton>
+            )}
+            {editor ? (
+              editor.button(secondaryCta.id, secondaryCta.label, secondaryCta.href, "w-full sm:w-auto", <QuoteButton href="/quote" className="w-full sm:w-auto">Get a quote</QuoteButton>)
+            ) : (
+              <QuoteButton href="/quote" className="w-full sm:w-auto">Get a quote</QuoteButton>
+            )}
           </div>
           <div className="mt-7 flex flex-wrap items-center gap-3 text-sm font-bold text-[var(--cf-navy)]">
             <span className="text-[var(--cf-gold)]" aria-label="5.0 stars">★★★★★</span>
@@ -140,7 +165,17 @@ function HeroApproved({ content, strongestItem }: { content: ContentBundle; stro
           </div>
         </div>
         <div className="relative min-h-[360px] lg:h-[480px]">
-          <HeroBeforeAfterSlider item={strongestItem} heroImage={hero.heroImage} priority />
+          {editor ? (
+            editor.image(
+              "homepage-sections",
+              [heroIndex, "heroImage"],
+              hero.heroImage,
+              "Hero image",
+              <HeroBeforeAfterSlider item={strongestItem} heroImage={hero.heroImage} priority />,
+            )
+          ) : (
+            <HeroBeforeAfterSlider item={strongestItem} heroImage={hero.heroImage} priority />
+          )}
           <div className="absolute left-5 top-5 rounded-full border border-[var(--cf-border)] bg-white/92 px-4 py-2 text-sm font-extrabold text-[var(--cf-navy)] shadow-sm">
             Bromley, South East London & Kent
           </div>
@@ -379,7 +414,10 @@ const resetPackages = [
   },
 ];
 
-function ResetPackagesSection() {
+function ResetPackagesSection({ content, editor }: { content: ContentBundle; editor?: HomepageEditorAdapter }) {
+  const { findSection } = createContentHelpers(content);
+  const section = findSection("reset-packages");
+  const sectionIndex = content.homepageSections.findIndex((item) => item.id === "reset-packages");
   const upgrades = [
     "Deep Carpet Extraction",
     "Bathroom Face-Lift",
@@ -400,11 +438,11 @@ function ResetPackagesSection() {
         <div>
           <SectionLabel>Reset packages</SectionLabel>
           <h2 className="mt-4 max-w-[620px] font-serif text-[34px] font-semibold leading-[1.1] tracking-[-0.02em] text-[var(--cf-navy)] lg:text-[44px]">
-            Choose the right reset for your property.
+            {editor ? editor.text("homepage-sections", [sectionIndex, "title"], section.title ?? "Choose the right reset for your property.") : "Choose the right reset for your property."}
           </h2>
         </div>
         <p className="max-w-[620px] text-[17px] leading-8 text-[var(--cf-text-soft)] lg:justify-self-end">
-          Flexible reset options depending on size, condition and how quickly the property needs to feel ready.
+          {editor ? editor.text("homepage-sections", [sectionIndex, "subtitle"], section.subtitle ?? "Flexible reset options depending on size, condition and how quickly the property needs to feel ready.") : "Flexible reset options depending on size, condition and how quickly the property needs to feel ready."}
         </p>
       </div>
 
@@ -521,7 +559,10 @@ function ResetPackagesSection() {
   );
 }
 
-function HowItWorksApproved({ phone }: { phone: string }) {
+function HowItWorksApproved({ content, editor, phone }: { content: ContentBundle; editor?: HomepageEditorAdapter; phone: string }) {
+  const { findSection } = createContentHelpers(content);
+  const section = findSection("how-it-works");
+  const sectionIndex = content.homepageSections.findIndex((item) => item.id === "how-it-works");
   const wa = whatsappHref(phone);
 
   return (
@@ -530,10 +571,10 @@ function HowItWorksApproved({ phone }: { phone: string }) {
         <div className="self-center">
           <SectionLabel light>How it works</SectionLabel>
           <h2 className="mt-4 font-serif text-[34px] font-semibold leading-[1.08] tracking-[-0.02em] text-white sm:text-[42px] lg:text-[46px]">
-            Send photos.<br />Get your reset plan.
+            {editor ? editor.text("homepage-sections", [sectionIndex, "title"], section.title ?? "Send photos. Get your reset plan.") : <>Send photos.<br />Get your reset plan.</>}
           </h2>
           <p className="mt-5 max-w-[520px] text-[17px] leading-8 text-[var(--cf-text-light-soft)] lg:text-[18px]">
-            Tell us what you need and when. We&apos;ll review the photos, identify the visible issues and send a clear quote for the practical reset work.
+            {editor ? editor.text("homepage-sections", [sectionIndex, "subtitle"], section.subtitle ?? "Tell us what you need and when. We'll review the photos, identify the visible issues and send a clear quote for the practical reset work.") : <>Tell us what you need and when. We&apos;ll review the photos, identify the visible issues and send a clear quote for the practical reset work.</>}
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <WhatsAppButton href={wa} className="w-full sm:w-auto">Send photos on WhatsApp</WhatsAppButton>
@@ -607,42 +648,51 @@ function TrustAreasRow() {
   );
 }
 
-function FinalCta({ phone, image }: { phone: string; image?: string }) {
+function FinalCta({ content, editor, phone, image }: { content: ContentBundle; editor?: HomepageEditorAdapter; phone: string; image?: string }) {
+  const { findSection } = createContentHelpers(content);
+  const section = findSection("final-cta");
+  const heroIndex = content.homepageSections.findIndex((item) => item.id === "hero");
+  const sectionIndex = content.homepageSections.findIndex((item) => item.id === "final-cta");
   return (
     <section className="mx-auto max-w-[1280px] px-4 py-8 sm:px-6 lg:px-8">
       <div className="grid overflow-hidden rounded-[28px] border border-[var(--cf-border)] bg-[linear-gradient(135deg,var(--cf-warm-card),var(--cf-ivory-2))] shadow-[var(--cf-shadow-card)] lg:grid-cols-[1fr_0.55fr]">
         <div className="p-7 md:p-10">
-          <h2 className="font-serif text-[34px] font-semibold leading-[1.1] tracking-[-0.02em] text-[var(--cf-navy)] lg:text-[44px]">Ready to get your property reset?</h2>
-          <p className="mt-4 max-w-[620px] text-[17px] leading-8 text-[var(--cf-text-soft)]">Send photos on WhatsApp and we&apos;ll take care of the visible details.</p>
+          <h2 className="font-serif text-[34px] font-semibold leading-[1.1] tracking-[-0.02em] text-[var(--cf-navy)] lg:text-[44px]">
+            {editor ? editor.text("homepage-sections", [sectionIndex, "title"], section.title ?? "Ready to get your property reset?") : "Ready to get your property reset?"}
+          </h2>
+          <p className="mt-4 max-w-[620px] text-[17px] leading-8 text-[var(--cf-text-soft)]">
+            {editor ? editor.text("homepage-sections", [sectionIndex, "subtitle"], section.subtitle ?? "Send photos on WhatsApp and we'll take care of the visible details.") : <>Send photos on WhatsApp and we&apos;ll take care of the visible details.</>}
+          </p>
           <div className="mt-7 flex flex-col gap-3 sm:flex-row">
             <WhatsAppButton href={whatsappHref(phone)} className="w-full sm:w-auto">Send photos on WhatsApp</WhatsAppButton>
             <QuoteButton href="/quote" className="w-full sm:w-auto">Get a quote</QuoteButton>
           </div>
         </div>
         <div className="relative hidden min-h-[280px] lg:block">
-          <PickImage src={image} alt="Warm finished room after property reset" />
+          {editor ? editor.image("homepage-sections", [heroIndex, "heroImage"], image, "Final CTA image", <PickImage src={image} alt="Warm finished room after property reset" />) : <PickImage src={image} alt="Warm finished room after property reset" />}
         </div>
       </div>
     </section>
   );
 }
 
-export function ApprovedHomePage({ content }: { content: ContentBundle }) {
+export function ApprovedHomePage({ content, editor }: { content: ContentBundle; editor?: HomepageEditorAdapter }) {
   const { findSection, homepageTransformations, siteSettings } = createContentHelpers(content);
   const hero = findSection("hero");
+  const wrap = editor?.section ?? ((_id: string, _label: string, children: ReactNode) => children);
 
   return (
     <>
-      <HeroApproved content={content} strongestItem={heroProofItem} />
-      <TrustFeatureRow />
-      <HomepageTransformationCarousel content={homepageTransformations} />
-      <ResetPackagesSection />
-      <WhatWeReset />
-      <HowItWorksApproved phone={siteSettings.phone} />
-      <GuardianPlansSection content={content} />
-      <TrustAreasRow />
-      <FAQSection content={content} />
-      <FinalCta phone={siteSettings.phone} image={hero.heroImage} />
+      {wrap("hero", "Hero", <HeroApproved content={content} editor={editor} strongestItem={heroProofItem} />)}
+      {wrap("trust", "Trust row", <TrustFeatureRow />)}
+      {wrap("before-after", "Before & After", <HomepageTransformationCarousel content={homepageTransformations} />)}
+      {wrap("packages", "Packages", <ResetPackagesSection content={content} editor={editor} />)}
+      {wrap("solutions", "Services", <WhatWeReset />)}
+      {wrap("how-it-works", "How it works", <HowItWorksApproved content={content} editor={editor} phone={siteSettings.phone} />)}
+      {wrap("guardian", "Guardian plans", <GuardianPlansSection content={content} />)}
+      {wrap("areas", "Areas", <TrustAreasRow />)}
+      {wrap("faq", "FAQ", <FAQSection content={content} />)}
+      {wrap("final-cta", "Final CTA", <FinalCta content={content} editor={editor} phone={siteSettings.phone} image={hero.heroImage} />)}
     </>
   );
 }
