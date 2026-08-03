@@ -202,6 +202,7 @@ export default function AdminClient({
   const [past, setPast] = useState<HistorySnapshot[]>([]);
   const [future, setFuture] = useState<HistorySnapshot[]>([]);
   const [selectedSectionId, setSelectedSectionId] = useState<string | null>(null);
+  const [selectedButtonId, setSelectedButtonId] = useState<string | null>(null);
   const fileInputs = useRef<Record<string, HTMLInputElement | null>>({});
   const editSession = useRef<EditSession | null>(null);
   const draggedSection = useRef<EditableSectionActions | null>(null);
@@ -224,6 +225,7 @@ export default function AdminClient({
     [data],
   );
   const hiddenHomepageSections = homepageSectionList.filter((item) => item.section.visible === false);
+  const statusText = saveState === "saving" ? "Saving" : hasDirtyChanges ? "Unsaved" : saveState === "saved" || hasExistingDraft ? "Saved" : "Ready";
 
   function currentSnapshot(): HistorySnapshot {
     return { data: snapshotData(data), dirtyResources: Array.from(dirtyResources) };
@@ -418,6 +420,7 @@ export default function AdminClient({
     setData(snapshotData(snapshot.data));
     setDirtyResources(new Set(snapshot.dirtyResources));
     setEditingKey(null);
+    setSelectedButtonId(null);
     editSession.current = null;
     setSaveState("idle");
     setNotice("");
@@ -508,7 +511,7 @@ export default function AdminClient({
     const active = editingKey === key;
 
     return (
-      <span className="group/editor-text relative inline rounded-[6px] outline-none ring-[#b07e33]/0 transition hover:bg-white/30 hover:ring-2 hover:ring-[#b07e33]/35">
+      <span className="group/editor-text relative inline rounded-[6px] outline-none ring-[#b07e33]/0 transition duration-150 hover:bg-white/25 hover:ring-1 hover:ring-[#b07e33]/30">
         <span
           contentEditable={active}
           suppressContentEditableWarning
@@ -533,19 +536,11 @@ export default function AdminClient({
               cancelTextEdit();
             }
           }}
-          className={active ? "cursor-text rounded-[6px] bg-white/85 px-1 shadow-[0_0_0_3px_rgba(176,126,51,0.22)] outline-none" : "cursor-text outline-none"}
+          className={active ? "cursor-text rounded-[6px] bg-white/90 px-1 shadow-[0_0_0_3px_rgba(176,126,51,0.18)] outline-none" : "cursor-text outline-none focus-visible:rounded-[6px] focus-visible:bg-white/35 focus-visible:ring-1 focus-visible:ring-[#b07e33]/35"}
           title="Click to edit"
         >
           {value}
         </span>
-        <button
-          type="button"
-          onClick={() => beginTextEdit(resource, path, value)}
-          className="absolute -right-6 -top-3 hidden h-5 w-5 place-items-center rounded-full bg-[#0a2a24] text-[10px] font-black text-white shadow-lg transition group-hover/editor-text:grid hover:scale-105"
-          aria-label="Edit text"
-        >
-          ✎
-        </button>
       </span>
     );
   }
@@ -554,6 +549,7 @@ export default function AdminClient({
     const labelKey = pathKey(config.resource, config.labelPath);
     const hrefKey = pathKey(config.resource, config.hrefPath);
     const isEditing = editingKey === labelKey || editingKey === hrefKey;
+    const isSelected = selectedButtonId === config.id || isEditing;
     const variantClass =
       config.variant === "whatsapp"
         ? "gap-2 border border-[rgba(8,27,45,0.18)] bg-white text-[var(--cf-navy)] shadow-sm hover:border-[rgba(37,211,102,0.35)] hover:bg-[rgba(37,211,102,0.08)]"
@@ -566,13 +562,30 @@ export default function AdminClient({
               : "bg-[var(--cf-cherry)] text-white shadow-[0_14px_30px_rgba(138,15,46,0.22)] hover:bg-[var(--cf-cherry-2)]";
 
     return (
-      <span className="group/editor-button relative inline-flex">
-        <span className={`inline-flex h-12 items-center justify-center rounded-[14px] px-6 text-sm font-bold transition hover:-translate-y-px ${variantClass} ${config.className}`}>
+      <span
+        className="group/editor-button relative inline-flex"
+        onKeyDown={(event) => {
+          if (event.key === "Escape") {
+            setSelectedButtonId(null);
+            cancelTextEdit();
+          }
+        }}
+      >
+        <button
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation();
+            setSelectedButtonId((current) => (current === config.id ? null : config.id));
+          }}
+          aria-haspopup="dialog"
+          aria-expanded={isSelected}
+          className={`inline-flex h-12 items-center justify-center rounded-[14px] px-6 text-sm font-bold transition duration-150 hover:-translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#b07e33]/45 ${isSelected ? "ring-2 ring-[#b07e33]/35" : ""} ${variantClass} ${config.className}`}
+        >
           {config.icon}
-          {renderEditableText(config.resource, config.labelPath, config.label)}
-        </span>
-        <span className="absolute left-0 top-[calc(100%+0.5rem)] z-50 hidden min-w-72 rounded-2xl border border-[#E6D6BD] bg-white p-3 text-sm shadow-2xl group-hover/editor-button:block">
-          <label className="block font-bold text-[#0a2a24]">
+          <span>{config.label}</span>
+        </button>
+        <span className={`absolute left-0 top-[calc(100%+0.45rem)] z-50 min-w-72 origin-top-left rounded-2xl border border-[#E6D6BD]/90 bg-white/96 p-3 text-sm opacity-0 shadow-2xl shadow-[#061A17]/18 backdrop-blur transition duration-150 ${isSelected ? "pointer-events-auto scale-100 opacity-100" : "pointer-events-none scale-[0.98] group-hover/editor-button:pointer-events-auto group-hover/editor-button:scale-100 group-hover/editor-button:opacity-100"}`}>
+          <label className="block text-xs font-black uppercase tracking-[0.08em] text-[#746754]">
             Text
             <input
               value={config.label}
@@ -583,10 +596,10 @@ export default function AdminClient({
                 if (event.key === "Escape") cancelTextEdit();
               }}
               onChange={(event) => updateResourcePath(config.resource, config.labelPath, event.target.value, { recordHistory: false })}
-              className="mt-2 min-h-10 w-full rounded-xl border border-[#E6D6BD] px-3 text-sm text-[#14241F] outline-none focus:border-[#b07e33]"
+              className="mt-2 min-h-10 w-full rounded-xl border border-[#E6D6BD] bg-[#fbf6ee] px-3 text-sm font-semibold text-[#14241F] outline-none transition focus:border-[#b07e33] focus:bg-white focus:ring-3 focus:ring-[#b07e33]/12"
             />
           </label>
-          <label className="mt-3 block font-bold text-[#0a2a24]">
+          <label className="mt-3 block text-xs font-black uppercase tracking-[0.08em] text-[#746754]">
             Destination
             <input
               value={config.href}
@@ -597,10 +610,10 @@ export default function AdminClient({
                 if (event.key === "Escape") cancelTextEdit();
               }}
               onChange={(event) => updateResourcePath(config.resource, config.hrefPath, event.target.value, { recordHistory: false })}
-              className="mt-2 min-h-10 w-full rounded-xl border border-[#E6D6BD] px-3 text-sm text-[#14241F] outline-none focus:border-[#b07e33]"
+              className="mt-2 min-h-10 w-full rounded-xl border border-[#E6D6BD] bg-[#fbf6ee] px-3 text-sm font-semibold text-[#14241F] outline-none transition focus:border-[#b07e33] focus:bg-white focus:ring-3 focus:ring-[#b07e33]/12"
             />
           </label>
-          <a href={config.href} target="_blank" rel="noreferrer" className="mt-3 inline-flex text-xs font-bold text-[#8A0F2E]">
+          <a href={config.href} target="_blank" rel="noreferrer" className="mt-3 inline-flex rounded-full px-1 text-xs font-black text-[#8A0F2E] outline-none transition hover:text-[#5f0920] focus-visible:ring-2 focus-visible:ring-[#b07e33]/35">
             Open in new tab
           </a>
         </span>
@@ -624,10 +637,10 @@ export default function AdminClient({
         }}
       >
         {children}
-        <div className="absolute inset-0 z-40 hidden place-items-center bg-black/48 p-4 text-white backdrop-blur-[2px] group-hover/editor-image:grid">
-          <div className="rounded-2xl border border-white/20 bg-[#061A17]/92 p-4 text-center shadow-2xl">
+        <div className="absolute inset-0 z-40 hidden place-items-center bg-black/42 p-4 text-white backdrop-blur-[2px] group-hover/editor-image:grid">
+          <div className="rounded-2xl border border-white/18 bg-[#061A17]/88 p-4 text-center shadow-2xl">
             <p className="text-sm font-black">{label}</p>
-            <p className="mt-1 text-xs text-white/72">Drop an image here or replace it from your device.</p>
+            <p className="mt-1 text-xs text-white/72">Drop an image here or replace it.</p>
             <div className="mt-3 flex flex-wrap justify-center gap-2">
               <input
                 ref={(node) => {
@@ -642,14 +655,14 @@ export default function AdminClient({
                 }}
                 className="sr-only"
               />
-              <button type="button" onClick={() => fileInputs.current[key]?.click()} className="rounded-full bg-white px-4 py-2 text-xs font-black text-[#061A17]">
+              <button type="button" onClick={() => fileInputs.current[key]?.click()} className="rounded-full bg-white px-4 py-2 text-xs font-black text-[#061A17] outline-none transition hover:bg-[#f5ecdc] focus-visible:ring-2 focus-visible:ring-white/70">
                 {uploadingKey === key ? "Uploading..." : "Replace"}
               </button>
-              <button type="button" onClick={() => updateResourcePath(resource, path, "")} disabled={!value} className="rounded-full border border-white/30 px-4 py-2 text-xs font-black text-white disabled:opacity-45">
+              <button type="button" onClick={() => updateResourcePath(resource, path, "")} disabled={!value} className="rounded-full border border-white/30 px-4 py-2 text-xs font-black text-white outline-none transition hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-white/50 disabled:opacity-45">
                 Remove
               </button>
               {value ? (
-                <a href={value} target="_blank" rel="noreferrer" className="rounded-full border border-white/30 px-4 py-2 text-xs font-black text-white">
+                <a href={value} target="_blank" rel="noreferrer" className="rounded-full border border-white/30 px-4 py-2 text-xs font-black text-white outline-none transition hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-white/50">
                   Preview
                 </a>
               ) : null}
@@ -759,7 +772,7 @@ export default function AdminClient({
           draggedSection.current = null;
         }}
       >
-        <div className={`pointer-events-none absolute left-3 top-3 z-50 rounded-full border border-[#E6D6BD]/85 bg-white/94 px-2 py-1 opacity-0 shadow-xl backdrop-blur transition group-hover/editor-section:opacity-100 ${selectedSectionId === id ? "opacity-100" : ""}`}>
+        <div className={`pointer-events-none absolute left-3 top-3 z-50 rounded-full border border-[#E6D6BD]/80 bg-white/92 px-2 py-1 opacity-0 shadow-xl shadow-[#061A17]/10 backdrop-blur transition duration-150 group-hover/editor-section:opacity-100 ${selectedSectionId === id ? "opacity-100" : ""}`}>
           <div className="pointer-events-auto flex items-center gap-1 text-xs font-black text-[#0a2a24]">
             <button
               type="button"
@@ -770,18 +783,18 @@ export default function AdminClient({
               onDragEnd={() => {
                 draggedSection.current = null;
               }}
-              className="grid h-7 w-7 cursor-grab place-items-center rounded-full text-[#746754] hover:bg-[#f5ecdc] active:cursor-grabbing"
+              className="grid h-7 w-7 cursor-grab place-items-center rounded-full text-[#746754] outline-none transition hover:bg-[#f5ecdc] focus-visible:ring-2 focus-visible:ring-[#b07e33]/35 active:cursor-grabbing"
               title="Drag"
             >
               ⋮⋮
             </button>
             <span className="px-2">{label}</span>
-            <button type="button" className="grid h-7 w-7 place-items-center rounded-full hover:bg-[#f5ecdc]" title="Edit">✎</button>
-            <button type="button" onClick={() => sectionAction(actions, "up")} className="grid h-7 w-7 place-items-center rounded-full hover:bg-[#f5ecdc]" title="Move up">↑</button>
-            <button type="button" onClick={() => sectionAction(actions, "down")} className="grid h-7 w-7 place-items-center rounded-full hover:bg-[#f5ecdc]" title="Move down">↓</button>
-            <button type="button" onClick={() => sectionAction(actions, "hide")} className="grid h-7 w-7 place-items-center rounded-full hover:bg-[#f5ecdc]" title="Hide">👁</button>
-            <button type="button" onClick={() => sectionAction(actions, "duplicate")} className="grid h-7 w-7 place-items-center rounded-full hover:bg-[#f5ecdc]" title="Duplicate">⧉</button>
-            <button type="button" onClick={() => sectionAction(actions, "delete")} className="grid h-7 w-7 place-items-center rounded-full hover:bg-red-50 hover:text-red-800" title="Delete">×</button>
+            <button type="button" className="grid h-7 w-7 place-items-center rounded-full outline-none transition hover:bg-[#f5ecdc] focus-visible:ring-2 focus-visible:ring-[#b07e33]/35" title="Edit" aria-label={`Edit ${label}`}>✎</button>
+            <button type="button" onClick={() => sectionAction(actions, "up")} className="grid h-7 w-7 place-items-center rounded-full outline-none transition hover:bg-[#f5ecdc] focus-visible:ring-2 focus-visible:ring-[#b07e33]/35" title="Move up" aria-label={`Move ${label} up`}>↑</button>
+            <button type="button" onClick={() => sectionAction(actions, "down")} className="grid h-7 w-7 place-items-center rounded-full outline-none transition hover:bg-[#f5ecdc] focus-visible:ring-2 focus-visible:ring-[#b07e33]/35" title="Move down" aria-label={`Move ${label} down`}>↓</button>
+            <button type="button" onClick={() => sectionAction(actions, "hide")} className="grid h-7 w-7 place-items-center rounded-full outline-none transition hover:bg-[#f5ecdc] focus-visible:ring-2 focus-visible:ring-[#b07e33]/35" title="Hide" aria-label={`Hide ${label}`}>👁</button>
+            <button type="button" onClick={() => sectionAction(actions, "duplicate")} className="grid h-7 w-7 place-items-center rounded-full outline-none transition hover:bg-[#f5ecdc] focus-visible:ring-2 focus-visible:ring-[#b07e33]/35" title="Duplicate" aria-label={`Duplicate ${label}`}>⧉</button>
+            <button type="button" onClick={() => sectionAction(actions, "delete")} className="grid h-7 w-7 place-items-center rounded-full outline-none transition hover:bg-red-50 hover:text-red-800 focus-visible:ring-2 focus-visible:ring-red-200" title="Delete" aria-label={`Delete ${label}`}>×</button>
           </div>
         </div>
         {children}
@@ -789,14 +802,14 @@ export default function AdminClient({
     ),
     block: (label, children, actions) => (
       <div className="group/editor-block relative">
-        <div className="pointer-events-none absolute right-2 top-2 z-40 rounded-full border border-[#E6D6BD]/80 bg-white/94 px-1.5 py-1 opacity-0 shadow-lg backdrop-blur transition group-hover/editor-block:opacity-100">
+        <div className="pointer-events-none absolute right-2 top-2 z-40 rounded-full border border-[#E6D6BD]/75 bg-white/92 px-1.5 py-1 opacity-0 shadow-lg shadow-[#061A17]/10 backdrop-blur transition duration-150 group-hover/editor-block:opacity-100">
           <div className="pointer-events-auto flex items-center gap-0.5 text-[11px] font-black text-[#0a2a24]">
             <span className="px-2">{label}</span>
-            <button type="button" onClick={() => blockAction(actions, "add")} className="grid h-6 w-6 place-items-center rounded-full hover:bg-[#f5ecdc]" title="Add block">+</button>
-            <button type="button" onClick={() => blockAction(actions, "up")} className="grid h-6 w-6 place-items-center rounded-full hover:bg-[#f5ecdc]" title="Move up">↑</button>
-            <button type="button" onClick={() => blockAction(actions, "down")} className="grid h-6 w-6 place-items-center rounded-full hover:bg-[#f5ecdc]" title="Move down">↓</button>
-            <button type="button" onClick={() => blockAction(actions, "duplicate")} className="grid h-6 w-6 place-items-center rounded-full hover:bg-[#f5ecdc]" title="Duplicate">⧉</button>
-            <button type="button" onClick={() => blockAction(actions, "hide")} className="grid h-6 w-6 place-items-center rounded-full hover:bg-red-50 hover:text-red-800" title="Remove">×</button>
+            <button type="button" onClick={() => blockAction(actions, "add")} className="grid h-6 w-6 place-items-center rounded-full outline-none transition hover:bg-[#f5ecdc] focus-visible:ring-2 focus-visible:ring-[#b07e33]/35" title="Add block" aria-label={`Add ${label}`}>+</button>
+            <button type="button" onClick={() => blockAction(actions, "up")} className="grid h-6 w-6 place-items-center rounded-full outline-none transition hover:bg-[#f5ecdc] focus-visible:ring-2 focus-visible:ring-[#b07e33]/35" title="Move up" aria-label={`Move ${label} up`}>↑</button>
+            <button type="button" onClick={() => blockAction(actions, "down")} className="grid h-6 w-6 place-items-center rounded-full outline-none transition hover:bg-[#f5ecdc] focus-visible:ring-2 focus-visible:ring-[#b07e33]/35" title="Move down" aria-label={`Move ${label} down`}>↓</button>
+            <button type="button" onClick={() => blockAction(actions, "duplicate")} className="grid h-6 w-6 place-items-center rounded-full outline-none transition hover:bg-[#f5ecdc] focus-visible:ring-2 focus-visible:ring-[#b07e33]/35" title="Duplicate" aria-label={`Duplicate ${label}`}>⧉</button>
+            <button type="button" onClick={() => blockAction(actions, "hide")} className="grid h-6 w-6 place-items-center rounded-full outline-none transition hover:bg-red-50 hover:text-red-800 focus-visible:ring-2 focus-visible:ring-red-200" title="Remove" aria-label={`Remove ${label}`}>×</button>
           </div>
         </div>
         {children}
@@ -816,7 +829,7 @@ export default function AdminClient({
     <main className="min-h-screen bg-[#e8ddcb] text-[#14241F]">
       <div className="grid min-h-screen lg:grid-cols-[11rem_1fr]">
         <aside className="border-r border-[#d9c7a8] bg-[#061A17] p-2 text-white lg:sticky lg:top-0 lg:h-screen">
-          <button type="button" onClick={() => setView("home")} className="mb-3 flex w-full items-center gap-2 rounded-xl px-2 py-2 text-left hover:bg-white/10">
+          <button type="button" onClick={() => setView("home")} className="mb-3 flex w-full items-center gap-2 rounded-xl px-2 py-2 text-left outline-none transition hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-[#b07e33]/45">
             <span className="grid h-8 w-8 place-items-center rounded-lg bg-[#b07e33] text-xs font-black text-white">CF</span>
             <span>
               <b className="block text-xs">Care & Flair</b>
@@ -829,7 +842,7 @@ export default function AdminClient({
                 key={item.id}
                 type="button"
                 onClick={() => setView(item.id)}
-                className={`rounded-lg px-2.5 py-2 text-left text-xs font-bold transition ${view === item.id ? "bg-white text-[#061A17]" : "text-[#E6D6BD] hover:bg-white/10 hover:text-white"}`}
+                className={`rounded-lg px-2.5 py-2 text-left text-xs font-bold outline-none transition focus-visible:ring-2 focus-visible:ring-[#b07e33]/45 ${view === item.id ? "bg-white text-[#061A17]" : "text-[#E6D6BD] hover:bg-white/10 hover:text-white"}`}
               >
                 {item.label}
               </button>
@@ -843,7 +856,7 @@ export default function AdminClient({
                   type="button"
                   onClick={() => hiddenHomepageSections[0] && revealHomepageSection(hiddenHomepageSections[0].index)}
                   disabled={hiddenHomepageSections.length === 0}
-                  className="rounded-full border border-white/15 px-2 py-1 text-[10px] font-black text-white disabled:opacity-35"
+                  className="rounded-full border border-white/15 px-2 py-1 text-[10px] font-black text-white outline-none transition hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-[#b07e33]/45 disabled:opacity-35"
                 >
                   Add
                 </button>
@@ -867,13 +880,13 @@ export default function AdminClient({
                       className={`flex items-center gap-1 rounded-lg px-2 py-1.5 text-[11px] font-bold transition ${selectedSectionId === section.id ? "bg-white text-[#061A17]" : "text-[#E6D6BD] hover:bg-white/10"} ${section.visible === false ? "opacity-55" : ""}`}
                     >
                       <span className="cursor-grab text-white/45">⋮⋮</span>
-                      <button type="button" onClick={() => setSelectedSectionId(section.id)} className="min-w-0 flex-1 truncate text-left">
+                      <button type="button" onClick={() => setSelectedSectionId(section.id)} className="min-w-0 flex-1 truncate rounded text-left outline-none focus-visible:ring-2 focus-visible:ring-[#b07e33]/45">
                         {label}
                       </button>
                       <button
                         type="button"
                         onClick={() => updateResourcePath("homepage-sections", [index, "visible"], section.visible === false)}
-                        className="grid h-6 w-6 place-items-center rounded-full hover:bg-white/15"
+                        className="grid h-6 w-6 place-items-center rounded-full outline-none transition hover:bg-white/15 focus-visible:ring-2 focus-visible:ring-[#b07e33]/45"
                         title={section.visible === false ? "Show" : "Hide"}
                       >
                         {section.visible === false ? "+" : "−"}
@@ -884,25 +897,25 @@ export default function AdminClient({
               </div>
             </div>
           ) : null}
-          <button type="button" onClick={() => void logout()} className="mt-4 w-full rounded-full border border-white/20 px-3 py-2 text-xs font-bold text-white hover:bg-white/10">
+          <button type="button" onClick={() => void logout()} className="mt-4 w-full rounded-full border border-white/20 px-3 py-2 text-xs font-bold text-white outline-none transition hover:bg-white/10 focus-visible:ring-2 focus-visible:ring-[#b07e33]/45">
             Logout
           </button>
         </aside>
 
         <section className="min-w-0">
-          <div className="sticky top-0 z-[90] border-b border-[#d9c7a8] bg-[#fbf6ee]/96 px-3 py-2 shadow-sm backdrop-blur">
+          <div className="sticky top-0 z-[90] border-b border-[#d9c7a8] bg-[#fbf6ee]/94 px-3 py-2 shadow-sm backdrop-blur">
             <div className="flex flex-col gap-2 xl:flex-row xl:items-center xl:justify-between">
-              <div>
-                <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#746754]">Editing {view === "home" ? "Home" : sidebarItems.find((item) => item.id === view)?.label}</p>
-                <p className="text-xs font-semibold text-[#0a2a24]">
-                  {view === "home" ? "Click text to edit. Enter confirms, Escape cancels." : view === "quote-requests" ? "Production quote inbox. Unchanged." : "This page is queued for a later phase."}
-                </p>
+              <div className="flex items-center gap-3">
+                <p className="text-xs font-black text-[#0a2a24]">{view === "home" ? "Home" : sidebarItems.find((item) => item.id === view)?.label}</p>
+                <span className={`rounded-full px-2.5 py-1 text-[11px] font-black ${saveState === "saving" ? "bg-[#f5ecdc] text-[#746754]" : hasDirtyChanges ? "bg-[#fff4d7] text-[#7a560f]" : saveState === "error" ? "bg-red-50 text-red-900" : "bg-emerald-50 text-emerald-950"}`}>
+                  {statusText}
+                </span>
               </div>
               <div className="flex flex-wrap items-center gap-2">
-                <button type="button" onClick={undo} disabled={!canUndo} className="rounded-full border border-[#d9c7a8] bg-white px-3 py-1.5 text-xs font-black text-[#0a2a24] disabled:cursor-not-allowed disabled:opacity-45">
+                <button type="button" onClick={undo} disabled={!canUndo} className="rounded-full border border-[#d9c7a8] bg-white px-3 py-1.5 text-xs font-black text-[#0a2a24] outline-none transition hover:border-[#b07e33]/55 focus-visible:ring-2 focus-visible:ring-[#b07e33]/35 disabled:cursor-not-allowed disabled:opacity-45">
                   Undo
                 </button>
-                <button type="button" onClick={redo} disabled={!canRedo} className="rounded-full border border-[#d9c7a8] bg-white px-3 py-1.5 text-xs font-black text-[#0a2a24] disabled:cursor-not-allowed disabled:opacity-45">
+                <button type="button" onClick={redo} disabled={!canRedo} className="rounded-full border border-[#d9c7a8] bg-white px-3 py-1.5 text-xs font-black text-[#0a2a24] outline-none transition hover:border-[#b07e33]/55 focus-visible:ring-2 focus-visible:ring-[#b07e33]/35 disabled:cursor-not-allowed disabled:opacity-45">
                   Redo
                 </button>
                 {(["desktop", "tablet", "mobile"] as const).map((item) => (
@@ -910,21 +923,21 @@ export default function AdminClient({
                     key={item}
                     type="button"
                     onClick={() => setDevice(item)}
-                    className={`rounded-full px-3 py-1.5 text-xs font-black capitalize ${device === item ? "bg-[#0a2a24] text-white" : "border border-[#d9c7a8] bg-white text-[#0a2a24]"}`}
+                    className={`rounded-full px-3 py-1.5 text-xs font-black capitalize outline-none transition focus-visible:ring-2 focus-visible:ring-[#b07e33]/35 ${device === item ? "bg-[#0a2a24] text-white" : "border border-[#d9c7a8] bg-white text-[#0a2a24] hover:border-[#b07e33]/55"}`}
                   >
                     {item}
                   </button>
                 ))}
-                <button type="button" onClick={() => setNotice("You are already previewing the draft in this canvas.")} className="rounded-full border border-[#d9c7a8] bg-white px-3 py-1.5 text-xs font-black text-[#0a2a24]">
+                <button type="button" onClick={() => setNotice("You are already previewing the draft in this canvas.")} className="rounded-full border border-[#d9c7a8] bg-white px-3 py-1.5 text-xs font-black text-[#0a2a24] outline-none transition hover:border-[#b07e33]/55 focus-visible:ring-2 focus-visible:ring-[#b07e33]/35">
                   Preview
                 </button>
-                <button type="button" onClick={() => void saveDraft()} disabled={!hasDirtyChanges || saveState === "saving"} className="rounded-full bg-[#0a2a24] px-3 py-1.5 text-xs font-black text-white disabled:cursor-not-allowed disabled:bg-[#746754]">
+                <button type="button" onClick={() => void saveDraft()} disabled={!hasDirtyChanges || saveState === "saving"} className="rounded-full bg-[#0a2a24] px-3 py-1.5 text-xs font-black text-white outline-none transition hover:bg-[#123c34] focus-visible:ring-2 focus-visible:ring-[#b07e33]/45 disabled:cursor-not-allowed disabled:bg-[#746754]">
                   {saveState === "saving" ? "Saving..." : saveState === "saved" && !hasDirtyChanges ? "Saved" : "Save Draft"}
                 </button>
-                <button type="button" onClick={() => void publishDraft()} disabled={hasDirtyChanges || !hasExistingDraft || saveState === "saving"} className="rounded-full bg-[#b07e33] px-3 py-1.5 text-xs font-black text-white disabled:cursor-not-allowed disabled:bg-[#746754]">
+                <button type="button" onClick={() => void publishDraft()} disabled={hasDirtyChanges || !hasExistingDraft || saveState === "saving"} className="rounded-full bg-[#b07e33] px-3 py-1.5 text-xs font-black text-white outline-none transition hover:bg-[#9b6d29] focus-visible:ring-2 focus-visible:ring-[#b07e33]/45 disabled:cursor-not-allowed disabled:bg-[#746754]">
                   Publish
                 </button>
-                <button type="button" onClick={() => void discardDraft()} disabled={saveState === "saving" || (!hasExistingDraft && !hasDirtyChanges)} className="rounded-full border border-red-200 bg-white px-3 py-1.5 text-xs font-black text-red-900 disabled:cursor-not-allowed disabled:opacity-45">
+                <button type="button" onClick={() => void discardDraft()} disabled={saveState === "saving" || (!hasExistingDraft && !hasDirtyChanges)} className="rounded-full border border-red-200 bg-white px-3 py-1.5 text-xs font-black text-red-900 outline-none transition hover:bg-red-50 focus-visible:ring-2 focus-visible:ring-red-200 disabled:cursor-not-allowed disabled:opacity-45">
                   Discard
                 </button>
               </div>
