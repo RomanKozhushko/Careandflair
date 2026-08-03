@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { PointerEvent, useRef, useState } from "react";
 import type { BeforeAfterItem } from "@/lib/types";
+import type { VisualEditorAdapter } from "@/lib/visualEditor";
 
 function imageOrFallback(src?: string, fallback = "/images/generated/hero-living-room-reset.jpg") {
   return src && src.trim().length > 0 ? src : fallback;
@@ -22,11 +23,27 @@ function SliderImage({ src, alt, className = "", priority = false }: { src?: str
   );
 }
 
-export function HeroBeforeAfterSlider({ item, heroImage, priority = false }: { item?: BeforeAfterItem; heroImage?: string; priority?: boolean }) {
+export function HeroBeforeAfterSlider({
+  editor,
+  heroImage,
+  heroIndex = -1,
+  item,
+  itemIndex = -1,
+  priority = false,
+}: {
+  editor?: VisualEditorAdapter;
+  heroImage?: string;
+  heroIndex?: number;
+  item?: BeforeAfterItem;
+  itemIndex?: number;
+  priority?: boolean;
+}) {
   const [position, setPosition] = useState(52);
   const frameRef = useRef<HTMLDivElement>(null);
   const before = imageOrFallback(item?.beforeImage, heroImage);
   const after = imageOrFallback(item?.afterImage, heroImage);
+  const beforeImage = <SliderImage src={before} alt={item?.beforeAlt ?? "Property before reset"} priority={priority} className="object-left saturate-[0.82]" />;
+  const afterImage = <SliderImage src={after} alt={item?.afterAlt ?? "Property after reset"} priority={priority} className="object-right transition duration-500 group-hover:scale-[1.015]" />;
 
   function updateFromPointer(event: PointerEvent<HTMLDivElement>) {
     const rect = frameRef.current?.getBoundingClientRect();
@@ -47,14 +64,18 @@ export function HeroBeforeAfterSlider({ item, heroImage, priority = false }: { i
       aria-label="Hero before and after comparison"
     >
       <div className="absolute inset-0">
-        <SliderImage src={before} alt={item?.beforeAlt ?? "Property before reset"} priority={priority} className="object-left saturate-[0.82]" />
+        {editor && itemIndex >= 0 ? editor.image({ resource: "before-after", path: [itemIndex, "beforeImage"], value: item?.beforeImage, label: "Hero before image", children: beforeImage }) : beforeImage}
       </div>
       <div className="absolute inset-0 overflow-hidden" style={{ clipPath: `inset(0 0 0 ${position}%)` }}>
-        <SliderImage src={after} alt={item?.afterAlt ?? "Property after reset"} priority={priority} className="object-right transition duration-500 group-hover:scale-[1.015]" />
+        {editor && itemIndex >= 0 ? editor.image({ resource: "before-after", path: [itemIndex, "afterImage"], value: item?.afterImage, label: "Hero after image", children: afterImage }) : editor && heroIndex >= 0 ? editor.image({ resource: "homepage-sections", path: [heroIndex, "heroImage"], value: heroImage, label: "Hero image", children: afterImage }) : afterImage}
       </div>
 
-      <div className="pointer-events-none absolute left-4 top-4 rounded-full bg-white/92 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.08em] text-[var(--cf-navy)] shadow-sm">Before</div>
-      <div className="pointer-events-none absolute right-4 top-4 rounded-full bg-[var(--cf-navy)]/94 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.08em] text-white shadow-sm">After</div>
+      <div className={`${editor ? "" : "pointer-events-none"} absolute left-4 top-4 rounded-full bg-white/92 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.08em] text-[var(--cf-navy)] shadow-sm`}>
+        {editor && itemIndex >= 0 ? editor.text("before-after", [itemIndex, "beforeAlt"], item?.beforeAlt ?? "Before") : "Before"}
+      </div>
+      <div className={`${editor ? "" : "pointer-events-none"} absolute right-4 top-4 rounded-full bg-[var(--cf-navy)]/94 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.08em] text-white shadow-sm`}>
+        {editor && itemIndex >= 0 ? editor.text("before-after", [itemIndex, "afterAlt"], item?.afterAlt ?? "After") : "After"}
+      </div>
 
       <div
         className="pointer-events-none absolute inset-y-0 w-1 -translate-x-1/2 bg-white shadow-[0_0_0_1px_rgba(8,27,45,0.14)]"

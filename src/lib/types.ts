@@ -19,6 +19,12 @@ export type SiteSettings = {
   brandLine?: string;
   coreMessage?: string;
   serviceAreaSummary: string;
+  headerQuoteLabel?: string;
+  headerQuoteHref?: string;
+  headerWhatsappLabel?: string;
+  headerWhatsappHref?: string;
+  footerExploreLabel?: string;
+  footerContactLabel?: string;
   parallax?: {
     parallaxEnabled: boolean;
     parallaxIntensity: "subtle" | "medium" | "off";
@@ -60,6 +66,11 @@ export type HomepageSection = Visibility & {
   imageAlt?: string;
   visualSteps?: string[];
   visualProofs?: HeroProof[];
+  whatsappLabel?: string;
+  whatsappHref?: string;
+  testimonialStars?: string;
+  testimonialQuote?: string;
+  testimonialAuthor?: string;
   steps?: Array<{
     title: string;
     description: string;
@@ -144,6 +155,7 @@ export type GuardianPlan = Visibility & {
   billingPeriod: string;
   includedChecks: string[];
   recommended: boolean;
+  recommendedLabel?: string;
 };
 
 export type BeforeAfterItem = Visibility & {

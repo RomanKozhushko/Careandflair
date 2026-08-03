@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PointerEvent, useMemo, useRef, useState } from "react";
 import type { HomepageTransformationsContent, HomepageTransformationSlide } from "@/lib/types";
+import type { VisualEditorAdapter } from "@/lib/visualEditor";
 
 function safeSlides(slides: HomepageTransformationSlide[]) {
   return [...slides]
@@ -28,7 +29,19 @@ function SlideImage({ src, alt, className = "" }: { src?: string; alt?: string; 
   );
 }
 
-function HomepageBeforeAfterSlider({ slide, position, onChange }: { slide: HomepageTransformationSlide; position: number; onChange: (position: number) => void }) {
+function HomepageBeforeAfterSlider({
+  editor,
+  position,
+  slide,
+  slideIndex,
+  onChange,
+}: {
+  editor?: VisualEditorAdapter;
+  position: number;
+  slide: HomepageTransformationSlide;
+  slideIndex: number;
+  onChange: (position: number) => void;
+}) {
   const frameRef = useRef<HTMLDivElement>(null);
 
   function updateFromPointer(event: PointerEvent<HTMLDivElement>) {
@@ -50,17 +63,17 @@ function HomepageBeforeAfterSlider({ slide, position, onChange }: { slide: Homep
       aria-label={`${slide.title} before and after comparison`}
     >
       <div className="absolute inset-0">
-        <SlideImage src={slide.beforeImage} alt={slide.beforeAlt} className="object-left" />
+        {editor ? editor.image({ resource: "homepage-transformations", path: [0, "slides", slideIndex, "beforeImage"], value: slide.beforeImage, label: `${slide.title} before image`, children: <SlideImage src={slide.beforeImage} alt={slide.beforeAlt} className="object-left" /> }) : <SlideImage src={slide.beforeImage} alt={slide.beforeAlt} className="object-left" />}
       </div>
       <div className="absolute inset-0 overflow-hidden" style={{ clipPath: `inset(0 0 0 ${position}%)` }}>
-        <SlideImage src={slide.afterImage} alt={slide.afterAlt} className="object-right" />
+        {editor ? editor.image({ resource: "homepage-transformations", path: [0, "slides", slideIndex, "afterImage"], value: slide.afterImage, label: `${slide.title} after image`, children: <SlideImage src={slide.afterImage} alt={slide.afterAlt} className="object-right" /> }) : <SlideImage src={slide.afterImage} alt={slide.afterAlt} className="object-right" />}
       </div>
 
-      <div className="pointer-events-none absolute left-4 top-4 rounded-full bg-white/92 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.08em] text-[var(--cf-navy)] shadow-sm">
-        {slide.beforeLabel || "Before"}
+      <div className={`${editor ? "" : "pointer-events-none"} absolute left-4 top-4 rounded-full bg-white/92 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.08em] text-[var(--cf-navy)] shadow-sm`}>
+        {editor ? editor.text("homepage-transformations", [0, "slides", slideIndex, "beforeLabel"], slide.beforeLabel || "Before") : (slide.beforeLabel || "Before")}
       </div>
-      <div className="pointer-events-none absolute right-4 top-4 rounded-full bg-[var(--cf-navy)]/94 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.08em] text-white shadow-sm">
-        {slide.afterLabel || "After"}
+      <div className={`${editor ? "" : "pointer-events-none"} absolute right-4 top-4 rounded-full bg-[var(--cf-navy)]/94 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.08em] text-white shadow-sm`}>
+        {editor ? editor.text("homepage-transformations", [0, "slides", slideIndex, "afterLabel"], slide.afterLabel || "After") : (slide.afterLabel || "After")}
       </div>
 
       <div
@@ -84,22 +97,26 @@ function HomepageBeforeAfterSlider({ slide, position, onChange }: { slide: Homep
   );
 }
 
-function TextPanel({ label, heading, text }: { label: string; heading: string; text: string }) {
+function TextPanel({ editor, label, heading, text, slideIndex, type }: { editor?: VisualEditorAdapter; label: string; heading: string; text: string; slideIndex: number; type: "before" | "after" }) {
+  const labelField = type === "before" ? "beforeLabel" : "afterLabel";
+  const headingField = type === "before" ? "beforeHeading" : "afterHeading";
+  const textField = type === "before" ? "beforeText" : "afterText";
   return (
     <article className="rounded-[24px] border border-white/12 bg-white/[0.05] p-6 text-white lg:p-7">
-      <p className="text-xs font-extrabold uppercase tracking-[0.08em] text-[var(--cf-gold-soft)]">{label}</p>
-      <h3 className="mt-4 font-serif text-[30px] font-semibold leading-[1.08] tracking-[-0.02em] lg:text-[38px]">{heading}</h3>
-      <p className="mt-4 text-[16px] leading-7 text-[var(--cf-text-light-soft)] lg:text-[17px]">{text}</p>
+      <p className="text-xs font-extrabold uppercase tracking-[0.08em] text-[var(--cf-gold-soft)]">{editor ? editor.text("homepage-transformations", [0, "slides", slideIndex, labelField], label) : label}</p>
+      <h3 className="mt-4 font-serif text-[30px] font-semibold leading-[1.08] tracking-[-0.02em] lg:text-[38px]">{editor ? editor.text("homepage-transformations", [0, "slides", slideIndex, headingField], heading) : heading}</h3>
+      <p className="mt-4 text-[16px] leading-7 text-[var(--cf-text-light-soft)] lg:text-[17px]">{editor ? editor.text("homepage-transformations", [0, "slides", slideIndex, textField], text) : text}</p>
     </article>
   );
 }
 
-export function HomepageTransformationCarousel({ content }: { content: HomepageTransformationsContent }) {
+export function HomepageTransformationCarousel({ content, editor }: { content: HomepageTransformationsContent; editor?: VisualEditorAdapter }) {
   const slides = useMemo(() => safeSlides(content.slides ?? []), [content.slides]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [positions, setPositions] = useState<Record<string, number>>({});
   const activeSlide = slides[activeIndex] ?? slides[0];
   const activePosition = activeSlide ? positions[activeSlide.id] ?? 52 : 52;
+  const activeSourceIndex = activeSlide ? content.slides.findIndex((slide) => slide.id === activeSlide.id) : activeIndex;
 
   if (!activeSlide) return null;
 
@@ -117,9 +134,9 @@ export function HomepageTransformationCarousel({ content }: { content: HomepageT
       <div className="overflow-hidden rounded-[28px] border border-[var(--cf-border-dark)] bg-[linear-gradient(135deg,var(--cf-navy),var(--cf-navy-2))] p-5 text-white shadow-[var(--cf-shadow-navy)] md:p-7 lg:p-8">
         <div className="grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
-            <p className="text-xs font-extrabold uppercase tracking-[0.08em] text-[var(--cf-gold-soft)]">{content.sectionLabel}</p>
-            <h2 className="mt-3 font-serif text-[34px] font-semibold leading-[1.08] tracking-[-0.02em] text-white lg:text-[46px]">{content.heading}</h2>
-            <p className="mt-4 max-w-[720px] text-[17px] leading-8 text-[var(--cf-text-light-soft)]">{content.subheading}</p>
+            <p className="text-xs font-extrabold uppercase tracking-[0.08em] text-[var(--cf-gold-soft)]">{editor ? editor.text("homepage-transformations", [0, "sectionLabel"], content.sectionLabel) : content.sectionLabel}</p>
+            <h2 className="mt-3 font-serif text-[34px] font-semibold leading-[1.08] tracking-[-0.02em] text-white lg:text-[46px]">{editor ? editor.text("homepage-transformations", [0, "heading"], content.heading) : content.heading}</h2>
+            <p className="mt-4 max-w-[720px] text-[17px] leading-8 text-[var(--cf-text-light-soft)]">{editor ? editor.text("homepage-transformations", [0, "subheading"], content.subheading) : content.subheading}</p>
           </div>
 
           <div className="flex items-center gap-3">
@@ -146,25 +163,25 @@ export function HomepageTransformationCarousel({ content }: { content: HomepageT
         </div>
 
         <div className="mt-7" aria-live="polite">
-          <p className="mb-4 text-[20px] font-extrabold text-white">{activeSlide.title}</p>
+          <p className="mb-4 text-[20px] font-extrabold text-white">{editor ? editor.text("homepage-transformations", [0, "slides", activeSourceIndex, "title"], activeSlide.title) : activeSlide.title}</p>
           <div className="grid gap-4 lg:grid-cols-[0.72fr_1.2fr_0.72fr] lg:items-stretch">
             <div className="order-2 lg:order-1">
-              <TextPanel label={activeSlide.beforeLabel || "Before"} heading={activeSlide.beforeHeading} text={activeSlide.beforeText} />
+              <TextPanel editor={editor} label={activeSlide.beforeLabel || "Before"} heading={activeSlide.beforeHeading} text={activeSlide.beforeText} slideIndex={activeSourceIndex} type="before" />
             </div>
             <div className="order-1 min-h-[320px] lg:order-2">
-              <HomepageBeforeAfterSlider slide={activeSlide} position={activePosition} onChange={updatePosition} />
+              <HomepageBeforeAfterSlider editor={editor} slide={activeSlide} slideIndex={activeSourceIndex} position={activePosition} onChange={updatePosition} />
             </div>
             <div className="order-3">
-              <TextPanel label={activeSlide.afterLabel || "After"} heading={activeSlide.afterHeading} text={activeSlide.afterText} />
+              <TextPanel editor={editor} label={activeSlide.afterLabel || "After"} heading={activeSlide.afterHeading} text={activeSlide.afterText} slideIndex={activeSourceIndex} type="after" />
             </div>
           </div>
         </div>
 
         <div className="mt-6 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex flex-wrap gap-2">
-            {(activeSlide.badges ?? []).map((badge) => (
+            {(activeSlide.badges ?? []).map((badge, badgeIndex) => (
               <span key={badge} className="rounded-full bg-white/92 px-4 py-2 text-sm font-extrabold text-[var(--cf-navy)] shadow-sm">
-                {badge}
+                {editor ? editor.text("homepage-transformations", [0, "slides", activeSourceIndex, "badges", badgeIndex], badge) : badge}
               </span>
             ))}
           </div>
@@ -182,9 +199,11 @@ export function HomepageTransformationCarousel({ content }: { content: HomepageT
                 />
               ))}
             </div>
-            <Link href={content.ctaHref || "/#before-after"} className="inline-flex h-11 items-center justify-center rounded-[14px] border border-white/30 px-5 text-sm font-extrabold text-white transition hover:bg-white/10">
-              {content.ctaLabel || "See more transformations"}
-            </Link>
+            {editor ? editor.button({ id: "homepage-transformations-cta", resource: "homepage-transformations", label: content.ctaLabel || "See more transformations", href: content.ctaHref || "/#before-after", labelPath: [0, "ctaLabel"], hrefPath: [0, "ctaHref"], className: "h-11", variant: "ghost" }) : (
+              <Link href={content.ctaHref || "/#before-after"} className="inline-flex h-11 items-center justify-center rounded-[14px] border border-white/30 px-5 text-sm font-extrabold text-white transition hover:bg-white/10">
+                {content.ctaLabel || "See more transformations"}
+              </Link>
+            )}
           </div>
         </div>
       </div>

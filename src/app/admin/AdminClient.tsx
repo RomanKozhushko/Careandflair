@@ -4,11 +4,12 @@ import { useMemo, useRef, useState } from "react";
 import { AdminQuoteRequests } from "@/admin/components/AdminQuoteRequests";
 import type { AdminResourceKey } from "@/admin/resources";
 import type { JsonRecord } from "@/admin/jsonStore";
-import { ApprovedHomePage, type HomepageEditableResource, type HomepageEditorAdapter } from "@/homepage/ApprovedHomePage";
+import { ApprovedHomePage } from "@/homepage/ApprovedHomePage";
 import { Footer } from "@/layout/Footer";
 import { Header } from "@/layout/Header";
 import type { ContentBundle } from "@/lib/content";
 import type { ContentSource } from "@/lib/siteContent";
+import type { EditableResourceKey, EditableSectionActions, VisualEditorAdapter, EditableButtonConfig, EditableImageConfig } from "@/lib/visualEditor";
 import type {
   Area,
   AudienceMode,
@@ -46,7 +47,19 @@ type AdminView = "home" | "quote" | "before-after" | "packages" | "faq" | "areas
 type PreviewDevice = "desktop" | "tablet" | "mobile";
 type UploadResponse = { success?: boolean; url?: string; publicUrl?: string; error?: string };
 
-const homepageResources: HomepageEditableResource[] = ["homepage-sections", "homepage-transformations", "cta-mappings"];
+const homepageResources: EditableResourceKey[] = [
+  "site-settings",
+  "homepage-sections",
+  "homepage-transformations",
+  "cta-mappings",
+  "packages",
+  "solutions",
+  "guardian-plans",
+  "faqs",
+  "areas",
+  "testimonials",
+  "before-after",
+];
 const sidebarItems: { id: AdminView; label: string }[] = [
   { id: "home", label: "Home" },
   { id: "quote", label: "Quote" },
@@ -59,7 +72,7 @@ const sidebarItems: { id: AdminView; label: string }[] = [
   { id: "quote-requests", label: "Quote Requests" },
 ];
 
-function pathKey(resource: HomepageEditableResource, path: Array<string | number>) {
+function pathKey(resource: EditableResourceKey, path: Array<string | number>) {
   return `${resource}:${path.join(".")}`;
 }
 
@@ -141,7 +154,7 @@ export default function AdminClient({
   const [device, setDevice] = useState<PreviewDevice>("desktop");
   const [data, setData] = useState<ResourceData>(initialData);
   const [resourceStates, setResourceStates] = useState<ResourceStateData>(initialResourceStates);
-  const [dirtyResources, setDirtyResources] = useState<Set<HomepageEditableResource>>(() => new Set());
+  const [dirtyResources, setDirtyResources] = useState<Set<EditableResourceKey>>(() => new Set());
   const [editingKey, setEditingKey] = useState<string | null>(null);
   const [saveState, setSaveState] = useState<SaveState>("idle");
   const [notice, setNotice] = useState("");
@@ -150,28 +163,27 @@ export default function AdminClient({
   const fileInputs = useRef<Record<string, HTMLInputElement | null>>({});
 
   const content = useMemo(() => resourceItemsToContent(data), [data]);
+  const quoteCtaIndex = content.ctaMappings.findIndex((cta) => cta.id === "build-your-quote");
+  const quoteCta = content.ctaMappings[quoteCtaIndex] ?? { id: "build-your-quote", label: "Get quote", href: "/quote" };
+  const whatsappHref = content.siteSettings.headerWhatsappHref ?? `https://wa.me/${content.siteSettings.phone.replace(/\D/g, "")}`;
   const draftReady = homepageResources.every((resource) => resourceStates[resource]?.configured);
   const hasExistingDraft = homepageResources.some((resource) => resourceStates[resource]?.hasDraft || resourceStates[resource]?.source === "draft");
   const hasDirtyChanges = dirtyResources.size > 0;
   const deviceClass = device === "desktop" ? "max-w-full" : device === "tablet" ? "max-w-[820px]" : "max-w-[390px]";
 
-  function markDirty(resource: HomepageEditableResource) {
+  function markDirty(resource: EditableResourceKey) {
     setDirtyResources((current) => new Set(current).add(resource));
     setSaveState("idle");
     setNotice("");
     setError("");
   }
 
-  function updateResourcePath(resource: HomepageEditableResource, path: Array<string | number>, value: unknown) {
+  function updateResourcePath(resource: EditableResourceKey, path: Array<string | number>, value: unknown) {
     setData((current) => ({ ...current, [resource]: setValueAtPath(current[resource], path, value) as JsonRecord[] }));
     markDirty(resource);
   }
 
-  function ctaIndex(ctaId: string) {
-    return content.ctaMappings.findIndex((cta) => cta.id === ctaId);
-  }
-
-  async function saveResource(resource: HomepageEditableResource) {
+  async function saveResource(resource: EditableResourceKey) {
     const response = await fetch(`/api/admin/${resource}?version=draft`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
@@ -239,7 +251,9 @@ export default function AdminClient({
 
     try {
       await Promise.all(
-        homepageResources.map(async (resource) => {
+        homepageResources
+          .filter((resource) => resourceStates[resource]?.hasDraft || resourceStates[resource]?.source === "draft")
+          .map(async (resource) => {
           const response = await fetch(`/api/admin/${resource}?action=publish`, { method: "POST" });
           const result = (await response.json().catch(() => null)) as { items?: JsonRecord[]; source?: ContentSource; error?: string } | null;
 
@@ -295,7 +309,7 @@ export default function AdminClient({
     }
   }
 
-  async function uploadImage(resource: HomepageEditableResource, path: Array<string | number>, file: File | null) {
+  async function uploadImage(resource: EditableResourceKey, path: Array<string | number>, file: File | null) {
     if (!file) return;
     const key = pathKey(resource, path);
     setUploadingKey(key);
@@ -333,7 +347,7 @@ export default function AdminClient({
     }
   }
 
-  function renderEditableText(resource: HomepageEditableResource, path: Array<string | number>, value: string) {
+  function renderEditableText(resource: EditableResourceKey, path: Array<string | number>, value: string) {
     const key = pathKey(resource, path);
     const active = editingKey === key;
 
@@ -377,29 +391,47 @@ export default function AdminClient({
     );
   }
 
-  function renderEditableButton(ctaId: string, label: string, href: string, className: string, fallback: React.ReactNode) {
-    const index = ctaIndex(ctaId);
-    if (index < 0) return fallback;
-    const labelKey = pathKey("cta-mappings", [index, "label"]);
-    const hrefKey = pathKey("cta-mappings", [index, "href"]);
+  function renderEditableButton(config: EditableButtonConfig) {
+    const labelKey = pathKey(config.resource, config.labelPath);
+    const hrefKey = pathKey(config.resource, config.hrefPath);
     const isEditing = editingKey === labelKey || editingKey === hrefKey;
+    const variantClass =
+      config.variant === "whatsapp"
+        ? "gap-2 border border-[rgba(8,27,45,0.18)] bg-white text-[var(--cf-navy)] shadow-sm hover:border-[rgba(37,211,102,0.35)] hover:bg-[rgba(37,211,102,0.08)]"
+        : config.variant === "secondary"
+          ? "border border-[rgba(8,27,45,0.15)] bg-white text-[var(--cf-navy)] shadow-sm"
+          : config.variant === "ghost"
+            ? "border border-white/30 bg-transparent text-white hover:bg-white/10"
+            : config.variant === "link"
+              ? "h-auto rounded-none bg-transparent px-0 text-current shadow-none"
+              : "bg-[var(--cf-cherry)] text-white shadow-[0_14px_30px_rgba(138,15,46,0.22)] hover:bg-[var(--cf-cherry-2)]";
 
     return (
       <span className="group/editor-button relative inline-flex">
-        <span className={`inline-flex h-12 items-center justify-center rounded-[14px] bg-[var(--cf-cherry)] px-6 text-sm font-bold text-white shadow-[0_14px_30px_rgba(138,15,46,0.22)] ${className}`}>
-          {renderEditableText("cta-mappings", [index, "label"], label)}
+        <span className={`inline-flex h-12 items-center justify-center rounded-[14px] px-6 text-sm font-bold transition hover:-translate-y-px ${variantClass} ${config.className}`}>
+          {config.icon}
+          {renderEditableText(config.resource, config.labelPath, config.label)}
         </span>
         <span className="absolute left-0 top-[calc(100%+0.5rem)] z-50 hidden min-w-72 rounded-2xl border border-[#E6D6BD] bg-white p-3 text-sm shadow-2xl group-hover/editor-button:block">
           <label className="block font-bold text-[#0a2a24]">
-            Destination
+            Text
             <input
-              value={href}
-              onFocus={() => setEditingKey(hrefKey)}
-              onChange={(event) => updateResourcePath("cta-mappings", [index, "href"], event.target.value)}
+              value={config.label}
+              onFocus={() => setEditingKey(labelKey)}
+              onChange={(event) => updateResourcePath(config.resource, config.labelPath, event.target.value)}
               className="mt-2 min-h-10 w-full rounded-xl border border-[#E6D6BD] px-3 text-sm text-[#14241F] outline-none focus:border-[#b07e33]"
             />
           </label>
-          <a href={href} target="_blank" rel="noreferrer" className="mt-2 inline-flex text-xs font-bold text-[#8A0F2E]">
+          <label className="mt-3 block font-bold text-[#0a2a24]">
+            Destination
+            <input
+              value={config.href}
+              onFocus={() => setEditingKey(hrefKey)}
+              onChange={(event) => updateResourcePath(config.resource, config.hrefPath, event.target.value)}
+              className="mt-2 min-h-10 w-full rounded-xl border border-[#E6D6BD] px-3 text-sm text-[#14241F] outline-none focus:border-[#b07e33]"
+            />
+          </label>
+          <a href={config.href} target="_blank" rel="noreferrer" className="mt-3 inline-flex text-xs font-bold text-[#8A0F2E]">
             Open in new tab
           </a>
         </span>
@@ -408,7 +440,8 @@ export default function AdminClient({
     );
   }
 
-  function renderEditableImage(resource: HomepageEditableResource, path: Array<string | number>, value: string | undefined, label: string, children: React.ReactNode) {
+  function renderEditableImage(config: EditableImageConfig) {
+    const { resource, path, value, label, children } = config;
     const key = pathKey(resource, path);
     const inputId = `image-${key}`.replace(/[^a-zA-Z0-9_-]/g, "-");
 
@@ -458,17 +491,49 @@ export default function AdminClient({
     );
   }
 
-  const editor: HomepageEditorAdapter = {
-    section: (id, label, children) => (
+  function sectionAction(actions: EditableSectionActions | undefined, type: "up" | "down" | "hide" | "delete" | "duplicate") {
+    if (!actions) return;
+    const items = data[actions.resource];
+    const current = items[actions.index];
+    if (!current) return;
+
+    if (type === "hide" || type === "delete") {
+      updateResourcePath(actions.resource, [actions.index, "visible"], false);
+      return;
+    }
+
+    if (type === "duplicate") {
+      const clone = structuredClone(current) as JsonRecord;
+      const suffix = `${Date.now()}`.slice(-5);
+      if (typeof clone.id === "string") clone.id = `${clone.id}-copy-${suffix}`;
+      if (typeof clone.slug === "string") clone.slug = `${clone.slug}-copy-${suffix}`;
+      const next = [...items.slice(0, actions.index + 1), clone, ...items.slice(actions.index + 1)];
+      setData((currentData) => ({ ...currentData, [actions.resource]: next }));
+      markDirty(actions.resource);
+      return;
+    }
+
+    const target = actions.index + (type === "up" ? -1 : 1);
+    if (target < 0 || target >= items.length) return;
+    const next = [...items];
+    const [moved] = next.splice(actions.index, 1);
+    next.splice(target, 0, moved);
+    setData((currentData) => ({ ...currentData, [actions.resource]: next.map((item, index) => ({ ...item, order: index + 1 })) }));
+    markDirty(actions.resource);
+  }
+
+  const editor: VisualEditorAdapter = {
+    section: (id, label, children, actions) => (
       <section className="group/editor-section relative" data-editor-section={id}>
-        <div className="pointer-events-none absolute left-4 top-4 z-50 hidden rounded-full border border-[#E6D6BD] bg-white/95 px-2 py-1 shadow-xl group-hover/editor-section:block">
+        <div className="pointer-events-none absolute left-3 top-3 z-50 hidden rounded-full border border-[#E6D6BD]/85 bg-white/92 px-2 py-1 shadow-xl backdrop-blur group-hover/editor-section:block">
           <div className="pointer-events-auto flex items-center gap-1 text-xs font-black text-[#0a2a24]">
             <span className="px-2">{label}</span>
-            {["✎", "↑", "↓", "👁", "⧉", "🗑"].map((action) => (
-              <button key={action} type="button" className="grid h-7 w-7 place-items-center rounded-full hover:bg-[#f5ecdc]" title="Coming in the section-order phase">
-                {action}
-              </button>
-            ))}
+            <button type="button" className="grid h-7 w-7 place-items-center rounded-full hover:bg-[#f5ecdc]" title="Edit">✎</button>
+            <button type="button" onClick={() => sectionAction(actions, "up")} className="grid h-7 w-7 place-items-center rounded-full hover:bg-[#f5ecdc]" title="Move up">↑</button>
+            <button type="button" onClick={() => sectionAction(actions, "down")} className="grid h-7 w-7 place-items-center rounded-full hover:bg-[#f5ecdc]" title="Move down">↓</button>
+            <button type="button" onClick={() => sectionAction(actions, "hide")} className="grid h-7 w-7 place-items-center rounded-full hover:bg-[#f5ecdc]" title="Hide">👁</button>
+            <button type="button" onClick={() => sectionAction(actions, "duplicate")} className="grid h-7 w-7 place-items-center rounded-full hover:bg-[#f5ecdc]" title="Duplicate">⧉</button>
+            <button type="button" onClick={() => sectionAction(actions, "delete")} className="grid h-7 w-7 place-items-center rounded-full hover:bg-red-50 hover:text-red-800" title="Delete">×</button>
           </div>
         </div>
         {children}
@@ -560,11 +625,28 @@ export default function AdminClient({
             <div className="overflow-auto p-4 sm:p-6">
               <div className={`mx-auto overflow-hidden rounded-[18px] bg-[var(--cf-ivory)] shadow-2xl shadow-[#061A17]/18 transition-all duration-300 ${deviceClass}`}>
                 <div className="min-h-screen overflow-x-clip bg-[var(--cf-ivory)] pb-16 text-[var(--cf-text)] sm:pb-0">
-                  <Header content={content} />
+                  <Header content={content} editor={editor} />
                   <main>
                     <ApprovedHomePage content={content} editor={editor} />
                   </main>
-                  <Footer content={content} />
+                  <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/30 bg-[var(--cf-navy)]/96 p-3 shadow-[0_-16px_38px_rgba(6,29,51,0.22)] backdrop-blur sm:hidden">
+                    <div className="grid grid-cols-2 gap-2">
+                      {editor.button({
+                        id: "mobile-whatsapp",
+                        resource: "site-settings",
+                        label: content.siteSettings.headerWhatsappLabel ?? "WhatsApp",
+                        href: whatsappHref,
+                        labelPath: [0, "headerWhatsappLabel"],
+                        hrefPath: [0, "headerWhatsappHref"],
+                        className: "w-full",
+                        variant: "whatsapp",
+                      })}
+                      {quoteCtaIndex >= 0
+                        ? editor.button({ id: quoteCta.id, resource: "cta-mappings", label: quoteCta.label, href: quoteCta.href, labelPath: [quoteCtaIndex, "label"], hrefPath: [quoteCtaIndex, "href"], className: "w-full", variant: "primary" })
+                        : null}
+                    </div>
+                  </div>
+                  <Footer content={content} editor={editor} />
                 </div>
               </div>
             </div>
