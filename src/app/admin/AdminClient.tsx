@@ -79,6 +79,17 @@ const sidebarItems: { id: AdminView; label: string }[] = [
   { id: "settings", label: "Settings" },
   { id: "quote-requests", label: "Quote Requests" },
 ];
+const homepageSectionLabels: Record<string, string> = {
+  hero: "Hero",
+  "before-after": "Before & After",
+  "reset-packages": "Packages",
+  "flair-solutions": "Services",
+  "how-it-works": "How it Works",
+  "guardian-plans": "Guardian Plans",
+  "areas-served": "Areas",
+  faq: "FAQ",
+  "final-cta": "Final CTA",
+};
 
 function pathKey(resource: EditableResourceKey, path: Array<string | number>) {
   return `${resource}:${path.join(".")}`;
@@ -174,8 +185,10 @@ export default function AdminClient({
   const [uploadingKey, setUploadingKey] = useState<string | null>(null);
   const [past, setPast] = useState<HistorySnapshot[]>([]);
   const [future, setFuture] = useState<HistorySnapshot[]>([]);
+  const [selectedSectionId, setSelectedSectionId] = useState<string | null>(null);
   const fileInputs = useRef<Record<string, HTMLInputElement | null>>({});
   const editSession = useRef<EditSession | null>(null);
+  const draggedSection = useRef<EditableSectionActions | null>(null);
 
   const content = useMemo(() => resourceItemsToContent(data), [data]);
   const quoteCtaIndex = content.ctaMappings.findIndex((cta) => cta.id === "build-your-quote");
@@ -187,6 +200,14 @@ export default function AdminClient({
   const deviceClass = device === "desktop" ? "max-w-full" : device === "tablet" ? "max-w-[820px]" : "max-w-[390px]";
   const canUndo = past.length > 0;
   const canRedo = future.length > 0;
+  const homepageSectionList = useMemo(
+    () =>
+      (data["homepage-sections"] as HomepageSection[])
+        .map((section, index) => ({ section, index, label: homepageSectionLabels[section.id] ?? section.title ?? section.id }))
+        .sort((a, b) => (a.section.order ?? a.index) - (b.section.order ?? b.index)),
+    [data],
+  );
+  const hiddenHomepageSections = homepageSectionList.filter((item) => item.section.visible === false);
 
   function currentSnapshot(): HistorySnapshot {
     return { data: snapshotData(data), dirtyResources: Array.from(dirtyResources) };
@@ -656,11 +677,55 @@ export default function AdminClient({
     markDirty(actions.resource);
   }
 
+  function reorderSection(from: EditableSectionActions | undefined, to: EditableSectionActions | undefined) {
+    if (!from || !to || from.resource !== to.resource || from.index === to.index) return;
+    const items = data[from.resource];
+    const next = [...items];
+    const [moved] = next.splice(from.index, 1);
+    if (!moved) return;
+
+    next.splice(to.index, 0, moved);
+    pushHistory(currentSnapshot());
+    setData((currentData) => ({ ...currentData, [from.resource]: next.map((item, index) => ({ ...item, order: index + 1 })) }));
+    markDirty(from.resource);
+  }
+
+  function revealHomepageSection(index: number) {
+    updateResourcePath("homepage-sections", [index, "visible"], true);
+  }
+
   const editor: VisualEditorAdapter = {
     section: (id, label, children, actions) => (
-      <section className="group/editor-section relative" data-editor-section={id}>
-        <div className="pointer-events-none absolute left-3 top-3 z-50 hidden rounded-full border border-[#E6D6BD]/85 bg-white/92 px-2 py-1 shadow-xl backdrop-blur group-hover/editor-section:block">
+      <section
+        className={`group/editor-section relative transition-shadow ${selectedSectionId === id ? "shadow-[inset_0_0_0_1px_rgba(176,126,51,0.38)]" : ""}`}
+        data-editor-section={id}
+        onClickCapture={() => setSelectedSectionId(id)}
+        onDragOver={(event) => {
+          if (!actions || !draggedSection.current) return;
+          event.preventDefault();
+        }}
+        onDrop={(event) => {
+          event.preventDefault();
+          reorderSection(draggedSection.current ?? undefined, actions);
+          draggedSection.current = null;
+        }}
+      >
+        <div className={`pointer-events-none absolute left-3 top-3 z-50 rounded-full border border-[#E6D6BD]/85 bg-white/94 px-2 py-1 opacity-0 shadow-xl backdrop-blur transition group-hover/editor-section:opacity-100 ${selectedSectionId === id ? "opacity-100" : ""}`}>
           <div className="pointer-events-auto flex items-center gap-1 text-xs font-black text-[#0a2a24]">
+            <button
+              type="button"
+              draggable={Boolean(actions)}
+              onDragStart={() => {
+                draggedSection.current = actions ?? null;
+              }}
+              onDragEnd={() => {
+                draggedSection.current = null;
+              }}
+              className="grid h-7 w-7 cursor-grab place-items-center rounded-full text-[#746754] hover:bg-[#f5ecdc] active:cursor-grabbing"
+              title="Drag"
+            >
+              ⋮⋮
+            </button>
             <span className="px-2">{label}</span>
             <button type="button" className="grid h-7 w-7 place-items-center rounded-full hover:bg-[#f5ecdc]" title="Edit">✎</button>
             <button type="button" onClick={() => sectionAction(actions, "up")} className="grid h-7 w-7 place-items-center rounded-full hover:bg-[#f5ecdc]" title="Move up">↑</button>
@@ -706,6 +771,55 @@ export default function AdminClient({
               </button>
             ))}
           </nav>
+          {view === "home" ? (
+            <div className="mt-4 border-t border-white/10 pt-3">
+              <div className="mb-2 flex items-center justify-between px-1">
+                <p className="text-[10px] font-black uppercase tracking-[0.14em] text-[#E6D6BD]">Sections</p>
+                <button
+                  type="button"
+                  onClick={() => hiddenHomepageSections[0] && revealHomepageSection(hiddenHomepageSections[0].index)}
+                  disabled={hiddenHomepageSections.length === 0}
+                  className="rounded-full border border-white/15 px-2 py-1 text-[10px] font-black text-white disabled:opacity-35"
+                >
+                  Add
+                </button>
+              </div>
+              <div className="grid gap-1">
+                {homepageSectionList.map(({ section, index, label }) => {
+                  const actions = { resource: "homepage-sections" as const, index };
+                  return (
+                    <div
+                      key={section.id}
+                      draggable
+                      onDragStart={() => {
+                        draggedSection.current = actions;
+                      }}
+                      onDragOver={(event) => event.preventDefault()}
+                      onDrop={(event) => {
+                        event.preventDefault();
+                        reorderSection(draggedSection.current ?? undefined, actions);
+                        draggedSection.current = null;
+                      }}
+                      className={`flex items-center gap-1 rounded-lg px-2 py-1.5 text-[11px] font-bold transition ${selectedSectionId === section.id ? "bg-white text-[#061A17]" : "text-[#E6D6BD] hover:bg-white/10"} ${section.visible === false ? "opacity-55" : ""}`}
+                    >
+                      <span className="cursor-grab text-white/45">⋮⋮</span>
+                      <button type="button" onClick={() => setSelectedSectionId(section.id)} className="min-w-0 flex-1 truncate text-left">
+                        {label}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => updateResourcePath("homepage-sections", [index, "visible"], section.visible === false)}
+                        className="grid h-6 w-6 place-items-center rounded-full hover:bg-white/15"
+                        title={section.visible === false ? "Show" : "Hide"}
+                      >
+                        {section.visible === false ? "+" : "−"}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          ) : null}
           <button type="button" onClick={() => void logout()} className="mt-4 w-full rounded-full border border-white/20 px-3 py-2 text-xs font-bold text-white hover:bg-white/10">
             Logout
           </button>
