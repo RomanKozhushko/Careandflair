@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { AdminQuoteRequests } from "@/admin/components/AdminQuoteRequests";
 import type { AdminResourceKey } from "@/admin/resources";
 import type { JsonRecord } from "@/admin/jsonStore";
@@ -46,6 +46,14 @@ type SaveState = "idle" | "saving" | "saved" | "error";
 type AdminView = "home" | "quote" | "before-after" | "packages" | "faq" | "areas" | "footer" | "settings" | "quote-requests";
 type PreviewDevice = "desktop" | "tablet" | "mobile";
 type UploadResponse = { success?: boolean; url?: string; publicUrl?: string; error?: string };
+type HistorySnapshot = {
+  data: ResourceData;
+  dirtyResources: EditableResourceKey[];
+};
+type EditSession = HistorySnapshot & {
+  key: string;
+  value: string;
+};
 
 const homepageResources: EditableResourceKey[] = [
   "site-settings",
@@ -124,6 +132,10 @@ function resourceItemsToContent(data: ResourceData): ContentBundle {
   };
 }
 
+function snapshotData(data: ResourceData): ResourceData {
+  return structuredClone(data) as ResourceData;
+}
+
 async function compressImage(file: File): Promise<File> {
   if (file.type === "image/webp" && file.size < 1_400_000) return file;
 
@@ -160,7 +172,10 @@ export default function AdminClient({
   const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
   const [uploadingKey, setUploadingKey] = useState<string | null>(null);
+  const [past, setPast] = useState<HistorySnapshot[]>([]);
+  const [future, setFuture] = useState<HistorySnapshot[]>([]);
   const fileInputs = useRef<Record<string, HTMLInputElement | null>>({});
+  const editSession = useRef<EditSession | null>(null);
 
   const content = useMemo(() => resourceItemsToContent(data), [data]);
   const quoteCtaIndex = content.ctaMappings.findIndex((cta) => cta.id === "build-your-quote");
@@ -170,6 +185,17 @@ export default function AdminClient({
   const hasExistingDraft = homepageResources.some((resource) => resourceStates[resource]?.hasDraft || resourceStates[resource]?.source === "draft");
   const hasDirtyChanges = dirtyResources.size > 0;
   const deviceClass = device === "desktop" ? "max-w-full" : device === "tablet" ? "max-w-[820px]" : "max-w-[390px]";
+  const canUndo = past.length > 0;
+  const canRedo = future.length > 0;
+
+  function currentSnapshot(): HistorySnapshot {
+    return { data: snapshotData(data), dirtyResources: Array.from(dirtyResources) };
+  }
+
+  function pushHistory(snapshot: HistorySnapshot) {
+    setPast((current) => [...current, snapshot].slice(-60));
+    setFuture([]);
+  }
 
   function markDirty(resource: EditableResourceKey) {
     setDirtyResources((current) => new Set(current).add(resource));
@@ -178,16 +204,17 @@ export default function AdminClient({
     setError("");
   }
 
-  function updateResourcePath(resource: EditableResourceKey, path: Array<string | number>, value: unknown) {
+  function updateResourcePath(resource: EditableResourceKey, path: Array<string | number>, value: unknown, options: { recordHistory?: boolean } = {}) {
+    if (options.recordHistory !== false) pushHistory(currentSnapshot());
     setData((current) => ({ ...current, [resource]: setValueAtPath(current[resource], path, value) as JsonRecord[] }));
     markDirty(resource);
   }
 
-  async function saveResource(resource: EditableResourceKey) {
+  async function saveResource(resource: EditableResourceKey, items: JsonRecord[] = data[resource]) {
     const response = await fetch(`/api/admin/${resource}?version=draft`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ items: data[resource] }),
+      body: JSON.stringify({ items }),
     });
     const result = (await response.json().catch(() => null)) as { items?: JsonRecord[]; source?: ContentSource | "draft"; hasDraft?: boolean; message?: string; error?: string } | null;
 
@@ -207,23 +234,26 @@ export default function AdminClient({
     }));
   }
 
-  async function saveDraft() {
+  async function saveDraft(options: { silent?: boolean } = {}) {
     if (!draftReady) {
-      setSaveState("error");
-      setError("Supabase draft storage is not configured, so draft saving is disabled.");
+      if (!options.silent) {
+        setSaveState("error");
+        setError("Draft saving is not available right now.");
+      }
       return;
     }
 
     setSaveState("saving");
-    setNotice("");
+    setNotice(options.silent ? "Saving changes..." : "");
     setError("");
 
     try {
       const resources = dirtyResources.size ? Array.from(dirtyResources) : homepageResources;
-      await Promise.all(resources.map((resource) => saveResource(resource)));
+      const dataToSave = snapshotData(data);
+      await Promise.all(resources.map((resource) => saveResource(resource, dataToSave[resource])));
       setDirtyResources(new Set());
       setSaveState("saved");
-      setNotice("Draft saved. The live website has not changed yet.");
+      setNotice(options.silent ? "All changes saved in draft." : "Draft saved. The live website has not changed yet.");
     } catch (caught) {
       setSaveState("error");
       setError(caught instanceof Error ? caught.message : "Draft save failed.");
@@ -233,7 +263,7 @@ export default function AdminClient({
   async function publishDraft() {
     if (hasDirtyChanges) {
       setSaveState("error");
-      setError("Save the draft before publishing.");
+      setError("Changes are still saving. Publish after the draft is saved.");
       return;
     }
 
@@ -338,7 +368,7 @@ export default function AdminClient({
       }
 
       updateResourcePath(resource, path, uploadedUrl);
-      setNotice("Image uploaded into the draft preview. Press Save Draft to keep it.");
+      setNotice("Image added to the draft preview.");
     } catch (caught) {
       setSaveState("error");
       setError(caught instanceof Error ? caught.message : "Image upload failed.");
@@ -347,20 +377,114 @@ export default function AdminClient({
     }
   }
 
+  function restoreSnapshot(snapshot: HistorySnapshot) {
+    setData(snapshotData(snapshot.data));
+    setDirtyResources(new Set(snapshot.dirtyResources));
+    setEditingKey(null);
+    editSession.current = null;
+    setSaveState("idle");
+    setNotice("");
+    setError("");
+  }
+
+  function undo() {
+    const previous = past[past.length - 1];
+    if (!previous) return;
+    const now = currentSnapshot();
+    setPast((current) => current.slice(0, -1));
+    setFuture((current) => [now, ...current].slice(0, 60));
+    restoreSnapshot(previous);
+  }
+
+  function redo() {
+    const next = future[0];
+    if (!next) return;
+    setPast((current) => [...current, currentSnapshot()].slice(-60));
+    setFuture((current) => current.slice(1));
+    restoreSnapshot(next);
+  }
+
+  function beginTextEdit(resource: EditableResourceKey, path: Array<string | number>, value: string) {
+    const key = pathKey(resource, path);
+    if (editSession.current?.key !== key) {
+      editSession.current = { key, value, data: snapshotData(data), dirtyResources: Array.from(dirtyResources) };
+    }
+    setEditingKey(key);
+  }
+
+  function commitTextEdit(resource: EditableResourceKey, path: Array<string | number>, next: string) {
+    const key = pathKey(resource, path);
+    const session = editSession.current;
+    const changed = session?.key === key ? next !== session.value : true;
+
+    if (session?.key === key) {
+      if (changed) pushHistory({ data: snapshotData(session.data), dirtyResources: session.dirtyResources });
+      editSession.current = null;
+    }
+
+    setEditingKey(null);
+    if (changed) updateResourcePath(resource, path, next, { recordHistory: false });
+  }
+
+  function cancelTextEdit() {
+    const session = editSession.current;
+    if (!session) return;
+    restoreSnapshot(session);
+  }
+
+  useEffect(() => {
+    function handleShortcut(event: KeyboardEvent) {
+      const modifier = event.metaKey || event.ctrlKey;
+      if (!modifier) return;
+
+      if (event.key.toLowerCase() === "s") {
+        event.preventDefault();
+        if (hasDirtyChanges && saveState !== "saving") void saveDraft();
+      }
+
+      if (event.key.toLowerCase() === "z" && !event.shiftKey) {
+        event.preventDefault();
+        undo();
+      }
+
+      if (event.key.toLowerCase() === "y" || (event.key.toLowerCase() === "z" && event.shiftKey)) {
+        event.preventDefault();
+        redo();
+      }
+    }
+
+    window.addEventListener("keydown", handleShortcut);
+    return () => window.removeEventListener("keydown", handleShortcut);
+  });
+
+  useEffect(() => {
+    if (!hasDirtyChanges || editingKey || saveState === "saving" || !draftReady) return;
+    const timer = window.setTimeout(() => {
+      void saveDraft({ silent: true });
+    }, 1800);
+
+    return () => window.clearTimeout(timer);
+  });
+
   function renderEditableText(resource: EditableResourceKey, path: Array<string | number>, value: string) {
     const key = pathKey(resource, path);
     const active = editingKey === key;
 
     return (
-      <span className="group/editor-text relative inline rounded-[6px] outline-none ring-[#b07e33]/0 transition hover:ring-2 hover:ring-[#b07e33]/45">
+      <span className="group/editor-text relative inline rounded-[6px] outline-none ring-[#b07e33]/0 transition hover:bg-white/30 hover:ring-2 hover:ring-[#b07e33]/35">
         <span
           contentEditable={active}
           suppressContentEditableWarning
-          onDoubleClick={() => setEditingKey(key)}
+          tabIndex={0}
+          onClick={(event) => {
+            if (active) return;
+            beginTextEdit(resource, path, value);
+            window.requestAnimationFrame(() => event.currentTarget.focus());
+          }}
+          onInput={(event) => updateResourcePath(resource, path, event.currentTarget.textContent ?? "", { recordHistory: false })}
           onBlur={(event) => {
-            setEditingKey(null);
             const next = event.currentTarget.textContent ?? "";
-            if (next !== value) updateResourcePath(resource, path, next);
+            commitTextEdit(resource, path, next);
           }}
           onKeyDown={(event) => {
             if (event.key === "Enter" && !event.shiftKey) {
@@ -369,20 +493,18 @@ export default function AdminClient({
             }
             if (event.key === "Escape") {
               event.preventDefault();
-              setEditingKey(null);
-              event.currentTarget.textContent = value;
-              event.currentTarget.blur();
+              cancelTextEdit();
             }
           }}
-          className={active ? "cursor-text rounded-[6px] bg-white/70 px-1 shadow-[0_0_0_3px_rgba(176,126,51,0.24)]" : "cursor-text"}
-          title="Double click to edit"
+          className={active ? "cursor-text rounded-[6px] bg-white/85 px-1 shadow-[0_0_0_3px_rgba(176,126,51,0.22)] outline-none" : "cursor-text outline-none"}
+          title="Click to edit"
         >
           {value}
         </span>
         <button
           type="button"
-          onClick={() => setEditingKey(key)}
-          className="absolute -right-7 -top-3 hidden h-6 w-6 place-items-center rounded-full bg-[#0a2a24] text-xs font-black text-white shadow-lg group-hover/editor-text:grid"
+          onClick={() => beginTextEdit(resource, path, value)}
+          className="absolute -right-6 -top-3 hidden h-5 w-5 place-items-center rounded-full bg-[#0a2a24] text-[10px] font-black text-white shadow-lg transition group-hover/editor-text:grid hover:scale-105"
           aria-label="Edit text"
         >
           ✎
@@ -417,8 +539,13 @@ export default function AdminClient({
             Text
             <input
               value={config.label}
-              onFocus={() => setEditingKey(labelKey)}
-              onChange={(event) => updateResourcePath(config.resource, config.labelPath, event.target.value)}
+              onFocus={() => beginTextEdit(config.resource, config.labelPath, config.label)}
+              onBlur={(event) => commitTextEdit(config.resource, config.labelPath, event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") event.currentTarget.blur();
+                if (event.key === "Escape") cancelTextEdit();
+              }}
+              onChange={(event) => updateResourcePath(config.resource, config.labelPath, event.target.value, { recordHistory: false })}
               className="mt-2 min-h-10 w-full rounded-xl border border-[#E6D6BD] px-3 text-sm text-[#14241F] outline-none focus:border-[#b07e33]"
             />
           </label>
@@ -426,8 +553,13 @@ export default function AdminClient({
             Destination
             <input
               value={config.href}
-              onFocus={() => setEditingKey(hrefKey)}
-              onChange={(event) => updateResourcePath(config.resource, config.hrefPath, event.target.value)}
+              onFocus={() => beginTextEdit(config.resource, config.hrefPath, config.href)}
+              onBlur={(event) => commitTextEdit(config.resource, config.hrefPath, event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") event.currentTarget.blur();
+                if (event.key === "Escape") cancelTextEdit();
+              }}
+              onChange={(event) => updateResourcePath(config.resource, config.hrefPath, event.target.value, { recordHistory: false })}
               className="mt-2 min-h-10 w-full rounded-xl border border-[#E6D6BD] px-3 text-sm text-[#14241F] outline-none focus:border-[#b07e33]"
             />
           </label>
@@ -508,6 +640,7 @@ export default function AdminClient({
       if (typeof clone.id === "string") clone.id = `${clone.id}-copy-${suffix}`;
       if (typeof clone.slug === "string") clone.slug = `${clone.slug}-copy-${suffix}`;
       const next = [...items.slice(0, actions.index + 1), clone, ...items.slice(actions.index + 1)];
+      pushHistory(currentSnapshot());
       setData((currentData) => ({ ...currentData, [actions.resource]: next }));
       markDirty(actions.resource);
       return;
@@ -518,6 +651,7 @@ export default function AdminClient({
     const next = [...items];
     const [moved] = next.splice(actions.index, 1);
     next.splice(target, 0, moved);
+    pushHistory(currentSnapshot());
     setData((currentData) => ({ ...currentData, [actions.resource]: next.map((item, index) => ({ ...item, order: index + 1 })) }));
     markDirty(actions.resource);
   }
@@ -551,13 +685,13 @@ export default function AdminClient({
 
   return (
     <main className="min-h-screen bg-[#e8ddcb] text-[#14241F]">
-      <div className="grid min-h-screen lg:grid-cols-[14rem_1fr]">
-        <aside className="border-r border-[#d9c7a8] bg-[#061A17] p-3 text-white lg:sticky lg:top-0 lg:h-screen">
-          <button type="button" onClick={() => setView("home")} className="mb-4 flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left hover:bg-white/10">
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-[#b07e33] text-sm font-black text-white">CF</span>
+      <div className="grid min-h-screen lg:grid-cols-[11rem_1fr]">
+        <aside className="border-r border-[#d9c7a8] bg-[#061A17] p-2 text-white lg:sticky lg:top-0 lg:h-screen">
+          <button type="button" onClick={() => setView("home")} className="mb-3 flex w-full items-center gap-2 rounded-xl px-2 py-2 text-left hover:bg-white/10">
+            <span className="grid h-8 w-8 place-items-center rounded-lg bg-[#b07e33] text-xs font-black text-white">CF</span>
             <span>
-              <b className="block text-sm">Care & Flair</b>
-              <small className="text-xs text-[#E6D6BD]">Visual editor</small>
+              <b className="block text-xs">Care & Flair</b>
+              <small className="text-[11px] text-[#E6D6BD]">Editor</small>
             </span>
           </button>
           <nav className="grid gap-1" aria-label="Admin pages">
@@ -566,53 +700,59 @@ export default function AdminClient({
                 key={item.id}
                 type="button"
                 onClick={() => setView(item.id)}
-                className={`rounded-xl px-3 py-2.5 text-left text-sm font-bold transition ${view === item.id ? "bg-white text-[#061A17]" : "text-[#E6D6BD] hover:bg-white/10 hover:text-white"}`}
+                className={`rounded-lg px-2.5 py-2 text-left text-xs font-bold transition ${view === item.id ? "bg-white text-[#061A17]" : "text-[#E6D6BD] hover:bg-white/10 hover:text-white"}`}
               >
                 {item.label}
               </button>
             ))}
           </nav>
-          <button type="button" onClick={() => void logout()} className="mt-5 w-full rounded-full border border-white/20 px-4 py-2 text-sm font-bold text-white hover:bg-white/10">
+          <button type="button" onClick={() => void logout()} className="mt-4 w-full rounded-full border border-white/20 px-3 py-2 text-xs font-bold text-white hover:bg-white/10">
             Logout
           </button>
         </aside>
 
         <section className="min-w-0">
-          <div className="sticky top-0 z-[90] border-b border-[#d9c7a8] bg-[#fbf6ee]/96 px-4 py-3 shadow-sm backdrop-blur">
-            <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
+          <div className="sticky top-0 z-[90] border-b border-[#d9c7a8] bg-[#fbf6ee]/96 px-3 py-2 shadow-sm backdrop-blur">
+            <div className="flex flex-col gap-2 xl:flex-row xl:items-center xl:justify-between">
               <div>
-                <p className="text-xs font-black uppercase tracking-[0.14em] text-[#746754]">Editing {view === "home" ? "Home" : sidebarItems.find((item) => item.id === view)?.label}</p>
-                <p className="text-sm font-semibold text-[#0a2a24]">
-                  {view === "home" ? "The homepage below is the editable preview. Double click text or hover sections/images." : view === "quote-requests" ? "Production quote inbox. Unchanged." : "This page is queued for a later phase."}
+                <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#746754]">Editing {view === "home" ? "Home" : sidebarItems.find((item) => item.id === view)?.label}</p>
+                <p className="text-xs font-semibold text-[#0a2a24]">
+                  {view === "home" ? "Click text to edit. Enter confirms, Escape cancels." : view === "quote-requests" ? "Production quote inbox. Unchanged." : "This page is queued for a later phase."}
                 </p>
               </div>
               <div className="flex flex-wrap items-center gap-2">
+                <button type="button" onClick={undo} disabled={!canUndo} className="rounded-full border border-[#d9c7a8] bg-white px-3 py-1.5 text-xs font-black text-[#0a2a24] disabled:cursor-not-allowed disabled:opacity-45">
+                  Undo
+                </button>
+                <button type="button" onClick={redo} disabled={!canRedo} className="rounded-full border border-[#d9c7a8] bg-white px-3 py-1.5 text-xs font-black text-[#0a2a24] disabled:cursor-not-allowed disabled:opacity-45">
+                  Redo
+                </button>
                 {(["desktop", "tablet", "mobile"] as const).map((item) => (
                   <button
                     key={item}
                     type="button"
                     onClick={() => setDevice(item)}
-                    className={`rounded-full px-4 py-2 text-sm font-black capitalize ${device === item ? "bg-[#0a2a24] text-white" : "border border-[#d9c7a8] bg-white text-[#0a2a24]"}`}
+                    className={`rounded-full px-3 py-1.5 text-xs font-black capitalize ${device === item ? "bg-[#0a2a24] text-white" : "border border-[#d9c7a8] bg-white text-[#0a2a24]"}`}
                   >
                     {item}
                   </button>
                 ))}
-                <button type="button" onClick={() => setNotice("You are already previewing the draft in this canvas.")} className="rounded-full border border-[#d9c7a8] bg-white px-4 py-2 text-sm font-black text-[#0a2a24]">
+                <button type="button" onClick={() => setNotice("You are already previewing the draft in this canvas.")} className="rounded-full border border-[#d9c7a8] bg-white px-3 py-1.5 text-xs font-black text-[#0a2a24]">
                   Preview
                 </button>
-                <button type="button" onClick={() => void saveDraft()} disabled={!hasDirtyChanges || saveState === "saving"} className="rounded-full bg-[#0a2a24] px-4 py-2 text-sm font-black text-white disabled:cursor-not-allowed disabled:bg-[#746754]">
-                  {saveState === "saving" ? "Saving..." : "Save Draft"}
+                <button type="button" onClick={() => void saveDraft()} disabled={!hasDirtyChanges || saveState === "saving"} className="rounded-full bg-[#0a2a24] px-3 py-1.5 text-xs font-black text-white disabled:cursor-not-allowed disabled:bg-[#746754]">
+                  {saveState === "saving" ? "Saving..." : saveState === "saved" && !hasDirtyChanges ? "Saved" : "Save Draft"}
                 </button>
-                <button type="button" onClick={() => void publishDraft()} disabled={hasDirtyChanges || !hasExistingDraft || saveState === "saving"} className="rounded-full bg-[#b07e33] px-4 py-2 text-sm font-black text-white disabled:cursor-not-allowed disabled:bg-[#746754]">
+                <button type="button" onClick={() => void publishDraft()} disabled={hasDirtyChanges || !hasExistingDraft || saveState === "saving"} className="rounded-full bg-[#b07e33] px-3 py-1.5 text-xs font-black text-white disabled:cursor-not-allowed disabled:bg-[#746754]">
                   Publish
                 </button>
-                <button type="button" onClick={() => void discardDraft()} disabled={saveState === "saving" || (!hasExistingDraft && !hasDirtyChanges)} className="rounded-full border border-red-200 bg-white px-4 py-2 text-sm font-black text-red-900 disabled:cursor-not-allowed disabled:opacity-45">
+                <button type="button" onClick={() => void discardDraft()} disabled={saveState === "saving" || (!hasExistingDraft && !hasDirtyChanges)} className="rounded-full border border-red-200 bg-white px-3 py-1.5 text-xs font-black text-red-900 disabled:cursor-not-allowed disabled:opacity-45">
                   Discard
                 </button>
               </div>
             </div>
-            {notice ? <p className="mt-3 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm font-bold text-emerald-950">{notice}</p> : null}
-            {error ? <p className="mt-3 rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm font-bold text-red-950">{error}</p> : null}
+            {notice ? <p className="mt-2 rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-xs font-bold text-emerald-950">{notice}</p> : null}
+            {error ? <p className="mt-2 rounded-lg border border-red-200 bg-red-50 px-3 py-1.5 text-xs font-bold text-red-950">{error}</p> : null}
           </div>
 
           {view === "quote-requests" ? (
@@ -622,7 +762,7 @@ export default function AdminClient({
           ) : null}
 
           {view === "home" ? (
-            <div className="overflow-auto p-4 sm:p-6">
+            <div className="overflow-auto p-2 sm:p-3">
               <div className={`mx-auto overflow-hidden rounded-[18px] bg-[var(--cf-ivory)] shadow-2xl shadow-[#061A17]/18 transition-all duration-300 ${deviceClass}`}>
                 <div className="min-h-screen overflow-x-clip bg-[var(--cf-ivory)] pb-16 text-[var(--cf-text)] sm:pb-0">
                   <Header content={content} editor={editor} />
