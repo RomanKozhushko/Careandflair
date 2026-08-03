@@ -16,6 +16,7 @@ type ResourceState = {
 };
 type ResourceStateData = Record<AdminResourceKey, ResourceState>;
 type SaveState = "idle" | "saving" | "saved" | "error";
+type PreviewDevice = "desktop" | "tablet" | "mobile";
 type ImageField = string;
 type AltField = "imageAlt" | "beforeAlt" | "afterAlt" | "heroImageAlt" | "visualLabel";
 type UploadResponse = {
@@ -279,6 +280,7 @@ export default function AdminClient({
   const [testUploadUrl, setTestUploadUrl] = useState("");
   const [resourceQuery, setResourceQuery] = useState("");
   const [itemQuery, setItemQuery] = useState("");
+  const [previewDevice, setPreviewDevice] = useState<PreviewDevice>("desktop");
 
   const activeItems = useMemo(() => data[activeResource] ?? [], [activeResource, data]);
   const activeState = resourceStates[activeResource];
@@ -624,6 +626,106 @@ export default function AdminClient({
     }
   }
 
+  async function publishResource() {
+    if (isDirty) {
+      setError("Save the draft before publishing.");
+      setSaveState("error");
+      return;
+    }
+
+    if (!activeState?.hasDraft && activeState?.source !== "draft") {
+      setError("There is no draft to publish.");
+      setSaveState("error");
+      return;
+    }
+
+    if (!window.confirm("Publish this draft to the live website?")) return;
+
+    setSaveState("saving");
+    setError("");
+    setNotice("");
+
+    try {
+      const response = await fetch(`/api/admin/${activeResource}?action=publish`, { method: "POST" });
+      const result = (await response.json().catch(() => null)) as {
+        items?: JsonRecord[];
+        source?: ContentSource | "draft";
+        message?: string;
+        hasDraft?: boolean;
+        error?: string;
+      } | null;
+
+      if (!response.ok || !result?.items) {
+        throw new Error(result?.error ?? "Publish failed.");
+      }
+
+      setData((current) => ({ ...current, [activeResource]: result.items ?? [] }));
+      setResourceStates((current) => ({
+        ...current,
+        [activeResource]: {
+          source: result.source ?? "supabase",
+          configured: true,
+          message: result.message,
+          hasDraft: false,
+        },
+      }));
+      setSelectedIndex(0);
+      setDraft(formatItem(result.items, 0));
+      setSaveState("saved");
+      setNotice("Published to the live website.");
+    } catch (caught) {
+      setSaveState("error");
+      setError(caught instanceof Error ? caught.message : "Publish failed.");
+    }
+  }
+
+  async function discardResourceDraft() {
+    if (!activeState?.hasDraft && activeState?.source !== "draft") {
+      setError("There is no draft to discard.");
+      setSaveState("error");
+      return;
+    }
+
+    if (!window.confirm("Discard this draft and return to the live version?")) return;
+
+    setSaveState("saving");
+    setError("");
+    setNotice("");
+
+    try {
+      const response = await fetch(`/api/admin/${activeResource}?action=discard`, { method: "POST" });
+      const result = (await response.json().catch(() => null)) as {
+        items?: JsonRecord[];
+        source?: ContentSource | "draft";
+        message?: string;
+        hasDraft?: boolean;
+        error?: string;
+      } | null;
+
+      if (!response.ok || !result?.items) {
+        throw new Error(result?.error ?? "Discard failed.");
+      }
+
+      setData((current) => ({ ...current, [activeResource]: result.items ?? [] }));
+      setResourceStates((current) => ({
+        ...current,
+        [activeResource]: {
+          source: result.source ?? "supabase",
+          configured: result.source !== "json",
+          message: result.message,
+          hasDraft: false,
+        },
+      }));
+      setSelectedIndex(0);
+      setDraft(formatItem(result.items, 0));
+      setSaveState("idle");
+      setNotice("Draft discarded. You are viewing the live version.");
+    } catch (caught) {
+      setSaveState("error");
+      setError(caught instanceof Error ? caught.message : "Discard failed.");
+    }
+  }
+
   function addItem() {
     const nextItem = createBlankItem(activeItems);
     setSelectedIndex(activeItems.length);
@@ -682,7 +784,7 @@ export default function AdminClient({
       return;
     }
 
-    if (!window.confirm("Delete this item from live content?")) return;
+    if (!window.confirm("Delete this item from the draft?")) return;
 
     try {
       const items = await request("DELETE", { index: selectedIndex });
@@ -712,17 +814,52 @@ export default function AdminClient({
 
   const supabaseConfigured = hasSupabaseContentConfigured(resourceStates);
   const totalItems = countItems(data);
+  const previewWidth = previewDevice === "desktop" ? "max-w-full" : previewDevice === "tablet" ? "max-w-3xl" : "max-w-sm";
+  const previewStringFields = draftItem
+    ? Object.entries(draftItem).filter(([field, value]) => typeof value === "string" && !isImageFieldName(field) && !altFields.includes(field as AltField))
+    : [];
+  const previewTitleField = previewStringFields.find(([field]) => ["headline", "title", "name", "question", "heading", "siteName", "sectionLabel"].includes(field));
+  const previewTextFields = previewStringFields.filter(([field]) => previewTitleField?.[0] !== field).slice(0, 5);
+  const primaryImageTarget = imageTargets.find((target) => target.value) ?? imageTargets[0];
   function renderSaveButton() {
     return (
       <button
         type="button"
         onClick={() => void saveItem()}
         disabled={Boolean(saveDisabledReason)}
-        title={saveDisabledReason || "Save live content to Supabase"}
+        title={saveDisabledReason || "Save a draft without changing the public website"}
         className="rounded-full bg-[#0a2a24] px-5 py-2.5 text-sm font-bold text-white ring-1 ring-[#b07e33]/20 transition hover:bg-[#061A17] disabled:cursor-not-allowed disabled:bg-[#746754] disabled:opacity-60"
       >
-        {saveState === "saving" ? "Saving..." : "Save changes"}
+        {saveState === "saving" ? "Saving..." : "Save Draft"}
       </button>
+    );
+  }
+
+  function renderWorkflowButtons() {
+    const hasDraft = Boolean(activeState?.hasDraft || activeState?.source === "draft");
+
+    return (
+      <>
+        {renderSaveButton()}
+        <button
+          type="button"
+          onClick={() => void publishResource()}
+          disabled={isDirty || !hasDraft || saveState === "saving"}
+          title={isDirty ? "Save the draft before publishing." : hasDraft ? "Publish draft to the public website" : "No draft to publish"}
+          className="rounded-full bg-[#b07e33] px-5 py-2.5 text-sm font-bold text-white transition hover:bg-[#8d6328] disabled:cursor-not-allowed disabled:bg-[#746754] disabled:opacity-60"
+        >
+          Publish
+        </button>
+        <button
+          type="button"
+          onClick={() => void discardResourceDraft()}
+          disabled={!hasDraft || saveState === "saving"}
+          title={hasDraft ? "Discard draft and return to live content" : "No draft to discard"}
+          className="rounded-full border border-red-200 px-5 py-2.5 text-sm font-bold text-red-900 transition hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-45"
+        >
+          Discard Changes
+        </button>
+      </>
     );
   }
 
@@ -854,7 +991,7 @@ export default function AdminClient({
                 <button type="button" onClick={() => void reloadResource()} className="rounded-full border border-[#E6D6BD] px-4 py-2 text-sm font-semibold text-[#0a2a24] hover:border-[#b07e33]/55">
                   Reload
                 </button>
-                {renderSaveButton()}
+                {renderWorkflowButtons()}
               </div>
             </div>
 
@@ -953,6 +1090,82 @@ export default function AdminClient({
                   </div>
                 </aside>
 
+                <section className="rounded-2xl border border-[#E6D6BD] bg-[#fbf6ee] p-4">
+                  <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                    <div>
+                      <h3 className="text-xl font-bold text-[#0a2a24]">Live preview</h3>
+                      <p className="mt-1 text-sm text-[#746754]">Click text in the preview to edit it. Save Draft keeps it private until Publish.</p>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {(["desktop", "tablet", "mobile"] as const).map((device) => (
+                        <button
+                          key={device}
+                          type="button"
+                          onClick={() => setPreviewDevice(device)}
+                          className={`rounded-full px-4 py-2 text-sm font-bold capitalize transition ${
+                            previewDevice === device ? "bg-[#0a2a24] text-white" : "border border-[#E6D6BD] bg-white text-[#0a2a24] hover:border-[#b07e33]/55"
+                          }`}
+                        >
+                          {device}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="mt-5 overflow-auto rounded-2xl border border-[#E6D6BD] bg-[#e8ddcb] p-4">
+                    <div className={`mx-auto transition-all duration-300 ${previewWidth}`}>
+                      <div className="overflow-hidden rounded-[1.75rem] border border-[#d9c7a8] bg-[#fbf6ee] shadow-xl shadow-[#061A17]/10">
+                        <div className={`grid ${previewDevice === "mobile" ? "grid-cols-1" : "lg:grid-cols-[0.92fr_1.08fr]"} gap-0`}>
+                          <div className="p-6 sm:p-8">
+                            <p className="text-xs font-extrabold uppercase tracking-[0.08em] text-[#b07e33]">{activeMeta.group}</p>
+                            {previewTitleField ? (
+                              <input
+                                value={String(previewTitleField[1])}
+                                onChange={(event) => updateDraftField(previewTitleField[0], event.target.value)}
+                                className="mt-4 w-full border-0 bg-transparent font-serif text-4xl font-semibold leading-tight text-[#061d33] outline-none ring-[#b07e33]/20 focus:ring-4 sm:text-5xl"
+                              />
+                            ) : (
+                              <h4 className="mt-4 font-serif text-4xl font-semibold leading-tight text-[#061d33]">{itemTitle(draftItem ?? {}, selectedIndex)}</h4>
+                            )}
+                            <div className="mt-5 grid gap-3">
+                              {previewTextFields.map(([field, value]) => (
+                                <label key={field} className="block">
+                                  <span className="sr-only">{displayLabel(field)}</span>
+                                  {shouldUseTextarea(field, String(value)) ? (
+                                    <textarea
+                                      value={String(value)}
+                                      rows={3}
+                                      onChange={(event) => updateDraftField(field, event.target.value)}
+                                      className="w-full resize-none border-0 bg-transparent text-base leading-7 text-[#4c4438] outline-none ring-[#b07e33]/20 focus:ring-4"
+                                    />
+                                  ) : (
+                                    <input
+                                      value={String(value)}
+                                      onChange={(event) => updateDraftField(field, event.target.value)}
+                                      className="w-full border-0 bg-transparent text-base font-semibold text-[#4c4438] outline-none ring-[#b07e33]/20 focus:ring-4"
+                                    />
+                                  )}
+                                </label>
+                              ))}
+                            </div>
+                            <div className="mt-6 flex flex-wrap gap-3">
+                              <span className="inline-flex min-h-12 items-center rounded-[14px] bg-[#8A0F2E] px-5 text-sm font-black text-white">Primary CTA</span>
+                              <span className="inline-flex min-h-12 items-center rounded-[14px] border border-[#d9c7a8] bg-white px-5 text-sm font-bold text-[#061d33]">Secondary CTA</span>
+                            </div>
+                          </div>
+                          <div className="relative min-h-72 bg-[#061A17]">
+                            {primaryImageTarget?.value ? (
+                              <Image src={primaryImageTarget.value} alt="" fill sizes="(min-width: 1024px) 45vw, 100vw" className="object-cover" />
+                            ) : (
+                              <div className="grid h-full min-h-72 place-items-center p-8 text-center text-sm font-semibold text-white/72">No image selected for this block</div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+
                 <form
                   className="rounded-2xl border border-[#E6D6BD] bg-[#fbf6ee] p-4"
                   onSubmit={(event) => {
@@ -963,7 +1176,7 @@ export default function AdminClient({
                   <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
                     <div>
                       <h3 className="text-xl font-bold text-[#0a2a24]">Edit item</h3>
-                      <p className="mt-1 text-sm text-[#746754]">You are editing live site content. Save writes to Supabase, not project files.</p>
+                      <p className="mt-1 text-sm text-[#746754]">Draft changes stay private until you publish them.</p>
                     </div>
                     <div className="flex flex-wrap gap-2">
                       <button type="button" onClick={resetDraft} disabled={!isDirty} className="rounded-full border border-[#E6D6BD] px-4 py-2 text-sm font-bold text-[#0a2a24] hover:border-[#b07e33]/55 disabled:cursor-not-allowed disabled:opacity-50">
@@ -982,7 +1195,7 @@ export default function AdminClient({
                           </button>
                         </>
                       ) : null}
-                      {renderSaveButton()}
+                      {renderWorkflowButtons()}
                     </div>
                   </div>
 
@@ -991,7 +1204,7 @@ export default function AdminClient({
                   <div className="mt-5 rounded-2xl border border-[#E6D6BD] bg-white p-5">
                     <div className="mb-4 flex flex-col gap-1">
                       <h4 className="text-lg font-bold text-[#0a2a24]">2. Text and data</h4>
-                      <p className="text-sm text-[#746754]">Edit one row at a time. These fields update the same content that will be saved to Supabase.</p>
+                      <p className="text-sm text-[#746754]">Simple fields update the preview instantly.</p>
                     </div>
 
                     {draftItem ? (
@@ -1160,7 +1373,7 @@ export default function AdminClient({
                   <div className="mt-5 rounded-2xl border border-[#E6D6BD] bg-white p-5">
                     <div className="mb-4 flex flex-col gap-1">
                       <h4 className="text-lg font-bold text-[#0a2a24]">3. Pictures</h4>
-                      <p className="text-sm text-[#746754]">Upload or replace website images. After upload, press Save changes so the new URL is stored.</p>
+                      <p className="text-sm text-[#746754]">Upload or replace website images. After upload, press Save Draft so the new URL is stored privately.</p>
                     </div>
 
                     <div className="grid gap-4">
@@ -1230,18 +1443,21 @@ export default function AdminClient({
                     </div>
                   </div>
 
-                  <label className="mt-5 block text-sm font-bold text-[#14241F]">
-                    4. Advanced JSON
-                    <textarea
-                      value={draft}
-                      onChange={(event) => {
-                        setDraft(event.target.value);
-                        resetMessages();
-                      }}
-                      spellCheck={false}
-                      className="mt-2 min-h-[34rem] w-full resize-y rounded-2xl border border-[#E6D6BD] bg-white p-4 font-mono text-sm leading-6 text-[#14241F] outline-none ring-[#b07e33]/20 focus:ring-4"
-                    />
-                  </label>
+                  <details className="mt-5 rounded-2xl border border-[#E6D6BD] bg-white p-5">
+                    <summary className="cursor-pointer text-sm font-bold text-[#14241F]">Advanced structure</summary>
+                    <label className="mt-4 block text-sm font-bold text-[#14241F]">
+                      JSON fallback
+                      <textarea
+                        value={draft}
+                        onChange={(event) => {
+                          setDraft(event.target.value);
+                          resetMessages();
+                        }}
+                        spellCheck={false}
+                        className="mt-2 min-h-[26rem] w-full resize-y rounded-2xl border border-[#E6D6BD] bg-white p-4 font-mono text-sm leading-6 text-[#14241F] outline-none ring-[#b07e33]/20 focus:ring-4"
+                      />
+                    </label>
+                  </details>
 
                   <div className="mt-4 flex flex-col gap-3 border-t border-[#E6D6BD] pt-4 sm:flex-row sm:items-center sm:justify-between">
                     <div className="text-sm text-[#746754]">
@@ -1251,7 +1467,7 @@ export default function AdminClient({
                       <button type="button" onClick={() => void reloadResource()} className="rounded-full border border-[#E6D6BD] px-4 py-2 text-sm font-bold text-[#0a2a24] hover:border-[#b07e33]/55">
                         Reload
                       </button>
-                      {renderSaveButton()}
+                      {renderWorkflowButtons()}
                     </div>
                   </div>
                 </form>
