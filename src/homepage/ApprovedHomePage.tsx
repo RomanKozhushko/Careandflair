@@ -208,13 +208,15 @@ function WhatWeReset({ content, editor }: { content: ContentBundle; editor?: Vis
       <div className="grid rounded-[24px] border border-[var(--cf-border)] bg-[var(--cf-cream-card)] shadow-[var(--cf-shadow-soft)] sm:grid-cols-2 lg:grid-cols-3">
         {items.map((item, index) => {
           const sourceIndex = content.solutions.findIndex((solution) => solution.id === item.id);
-          return (
-          <article key={item.id} className={`p-5 ${index > 0 ? "border-t border-[var(--cf-border)] sm:border-l sm:border-t-0" : ""} ${index === 2 || index === 4 ? "sm:border-l-0 lg:border-l" : ""} ${index > 2 ? "lg:border-t" : ""}`}>
+          const article = (
+          <article className={`p-5 ${index > 0 ? "border-t border-[var(--cf-border)] sm:border-l sm:border-t-0" : ""} ${index === 2 || index === 4 ? "sm:border-l-0 lg:border-l" : ""} ${index > 2 ? "lg:border-t" : ""}`}>
             <span className="mb-4 grid h-11 w-11 place-items-center rounded-2xl border border-[var(--cf-gold-soft)] bg-[var(--cf-ivory)] text-[var(--cf-gold)]">+</span>
             <h3 className="text-[18px] font-extrabold text-[var(--cf-navy)]">{editor ? editor.text("solutions", [sourceIndex, "title"], item.title) : item.title}</h3>
             <p className="mt-2 text-[15px] leading-6 text-[var(--cf-text-soft)]">{editor ? editor.text("solutions", [sourceIndex, "problem"], item.problem) : item.problem}</p>
           </article>
-        )})}
+          );
+          return editor ? <div key={item.id}>{editor.block("Service", article, { resource: "solutions", arrayPath: [], index: sourceIndex })}</div> : <Fragment key={item.id}>{article}</Fragment>;
+        })}
       </div>
     </section>
   );
@@ -258,9 +260,8 @@ function ResetPackagesSection({ content, editor }: { content: ContentBundle; edi
         {packages.map((item) => {
           const itemIndex = content.servicePackages.findIndex((pack) => pack.id === item.id);
           const cta = findCta(item.ctaMappingId) ?? { id: item.ctaMappingId, label: "Get quote", href: `/quote?preset=${item.slug}` };
-          return (
+          const article = (
           <article
-            key={item.id}
             className={`relative flex flex-col rounded-[26px] border bg-[var(--cf-cream-card)] p-5 shadow-[var(--cf-shadow-soft)] transition hover:-translate-y-1 sm:p-6 ${
               item.featured ? "border-[var(--cf-cherry)] lg:-mt-3 lg:mb-3 lg:shadow-[var(--cf-shadow-card)]" : "border-[var(--cf-border)]"
             }`}
@@ -294,7 +295,9 @@ function ResetPackagesSection({ content, editor }: { content: ContentBundle; edi
               </Link>
             )}
           </article>
-        )})}
+          );
+          return editor ? <div key={item.id}>{editor.block("Package", article, { resource: "packages", arrayPath: [], index: itemIndex })}</div> : <Fragment key={item.id}>{article}</Fragment>;
+        })}
       </div>
 
       <div className="mt-5 grid gap-3 rounded-[22px] border border-[var(--cf-border)] bg-[var(--cf-ivory-2)] p-5 text-sm leading-6 text-[var(--cf-text-soft)] shadow-[var(--cf-shadow-soft)] md:grid-cols-3">
@@ -364,7 +367,9 @@ function HowItWorksApproved({ content, editor, phone }: { content: ContentBundle
         </div>
         <div className="grid gap-4 md:grid-cols-3">
           {steps.slice(0, 3).map((step, index) => (
-            <article key={`${step.title}-${index}`} className="rounded-[22px] border border-white/20 bg-white/[0.06] p-5 shadow-sm">
+            <Fragment key={`${step.title}-${index}`}>
+              {editor ? editor.block("Step", (
+            <article className="rounded-[22px] border border-white/20 bg-white/[0.06] p-5 shadow-sm">
               <p className="text-sm font-black text-[var(--cf-gold-soft)]">{String(index + 1).padStart(2, "0")}</p>
               <h3 className="mt-4 text-[20px] font-extrabold text-white">{editor ? editor.text("homepage-sections", [sectionIndex, "steps", index, "title"], step.title) : step.title}</h3>
               <p className="mt-3 text-[16px] leading-7 text-[var(--cf-text-light-soft)]">{editor ? editor.text("homepage-sections", [sectionIndex, "steps", index, "description"], step.description) : step.description}</p>
@@ -387,6 +392,32 @@ function HowItWorksApproved({ content, editor, phone }: { content: ContentBundle
                 </div>
               ) : null}
             </article>
+              ), { resource: "homepage-sections", arrayPath: [sectionIndex, "steps"], index }) : (
+            <article className="rounded-[22px] border border-white/20 bg-white/[0.06] p-5 shadow-sm">
+              <p className="text-sm font-black text-[var(--cf-gold-soft)]">{String(index + 1).padStart(2, "0")}</p>
+              <h3 className="mt-4 text-[20px] font-extrabold text-white">{step.title}</h3>
+              <p className="mt-3 text-[16px] leading-7 text-[var(--cf-text-light-soft)]">{step.description}</p>
+              {index === 0 ? (
+                <div className="mt-6 rounded-[18px] border border-white/16 bg-white/10 p-3">
+                  <div className="h-24 rounded-[14px] bg-[linear-gradient(135deg,var(--cf-warm-card),var(--cf-cream-card))]" />
+                  <div className="mt-3 h-2 w-20 rounded-full bg-white/28" />
+                </div>
+              ) : null}
+              {index === 1 ? (
+                <ul className="mt-5 space-y-2 text-sm font-semibold text-white/86">
+                  {["Old silicone", "Wall marks", "Greasy kitchen", "Stained carpet"].map((item) => <li key={item}>✓ {item}</li>)}
+                </ul>
+              ) : null}
+              {index === 2 ? (
+                <div className="mt-6 rounded-[18px] bg-white p-4 text-[var(--cf-navy)]">
+                  <p className="text-xs font-extrabold uppercase tracking-[0.08em] text-[var(--cf-gold)]">Quote preview</p>
+                  <p className="mt-2 text-2xl font-black">Total {"\u00a3"}780</p>
+                  <p className="mt-3 rounded-full bg-[var(--cf-cherry)] px-3 py-2 text-center text-xs font-black text-white">Approve & book</p>
+                </div>
+              ) : null}
+            </article>
+              )}
+            </Fragment>
           ))}
         </div>
       </div>
@@ -426,11 +457,12 @@ function TrustAreasRow({ content, editor }: { content: ContentBundle; editor?: V
         <div className="mt-5 flex flex-wrap gap-2">
           {areas.map((area) => {
             const areaIndex = content.areas.findIndex((item) => item.id === area.id);
-            return (
+            const areaPill = (
               <span key={area.id} className="rounded-full border border-[var(--cf-border)] bg-white px-3 py-2 text-sm font-bold text-[var(--cf-navy)]">
                 {editor ? editor.text("areas", [areaIndex, "name"], area.name) : area.name}
               </span>
             );
+            return editor ? <Fragment key={area.id}>{editor.block("Area", areaPill, { resource: "areas", arrayPath: [], index: areaIndex })}</Fragment> : areaPill;
           })}
         </div>
       </article>

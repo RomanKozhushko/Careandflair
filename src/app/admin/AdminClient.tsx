@@ -9,7 +9,7 @@ import { Footer } from "@/layout/Footer";
 import { Header } from "@/layout/Header";
 import type { ContentBundle } from "@/lib/content";
 import type { ContentSource } from "@/lib/siteContent";
-import type { EditableResourceKey, EditableSectionActions, VisualEditorAdapter, EditableButtonConfig, EditableImageConfig } from "@/lib/visualEditor";
+import type { EditableBlockActions, EditableResourceKey, EditableSectionActions, VisualEditorAdapter, EditableButtonConfig, EditableImageConfig } from "@/lib/visualEditor";
 import type {
   Area,
   AudienceMode,
@@ -117,6 +117,18 @@ function setValueAtPath<T>(source: T, path: Array<string | number>, value: unkno
   return clone;
 }
 
+function getValueAtPath(source: unknown, path: Array<string | number>) {
+  let cursor = source;
+
+  for (const part of path) {
+    if (Array.isArray(cursor) && typeof part === "number") cursor = cursor[part];
+    else if (isPlainRecord(cursor) && typeof part === "string") cursor = cursor[part];
+    else return undefined;
+  }
+
+  return cursor;
+}
+
 function resourceItemsToContent(data: ResourceData): ContentBundle {
   return {
     siteSettings: (data["site-settings"][0] ?? {}) as SiteSettings,
@@ -145,6 +157,10 @@ function resourceItemsToContent(data: ResourceData): ContentBundle {
 
 function snapshotData(data: ResourceData): ResourceData {
   return structuredClone(data) as ResourceData;
+}
+
+function copySuffix(items: unknown[]) {
+  return `${items.length + 1}`;
 }
 
 async function compressImage(file: File): Promise<File> {
@@ -657,7 +673,7 @@ export default function AdminClient({
 
     if (type === "duplicate") {
       const clone = structuredClone(current) as JsonRecord;
-      const suffix = `${Date.now()}`.slice(-5);
+      const suffix = copySuffix(items);
       if (typeof clone.id === "string") clone.id = `${clone.id}-copy-${suffix}`;
       if (typeof clone.slug === "string") clone.slug = `${clone.slug}-copy-${suffix}`;
       const next = [...items.slice(0, actions.index + 1), clone, ...items.slice(actions.index + 1)];
@@ -692,6 +708,39 @@ export default function AdminClient({
 
   function revealHomepageSection(index: number) {
     updateResourcePath("homepage-sections", [index, "visible"], true);
+  }
+
+  function blockAction(actions: EditableBlockActions | undefined, type: "up" | "down" | "hide" | "delete" | "duplicate" | "add") {
+    if (!actions) return;
+
+    const sourceArray = getValueAtPath(data[actions.resource], actions.arrayPath);
+    if (!Array.isArray(sourceArray)) return;
+
+    const current = sourceArray[actions.index];
+    if (!current || !isPlainRecord(current)) return;
+
+    if (type === "hide" || type === "delete") {
+      updateResourcePath(actions.resource, [...actions.arrayPath, actions.index, "visible"], false);
+      return;
+    }
+
+    const next = [...sourceArray] as JsonRecord[];
+
+    if (type === "duplicate" || type === "add") {
+      const clone = structuredClone(current) as JsonRecord;
+      const suffix = copySuffix(next);
+      if (typeof clone.id === "string") clone.id = `${clone.id}-copy-${suffix}`;
+      if (typeof clone.slug === "string") clone.slug = `${clone.slug}-copy-${suffix}`;
+      next.splice(actions.index + 1, 0, clone);
+    } else {
+      const target = actions.index + (type === "up" ? -1 : 1);
+      if (target < 0 || target >= next.length) return;
+      const [moved] = next.splice(actions.index, 1);
+      next.splice(target, 0, moved);
+    }
+
+    pushHistory(currentSnapshot());
+    updateResourcePath(actions.resource, actions.arrayPath, next.map((item, index) => ({ ...item, order: index + 1 })), { recordHistory: false });
   }
 
   const editor: VisualEditorAdapter = {
@@ -737,6 +786,21 @@ export default function AdminClient({
         </div>
         {children}
       </section>
+    ),
+    block: (label, children, actions) => (
+      <div className="group/editor-block relative">
+        <div className="pointer-events-none absolute right-2 top-2 z-40 rounded-full border border-[#E6D6BD]/80 bg-white/94 px-1.5 py-1 opacity-0 shadow-lg backdrop-blur transition group-hover/editor-block:opacity-100">
+          <div className="pointer-events-auto flex items-center gap-0.5 text-[11px] font-black text-[#0a2a24]">
+            <span className="px-2">{label}</span>
+            <button type="button" onClick={() => blockAction(actions, "add")} className="grid h-6 w-6 place-items-center rounded-full hover:bg-[#f5ecdc]" title="Add block">+</button>
+            <button type="button" onClick={() => blockAction(actions, "up")} className="grid h-6 w-6 place-items-center rounded-full hover:bg-[#f5ecdc]" title="Move up">↑</button>
+            <button type="button" onClick={() => blockAction(actions, "down")} className="grid h-6 w-6 place-items-center rounded-full hover:bg-[#f5ecdc]" title="Move down">↓</button>
+            <button type="button" onClick={() => blockAction(actions, "duplicate")} className="grid h-6 w-6 place-items-center rounded-full hover:bg-[#f5ecdc]" title="Duplicate">⧉</button>
+            <button type="button" onClick={() => blockAction(actions, "hide")} className="grid h-6 w-6 place-items-center rounded-full hover:bg-red-50 hover:text-red-800" title="Remove">×</button>
+          </div>
+        </div>
+        {children}
+      </div>
     ),
     text: renderEditableText,
     button: renderEditableButton,

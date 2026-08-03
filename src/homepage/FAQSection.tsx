@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { createContentHelpers, type ContentBundle } from "@/lib/content";
 import { SectionHeader } from "@/ui/SectionHeader";
 import type { VisualEditorAdapter } from "@/lib/visualEditor";
@@ -19,12 +20,14 @@ export function FAQSection({ content, editor }: { content?: ContentBundle; edito
         <div className="mt-10 grid gap-4">
           {items.map((item) => {
             const itemIndex = faqs.findIndex((faq) => faq.id === item.id);
-            return (
-            <article key={item.id} className="rounded-3xl border border-[#E6D6BD] bg-white p-6">
+            const article = (
+            <article className="rounded-3xl border border-[#E6D6BD] bg-white p-6">
               <h3 className="text-lg font-semibold text-[#0a2a24]">{editor ? editor.text("faqs", [itemIndex, "question"], item.question) : item.question}</h3>
               <p className="mt-3 text-sm leading-6 text-[#746754]">{editor ? editor.text("faqs", [itemIndex, "answer"], item.answer) : item.answer}</p>
             </article>
-          )})}
+            );
+            return editor ? <div key={item.id}>{editor.block("FAQ", article, { resource: "faqs", arrayPath: [], index: itemIndex })}</div> : <Fragment key={item.id}>{article}</Fragment>;
+          })}
         </div>
       </div>
     </section>

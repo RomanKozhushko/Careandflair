@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { createContentHelpers, type ContentBundle } from "@/lib/content";
 import { CtaButton } from "@/ui/CtaButton";
 import { SectionHeader } from "@/ui/SectionHeader";
@@ -28,8 +29,8 @@ export function GuardianPlansSection({ content, editor }: { content?: ContentBun
           <div className="grid gap-4 md:grid-cols-3">
             {plans.map((plan) => {
               const planIndex = guardianPlans.findIndex((item) => item.id === plan.id);
-              return (
-              <article key={plan.id} className={`rounded-[1.5rem] border p-5 ${plan.recommended ? "border-[#b07e33] bg-[#f5ecdc] text-[#0a2a24]" : "border-[#b07e33]/25 bg-white/[0.05] text-[#f5ecdc]"}`}>
+              const article = (
+              <article className={`rounded-[1.5rem] border p-5 ${plan.recommended ? "border-[#b07e33] bg-[#f5ecdc] text-[#0a2a24]" : "border-[#b07e33]/25 bg-white/[0.05] text-[#f5ecdc]"}`}>
                 {plan.recommended ? <p className="mb-3 brand-label text-xs brass-text">{editor ? editor.text("guardian-plans", [planIndex, "recommendedLabel"], typeof plan.recommendedLabel === "string" ? plan.recommendedLabel : "Recommended") : "Recommended"}</p> : null}
                 <h3 className="text-xl font-semibold">{editor ? editor.text("guardian-plans", [planIndex, "name"], plan.name) : plan.name}</h3>
                 <p className={`mt-3 text-sm leading-6 ${plan.recommended ? "text-[#746754]" : "text-[#E6D6BD]"}`}>{editor ? editor.text("guardian-plans", [planIndex, "description"], plan.description) : plan.description}</p>
@@ -37,7 +38,9 @@ export function GuardianPlansSection({ content, editor }: { content?: ContentBun
                   {plan.includedChecks.map((check, checkIndex) => <li key={check}>— {editor ? editor.text("guardian-plans", [planIndex, "includedChecks", checkIndex], check) : check}</li>)}
                 </ul>
               </article>
-            )})}
+              );
+              return editor ? <div key={plan.id}>{editor.block("Plan", article, { resource: "guardian-plans", arrayPath: [], index: planIndex })}</div> : <Fragment key={plan.id}>{article}</Fragment>;
+            })}
           </div>
         </div>
       </div>

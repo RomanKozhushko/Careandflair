@@ -30,8 +30,15 @@ export type EditableSectionActions = {
   canDuplicate?: boolean;
 };
 
+export type EditableBlockActions = {
+  resource: EditableResourceKey;
+  arrayPath: EditablePath;
+  index: number;
+};
+
 export type VisualEditorAdapter = {
   section: (id: string, label: string, children: ReactNode, actions?: EditableSectionActions) => ReactNode;
+  block: (label: string, children: ReactNode, actions?: EditableBlockActions) => ReactNode;
   text: (resource: EditableResourceKey, path: EditablePath, value: string) => ReactNode;
   button: (config: EditableButtonConfig) => ReactNode;
   image: (config: EditableImageConfig) => ReactNode;
